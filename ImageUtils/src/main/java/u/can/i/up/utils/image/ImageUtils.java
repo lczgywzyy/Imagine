@@ -73,11 +73,12 @@ public class ImageUtils {
         }
     }
     /** @author 李承泽
-     *
-     *  @since 从FromPath中提取图片，并以ToPath保存
+     *  @param lowImgPath 下层图片，即背景
+     *  @param upImgPath  上层图标，即要写入的图片
+     *  @param newImgPath 生成图片位置
+     *  @since 把两个图片合并，生成新图片
      * */
     public static void combineImage(String upImgPath, String lowImgPath, String newImgPath){
-
         Bitmap upImg = BitmapFactory.decodeFile(upImgPath);
         Bitmap lowImg = BitmapFactory.decodeFile(lowImgPath);
         Bitmap newBitMap = Bitmap.createBitmap(lowImg.getWidth(), lowImg.getHeight(), Bitmap.Config.ARGB_8888);
