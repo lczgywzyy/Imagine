@@ -1,9 +1,5 @@
 package u.can.i.up.imagine;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -13,11 +9,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import u.can.i.up.utils.image.ImageUtils;
 
@@ -34,9 +25,14 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        extractImageTest();
+        combineImageTest();
+    }
+
+    private void extractImageTest(){
         File FromFile = new File(Environment.getExternalStorageDirectory(), FromPath);
         File ToFile = new File(Environment.getExternalStorageDirectory(), ToPath);
-        if (FromFile == null || ToFile ==null){
+        if (FromFile == null || ToFile == null){
             Log.i(TAG, "FromFile or ToFile is [NULL]");
             Toast.makeText(getApplicationContext(), "FromFile or ToFile is [NULL]", Toast.LENGTH_LONG);
         }else if (!FromFile.isDirectory() || !ToFile.isDirectory()){
@@ -50,11 +46,16 @@ public class MainActivity extends ActionBarActivity {
             File[] currentFiles = FromFile.listFiles();
             if (currentFiles != null && currentFiles.length != 0){
                 for (File f: currentFiles){
-//                    copy(f.getAbsolutePath(), f.getAbsolutePath().replace(FromPath, ToPath));
+//                    ImageUtils.copy(f.getAbsolutePath(), f.getAbsolutePath().replace(FromPath, ToPath));
                     ImageUtils.extractImage(f.getAbsolutePath(), f.getAbsolutePath().replace(FromPath, ToPath).replace("jpg", "png"));
                 }
             }
         }
+    }
+    private void combineImageTest(){
+        File upImgFile = new File(Environment.getExternalStorageDirectory(), ToPath + "/1.png");
+        File lowImgFile = new File(Environment.getExternalStorageDirectory(), ToPath + "/2.png");
+        ImageUtils.combineImage(upImgFile.getAbsolutePath(), lowImgFile.getAbsolutePath(), lowImgFile.getAbsolutePath().replace("2.png", "3.png"));
     }
 
     @Override

@@ -2,10 +2,14 @@ package u.can.i.up.utils.image;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.os.Environment;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +19,12 @@ import java.io.OutputStream;
  * Created by lczgywzyy on 2015/5/10.
  */
 public class ImageUtils {
+
+    /** @author 李承泽
+     *  @param FromPath
+     *  @param ToPath
+     *  @since 从FromPath中提取图片，并以ToPath保存
+     * */
     public static void extractImage(String FromPath, String ToPath){
         Bitmap firstBmp = BitmapFactory.decodeFile(FromPath);
         Bitmap bmp = Bitmap.createBitmap(firstBmp.getWidth(), firstBmp.getHeight(), Bitmap.Config.ARGB_8888);
@@ -42,6 +52,11 @@ public class ImageUtils {
         }
     }
 
+    /** @author 李承泽
+     *  @param FromPath
+     *  @param ToPath
+     *  @since 从FromPath拷贝到ToPath中
+     * */
     public static void copy(String FromPath, String ToPath) {
         try {
             InputStream fosfrom = new FileInputStream(FromPath);
@@ -55,6 +70,32 @@ public class ImageUtils {
             fosto.close();
         }catch (IOException e){
             e.printStackTrace();
+        }
+    }
+    /** @author 李承泽
+     *
+     *  @since 从FromPath中提取图片，并以ToPath保存
+     * */
+    public static void combineImage(String upImgPath, String lowImgPath, String newImgPath){
+
+        Bitmap upImg = BitmapFactory.decodeFile(upImgPath);
+        Bitmap lowImg = BitmapFactory.decodeFile(lowImgPath);
+        Bitmap newBitMap = Bitmap.createBitmap(lowImg.getWidth(), lowImg.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(newBitMap);
+        canvas.drawBitmap(lowImg, new Matrix(), null);
+        canvas.drawBitmap(upImg, 0, 0, null);
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(newImgPath);
+            newBitMap.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
