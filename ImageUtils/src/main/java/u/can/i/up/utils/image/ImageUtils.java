@@ -23,12 +23,17 @@ public class ImageUtils {
     /** @author 李承泽
      *  @param FromPath
      *  @param ToPath
+     *  @param WithTransparent 是否需要透明区域
      *  @since 从FromPath中提取图片，并以ToPath保存
      * */
-    public static void extractImage(String FromPath, String ToPath){
+    public static void extractImage(String FromPath, String ToPath, boolean WithTransparent){
         Bitmap firstBmp = BitmapFactory.decodeFile(FromPath);
         Bitmap bmp = Bitmap.createBitmap(firstBmp.getWidth(), firstBmp.getHeight(), Bitmap.Config.ARGB_8888);
-        for (int i = 0; i < firstBmp.getWidth(); i++){
+        int minX = firstBmp.getWidth();
+        int minY = firstBmp.getHeight();
+        int maxX = -1;
+        int maxY = -1;
+/*        for (int i = 0; i < firstBmp.getWidth(); i++){
             for (int j = 0; j < firstBmp.getHeight(); j++){
                 int color = firstBmp.getPixel(i, j);
                 int r = Color.red(color);
@@ -37,15 +42,50 @@ public class ImageUtils {
                 if (r == 237 && g == 27 && b == 36){
 
                 } else {
+                    if( i < minX) minX = i;
+                    if( i > maxX) maxX = i;
+                    if( j < minY) minY = j;
+                    if( j > maxY) maxY = j;
                     bmp.setPixel(i, j, color);
                 }
             }
+        }*/
+        int[] pixels1 = new int[firstBmp.getHeight() * firstBmp.getWidth()];
+        int[] pixels2 = new int[firstBmp.getHeight() * firstBmp.getWidth()];
+        firstBmp.getPixels(pixels1, 0, firstBmp.getWidth(), 0, 0, firstBmp.getWidth(), firstBmp.getHeight());
+        for (int j = 0; j < firstBmp.getHeight(); j++){
+            for (int i = 0; i < firstBmp.getWidth(); i++){
+                int color = pixels1[j * firstBmp.getWidth() + i];
+                int r = Color.red(color);
+                int g = Color.green(color);
+                int b = Color.blue(color);
+                if (r == 237 && g == 27 && b == 36){
+                    pixels2[j * firstBmp.getWidth() + i] = 0;
+                } else {
+                    if( i < minX) minX = i;
+                    if( i > maxX) maxX = i;
+                    if( j < minY) minY = j;
+                    if( j > maxY) maxY = j;
+                    pixels2[j * firstBmp.getWidth() + i] = color;
+                }
+            }
+        }
+        bmp.setPixels(pixels2, 0, firstBmp.getWidth(), 0, 0, firstBmp.getWidth(), firstBmp.getHeight());
+
+        // Bitmap is entirely transparent
+        if((maxX < minX) || (maxY < minY)){
+            return;
         }
         File fImage = new File(ToPath);
         try {
             fImage.createNewFile();
             FileOutputStream iStream = new FileOutputStream(fImage);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, iStream);
+            if(WithTransparent){
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, iStream);
+            } else{
+                Bitmap tmpBmp = Bitmap.createBitmap(bmp, minX, minY, (maxX - minX) + 1, (maxY - minY) + 1);
+                tmpBmp.compress(Bitmap.CompressFormat.PNG, 100, iStream);
+            }
             iStream.close();
         } catch (IOException e) {
             e.printStackTrace();

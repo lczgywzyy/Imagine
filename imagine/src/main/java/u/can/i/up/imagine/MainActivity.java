@@ -25,8 +25,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        extractImageTest();
-        combineImageTest();
+        extractImageTest();
+//        combineImageTest();
     }
 
     private void extractImageTest(){
@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
             if (currentFiles != null && currentFiles.length != 0){
                 for (File f: currentFiles){
 //                    ImageUtils.copy(f.getAbsolutePath(), f.getAbsolutePath().replace(FromPath, ToPath));
-                    ImageUtils.extractImage(f.getAbsolutePath(), f.getAbsolutePath().replace(FromPath, ToPath).replace("jpg", "png"));
+                    ImageUtils.extractImage(f.getAbsolutePath(), f.getAbsolutePath().replace(FromPath, ToPath).replace("jpg", "png"), false);
                 }
             }
         }
