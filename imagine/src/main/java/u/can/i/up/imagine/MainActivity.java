@@ -1,11 +1,14 @@
 package u.can.i.up.imagine;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.File;
@@ -18,15 +21,19 @@ public class MainActivity extends ActionBarActivity {
     private static final String FromPath = ".1FromPath";
     private static final String ToPath = ".2ToPath";
 
-    private static final String TAG = "u.can.i.up.imagine";
+    private static final String TAG = "u.can.i.up.imagine." + MainActivity.class;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ImageViewImpl myView = new ImageViewImpl(this);
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
+        mainLayout.addView(myView);
 
-        extractImageTest();
+//        extractImageTest();
 //        combineImageTest();
+
     }
 
     private void extractImageTest(){
