@@ -9,9 +9,6 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.nfc.Tag;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
@@ -24,9 +21,9 @@ import java.io.File;
 /**
  * Created by lczgywzyy on 2015/5/11.
  */
-public class ImageViewImpl extends View {
+public class ImageViewImpl_2 extends View {
 
-    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl.class;
+    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_2.class;
     private static final String FromPath = ".1FromPath";
     private static final String ToPath = ".2ToPath";
 
@@ -55,11 +52,11 @@ public class ImageViewImpl extends View {
     private PointF mid = new PointF();
     boolean matrixCheck = false;
 
-    public ImageViewImpl(Context context) {
+    public ImageViewImpl_2(Context context) {
         super(context);
         mContext = context;
         mBitmap = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/1.png").getAbsolutePath());
-        mLayer = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+//        mLayer = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
     }
 
     @Override
@@ -73,9 +70,10 @@ public class ImageViewImpl extends View {
 
         canvas.drawBitmap(mBitmap, matrix, null);
 //        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OVER));
-        mPaint.setStyle(Paint.Style.STROKE);   //空心
-        mPaint.setAlpha(45);   //
-        canvas.drawBitmap(mLayer, matrix, mPaint);
+
+//        mPaint.setStyle(Paint.Style.STROKE);   //空心
+//        mPaint.setAlpha(45);   //
+//        canvas.drawBitmap(mLayer, matrix, mPaint);
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -109,16 +107,16 @@ public class ImageViewImpl extends View {
                         matrix.set(matrix1);
                         invalidate();
                     }
-//                }else if(mode == DRAG){
-//                    matrix1.set(savedMatrix);
-//                    matrix1.postTranslate(event.getX() - x_down, event.getY()
-//                            - y_down);// 平移
-//                    matrixCheck = matrixCheck();
-//                    matrixCheck = matrixCheck();
-//                    if (matrixCheck == false) {
-//                        matrix.set(matrix1);
-//                        invalidate();
-//                    }
+                }else if(mode == DRAG){
+                    matrix1.set(savedMatrix);
+                    matrix1.postTranslate(event.getX() - x_down, event.getY()
+                            - y_down);// 平移
+                    matrixCheck = matrixCheck();
+                    matrixCheck = matrixCheck();
+                    if (matrixCheck == false) {
+                        matrix.set(matrix1);
+                        invalidate();
+                    }
                 } else {
                     int newX = (int) event.getX();
                     int newY = (int) event.getY();
