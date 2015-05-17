@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -17,6 +18,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.File;
+
+import u.can.i.up.utils.image.FloodFillAsyncTask;
+import u.can.i.up.utils.image.ImageAlgrithms;
 
 /**
  * Created by lczgywzyy on 2015/5/11.
@@ -55,7 +59,13 @@ public class ImageViewImpl_3 extends View {
     public ImageViewImpl_3(Context context) {
         super(context);
         mContext = context;
-        mBitmap = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/1.png").getAbsolutePath());
+
+        Bitmap mOriginBitmap = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/3.png").getAbsolutePath());
+        int[] pixels1 = new int[mOriginBitmap.getHeight() * mOriginBitmap.getWidth()];
+        mOriginBitmap.getPixels(pixels1, 0, mOriginBitmap.getWidth(), 0, 0, mOriginBitmap.getWidth(), mOriginBitmap.getHeight());
+
+        mBitmap = Bitmap.createBitmap(mOriginBitmap.getWidth(), mOriginBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        mBitmap.setPixels(pixels1, 0, mOriginBitmap.getWidth(), 0, 0, mOriginBitmap.getWidth(), mOriginBitmap.getHeight());
         mLayer = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
     }
 
@@ -70,9 +80,9 @@ public class ImageViewImpl_3 extends View {
 
         canvas.drawBitmap(mBitmap, matrix, null);
 //        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OVER));
-        mPaint.setStyle(Paint.Style.STROKE);   //空心
-        mPaint.setAlpha(45);   //
-        canvas.drawBitmap(mLayer, matrix, mPaint);
+//        mPaint.setStyle(Paint.Style.STROKE);   //空心
+//        mPaint.setAlpha(45);   //
+//        canvas.drawBitmap(mLayer, matrix, mPaint);
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -83,7 +93,10 @@ public class ImageViewImpl_3 extends View {
                 mode = DRAG;
                 x_down = event.getX();
                 y_down = event.getY();
-                savedMatrix.set(matrix);
+//                savedMatrix.set(matrix);
+//                ImageAlgrithms.FloodFill(mBitmap, new Point((int)x_down, (int)y_down), mBitmap.getPixel((int)x_down, (int)y_down) , Color.RED);
+                new FloodFillAsyncTask(mBitmap, new Point((int)x_down, (int)y_down), mBitmap.getPixel((int)x_down, (int)y_down) , Color.RED).execute();
+                invalidate();
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
                 Log.i(TAG, "ACTION_POINTER_DOWN");
@@ -94,6 +107,7 @@ public class ImageViewImpl_3 extends View {
                 midPoint(mid, event);
                 break;
             case MotionEvent.ACTION_MOVE:
+                Log.i(TAG, "ACTION_MOVE");
                 if (mode == ZOOM){
                     matrix1.set(savedMatrix);
                     float rotation = rotation(event) - oldRotation;
@@ -106,28 +120,30 @@ public class ImageViewImpl_3 extends View {
                         matrix.set(matrix1);
                         invalidate();
                     }
-                }else if(mode == DRAG){
-                    matrix1.set(savedMatrix);
-                    matrix1.postTranslate(event.getX() - x_down, event.getY()
-                            - y_down);// 平移
-                    matrixCheck = matrixCheck();
-                    matrixCheck = matrixCheck();
-                    if (matrixCheck == false) {
-                        matrix.set(matrix1);
-                        invalidate();
-                    }
+//                }else if(mode == DRAG){
+//                    matrix1.set(savedMatrix);
+//                    matrix1.postTranslate(event.getX() - x_down, event.getY()
+//                            - y_down);// 平移
+//                    matrixCheck = matrixCheck();
+//                    matrixCheck = matrixCheck();
+//                    if (matrixCheck == false) {
+//                        matrix.set(matrix1);
+//                        invalidate();
+//                    }
                 } else {
                     int newX = (int) event.getX();
                     int newY = (int) event.getY();
-                    for (int i = -30; i < 30; i++) {
-                        for (int j = -30; j < 30; j++) {
-                            if ((i + newX) >= mBitmap.getWidth() || j + newY >= mBitmap.getHeight() || i + newX < 0 || j + newY < 0) {
-                                return false;
-                            }
-                            mLayer.setPixel(i + newX, j + newY, Color.RED);
-                            invalidate();
-                        }
-                    }
+//                    for (int i = -30; i < 30; i++) {
+//                        for (int j = -30; j < 30; j++) {
+//                            if ((i + newX) >= mBitmap.getWidth() || j + newY >= mBitmap.getHeight() || i + newX < 0 || j + newY < 0) {
+//                                return false;
+//                            }
+//                            mLayer.setPixel(i + newX, j + newY, Color.RED);
+//                            invalidate();
+//                        }
+//                    }
+                    ImageAlgrithms.FloodFill(mBitmap, new Point(newX, newY), mBitmap.getPixel(newX, newY) , Color.RED);
+                    invalidate();
                 }
                 break;
         }

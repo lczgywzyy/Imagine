@@ -17,7 +17,7 @@ public class ImageAlgrithms {
      *  @param replacementColor
      *  @param targetColor
      * */
-    public void FloodFill(Bitmap image, Point node, int targetColor, int replacementColor) {
+    public static void FloodFill(Bitmap image, Point node, int targetColor, int replacementColor) {
         int width = image.getWidth();
         int height = image.getHeight();
         int target = targetColor;
