@@ -9,6 +9,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/ImageMagick" />
+            <option value="$PROJECT_DIR$/ImageMagickUI" />
             <option value="$PROJECT_DIR$/ImageUI" />
             <option value="$PROJECT_DIR$/ImageUtils" />
             <option value="$PROJECT_DIR$/imagine" />
