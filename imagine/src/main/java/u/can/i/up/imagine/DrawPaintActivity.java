@@ -1,5 +1,6 @@
 package u.can.i.up.imagine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -7,6 +8,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -29,7 +32,6 @@ public class DrawPaintActivity extends ActionBarActivity {
         setContentView(R.layout.activity_draw_paint);
         RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.draw_paint_layout);
 
-
         switch (getIntent().getExtras().getInt("BUTTON")) {
             case 1:
                 ImageViewImpl_1 myView1 = new ImageViewImpl_1(this);
@@ -42,6 +44,72 @@ public class DrawPaintActivity extends ActionBarActivity {
             case 3:
                 ImageViewImpl_3 myView3 = new ImageViewImpl_3(this);
                 mainLayout.addView(myView3);
+                break;
+            case 4:
+                ImageViewImpl_4 myView4 = new ImageViewImpl_4(this);
+                mainLayout.addView(myView4);
+                break;
+            case 5:
+                Button button51 = new Button(this);
+                button51.setId(10051);
+                button51.setText("模式1");
+                RelativeLayout.LayoutParams lParams51 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                mainLayout.addView(button51, lParams51);   //将按钮放入layout组件
+                button51.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "1");
+                    }
+                });
+
+                Button button52 = new Button(this);
+                button52.setId(10052);
+                button52.setText("模式2");
+                RelativeLayout.LayoutParams lParams52 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams52.addRule(RelativeLayout.BELOW, 10051);
+                mainLayout.addView(button52, lParams52);   //将按钮放入layout组件
+                button52.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "2");
+                    }
+                });
+
+                ImageViewImpl_5 myView5 = new ImageViewImpl_5(this);
+                RelativeLayout.LayoutParams lParams53 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams53.addRule(RelativeLayout.BELOW, 10052);
+                mainLayout.addView(myView5, lParams53);
+                break;
+            case 6:
+                Button button61 = new Button(this);
+                button61.setId(10061);
+                button61.setText("模式1");
+                RelativeLayout.LayoutParams lParams61 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                mainLayout.addView(button61, lParams61);   //将按钮放入layout组件
+                button61.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "61");
+                    }
+                });
+
+                Button button62 = new Button(this);
+                button62.setId(10062);
+                button62.setText("模式2");
+                RelativeLayout.LayoutParams lParams62 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams62.addRule(RelativeLayout.BELOW, 10061);
+                mainLayout.addView(button62, lParams62);   //将按钮放入layout组件
+                button62.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "62");
+                    }
+                });
+
+                ImageViewImpl_6 myView6 = new ImageViewImpl_6(this);
+                RelativeLayout.LayoutParams lParams63 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams63.addRule(RelativeLayout.BELOW, 10062);
+                mainLayout.addView(myView6, lParams63);
                 break;
             default:
                 break;
