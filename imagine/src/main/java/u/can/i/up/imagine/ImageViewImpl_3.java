@@ -60,7 +60,7 @@ public class ImageViewImpl_3 extends View {
         super(context);
         mContext = context;
 
-        Bitmap mOriginBitmap = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/3.png").getAbsolutePath());
+        Bitmap mOriginBitmap = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/1.png").getAbsolutePath());
         int[] pixels1 = new int[mOriginBitmap.getHeight() * mOriginBitmap.getWidth()];
         mOriginBitmap.getPixels(pixels1, 0, mOriginBitmap.getWidth(), 0, 0, mOriginBitmap.getWidth(), mOriginBitmap.getHeight());
 
