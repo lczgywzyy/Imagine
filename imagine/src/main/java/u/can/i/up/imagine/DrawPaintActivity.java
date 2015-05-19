@@ -107,9 +107,37 @@ public class DrawPaintActivity extends ActionBarActivity {
                 });
 
                 ImageViewImpl_6 myView6 = new ImageViewImpl_6(this);
+                myView6.setId(10063);
                 RelativeLayout.LayoutParams lParams63 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
                 lParams63.addRule(RelativeLayout.BELOW, 10062);
                 mainLayout.addView(myView6, lParams63);
+                break;
+            case 7:
+                final Button button71 = new Button(this);
+                button71.setId(10071);
+                button71.setText("按钮");
+                RelativeLayout.LayoutParams lParams71 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                mainLayout.addView(button71, lParams71);   //将按钮放入layout组件
+                button71.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "7");
+                        if(ImageViewImpl_7.isDrawing){
+                            ImageViewImpl_7.isDrawing = false;
+                            button71.setText("按钮");
+                        }else {
+                            ImageViewImpl_7.isDrawing = true;
+                            button71.setText("描点中...");
+                        }
+                    }
+                });
+
+                ImageViewImpl_7 myView7 = new ImageViewImpl_7(this);
+                ImageViewImpl_7.isDrawing = false;
+                myView7.setId(10072);
+                RelativeLayout.LayoutParams lParams7 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams7.addRule(RelativeLayout.BELOW, 10071);
+                mainLayout.addView(myView7, lParams7);
                 break;
             default:
                 break;

@@ -21,9 +21,9 @@ import java.io.File;
 /**
  * Created by lczgywzyy on 2015/5/11.
  */
-public class ImageViewImpl_2 extends View {
+public class ImageViewImpl_7 extends View {
 
-    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_2.class;
+    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_7.class;
     private static final String FromPath = ".1FromPath";
     private static final String ToPath = ".2ToPath";
 
@@ -32,10 +32,16 @@ public class ImageViewImpl_2 extends View {
     private static final int ZOOM = 2;
     int mode = NONE;
 
+    public static boolean isDrawing = false;
+
     float x_down = 0;
     float y_down = 0;
     float oldDist = 1f;
-    float oldRotation = 0;
+    float newDist = 1f;
+//    float oldRotation = 0;
+    float deltaX = 0;
+    float deltaY = 0;
+    float deltaScale = 1;
 
     int widthScreen = -1;
     int heightScreen = -1;
@@ -52,11 +58,11 @@ public class ImageViewImpl_2 extends View {
     private PointF mid = new PointF();
     boolean matrixCheck = false;
 
-    public ImageViewImpl_2(Context context) {
+    public ImageViewImpl_7(Context context) {
         super(context);
         mContext = context;
         mBitmap = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/4.png").getAbsolutePath());
-//        mLayer = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        mLayer = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
     }
 
     @Override
@@ -69,11 +75,10 @@ public class ImageViewImpl_2 extends View {
         heightScreen = dm.heightPixels;
 
         canvas.drawBitmap(mBitmap, matrix, null);
-//        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OVER));
 
-//        mPaint.setStyle(Paint.Style.STROKE);   //空心
-//        mPaint.setAlpha(45);   //
-//        canvas.drawBitmap(mLayer, matrix, mPaint);
+        mPaint.setStyle(Paint.Style.STROKE);   //空心
+        mPaint.setAlpha(45);   //
+        canvas.drawBitmap(mLayer, matrix, mPaint);
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -90,42 +95,58 @@ public class ImageViewImpl_2 extends View {
                 Log.i(TAG, "ACTION_POINTER_DOWN");
                 mode = ZOOM;
                 oldDist = spacing(event);
-                oldRotation = rotation(event);
+//                oldRotation = rotation(event);
                 savedMatrix.set(matrix);
                 midPoint(mid, event);
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.i(TAG, "ACTION_UP");
+                if(mode == DRAG && !isDrawing){
+                    deltaX += event.getX() - x_down;
+                    deltaY += event.getY() - y_down;
+                }
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                Log.i(TAG, "ACTION_POINTER_UP");
+                if (mode == ZOOM){
+                    deltaScale = newDist / oldDist;
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mode == ZOOM){
                     matrix1.set(savedMatrix);
-                    float rotation = rotation(event) - oldRotation;
-                    float newDist = spacing(event);
+//                    float rotation = rotation(event) - oldRotation;
+                    newDist = spacing(event);
                     float scale = newDist / oldDist;
                     matrix1.postScale(scale, scale, mid.x, mid.y);// 縮放
-                    matrix1.postRotate(rotation, mid.x, mid.y);// 旋轉
+//                    matrix1.postRotate(rotation, mid.x, mid.y);// 旋轉
                     matrixCheck = matrixCheck();
                     if (matrixCheck == false) {
                         matrix.set(matrix1);
                         invalidate();
                     }
-                }else if(mode == DRAG){
+                }else if(mode == DRAG && !isDrawing){
                     matrix1.set(savedMatrix);
-                    matrix1.postTranslate(event.getX() - x_down, event.getY()
-                            - y_down);// 平移
-                    matrixCheck = matrixCheck();
+                    matrix1.postTranslate(event.getX() - x_down, event.getY() - y_down);// 平移
                     matrixCheck = matrixCheck();
                     if (matrixCheck == false) {
                         matrix.set(matrix1);
                         invalidate();
                     }
-                } else {
+                } else if(isDrawing){
                     int newX = (int) event.getX();
                     int newY = (int) event.getY();
                     for (int i = -30; i < 30; i++) {
                         for (int j = -30; j < 30; j++) {
-                            if ((i + newX) >= mBitmap.getWidth() || j + newY >= mBitmap.getHeight() || i + newX < 0 || j + newY < 0) {
+                            int trueX = (int) (i + (newX - deltaX + mid.x * (deltaScale - 1)) / deltaScale);
+                            int tureY = (int) (j + (newY - deltaY + mid.y * (deltaScale - 1)) / deltaScale);
+
+                            if (trueX >= mBitmap.getWidth() || tureY >= mBitmap.getHeight() || trueX < 0 || tureY < 0) {
                                 return false;
                             }
-                            mLayer.setPixel(i + newX, j + newY, Color.RED);
+//                            mLayer.setPixel(i + newX - (int) deltaX, j + newY - (int) deltaY, Color.RED);
+
+                            mLayer.setPixel(trueX, tureY, Color.RED);
                             invalidate();
                         }
                     }

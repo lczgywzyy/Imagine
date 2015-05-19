@@ -55,7 +55,7 @@ public class ImageViewImpl_1 extends View {
     public ImageViewImpl_1(Context context) {
         super(context);
         mContext = context;
-        mBitmap = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/1.png").getAbsolutePath());
+        mBitmap = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/4.png").getAbsolutePath());
         mLayer = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
     }
 
