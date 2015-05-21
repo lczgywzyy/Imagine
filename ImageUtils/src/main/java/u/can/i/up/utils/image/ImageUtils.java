@@ -93,6 +93,55 @@ public class ImageUtils {
     }
 
     /** @author 李承泽
+     *  @param FromBitmap 从Bitmap实例
+     *  @param pixels 像素数组
+     *  @param ToPath 待保存路径
+     *  @param WithTransparent 是否需要透明区域
+     *  @since 从FromPath中提取图片，并以ToPath保存
+     * */
+    public static void extractImageFromBitmapPixels(Bitmap FromBitmap, int[] pixels, String ToPath, boolean WithTransparent){
+        Bitmap bmp = Bitmap.createBitmap(FromBitmap.getWidth(), FromBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        int minX = FromBitmap.getWidth();
+        int minY = FromBitmap.getHeight();
+        int maxX = -1;
+        int maxY = -1;
+        for (int j = 0; j < FromBitmap.getHeight(); j++){
+            for (int i = 0; i < FromBitmap.getWidth(); i++){
+                int color = pixels[j * FromBitmap.getWidth() + i];
+                if (color == 0){
+//                    pixels2[j * FromBitmap.getWidth() + i] = 0;
+                } else {
+                    if( i < minX) minX = i;
+                    if( i > maxX) maxX = i;
+                    if( j < minY) minY = j;
+                    if( j > maxY) maxY = j;
+//                    pixels2[j * FromBitmap.getWidth() + i] = color;
+                }
+            }
+        }
+        bmp.setPixels(pixels, 0, FromBitmap.getWidth(), 0, 0, FromBitmap.getWidth(), FromBitmap.getHeight());
+
+        // Bitmap is entirely transparent
+        if((maxX < minX) || (maxY < minY)){
+            return;
+        }
+        File fImage = new File(ToPath);
+        try {
+            fImage.createNewFile();
+            FileOutputStream iStream = new FileOutputStream(fImage);
+            if(WithTransparent){
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, iStream);
+            } else{
+                Bitmap tmpBmp = Bitmap.createBitmap(bmp, minX, minY, (maxX - minX) + 1, (maxY - minY) + 1);
+                tmpBmp.compress(Bitmap.CompressFormat.PNG, 100, iStream);
+            }
+            iStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** @author 李承泽
      *  @param FromPath
      *  @param ToPath
      *  @since 从FromPath拷贝到ToPath中

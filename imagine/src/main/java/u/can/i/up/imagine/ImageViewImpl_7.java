@@ -2,6 +2,7 @@ package u.can.i.up.imagine;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,6 +10,9 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
@@ -17,6 +21,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.File;
+
+import u.can.i.up.utils.image.ImageUtils;
 
 /**
  * Created by lczgywzyy on 2015/5/11.
@@ -42,6 +48,10 @@ public class ImageViewImpl_7 extends View {
     float deltaX = 0;
     float deltaY = 0;
     float deltaScale = 1;
+    float originX1 = 0;
+    float originX2 = 0;
+    float originY1 = 0;
+    float originY2 = 0;
 
     int widthScreen = -1;
     int heightScreen = -1;
@@ -110,6 +120,12 @@ public class ImageViewImpl_7 extends View {
                 Log.i(TAG, "ACTION_POINTER_UP");
                 if (mode == ZOOM){
                     deltaScale = newDist / oldDist;
+                    float tmpOriginX = mid.x * (1 - deltaScale) + originX1 * deltaScale;
+                    originX1 = originX2;
+                    originX2 = tmpOriginX;
+                    float tmpOriginY = mid.y * (1 - deltaScale) + originY1 * deltaScale;
+                    originY1 = originY2;
+                    originY2 = tmpOriginY;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -140,6 +156,8 @@ public class ImageViewImpl_7 extends View {
                         for (int j = -30; j < 30; j++) {
                             int trueX = (int) (i + (newX - deltaX + mid.x * (deltaScale - 1)) / deltaScale);
                             int tureY = (int) (j + (newY - deltaY + mid.y * (deltaScale - 1)) / deltaScale);
+//                            int trueX = (int) (i + (newX - deltaX + mid.x * (deltaScale - 1)) / deltaScale - mid.x * (1 - deltaScale) - originX1 * deltaScale);
+//                            int tureY = (int) (j + (newY - deltaY + mid.y * (deltaScale - 1)) / deltaScale - mid.y * (1 - deltaScale) - originY1 * deltaScale);
 
                             if (trueX >= mBitmap.getWidth() || tureY >= mBitmap.getHeight() || trueX < 0 || tureY < 0) {
                                 return false;
@@ -224,6 +242,34 @@ public class ImageViewImpl_7 extends View {
         canvas.save(Canvas.ALL_SAVE_FLAG); // 保存画布
         canvas.restore();
         return bitmap;
+    }
+
+    public void exportImageByFinger(){
+//        Paint paint = new Paint();
+//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+//        mCanvas.drawPaint(paint);
+//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST));
+//        mCanvas.drawBitmap(mBitmap, matrix, mPaint);
+//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST));
+//        mCanvas.drawBitmap(mLayer, matrix, mPaint);
+        int[] pixels1 = new int[mBitmap.getHeight() * mBitmap.getWidth()];
+        mBitmap.getPixels(pixels1, 0, mBitmap.getWidth(), 0, 0, mBitmap.getWidth(), mBitmap.getHeight());
+        int[] pixels2 = new int[mLayer.getHeight() * mLayer.getWidth()];
+        mLayer.getPixels(pixels2, 0, mLayer.getWidth(), 0, 0, mLayer.getWidth(), mLayer.getHeight());
+        int[] pixels3 = new int[mLayer.getHeight() * mLayer.getWidth()];
+        for (int i = 0; i < pixels2.length; i ++){
+            if (pixels2[i] != 0){
+                pixels3[i] = pixels1[i];
+            }
+        }
+        ImageUtils.extractImageFromBitmapPixels(mBitmap, pixels3, (new File(Environment.getExternalStorageDirectory(), ToPath + "/5.png").getAbsolutePath()), false);
+    }
+
+    public void showImage(){
+        File file = new File(Environment.getExternalStorageDirectory(), ToPath + "/5.png");
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(file), "image/*");
+        mContext.startActivity(intent);
     }
 
     public void clear() {
