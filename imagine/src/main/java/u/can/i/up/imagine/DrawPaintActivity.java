@@ -151,7 +151,6 @@ public class DrawPaintActivity extends ActionBarActivity {
                 RelativeLayout.LayoutParams lParams7 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
                 lParams7.addRule(RelativeLayout.BELOW, 10071);
                 mainLayout.addView(myView7, lParams7);
-
                 button72.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -160,7 +159,6 @@ public class DrawPaintActivity extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/5.png", Toast.LENGTH_SHORT).show();
                     }
                 });
-
                 button73.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -168,6 +166,8 @@ public class DrawPaintActivity extends ActionBarActivity {
                         myView7.showImage();
                     }
                 });
+                break;
+            case 8:
                 break;
             default:
                 break;
