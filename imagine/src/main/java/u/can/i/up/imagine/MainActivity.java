@@ -158,7 +158,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button8 = new Button(this);
         button8.setId(10008);
-        button8.setText("测试8：边角缩放旋转测试");
+        button8.setText("测试8:拖拽、缩放、描点综合测试2");
         RelativeLayout.LayoutParams lParams8 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams8.addRule(RelativeLayout.BELOW, 10007);
         mainLayout.addView(button8, lParams8);   //将按钮放入layout组件

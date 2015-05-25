@@ -10,8 +10,6 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -27,9 +25,9 @@ import u.can.i.up.utils.image.ImageUtils;
 /**
  * Created by lczgywzyy on 2015/5/11.
  */
-public class ImageViewImpl_7 extends View {
+public class ImageViewImpl_8 extends View {
 
-    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_7.class;
+    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_8.class;
     private static final String FromPath = ".1FromPath";
     private static final String ToPath = ".2ToPath";
 
@@ -41,11 +39,12 @@ public class ImageViewImpl_7 extends View {
     private static final int CIRCLE = 0;
     private static final int SQUARE = 1;
     private static final int LONGSQUARE = 2;
-    int paintShape = CIRCLE;
+    int paintShape = SQUARE;
 
     public static boolean isDrawing = false;
 
     int SideLenth = 50;
+    int[] SectionPixels;
 
     float x_down = 0;
     float y_down = 0;
@@ -75,11 +74,12 @@ public class ImageViewImpl_7 extends View {
     private PointF mid = new PointF();
     boolean matrixCheck = false;
 
-    public ImageViewImpl_7(Context context) {
+    public ImageViewImpl_8(Context context) {
         super(context);
         mContext = context;
         mBitmap = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/4.png").getAbsolutePath());
         mLayer = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        SectionPixels = new int[mBitmap.getHeight() * mBitmap.getWidth()];
     }
 
     @Override
@@ -159,21 +159,33 @@ public class ImageViewImpl_7 extends View {
                 } else if(isDrawing){
                     int newX = (int) event.getX();
                     int newY = (int) event.getY();
-                    for (int i = 0 - (int)(SideLenth / deltaScale); i < (int)(SideLenth / deltaScale); i++) {
-                        for (int j = 0 - (int)(SideLenth / deltaScale); j < (int)(SideLenth / deltaScale); j++) {
-                            int trueX = (int) (i + (newX - deltaX + mid.x * (deltaScale - 1)) / deltaScale);
-                            int tureY = (int) (j + (newY - deltaY + mid.y * (deltaScale - 1)) / deltaScale);
+                    if (paintShape == CIRCLE){
+
+                    } else if (paintShape == SQUARE) {
+/*                        for (int i = 0 - (int) (SideLenth / deltaScale); i < (int) (SideLenth / deltaScale); i++) {
+                            for (int j = 0 - (int) (SideLenth / deltaScale); j < (int) (SideLenth / deltaScale); j++) {
+                                int trueX = (int) (i + (newX - deltaX + mid.x * (deltaScale - 1)) / deltaScale);
+                                int tureY = (int) (j + (newY - deltaY + mid.y * (deltaScale - 1)) / deltaScale);
 //                            int trueX = (int) (i + (newX - deltaX + mid.x * (deltaScale - 1)) / deltaScale - mid.x * (1 - deltaScale) - originX1 * deltaScale);
 //                            int tureY = (int) (j + (newY - deltaY + mid.y * (deltaScale - 1)) / deltaScale - mid.y * (1 - deltaScale) - originY1 * deltaScale);
-
-                            if (trueX >= mBitmap.getWidth() || tureY >= mBitmap.getHeight() || trueX < 0 || tureY < 0) {
-                                return false;
+                                if (trueX >= mBitmap.getWidth() || tureY >= mBitmap.getHeight() || trueX < 0 || tureY < 0) {
+                                    return false;
+                                }
+                                mLayer.setPixel(trueX, tureY, Color.RED);
                             }
-//                            mLayer.setPixel(i + newX - (int) deltaX, j + newY - (int) deltaY, Color.RED);
-                            mLayer.setPixel(trueX, tureY, Color.RED);
-                            invalidate();
+                        }*/
+                        int trueX = (int) (newX - deltaX + mid.x * (deltaScale - 1) / deltaScale);
+                        int tureY = (int) (newY - deltaY + mid.y * (deltaScale - 1) / deltaScale);
+                        for (int i = 0 - (int) (SideLenth / deltaScale); i < (int) (SideLenth / deltaScale); i++) {
+                            for (int j = 0 - (int) (SideLenth / deltaScale); j < (int) (SideLenth / deltaScale); j++) {
+                                SectionPixels[(newY + j) * mBitmap.getWidth() + (newX + i)] = Color.RED;
+                            }
                         }
+                        mLayer.setPixels(SectionPixels, 0, mBitmap.getWidth(), 0, 0, mBitmap.getWidth(), mBitmap.getHeight());
+                    } else if (paintShape == LONGSQUARE){
+
                     }
+                    invalidate();
                 }
                 break;
         }
