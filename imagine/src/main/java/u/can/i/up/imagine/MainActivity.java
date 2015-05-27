@@ -142,7 +142,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button7 = new Button(this);
         button7.setId(10007);
-        button7.setText("测试7:拖拽、缩放、描点综合测试");
+        button7.setText("测试7:拖拽、缩放、描点综合测试1(部分完成)");
         RelativeLayout.LayoutParams lParams7 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams7.addRule(RelativeLayout.BELOW, 10004);
         lParams7.addRule(RelativeLayout.RIGHT_OF, 10006);
@@ -160,7 +160,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button8 = new Button(this);
         button8.setId(10008);
-        button8.setText("测试8:拖拽、缩放、描点综合测试2（未完成）");
+        button8.setText("测试8:拖拽、缩放、描点综合测试2（部分完成）");
         RelativeLayout.LayoutParams lParams8 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams8.addRule(RelativeLayout.BELOW, 10006);
         mainLayout.addView(button8, lParams8);   //将按钮放入layout组件
@@ -170,6 +170,23 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(MainActivity.this, DrawPaintActivity.class);
                 Bundle bundleSimple = new Bundle();
                 bundleSimple.putInt("BUTTON", 8);
+                intent.putExtras(bundleSimple);
+                startActivity(intent);
+            }
+        });
+
+        Button button9 = new Button(this);
+        button9.setId(10009);
+        button9.setText("测试9：画笔形状，橡皮");
+        RelativeLayout.LayoutParams lParams9 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+        lParams9.addRule(RelativeLayout.BELOW, 10008);
+        mainLayout.addView(button9, lParams9);   //将按钮放入layout组件
+        button9.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DrawPaintActivity.class);
+                Bundle bundleSimple = new Bundle();
+                bundleSimple.putInt("BUTTON", 9);
                 intent.putExtras(bundleSimple);
                 startActivity(intent);
             }
