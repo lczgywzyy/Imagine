@@ -50,14 +50,12 @@ public class ImageViewImpl_8 extends View {
     float y_down = 0;
     float oldDist = 1f;
     float newDist = 1f;
-//    float oldRotation = 0;
     float deltaX = 0;
     float deltaY = 0;
     float deltaScale = 1;
-    float originX1 = 0;
-    float originX2 = 0;
-    float originY1 = 0;
-    float originY2 = 0;
+    float lastDeltaScale = 1;
+    float totalScale = 1;
+
 
     int widthScreen = -1;
     int heightScreen = -1;
@@ -72,6 +70,7 @@ public class ImageViewImpl_8 extends View {
     private Matrix matrix1 = new Matrix();
     private Matrix savedMatrix = new Matrix();
     private PointF mid = new PointF();
+    private PointF mid_org = new PointF();
     boolean matrixCheck = false;
 
     public ImageViewImpl_8(Context context) {
@@ -114,7 +113,11 @@ public class ImageViewImpl_8 extends View {
                 oldDist = spacing(event);
 //                oldRotation = rotation(event);
                 savedMatrix.set(matrix);
+                mid_org.x = mid.x;
+                mid_org.y = mid.y;
                 midPoint(mid, event);
+                mid_org.x = (mid_org.x == 0) ? mid.x: mid_org.x;
+                mid_org.y = (mid_org.y == 0) ? mid.y: mid_org.y;
                 break;
             case MotionEvent.ACTION_UP:
                 Log.i(TAG, "ACTION_UP");
@@ -126,13 +129,9 @@ public class ImageViewImpl_8 extends View {
             case MotionEvent.ACTION_POINTER_UP:
                 Log.i(TAG, "ACTION_POINTER_UP");
                 if (mode == ZOOM){
+                    lastDeltaScale = totalScale;
                     deltaScale = newDist / oldDist;
-                    float tmpOriginX = mid.x * (1 - deltaScale) + originX1 * deltaScale;
-                    originX1 = originX2;
-                    originX2 = tmpOriginX;
-                    float tmpOriginY = mid.y * (1 - deltaScale) + originY1 * deltaScale;
-                    originY1 = originY2;
-                    originY2 = tmpOriginY;
+                    totalScale = totalScale * deltaScale;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -141,6 +140,7 @@ public class ImageViewImpl_8 extends View {
 //                    float rotation = rotation(event) - oldRotation;
                     newDist = spacing(event);
                     float scale = newDist / oldDist;
+                    Log.i(TAG, "scale:" + scale);
                     matrix1.postScale(scale, scale, mid.x, mid.y);// 縮放
 //                    matrix1.postRotate(rotation, mid.x, mid.y);// 旋轉
                     matrixCheck = matrixCheck();
@@ -159,6 +159,10 @@ public class ImageViewImpl_8 extends View {
                 } else if(isDrawing){
                     int newX = (int) event.getX();
                     int newY = (int) event.getY();
+//                    int trueX = (int) ((newX - deltaX + 0.5 * (mid.x + mid_org.x) * (totalScale - 1)) / totalScale);
+//                    int tureY = (int) ((newY - deltaY + 0.5 * (mid.y + mid_org.y) * (totalScale - 1)) / totalScale);
+                    int tureX = (int)((newX - deltaX + (mid.x -(mid_org.x * (1 - lastDeltaScale)) / totalScale) * (totalScale - 1)) / totalScale);
+                    int tureY = (int)((newY - deltaY + (mid.y -(mid_org.y * (1 - lastDeltaScale)) / totalScale) * (totalScale - 1)) / totalScale);
                     if (paintShape == CIRCLE){
 
                     } else if (paintShape == SQUARE) {
@@ -174,11 +178,9 @@ public class ImageViewImpl_8 extends View {
                                 mLayer.setPixel(trueX, tureY, Color.RED);
                             }
                         }*/
-                        int trueX = (int) (newX - deltaX + mid.x * (deltaScale - 1) / deltaScale);
-                        int tureY = (int) (newY - deltaY + mid.y * (deltaScale - 1) / deltaScale);
-                        for (int i = 0 - (int) (SideLenth / deltaScale); i < (int) (SideLenth / deltaScale); i++) {
-                            for (int j = 0 - (int) (SideLenth / deltaScale); j < (int) (SideLenth / deltaScale); j++) {
-                                SectionPixels[(newY + j) * mBitmap.getWidth() + (newX + i)] = Color.RED;
+                        for (int i = 0 - (int) (SideLenth / totalScale); i < (int) (SideLenth / totalScale); i++) {
+                            for (int j = 0 - (int) (SideLenth / totalScale); j < (int) (SideLenth / totalScale); j++) {
+                                SectionPixels[(tureY + j) * mBitmap.getWidth() + (tureX + i)] = Color.RED;
                             }
                         }
                         mLayer.setPixels(SectionPixels, 0, mBitmap.getWidth(), 0, 0, mBitmap.getWidth(), mBitmap.getHeight());
@@ -247,6 +249,7 @@ public class ImageViewImpl_8 extends View {
             float x = event.getX(0) + event.getX(1);
             float y = event.getY(0) + event.getY(1);
             point.set(x / 2, y / 2);
+//            point.set(0, 0);
         }
     }
 
