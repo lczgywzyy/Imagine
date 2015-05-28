@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/ImageUI/ImageUI.iml" filepath="$PROJECT_DIR$/ImageUI/ImageUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImageUtils/ImageUtils.iml" filepath="$PROJECT_DIR$/ImageUtils/ImageUtils.iml" />
       <module fileurl="file://$PROJECT_DIR$/Imagine.iml" filepath="$PROJECT_DIR$/Imagine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ZoomImageView/ZoomImageView.iml" filepath="$PROJECT_DIR$/ZoomImageView/ZoomImageView.iml" />
       <module fileurl="file://$PROJECT_DIR$/imagine/imagine.iml" filepath="$PROJECT_DIR$/imagine/imagine.iml" />
     </modules>
   </component>

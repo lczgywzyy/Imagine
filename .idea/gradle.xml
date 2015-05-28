@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/ImageMagickUI" />
             <option value="$PROJECT_DIR$/ImageUI" />
             <option value="$PROJECT_DIR$/ImageUtils" />
+            <option value="$PROJECT_DIR$/ZoomImageView" />
             <option value="$PROJECT_DIR$/imagine" />
           </set>
         </option>
