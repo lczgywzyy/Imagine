@@ -194,7 +194,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button10 = new Button(this);
         button10.setId(11000);
-        button10.setText("测试10：素材角落控件，实现中");
+        button10.setText("测试10：素材角落控件");
         RelativeLayout.LayoutParams lParams10 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams10.addRule(RelativeLayout.RIGHT_OF, 10900);
         lParams10.addRule(RelativeLayout.BELOW, 10800);
