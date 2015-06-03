@@ -142,7 +142,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button7 = new Button(this);
         button7.setId(10700);
-        button7.setText("测试7:拖拽、缩放、描点综合测试1(部分完成)");
+        button7.setText("测试7:拖拽、缩放、描点综合测试1(见测试11)");
         RelativeLayout.LayoutParams lParams7 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams7.addRule(RelativeLayout.BELOW, 10400);
         lParams7.addRule(RelativeLayout.RIGHT_OF, 10600);
@@ -160,7 +160,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button8 = new Button(this);
         button8.setId(10800);
-        button8.setText("测试8:拖拽、缩放、描点综合测试2（部分完成）");
+        button8.setText("测试8:拖拽、缩放、描点综合测试2（见测试11）");
         RelativeLayout.LayoutParams lParams8 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams8.addRule(RelativeLayout.BELOW, 10600);
         mainLayout.addView(button8, lParams8);   //将按钮放入layout组件
@@ -177,7 +177,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button9 = new Button(this);
         button9.setId(10900);
-        button9.setText("测试9：画笔形状，橡皮");
+        button9.setText("测试9：画笔形状，橡皮(11)");
         RelativeLayout.LayoutParams lParams9 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams9.addRule(RelativeLayout.BELOW, 10800);
         mainLayout.addView(button9, lParams9);   //将按钮放入layout组件
@@ -212,7 +212,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button11 = new Button(this);
         button11.setId(11100);
-        button11.setText("测试11：圆形缩放blabla（待实现）");
+        button11.setText("测试11：拖拽、缩放、描点综合测试3 -- FINISH");
         RelativeLayout.LayoutParams lParams11 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams11.addRule(RelativeLayout.BELOW, 11000);
         mainLayout.addView(button11, lParams11);   //将按钮放入layout组件
@@ -229,7 +229,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button12 = new Button(this);
         button12.setId(11200);
-        button12.setText("测试11：标尺缩放（待实现）");
+        button12.setText("测试12：圆形缩放blabla（待实现）");
         RelativeLayout.LayoutParams lParams12 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams12.addRule(RelativeLayout.BELOW, 11100);
         mainLayout.addView(button12, lParams12);   //将按钮放入layout组件
@@ -239,6 +239,23 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(MainActivity.this, DrawPaintActivity.class);
                 Bundle bundleSimple = new Bundle();
                 bundleSimple.putInt("BUTTON", 12);
+                intent.putExtras(bundleSimple);
+                startActivity(intent);
+            }
+        });
+
+        Button button13 = new Button(this);
+        button13.setId(11300);
+        button13.setText("测试13：标尺缩放（待实现）");
+        RelativeLayout.LayoutParams lParams13 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+        lParams13.addRule(RelativeLayout.BELOW, 11200);
+        mainLayout.addView(button13, lParams13);   //将按钮放入layout组件
+        button13.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DrawPaintActivity.class);
+                Bundle bundleSimple = new Bundle();
+                bundleSimple.putInt("BUTTON", 13);
                 intent.putExtras(bundleSimple);
                 startActivity(intent);
             }

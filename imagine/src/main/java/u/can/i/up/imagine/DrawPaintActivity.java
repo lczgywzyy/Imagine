@@ -1,6 +1,7 @@
 package u.can.i.up.imagine;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -338,6 +339,138 @@ public class DrawPaintActivity extends ActionBarActivity {
                     public void onClick(View v) {
                         Toast.makeText(getApplicationContext(), "导出到ImageViewImpl_10_output.png", Toast.LENGTH_SHORT).show();
                         myView10.saveBitmap();
+                    }
+                });
+                break;
+            case 11:
+                final Button button111 = new Button(this);
+                button111.setId(11101);
+                button111.setText("描点");
+                RelativeLayout.LayoutParams lParams111 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                mainLayout.addView(button111, lParams111);   //将按钮放入layout组件
+
+                final Button button112 = new Button(this);
+                button112.setId(11102);
+                button112.setText("橡皮");
+                RelativeLayout.LayoutParams lParams112 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams112.addRule(RelativeLayout.RIGHT_OF, 11101);
+                mainLayout.addView(button112, lParams112);   //将按钮放入layout组件
+
+                final Button button113 = new Button(this);
+                button113.setId(11103);
+                button113.setText("导出");
+                RelativeLayout.LayoutParams lParams113 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams113.addRule(RelativeLayout.RIGHT_OF, 11102);
+                mainLayout.addView(button113, lParams113);   //将按钮放入layout组件
+
+                final Button button114 = new Button(this);
+                button114.setId(11104);
+                button114.setText("查看");
+                RelativeLayout.LayoutParams lParams114 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams114.addRule(RelativeLayout.RIGHT_OF, 11103);
+                mainLayout.addView(button114, lParams114);   //将按钮放入layout组件
+
+                final Button button115 = new Button(this);
+                button115.setId(11105);
+                button115.setText("圆形");
+                RelativeLayout.LayoutParams lParams115 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams115.addRule(RelativeLayout.BELOW, 11101);
+                mainLayout.addView(button115, lParams115);   //将按钮放入layout组件
+
+                final Button button116 = new Button(this);
+                button116.setId(11106);
+                button116.setText("方形");
+                RelativeLayout.LayoutParams lParams116 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams116.addRule(RelativeLayout.RIGHT_OF, 11105);
+                lParams116.addRule(RelativeLayout.BELOW, 11101);
+                mainLayout.addView(button116, lParams116);   //将按钮放入layout组件
+
+                final ImageViewImpl_11 myView11 = new ImageViewImpl_11(this);
+                myView11.setId(11107);
+                RelativeLayout.LayoutParams lParams11 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams11.addRule(RelativeLayout.BELOW, 11105);
+                mainLayout.addView(myView11, lParams11);
+
+                myView11.isDrawing = false;
+                myView11.paintShape = 0;
+                myView11.paintType = 0;
+                button111.setBackgroundColor(Color.RED);
+                button111.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "11");
+                        if (myView11.isDrawing) {
+                            myView11.isDrawing = false;
+                            myView11.paintType = 0;
+                            button111.setText("描点");
+                            button111.setBackgroundColor(Color.RED);
+                            button112.setBackgroundColor(Color.RED);
+                            button115.setBackgroundColor(Color.RED);
+                            button116.setBackgroundColor(Color.RED);
+                            myView11.paintShape = 0;
+                        } else {
+                            myView11.isDrawing = true;
+                            myView11.paintType = 0;
+                            button111.setText("描点中...");
+                            button111.setBackgroundColor(Color.GREEN);
+                            button112.setBackgroundColor(Color.RED);
+                            button115.setBackgroundColor(Color.GREEN);
+                            myView11.paintShape = 0;
+                        }
+                    }
+                });
+
+                button112.setBackgroundColor(Color.RED);
+                button112.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "112");
+//                        button111.setText("描点");
+                        if (myView11.paintType == 0) {
+                            myView11.paintType = 1;
+//                            button111.setBackgroundColor(Color.RED);
+                            button112.setBackgroundColor(Color.GREEN);
+                        } else {
+                            myView11.paintType = 0;
+//                            button111.setBackgroundColor(Color.RED);
+                            button112.setBackgroundColor(Color.RED);
+                        }
+                    }
+                });
+
+                button113.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "113：导出图片到/sdcard/.2ToPath/OUTPUT_11.png");
+                        myView11.exportImageByFinger();
+                        Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/OUTPUT_11.png", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                button114.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "114：加载/sdcard/.2ToPath/OUTPUT_11.png");
+                        myView11.showImage();
+                    }
+                });
+                button115.setBackgroundColor(Color.RED);
+                button115.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "115");
+                        myView11.paintShape = 0;
+                        button115.setBackgroundColor(Color.GREEN);
+                        button116.setBackgroundColor(Color.RED);
+                    }
+                });
+                button116.setBackgroundColor(Color.RED);
+                button116.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(TAG, "116");
+                        myView11.paintShape = 1;
+                        button115.setBackgroundColor(Color.RED);
+                        button116.setBackgroundColor(Color.GREEN);
                     }
                 });
                 break;

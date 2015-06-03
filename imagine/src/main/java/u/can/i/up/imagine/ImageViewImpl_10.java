@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class ImageViewImpl_10 extends View {
 
-    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_9.class;
+    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_10.class;
     private static final String FromPath = ".1FromPath";
     private static final String ToPath = ".2ToPath";
 
@@ -90,8 +90,8 @@ public class ImageViewImpl_10 extends View {
         //记录表情当前的矩形
         rectMotion = new RectF(rectMotionPre);
         //标记旋转图标位置的矩形
-        rectRotateMark = new RectF(rectMotion.right + bmpRotate.getWidth() / 6,
-                rectMotion.bottom + bmpRotate.getHeight() / 6,
+        rectRotateMark = new RectF(rectMotion.right,
+                rectMotion.bottom,
                 rectMotion.right + bmpRotate.getWidth() / 2,
                 rectMotion.bottom + bmpRotate.getHeight() / 2);
         //记录旋转图标矩形最初的矩形
@@ -152,8 +152,8 @@ public class ImageViewImpl_10 extends View {
                 curPoint.x = x;
                 curPoint.y = y;
                 if(status == ViewStatus.STATUS_ROTATE){
-                    rectRotateMark.set(x + bmpRotate.getWidth() / 6,
-                            y + bmpRotate.getHeight() / 6,
+                    rectRotateMark.set(x,
+                            y,
                             x + bmpRotate.getWidth() / 2,
                             y + bmpRotate.getHeight() / 2);
                     //获取旋转的角度
@@ -179,8 +179,8 @@ public class ImageViewImpl_10 extends View {
                 matrixPaint.mapRect(rectRotateMark, rectRotatePre);
                 getRectCenter(rectRotateMark, rotateCenterP);
                 getRectCenter(rectMotion, pointMotionMid);
-                rectRotate.set(rotateCenterP.x + bmpRotate.getWidth() / 6,
-                        rotateCenterP.y + bmpRotate.getHeight() / 6,
+                rectRotate.set(rotateCenterP.x,
+                        rotateCenterP.y,
                         rotateCenterP.x + bmpRotate.getWidth() / 2,
                         rotateCenterP.y + bmpRotate.getHeight() / 2);
                 postInvalidate();
