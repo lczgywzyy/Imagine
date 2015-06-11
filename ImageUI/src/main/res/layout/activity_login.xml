@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:background="@color/darkgray"
+    android:focusableInTouchMode="true">
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="fill_parent"
+       android:orientation="vertical"
+       android:layout_marginLeft="@dimen/login_margin_start"
+       android:layout_marginRight="@dimen/login_margin_end">
+       <!--logo图像-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.423">
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/login_logo_img_height"
+            android:src="@drawable/login_logo"
+            android:layout_gravity="center"/>
+
+   </LinearLayout>
+       <!--输入手机号获取验证码-->
+       <LinearLayout
+           android:layout_width="fill_parent"
+           android:layout_height="0dp"
+           android:layout_weight="0.1"
+           android:gravity="center|top"
+           android:orientation="horizontal"
+           >
+
+           <EditText
+               android:id="@+id/et_phonenum"
+               android:layout_width="@dimen/login_phone_width"
+               android:layout_height="@dimen/login_phone_height"
+               android:background="@drawable/login_edittext_bg"
+               android:textSize="@dimen/login_edittextsize"
+               android:textColor="@color/darkgray"
+               android:textColorHint="@color/lightgray"
+               android:hint="@string/login_phone"
+               android:paddingLeft="@dimen/login_edittext_peddingleft"
+               android:singleLine="true"
+               android:maxLength="11"
+               android:inputType="phone"
+               android:layout_gravity="top"
+               />
+               <Button
+                   android:id="@+id/btn_authcode"
+                   android:text="验证"
+                   android:textColor="@color/white"
+                   android:textSize="@dimen/login_edittextsize"
+                   android:layout_marginLeft="@dimen/login_authcode_marginleft"
+                   android:gravity="center"
+                   android:background="@drawable/login_authcode_bg"
+                   android:layout_height="@dimen/login_phone_height"
+                   android:layout_width="@dimen/login_authcode_width"
+                   android:layout_gravity="top"
+                   />
+
+       </LinearLayout>
+       <LinearLayout
+           android:layout_width="fill_parent"
+           android:layout_height="0dp"
+           android:layout_weight="0.1"
+           android:gravity="center"
+         >
+       <EditText
+           android:id="@+id/et_authcode"
+           android:layout_gravity="center|top"
+           android:layout_width="@dimen/login_authcode_in_width"
+           android:layout_height="@dimen/login_phone_height"
+           android:background="@drawable/login_edittext_bg"
+           android:textSize="@dimen/login_edittextsize"
+           android:textColor="@color/darkgray"
+           android:textColorHint="@color/lightgray"
+           android:hint="@string/login_authcode"
+           android:paddingLeft="@dimen/login_edittext_peddingleft"
+           android:singleLine="true"
+           android:maxLength="4"
+           android:inputType="number"
+           />
+           <!--<Button-->
+               <!--android:layout_width="@dimen/login_authcode_width"-->
+               <!--android:layout_height="@dimen/login_phone_height"-->
+               <!--android:text="没收到？"-->
+               <!--android:textColor="@color/white"-->
+               <!--android:background="@drawable/login_notrec_bg"-->
+               <!--android:layout_alignRight="@id/et_authcode"-->
+               <!--android:layout_alignBottom="@id/et_authcode"-->
+               <!--android:gravity="center"-->
+              <!--/>-->
+
+       </LinearLayout>
+       <LinearLayout
+           android:layout_width="fill_parent"
+           android:layout_height="0dp"
+           android:layout_weight="0.373"
+           android:orientation="vertical">
+           <Button
+           android:id="@+id/btn_start"
+           android:text="开始"
+           android:gravity="center"
+           android:textColor="@color/white"
+           android:textSize="@dimen/login_edittextsize"
+           android:background="@drawable/login_authcode_bg"
+           android:layout_height="@dimen/login_phone_height"
+           android:layout_width="@dimen/login_startwidth"
+           android:layout_gravity="center|top"
+           />
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:layout_marginTop="@dimen/login_tip_margin_top"
+           android:layout_gravity="center">
+       <TextView
+
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/login_tip"
+           android:textColor="@color/white"
+           android:textSize="@dimen/login_tip_size"/>
+
+       <TextView
+           android:id="@+id/tv_agreement"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/login_tip_link"
+           android:textSize="@dimen/login_tip_size"
+           android:textColor="@color/white"/>
+       </LinearLayout>
+       </LinearLayout>
+
+   </LinearLayout>
+
+
+</LinearLayout>
+
+
+
+
+

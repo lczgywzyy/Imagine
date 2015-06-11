@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- App Main Palette -->
+    <color name="primary">@color/green_500</color>
+    <color name="primaryDark">@color/green_700</color>
+    <color name="textPrimary">@color/text_white_text_icons_100</color>
+
+    <!-- Text -->
+    <!-- Text -->
+    <color name="text_black_100">#000000</color>
+    <color name="text_black_text_87">#ffffffff</color>
+    <color name="text_black_secondary_icon_54">#8A000000</color>
+    <color name="text_black_disable_hint_26">#42000000</color>
+    <color name="text_black_divider_12">#FFFFFF</color>
+
+    <color name="text_white_text_icons_100">#FFFFFF</color>
+    <color name="text_white_secondary_70">#B3FFFFFF</color>
+    <color name="text_white_disabled_hint_30">#4DFFFFFF</color>
+    <color name="text_white_divider_12">#1FFFFFFF</color>
+
+    <!-- NavigationDrawer -->
+    <color name="navigation_drawer_background">#ffffffff</color>
+    <color name="nav_drawer_item_icon_normal">@color/grey_600</color>
+    <color name="nav_drawer_item_icon_selected">@color/green_500</color>
+    <color name="nav_drawer_item_text_selected">@color/green_500</color>
+    <color name="nav_drawer_section_subheader">@color/text_black_secondary_icon_54</color>
+    <color name="nav_drawer_inset_foreground">#4000</color>
+
+    <color name="nav_drawer_row_item_unselected">@color/white</color>
+    <color name="nav_drawer_row_item_selected">@color/grey_200</color>
+    <color name="nav_drawer_row_item_pressed">@color/grey_400</color>
+
+    <!-- Green -->
+    <color name="green_500">#4caf50</color>
+
+    <color name="green_700">#388e3c</color>
+
+    <!-- Grey -->
+    <color name="grey_200">#eeeeee</color>
+    <color name="grey_400">#bdbdbd</color>
+    <color name="grey_600">#757575</color>
+
+    <!-- Blue -->
+    <color name="blue_500">#2196f3</color>
+
+    <!-- Amber -->
+    <color name="amber_500">#ffc107</color>
+
+    <!-- Black and White -->
+    <color name="black_alpha_50">#80000000</color>
+    <color name="toolbar_background">#282828</color>
+
+    <!-- picture selete dialog -->
+    <color name="white_pressed_bg">#fff2f2f2</color>
+    <color name="linegray">#ffe2e2e2</color>
+    <color name="gray">#ff4e4e4e</color>
+    <!-- jj -->
+    <color name="turquoise_light">#057748</color>
+    <color name="turquoise_dark">#044e2f</color>
+    <!--<color name="darkgray">#2b2b2b</color>-->
+    <!--<color name="middlegray">#524e4d</color>-->
+    <color name="lightgray">#626262</color>
+    <color name="transparent_black">#7f000000</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <!-- new login -->
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="green">#0a8940</color>
+    <color name="brightgreen">#0bab4f</color>
+    <color name="yellowgreen">#61b02c</color>
+    <color name="darkyellowgreen">#4d8427</color>
+    <color name="blue">#07c697</color>
+    <color name="lightgreen">#84c78f</color>
+    <color name="lightblue">#83dec3</color>
+    <color name="darkgray">#242424</color>
+    <color name="middlegray">#818181</color>
+    <color name="blueegray">#a9b7b7</color>
+
+</resources>

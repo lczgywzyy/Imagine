@@ -1,0 +1,147 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".Login"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/login_bg">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/login_margin"
+        android:layout_marginRight="@dimen/login_margin"
+        android:gravity="center|bottom">
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.08"/>
+        <ImageView
+            android:layout_width="@dimen/login_logo"
+            android:layout_height="0dp"
+            android:layout_weight="0.17"
+            android:src="@drawable/logo"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:text="多宝串"
+            android:textSize="@dimen/textsize_huge"
+            android:textColor="@color/white"
+            android:gravity="bottom"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.08"
+            android:text="Sign in"
+            android:textSize="@dimen/textsize_medium"
+            android:textColor="@color/white"
+            android:gravity="center"
+            />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.07"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.67"
+                android:background="@drawable/white_rectangle"
+                android:hint="输入手机号码"
+                android:textColorHint="@color/middlegray"
+                android:textColor="@color/darkgray"
+                android:paddingLeft="@dimen/margin"
+                android:textSize="@dimen/textsize_medium"
+                android:phoneNumber="true"
+                android:singleLine="true"
+                android:maxLength="11"
+                />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.06"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="验证"
+                android:textStyle="bold"
+                android:textSize="@dimen/textsize_medium"
+                android:textColor="@color/white"
+                android:layout_weight="0.27 "
+                android:background="@drawable/btn_brightgreen_green_rectangle"/>
+
+        </LinearLayout>
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.03"/>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.07"
+            android:background="@drawable/white_rectangle"
+            android:hint="请输入验证码"
+            android:textColorHint="@color/middlegray"
+            android:textColor="@color/darkgray"
+            android:paddingLeft="@dimen/margin"
+            android:numeric="integer"
+            android:maxLength="6"/>
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.03"/>
+        <Button
+            android:id="@+id/login_start"
+            android:layout_width="128dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.08"
+            android:text="开始"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/textsize_medium"
+            android:background="@drawable/btn_brightgreen_green_rectangle"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.08"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点击开始，即表示同意"
+                android:textSize="@dimen/textsize_micro"
+                android:textColor="@color/white"/>
+            <Space
+                android:layout_width="5dp"
+                android:layout_height="fill_parent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="《多宝串搭配服务协议》"
+                android:textStyle="bold"
+                android:textSize="@dimen/textsize_micro"
+                android:textColor="@color/white"
+                android:linksClickable="true"/>
+
+        </LinearLayout>
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.18"/>
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
