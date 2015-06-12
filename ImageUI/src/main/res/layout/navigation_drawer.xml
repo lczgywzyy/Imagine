@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/navigation_drawer_account_section_default_height"
             android:clickable="true"
-
+            android:background="@color/toolbar_background"
             tools:layout_height="@dimen/navigation_drawer_account_section_default_height">
 
             <FrameLayout

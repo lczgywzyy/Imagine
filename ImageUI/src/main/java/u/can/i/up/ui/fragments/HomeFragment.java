@@ -30,6 +30,8 @@ import java.io.IOException;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.ImageSetActivity;
+import u.can.i.up.ui.activities.LibiraryActivity;
+
 
 /**
  * A placeholder fragment containing a simple view.
@@ -55,9 +57,15 @@ public class HomeFragment extends Fragment {
     {
         // The last two arguments ensure LayoutParams are inflated properly
         View view = inflater.inflate(R.layout.home_fragment, container, false);
-        Button start = (Button)view.findViewById(R.id.collocation_start);
-
-        start.setOnClickListener(new View.OnClickListener() {
+        Button collocation_start = (Button)view.findViewById(R.id.collocation_start);
+        Button libirary = (Button)view.findViewById(R.id.libirary);
+        libirary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), LibiraryActivity.class));
+            }
+        });
+        collocation_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Dialog dialog = new Dialog(getActivity(), R.style.Theme_CustomDialog);

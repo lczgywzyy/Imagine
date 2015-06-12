@@ -49,7 +49,7 @@
             android:layout_height="@dimen/mainpage_startbtn_height"
             android:background="@drawable/btn_cube_turquoise"
             android:layout_weight="1"
-            android:text="串珠搭配"
+            android:text="@string/collocation_start"
             android:textColor="@color/white"
             android:textSize="@dimen/mainpage_startbtn_textsize"/>
         <include
@@ -60,7 +60,7 @@
             android:layout_height="@dimen/mainpage_startbtn_height"
             android:background="@drawable/btn_cube_turquoise"
             android:layout_weight="1"
-            android:text="素材库"
+            android:text="@string/libirary"
             android:textColor="@color/white"
             android:textSize="@dimen/mainpage_startbtn_textsize"/>
         <include
@@ -71,7 +71,7 @@
             android:layout_height="@dimen/mainpage_startbtn_height"
             android:background="@drawable/btn_cube_turquoise"
             android:layout_weight="1"
-            android:text="新组串珠"
+            android:text="@string/new_start"
             android:textColor="@color/white"
             android:textSize="@dimen/mainpage_startbtn_textsize"/>
     </LinearLayout>

@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mTextView_Home, mTextView_Libirary, mTextView_Setup;
 
     private long mExitTime;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

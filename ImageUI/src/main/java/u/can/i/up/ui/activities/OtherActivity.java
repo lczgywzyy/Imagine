@@ -28,8 +28,8 @@ public class OtherActivity extends AppCompatActivity
      */
     private void initialise()
     {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null)
         {

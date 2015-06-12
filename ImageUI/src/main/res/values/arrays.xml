@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="countries">
+        <item>佛头,header</item>
+        <item>佛塔,tower</item>
+        <item>背云,backcloud</item>
+        <item>卡子,card</item>
+        <item>弟子珠,student</item>
+        <item>计数器,calculator</item>
+        <item>项珠,neck</item>
+        <item>绳结,node</item>
+        <item>散珠,ball</item>
+        <item>隔片,divider</item>
+    </string-array>
+</resources>

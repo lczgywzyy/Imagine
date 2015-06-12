@@ -3,7 +3,7 @@
     <string name="app_name">多宝串</string>
 
     <!-- Toolbar titles -->
-    <string name="toolbar_title_home">串珠搭配</string>
+    <string name="toolbar_title_home">多宝串</string>
     <string name="toolbar_title_libirary">素材库</string>
     <string name="other_activity">设置</string>
 
@@ -18,6 +18,10 @@
     <string name="tag_nav_drawer_special_entry">nav_drawer_special_entry</string>
     <string name="tools_text_account_information_username">苍井优</string>
     <string name="tools_text_account_information_email">cangjy@sina.com</string>
+    <!-- home fragment -->
+    <string name="collocation_start">串珠搭配</string>
+    <string name="libirary">素材中心</string>
+    <string name="new_start">新组串珠</string>
 
     <!-- Typeface names -->
     <string name="typeface_roboto_regular">Roboto-Regular</string>
@@ -37,13 +41,23 @@
     <string name="login_tip_link">《多宝串用户协议》</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="about">关于</string>
+    <string name="about_body"><![CDATA[
+         多宝串<a href="http://www.amoluo.com">静下来，做真实的自己</a>.<br/>
+        <a href=\'http://www.amoluo.com\'>http://www.amoluo.com/</a>
+    ]]></string>
 
     <string name="title_activity_image_set">ImageSetActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_imagetest">imagetestActivity</string>
-    <string name="title_activity_libirary">LibiraryActivity</string>
+    <string name="title_activity_libirary">素材中心</string>
     <string name="title_activity_splash">SplashActivity</string>
+
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
 
 
 
