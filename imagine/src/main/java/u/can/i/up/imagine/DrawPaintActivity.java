@@ -329,16 +329,30 @@ public class DrawPaintActivity extends ActionBarActivity {
                 RelativeLayout.LayoutParams lParams101 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
                 mainLayout.addView(button101, lParams101);   //将按钮放入layout组件
 
+                final Button button102 = new Button(this);
+                button102.setId(11002);
+                button102.setText("局部导出");
+                RelativeLayout.LayoutParams lParams102 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams102.addRule(RelativeLayout.RIGHT_OF, 11001);
+                mainLayout.addView(button102, lParams102);   //将按钮放入layout组件
+
                 final ImageViewImpl_10 myView10 = new ImageViewImpl_10(this);
-                myView10.setId(11002);
+                myView10.setId(11003);
                 RelativeLayout.LayoutParams lParams10 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
                 lParams10.addRule(RelativeLayout.BELOW, 11001);
                 mainLayout.addView(myView10, lParams10);
                 button101.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "导出到ImageViewImpl_10_output.png", Toast.LENGTH_SHORT).show();
-                        myView10.saveBitmap();
+                        Toast.makeText(getApplicationContext(), "导出到ImageViewImpl_10_output_All.png", Toast.LENGTH_SHORT).show();
+                        myView10.saveBitmapAll();
+                    }
+                });
+                button102.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "导出到ImageViewImpl_10_output_Covered.png", Toast.LENGTH_SHORT).show();
+                        myView10.saveBitmapCovered();
                     }
                 });
                 break;

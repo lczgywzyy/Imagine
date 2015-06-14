@@ -10,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
@@ -29,6 +31,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import u.can.i.up.utils.image.ImageUtils;
 
 /**
  * Created by lczgywzyy on 2015/5/31.
@@ -60,7 +64,8 @@ public class ImageViewImpl_10 extends View {
     PointF curPoint = null;
     PointF rotateCenterP = null;
 
-    String savePath = null;
+    String savePathAll = null;
+    String savePathCovered = null;
 
     enum ViewStatus{
         STATUS_ROTATE,
@@ -81,8 +86,8 @@ public class ImageViewImpl_10 extends View {
         //设置画笔绘制空心图形
         paint.setStyle(Paint.Style.STROKE);
         //加载相应的图片资源
-        bmpMotion = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/motion.png").getAbsolutePath());
-        bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/4.png").getAbsolutePath());
+        bmpMotion = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/motion10.png").getAbsolutePath());
+        bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageView10_bg.png").getAbsolutePath());
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
 
         //记录表情最初的矩形
@@ -109,15 +114,19 @@ public class ImageViewImpl_10 extends View {
         //画布参数
         paintFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
 
-        savePath = new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageViewImpl_10_output.png").getAbsolutePath();
+        savePathAll = new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageViewImpl_10_output_All.png").getAbsolutePath();
+        savePathCovered = new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageViewImpl_10_output_Covered.png").getAbsolutePath();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
+        Paint tmpPaint = new Paint();
+        tmpPaint.setAlpha(70);
+
         canvas.setDrawFilter(paintFilter);
         canvas.drawBitmap(bmpBack, 0, 0, paint);
-        canvas.drawBitmap(bmpMotion, matrixPaint, null);
+        canvas.drawBitmap(bmpMotion, matrixPaint, tmpPaint);
         canvas.drawBitmap(bmpRotate, null, rectRotate, null);
 //		canvas.drawRect(rectPaint, paint);
 //		canvas.drawRect(rectRotate, paint);
@@ -194,8 +203,8 @@ public class ImageViewImpl_10 extends View {
     /**
      * 将当前表情合并到背景并保存
      */
-    public void saveBitmap() {
-        File f = new File(savePath);
+    public void saveBitmapAll() {
+        File f = new File(savePathAll);
         //使用背景图的宽高创建一张bitmap
         Bitmap bmpSave = Bitmap.createBitmap(bmpBack.getWidth(), bmpBack.getHeight(), Bitmap.Config.ARGB_8888);
         //创建canvas
@@ -224,6 +233,31 @@ public class ImageViewImpl_10 extends View {
 //        matrixPaint.reset();
 //        //重置旋转图标
 //        rectRotate.set(rectRotatePre);
+    }
+
+    /**
+     * 将当前表情合并到背景并保存
+     */
+    public void saveBitmapCovered() {
+        File f = new File(savePathCovered);
+        //使用背景图的宽高创建一张bitmap
+        Bitmap bmpSave = Bitmap.createBitmap(bmpBack.getWidth(), bmpBack.getHeight(), Bitmap.Config.ARGB_8888);
+        //创建canvas
+        Canvas canvas = new Canvas(bmpSave);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+
+        //将背景图和表情画在bitmap上
+        canvas.drawBitmap(bmpMotion, matrixPaint, null);
+        canvas.drawBitmap(bmpBack, 0, 0, paint);
+
+        paint.setXfermode(null);
+
+        int[] pixels = new int[bmpSave.getHeight() * bmpSave.getWidth()];
+        bmpSave.getPixels(pixels, 0, bmpSave.getWidth(), 0, 0, bmpSave.getWidth(), bmpSave.getHeight());
+
+        ImageUtils.extractImageFromBitmapPixels(bmpSave, pixels, savePathCovered, false);
+        bmpBack.recycle();
     }
 
     //根据矩形获取中心点
