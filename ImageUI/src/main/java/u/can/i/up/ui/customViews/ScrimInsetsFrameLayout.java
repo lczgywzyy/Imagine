@@ -34,6 +34,9 @@ import u.can.i.up.ui.R;
 public class ScrimInsetsFrameLayout extends FrameLayout {
     private Drawable mInsetForeground;
 
+
+
+
     private Rect mInsets;
     private Rect mTempRect = new Rect();
     private OnInsetsCallback mOnInsetsCallback;

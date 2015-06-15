@@ -19,11 +19,6 @@
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/BaseTheme.MainTheme.WithNavDrawer" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.OtherActivity"
@@ -43,11 +38,23 @@
         <activity
             android:name=".activities.LibiraryActivity"
             android:label="@string/title_activity_libirary" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.SplashActivity"
             android:label="@string/app_name" >
-
+        </activity>
+        <activity
+            android:name=".activities.LibirarydisplayActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".activities.LibiraryDetailActivity"
+            android:label="@string/title_activity_libirary_detail" >
         </activity>
     </application>
 

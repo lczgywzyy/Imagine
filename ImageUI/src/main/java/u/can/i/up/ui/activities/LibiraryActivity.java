@@ -3,6 +3,7 @@ package u.can.i.up.ui.activities;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -41,11 +43,13 @@ public class LibiraryActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) {
             ActionBar actionBar = getSupportActionBar();
-            actionBar.setHomeButtonEnabled(true);
+//            actionBar.setHomeButtonEnabled(true);
 //            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//            actionBar.setTitle("素材中心");
-            actionBar.setCustomView(R.layout.abs_layout);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+//            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            actionBar.setTitle("素材中心");
+
+//            actionBar.setCustomView(R.layout.abs_layout);
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
             actionBar.addTab(actionBar.newTab()
                     .setText("基础素材")
@@ -111,13 +115,13 @@ public class LibiraryActivity extends AppCompatActivity {
                         public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
                         }
                     }));
-            ImageButton libirary_btn = (ImageButton)findViewById(R.id.libirarybackbtn);
-            libirary_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onBackPressed();
-                }
-            });
+//            ImageButton libirary_btn = (ImageButton)findViewById(R.id.libirarybackbtn);
+//            libirary_btn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    onBackPressed();
+//                }
+//            });
         }
     }
 
@@ -129,46 +133,44 @@ public class LibiraryActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.libirarybackbtn:
-//                // app icon in action bar clicked; goto parent activity.
-// //               this.finish();
-//                moveTaskToBack(true);
-//                return true;
-//            case R.id.about:
-//                TextView content = (TextView) getLayoutInflater().inflate(R.layout.about_view, null);
-//                content.setMovementMethod(LinkMovementMethod.getInstance());
-//                content.setText(Html.fromHtml(getString(R.string.about_body)));
-//                new AlertDialog.Builder(this)
-//                        .setTitle(R.string.about)
-//                        .setView(content)
-//                        .setInverseBackgroundForced(true)
-//                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        }).create().show();
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-
-        if (item.getItemId() == R.id.about) {
-            TextView content = (TextView) getLayoutInflater().inflate(R.layout.about_view, null);
-            content.setMovementMethod(LinkMovementMethod.getInstance());
-            content.setText(Html.fromHtml(getString(R.string.about_body)));
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.about)
-                    .setView(content)
-                    .setInverseBackgroundForced(true)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create().show();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+               this.finish();
+            case R.id.about:
+                TextView content = (TextView) getLayoutInflater().inflate(R.layout.about_view, null);
+                content.setMovementMethod(LinkMovementMethod.getInstance());
+                content.setText(Html.fromHtml(getString(R.string.about_body)));
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.about)
+                        .setView(content)
+                        .setInverseBackgroundForced(true)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
+//        if (item.getItemId() == R.id.about) {
+//            TextView content = (TextView) getLayoutInflater().inflate(R.layout.about_view, null);
+//            content.setMovementMethod(LinkMovementMethod.getInstance());
+//            content.setText(Html.fromHtml(getString(R.string.about_body)));
+//            new AlertDialog.Builder(this)
+//                    .setTitle(R.string.about)
+//                    .setView(content)
+//                    .setInverseBackgroundForced(true)
+//                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    }).create().show();
+//        }
+//        return super.onOptionsItemSelected(item);
     }
 
     public static class ListViewFragment extends Fragment {
@@ -182,7 +184,12 @@ public class LibiraryActivity extends AppCompatActivity {
             ListViewAdapter listAdapter = new ListViewAdapter(getActivity(),
                     getResources().getStringArray(R.array.countries));
             list.setAdapter(listAdapter);
-
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    startActivity(new Intent(view.getContext(), LibirarydisplayActivity.class));
+                }
+            });
 //            FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
 //            fab.attachToListView(list, new ScrollDirectionListener() {
 //                @Override

@@ -58,6 +58,30 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
+    <string name="title_activity_libirarydisplay">LibirarydisplayActivity</string>
+
+    <!-- gridview -->
+    <string-array name="image_ids">
+        <item>@drawable/demo1</item>
+        <item>@drawable/demo2</item>
+        <item>@drawable/demo3</item>
+        <item>@drawable/demo4</item>
+        <item>@drawable/demo5</item>
+        <item>@drawable/demo6</item>
+        <item>@drawable/demo7</item>
+        <item>@drawable/demo8</item>
+        <item>@drawable/demo9</item>
+        <item>@drawable/demo10</item>
+        <item>@drawable/demo11</item>
+        <item>@drawable/demo12</item>
+        <item>@drawable/demo4</item>
+        <item>@drawable/demo5</item>
+        <item>@drawable/demo6</item>
+        <item>@drawable/demo7</item>
+        <item>@drawable/demo8</item>
+        <item>@drawable/demo9</item>
+    </string-array>
+    <string name="title_activity_libirary_detail">LibiraryDetailActivity</string>
 
 
 
