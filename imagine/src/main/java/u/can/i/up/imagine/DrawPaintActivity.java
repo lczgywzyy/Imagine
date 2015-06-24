@@ -1,11 +1,9 @@
 package u.can.i.up.imagine;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -487,6 +485,18 @@ public class DrawPaintActivity extends ActionBarActivity {
                         button116.setBackgroundColor(Color.GREEN);
                     }
                 });
+                break;
+            case 12:
+//                SeekBar sb = new SeekBar(this);
+//                sb.setId(11201);
+//                RelativeLayout.LayoutParams lParams12 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+//                mainLayout.addView(sb, lParams12);
+//                sb.setFocusable(true);
+//                sb.setMax(200);
+//                sb.setMinimumHeight(3);
+//                sb.setProgress(100);
+                ImageViewImpl_12 myView12 = new ImageViewImpl_12(this);
+                mainLayout.addView(myView12);
                 break;
             default:
                 break;
