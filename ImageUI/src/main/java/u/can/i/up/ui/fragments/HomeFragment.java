@@ -13,6 +13,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+
+import android.support.v7.internal.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +34,12 @@ import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.ImageSetActivity;
 import u.can.i.up.ui.activities.LibiraryActivity;
 
-
 /**
- * A placeholder fragment containing a simple view.
+ * @author dongfeng
+ * @data 2015.06.13
+ * @sumary 主界面：用户进入的第一个界面
  */
+
 public class HomeFragment extends Fragment {
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     ImageView ivImage;
@@ -92,11 +96,15 @@ public class HomeFragment extends Fragment {
 //        gallery.setOnClickListener(this);
 //        cancel.setOnClickListener(this);
 //        ivImage = (ImageView)getView().findViewById(R.id.ivImage);
+
+
         final CharSequence[] items = { getString(R.string.dialog_choose_camera), getString(R.string.dialog_choose_picture),
                 getString(R.string.common_dialog_cancel_btn_text) };
 
+//        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.dialog));
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.dialog_setting_head_title));
+
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {

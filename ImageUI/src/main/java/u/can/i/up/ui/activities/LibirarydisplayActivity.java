@@ -18,9 +18,13 @@ import java.util.ArrayList;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.customViews.GridViewAdapter;
 import u.can.i.up.ui.customViews.ImageItem;
+
 /**
- * 素材展示界面
+ * @author dongfeng
+ * @data 2015.06.13
+ * @sumary 本地素材界面：列表显示素材概要
  */
+
 public class LibirarydisplayActivity extends AppCompatActivity {
     private GridView gridView;
     private GridViewAdapter gridAdapter;

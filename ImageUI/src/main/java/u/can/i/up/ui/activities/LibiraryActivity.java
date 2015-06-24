@@ -27,8 +27,13 @@ import android.widget.TextView;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.customViews.ListViewAdapter;
+import u.can.i.up.ui.fragments.CutoutFragment;
 
-
+/**
+ * @author dongfeng
+ * @data 2015.06.13
+ * @sumary 素材库主界面
+ */
 public class LibiraryActivity extends AppCompatActivity {
 
     @Override
@@ -104,7 +109,7 @@ public class LibiraryActivity extends AppCompatActivity {
                     .setTabListener(new ActionBar.TabListener() {
                         @Override
                         public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-                            fragmentTransaction.replace(android.R.id.content, new ListViewFragment());
+                            fragmentTransaction.replace(android.R.id.content, new CutoutFragment());
                         }
 
                         @Override

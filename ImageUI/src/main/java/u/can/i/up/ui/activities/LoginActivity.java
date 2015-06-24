@@ -30,8 +30,11 @@ import java.util.List;
 import u.can.i.up.ui.R;
 
 /**
- * A login screen that offers login via email/password.
+ * @author dongfeng
+ * @data 2015.06.13
+ * @sumary 登录界面
  */
+
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**

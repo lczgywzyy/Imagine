@@ -36,17 +36,21 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
+            android:name=".activities.CutoutActivity"
+            android:label="@string/title_activity_image_set" >
+        </activity>
+        <activity
             android:name=".activities.LibiraryActivity"
             android:label="@string/title_activity_libirary" >
+        </activity>
+        <activity
+            android:name=".activities.SplashActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".activities.SplashActivity"
-            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".activities.LibirarydisplayActivity"
@@ -55,6 +59,14 @@
         <activity
             android:name=".activities.LibiraryDetailActivity"
             android:label="@string/title_activity_libirary_detail" >
+        </activity>
+        <activity
+            android:name=".activities.ShareActivity"
+            android:label="@string/title_activity_share" >
+        </activity>
+        <activity
+            android:name=".activities.ImageAllocateActivity"
+            android:label="@string/title_activity_image_allocate" >
         </activity>
     </application>
 

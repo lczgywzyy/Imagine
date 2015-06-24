@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center|bottom"
+    android:background="@color/darkgray">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="519dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/margin"
+        android:paddingRight="@dimen/margin"
+        android:gravity="center">
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:text="选择要制作的素材分类"
+            android:textSize="@dimen/textsize_small"
+            android:gravity="bottom"
+            android:textColor="@color/darkgray">
+        </TextView>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:layout_marginTop="3dp">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@drawable/bg_gradual_change"/>
+        </LinearLayout>
+        <!-- 中间的BTN-->
+
+           <LinearLayout
+               android:layout_width="fill_parent"
+               android:layout_height="0dp"
+               android:layout_weight="128">
+               <LinearLayout
+                   style="@style/cutout_btn_layout">
+                   <CheckBox
+                       android:layout_width="@dimen/btn_outter"
+                       android:layout_height="@dimen/btn_outter"
+                       android:checked="true"
+                       android:button="@drawable/selector_common_pressed_white_hold"/>
+                   <TextView
+                       style="@style/cutout_btn_text"
+                       android:text="佛头"/>
+
+               </LinearLayout>
+               <LinearLayout
+                   style="@style/cutout_btn_layout">
+                   <CheckBox
+                       android:layout_width="@dimen/btn_outter"
+                       android:layout_height="@dimen/btn_outter"
+                       android:checked="true"
+                       android:button="@drawable/selector_common_pressed_white_hold"/>
+                   <TextView
+                       style="@style/cutout_btn_text"
+                       android:text="佛塔"/>
+
+               </LinearLayout>
+               <LinearLayout
+                   style="@style/cutout_btn_layout">
+                   <CheckBox
+                       android:layout_width="@dimen/btn_outter"
+                       android:layout_height="@dimen/btn_outter"
+                       android:checked="true"
+                       android:button="@drawable/selector_common_pressed_white_hold"/>
+                   <TextView
+                       style="@style/cutout_btn_text"
+                       android:text="背云"/>
+
+               </LinearLayout>
+               <LinearLayout
+                   style="@style/cutout_btn_layout">
+                   <CheckBox
+                       android:layout_width="@dimen/btn_outter"
+                       android:layout_height="@dimen/btn_outter"
+                       android:checked="true"
+                       android:button="@drawable/selector_common_pressed_white_hold"/>
+                   <TextView
+                       style="@style/cutout_btn_text"
+                       android:text="卡子"/>
+
+               </LinearLayout>
+               <LinearLayout
+                   style="@style/cutout_btn_layout">
+                   <CheckBox
+                       android:layout_width="@dimen/btn_outter"
+                       android:layout_height="@dimen/btn_outter"
+                       android:checked="true"
+                       android:button="@drawable/selector_common_pressed_white_hold"/>
+                   <TextView
+                       style="@style/cutout_btn_text"
+                       android:text="弟子珠"/>
+
+               </LinearLayout>
+
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="fill_parent"
+               android:layout_height="0dp"
+               android:layout_weight="128">
+               <LinearLayout
+                   style="@style/cutout_btn_layout">
+                   <ImageButton
+                       style="@style/cutout_btn"
+                       android:src="@drawable/icon_jishuqi"/>
+                   <TextView
+                       style="@style/cutout_btn_text"
+                       android:text="计数器"/>
+
+               </LinearLayout>
+               <LinearLayout
+                   style="@style/cutout_btn_layout">
+                   <ImageButton
+                       style="@style/cutout_btn"
+                       android:src="@drawable/icon_xiangzhu"/>
+                   <TextView
+                       style="@style/cutout_btn_text"
+                       android:text="项珠"/>
+
+               </LinearLayout>
+               <LinearLayout
+                   style="@style/cutout_btn_layout">
+                   <ImageButton
+                       style="@style/cutout_btn"
+                       android:src="@drawable/icon_shengjie"/>
+                   <TextView
+                       style="@style/cutout_btn_text"
+                       android:text="绳结"/>
+
+               </LinearLayout>
+               <LinearLayout
+                   style="@style/cutout_btn_layout">
+                   <ImageButton
+                       style="@style/cutout_btn"
+                       android:src="@drawable/icon_sanzhu"/>
+                   <TextView
+                       style="@style/cutout_btn_text"
+                       android:text="散珠"/>
+
+               </LinearLayout>
+               <LinearLayout
+                   style="@style/cutout_btn_layout">
+                   <ImageButton
+                       style="@style/cutout_btn"
+                       android:src="@drawable/icon_gepian"/>
+                   <TextView
+                       style="@style/cutout_btn_text"
+                       android:text="隔片"/>
+
+               </LinearLayout>
+
+           </LinearLayout>
+
+
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="52"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:text="输入素材信息"
+            android:textSize="@dimen/textsize_small"
+            android:textColor="@color/darkgray"
+            android:gravity="bottom">
+        </TextView>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:layout_marginTop="3dp">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@drawable/bg_gradual_change"/>
+        </LinearLayout>
+        <!-- 素材信息text-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="80"
+            android:orientation="horizontal"
+            android:gravity="center|left">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="名称："
+                android:textSize="@dimen/textsize_small"
+                android:textColor="@color/darkgray"/>
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="25dp"
+                android:textSize="@dimen/textsize_small"
+                android:background="@color/lightgray"
+                android:paddingLeft="@dimen/margin"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="80"
+            android:orientation="horizontal"
+            android:gravity="center|left">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="尺寸规格："
+                android:textSize="@dimen/textsize_small"
+                android:textColor="@color/darkgray"/>
+            <EditText
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:textSize="@dimen/textsize_small"
+                android:background="@color/lightgray"
+                android:gravity="center"
+                android:inputType="number"
+                android:numeric="integer"
+                android:maxLength="3"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mm"
+                android:textSize="@dimen/textsize_small"
+                android:textColor="@color/darkgray"
+
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="80"
+            android:orientation="horizontal"
+            android:gravity="center|left">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="材质："
+                android:textSize="@dimen/textsize_small"
+                android:textColor="@color/darkgray"/>
+            <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="25dp"
+                android:background="@color/lightgray">
+
+            </ListView>
+
+        </LinearLayout>
+        <!-- 开始btn-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="260"
+            android:gravity="center">
+            <Button
+                android:id="@+id/testcutout"
+                android:layout_width="105dp"
+                android:layout_height="40dp"
+                android:text="开始制作"
+                android:textSize="@dimen/textsize_medium"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_brightgreen_green_rectangle"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

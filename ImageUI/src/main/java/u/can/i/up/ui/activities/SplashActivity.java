@@ -7,7 +7,11 @@ import android.os.Handler;
 
 import u.can.i.up.ui.R;
 
-
+/**
+ * @author dongfeng
+ * @data 2015.06.13
+ * @sumary 启动闪屏页面
+ */
 public class SplashActivity extends Activity {
     // Splash screen timer
     String now_playing, earned;

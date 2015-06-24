@@ -10,6 +10,12 @@ import android.widget.TextView;
 
 import u.can.i.up.ui.R;
 
+/**
+ * @author dongfeng
+ * @data 2015.06.13
+ * @sumary 素材详细页面：展示素材详细信息
+ */
+
 public class LibiraryDetailActivity extends ActionBarActivity {
 
     @Override

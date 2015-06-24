@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/match_1_framelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="770"
+        android:orientation="horizontal"
+        android:background="@color/transparent"
+        android:layout_alignParentTop="true"
+        >
+    <ImageView
+        android:id="@+id/share_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    </FrameLayout>
+
+    <!--下方工具栏-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="510"
+        android:background="@drawable/bg_gradual_change"
+        android:orientation="vertical"
+        android:gravity="center">
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"/>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="96">
+            <ImageButton
+                android:id="@+id/cutout_1_close_btn"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:padding="@dimen/btn_padding"
+                android:layout_width="@dimen/btn_outter"
+                android:layout_height="@dimen/btn_outter"
+                android:src="@drawable/icon_back"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true" />
+            <ImageView
+                android:padding="@dimen/btn_padding"
+                android:layout_width="@dimen/btn_outter"
+                android:layout_height="@dimen/btn_outter"
+                android:src="@drawable/icon_done"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="60"
+            android:text="已保存到你的相册中"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_medium"
+            android:gravity="center"/>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="74"
+            android:gravity="center|bottom">
+            <View
+                android:layout_width="105dp"
+                android:layout_height="1dp"
+                android:background="@color/lightgray"
+                android:layout_marginBottom="7dp"/>
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="fill_parent"
+                android:text="分享至"
+                android:textSize="@dimen/textsize_micro"
+                android:gravity="center|bottom"
+                android:textColor="@color/lightgray"
+                />
+            <View
+                android:layout_width="105dp"
+                android:layout_height="1dp"
+                android:background="@color/lightgray"
+                android:layout_marginBottom="7dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="72"
+            android:gravity="center">
+
+            <ImageButton
+                style="@style/match_3_btn"
+                android:src="@drawable/icon_weixin" />
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <ImageButton
+                style="@style/match_3_btn"
+                android:src="@drawable/icon_pengyouquan" />
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <ImageButton
+                style="@style/match_3_btn"
+                android:src="@drawable/icon_qq" />
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <ImageButton
+                style="@style/match_3_btn"
+                android:src="@drawable/icon_weibo" />
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <ImageButton
+                style="@style/match_3_btn"
+                android:src="@drawable/icon_facebook" />
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <ImageButton
+                style="@style/match_3_btn"
+                android:src="@drawable/icon_twitter" />
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <ImageButton
+                style="@style/match_3_btn"
+                android:src="@drawable/icon_instagram" />
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <ImageButton
+                style="@style/match_3_btn"
+                android:src="@drawable/icon_fenxiang" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:gravity="center|top">
+            <TextView
+                style="@style/match_3_btn_text"
+                android:text="微信"/>
+            <Space
+
+                style="@style/match_3_space_between_btn" />
+            <TextView
+                style="@style/match_3_btn_text"
+                android:text="朋友圈"/>
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <TextView
+                style="@style/match_3_btn_text"
+                android:text="QQ"/>
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <TextView
+                style="@style/match_3_btn_text"
+                android:text="新浪微博"/>
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <TextView
+                style="@style/match_3_btn_text"
+                android:text="Facebook"
+                android:textSize="7sp"/>
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <TextView
+                style="@style/match_3_btn_text"
+                android:text="Twitter"/>
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <TextView
+                style="@style/match_3_btn_text"
+                android:textSize="7sp"
+                android:text="Instagram"/>
+            <Space
+                style="@style/match_3_space_between_btn" />
+            <TextView
+                style="@style/match_3_btn_text"
+                android:text="分享更多"/>
+
+
+        </LinearLayout>
+       <LinearLayout
+           android:layout_width="fill_parent"
+           android:layout_height="0dp"
+           android:layout_weight="132"
+           android:gravity="center">
+           <Button
+               android:layout_width="70dp"
+               android:layout_height="27dp"
+               android:background="@drawable/selector_common_pressed_whiteframe"
+               android:text="返回首页"
+               android:textSize="@dimen/textsize_small"
+               android:textColor="@color/white"
+               />
+
+       </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

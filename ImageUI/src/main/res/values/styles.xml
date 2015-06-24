@@ -98,4 +98,59 @@
     <!-- Backward-compatible version of ?android:attr/buttonBarButtonStyle -->
     <style name="ButtonBarButton" />
 
+    <!-- match_3-->
+
+    <!-- 分享按键之间的间隔-->
+    <style name="match_3_space_between_btn">
+        <item name="android:layout_width">@dimen/match_3_margen_between_btn</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+
+    <!-- 分享按钮-->
+    <style name="match_3_btn">
+        <item name="android:layout_height">@dimen/action_btn</item>
+        <item name="android:layout_width">@dimen/action_btn</item>
+        <item name="android:background">@drawable/selector_common_pressed_50_back</item>
+    </style>
+    <!-- 分享文字-->
+    <style name="match_3_btn_text">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">@dimen/action_btn</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">@color/lightgray</item>
+        <item name="android:gravity">center|top</item>
+    </style>
+
+
+    <!-- fragment_cutout-->
+    <!--按钮的布局 -->
+    <style name="cutout_btn_layout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <!-- 按钮-->
+    <style name="cutout_btn">
+        <item name="android:layout_width">@dimen/btn_outter</item>
+        <item name="android:layout_height">@dimen/btn_outter</item>
+        <item name="android:padding">@dimen/btn_padding</item>
+        <item name="android:background">@drawable/selector_common_pressed_white_hold</item>
+    </style>
+    <!-- 按钮文字-->
+    <style name="cutout_btn_text">
+        <item name="android:layout_width">@dimen/btn_outter</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center|top</item>
+        <item name="android:textColor">@color/darkgray</item>
+        <item name="android:textSize">@dimen/textsize_tiny</item>
+    </style>
+
+
+    <style name="dialog">
+        <item name="android:background">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
 </resources>

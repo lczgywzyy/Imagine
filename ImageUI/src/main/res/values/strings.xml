@@ -28,7 +28,7 @@
     <string name="typeface_roboto_medium">Roboto-Medium</string>
 
     <!-- picture select dialog names -->
-    <string name="dialog_setting_head_title">请选择</string>
+    <string name="dialog_setting_head_title">请选择底图</string>
     <string name="dialog_choose_camera">拍照</string>
     <string name="dialog_choose_picture">从相册导入</string>
     <string name="common_dialog_cancel_btn_text">取消</string>
@@ -82,6 +82,8 @@
         <item>@drawable/demo9</item>
     </string-array>
     <string name="title_activity_libirary_detail">LibiraryDetailActivity</string>
+    <string name="title_activity_share">ShareActivity</string>
+    <string name="title_activity_image_allocate">ImageAllocateActivity</string>
 
 
 

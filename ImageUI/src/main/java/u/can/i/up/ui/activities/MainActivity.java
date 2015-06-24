@@ -24,9 +24,9 @@ import u.can.i.up.ui.utils.UtilsDevice;
 import u.can.i.up.ui.utils.UtilsMiscellaneous;
 
 /**
- * Main class hosting the navigation drawer
- *
- * @author Sotti https://plus.google.com/+PabloCostaTirado/about
+ * @author dongfeng
+ * @data 2015.06.13
+ * @sumary 抽屉容器页面：构建抽屉和主界面容器
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {

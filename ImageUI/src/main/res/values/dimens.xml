@@ -59,10 +59,29 @@
     <dimen name="textsize_micro">12sp</dimen>
     <dimen name="textsize_tiny">10sp</dimen>
 
+    <!-- 尺寸-->
+    <dimen name="statusbar">25dp</dimen>
+    <dimen name="actionbar">48dp</dimen>
+    <dimen name="menubar">48dp</dimen>
+    <dimen name="btn_outter">48dp</dimen>
+    <dimen name="btn_padding">10dp</dimen>
+    <dimen name="sys_btn">24dp</dimen>
+    <dimen name="action_btn">32dp</dimen>
+    <dimen name="btn_small">15dp</dimen>
     <!-- margin-->
     <dimen name="margin">16dp</dimen>
     <!-- login-->
     <dimen name="login_margin">42dp</dimen>
     <dimen name="login_logo">87dp</dimen>
+    <!-- match_1-->
+    <dimen name="match_1_scroll_height">16dp</dimen>
+    <dimen name="match_1_scroll_margin_vertical">8dp</dimen>
+    <dimen name="match_1_scroll_margin_horizental">16dp</dimen>
+    <!-- cutout_1-->
+    <dimen name="cutout_1_margen_between_btn">4dp</dimen>
+
+    <!-- match_3-->
+    <dimen name="match_3_margen_between_btn">5dp</dimen>
+
 
 </resources>
