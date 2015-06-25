@@ -54,8 +54,6 @@ public class ImageViewImpl_11 extends View {
     float y_down = 0;
     float oldDist = 1f;
     float newDist = 1f;
-//    float deltaX = 0;
-//    float deltaY = 0;
     float deltaScale = 1;
     float lastDeltaScale = 1;
     float totalScale = 1;
@@ -67,7 +65,12 @@ public class ImageViewImpl_11 extends View {
     Context mContext;
 
     private Canvas mCanvas;
+    /*  在主Canvas上绘制用的画笔
+    * */
     private Paint mPaint = new Paint();
+    /*  在mLayer上绘制可缩放圆形的画笔
+    * */
+    private Paint mPaintCircle = new Paint();
     private Bitmap mBitmap;
     private Bitmap mLayer;
     private Matrix matrix = new Matrix();
@@ -79,6 +82,12 @@ public class ImageViewImpl_11 extends View {
 
     RectF rectMotionPre = null;
     RectF rectMotion = null;
+
+    /*  用来标记点击出现的小圆
+    * */
+    private Boolean tmpCircleFlag = false;
+    private float tmpCircleRadius = 100L;
+    private float tmpCircleRadiusRatio = 1L;
 
     public ImageViewImpl_11(Context context) {
         super(context);
@@ -106,12 +115,20 @@ public class ImageViewImpl_11 extends View {
 
         mPaint.setStyle(Paint.Style.STROKE);   //空心
         mPaint.setAlpha(45);   //
+
+        mPaintCircle.setColor(Color.GREEN);// 設置綠色
+        mPaintCircle.setAlpha(30);
         canvas.drawBitmap(mLayer, matrix, mPaint);
+        if (tmpCircleFlag){
+            canvas.drawCircle(x_down, y_down, tmpCircleRadius * tmpCircleRadiusRatio, mPaintCircle);// 小圓
+        }
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        tmpCircleFlag = false;
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            // 主点按下
+            /*  第一个手指按下手势
+            * */
             case MotionEvent.ACTION_DOWN:
                 Log.i(TAG, "ACTION_DOWN");
                 mode = DRAG;
@@ -119,6 +136,8 @@ public class ImageViewImpl_11 extends View {
                 y_down = event.getY();
                 savedMatrix.set(matrix);
                 break;
+            /*  第二个手指按下手势，与第一个手指的位置共同确定缩放中心。
+            * */
             case MotionEvent.ACTION_POINTER_DOWN:
                 Log.i(TAG, "ACTION_POINTER_DOWN");
                 mode = ZOOM;
@@ -131,13 +150,21 @@ public class ImageViewImpl_11 extends View {
                 mid_org.x = (mid_org.x == 0) ? mid.x: mid_org.x;
                 mid_org.y = (mid_org.y == 0) ? mid.y: mid_org.y;
                 break;
+            /*  第一个手指抬起手势，没有做任何实质操作
+            * */
             case MotionEvent.ACTION_UP:
                 Log.i(TAG, "ACTION_UP");
                 if(mode == DRAG && !isDrawing){
-//                    deltaX += event.getX() - x_down;
-//                    deltaY += event.getY() - y_down;
+
+                }
+                if(mode == DRAG && x_down == event.getX() && y_down == event.getY()){
+                    Log.i(TAG, "Quick Click...");
+                    tmpCircleFlag = true;
+                    invalidate();
                 }
                 break;
+            /*  第二个手指抬起手势，第二个手指的位置能够判定是是否进行了缩放。
+            * */
             case MotionEvent.ACTION_POINTER_UP:
                 Log.i(TAG, "ACTION_POINTER_UP");
                 if (mode == ZOOM){
@@ -146,40 +173,62 @@ public class ImageViewImpl_11 extends View {
                     totalScale = totalScale * deltaScale;
                 }
                 break;
+            /* 滑动手势
+            * */
             case MotionEvent.ACTION_MOVE:
+                /* 缩放模式
+                * */
                 if (mode == ZOOM){
                     matrix1.set(savedMatrix);
 //                    float rotation = rotation(event) - oldRotation;
+                    /*  计算距离和缩放比
+                    * */
                     newDist = spacing(event);
                     float scale = newDist / oldDist;
 //                    Log.i(TAG, "scale:" + scale);
+                    /*  使用matrix对图片进行处理
+                    * */
                     matrix1.postScale(scale, scale, mid.x, mid.y);// 縮放
 //                    matrix1.postRotate(rotation, mid.x, mid.y);// 旋轉
                     matrixCheck = matrixCheck();
                     if (matrixCheck == false) {
                         matrix.set(matrix1);
+                        /*  使用rectMotion记录现在图片的位置、缩放程度等等；
+                        * */
                         matrix.mapRect(rectMotion, rectMotionPre);
 //                        Log.i(TAG, "rectMotion_LEFT:" + rectMotion.left);
 //                        Log.i(TAG, "rectMotion_TOP:" + rectMotion.top);
                         invalidate();
                     }
-                }else if(mode == DRAG && !isDrawing){
+                }
+                /*  拖拽模式
+                * */
+                else if(mode == DRAG && !isDrawing){
                     matrix1.set(savedMatrix);
                     matrix1.postTranslate(event.getX() - x_down, event.getY() - y_down);// 平移
                     matrixCheck = matrixCheck();
                     if (matrixCheck == false) {
                         matrix.set(matrix1);
+                        /*  使用rectMotion记录现在图片的位置、缩放程度等等；
+                        * */
                         matrix.mapRect(rectMotion, rectMotionPre);
 //                        Log.i(TAG, "rectMotion_LEFT:" + rectMotion.left);
 //                        Log.i(TAG, "rectMotion_TOP:" + rectMotion.top);
                         invalidate();
                     }
-                } else if(isDrawing) {
+                }
+                /*  描点模式
+                * */
+                else if(isDrawing) {
                     float newX = event.getX();
                     float newY = event.getY();
                     int tureX = (int) ((newX - rectMotion.left) / totalScale);
                     int tureY = (int) ((newY - rectMotion.top) / totalScale);
+                    /*  使用画笔进行涂抹
+                    * */
                     if (paintType == PAINTING) {
+                        /*  圆形
+                        * */
                         if (paintShape == CIRCLE) {
                             for (int i = 0 - (int) (SideLenth / totalScale); i < (int) (SideLenth / totalScale); i++) {
                                 for (int j = 0 - (int) (SideLenth / totalScale); j < (int) (SideLenth / totalScale); j++) {
@@ -188,15 +237,23 @@ public class ImageViewImpl_11 extends View {
                                     }
                                 }
                             }
-                        } else if (paintShape == SQUARE) {
+                        }
+                        /*  方形
+                        * */
+                        else if (paintShape == SQUARE) {
                             for (int i = 0 - (int) (SideLenth / totalScale); i < (int) (SideLenth / totalScale); i++) {
                                 for (int j = 0 - (int) (SideLenth / totalScale); j < (int) (SideLenth / totalScale); j++) {
                                     SectionPixels[(tureY + j) * mBitmap.getWidth() + (tureX + i)] = Color.RED;
                                 }
                             }
                         }
+                        /*  将描的区域上色
+                        * */
                         mLayer.setPixels(SectionPixels, 0, mBitmap.getWidth(), 0, 0, mBitmap.getWidth(), mBitmap.getHeight());
-                    } else if (paintType == ERASER){
+                    }
+                    /*  使用橡皮进行涂抹
+                    * */
+                    else if (paintType == ERASER){
                         if (paintShape == CIRCLE) {
                             for (int i = 0 - (int) (SideLenth / totalScale); i < (int) (SideLenth / totalScale); i++) {
                                 for (int j = 0 - (int) (SideLenth / totalScale); j < (int) (SideLenth / totalScale); j++) {
@@ -212,6 +269,8 @@ public class ImageViewImpl_11 extends View {
                                 }
                             }
                         }
+                        /*  将描的区域设置为空
+                        * */
                         mLayer.setPixels(SectionPixels, 0, mBitmap.getWidth(), 0, 0, mBitmap.getWidth(), mBitmap.getHeight());
                     }
                     invalidate();

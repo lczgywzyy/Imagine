@@ -1,83 +1,68 @@
 package u.can.i.up.imagine;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.graphics.Point;
-import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.graphics.Matrix;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import u.can.i.up.utils.image.ImageUtils;
 
 /**
  * Created by lczgywzyy on 2015/5/31.
  */
-public class ImageViewImpl_10 extends View {
+public class ImageViewImpl_12 extends View {
 
-    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_10.class;
-    private static final String FromPath = ".1FromPath";
-    private static final String ToPath = ".2ToPath";
+    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_12.class;
+    private static final String FromPath = ".1FromPath/ImageView12";
+    private static final String ToPath = ".2ToPath/ImageView12";
+
+    private float mScale = 0.8f;
 
     Context context = null;
-    Matrix matrixPaint = null;
-    Bitmap bmpMotion = null;
-    Bitmap bmpRotate = null;
+//    Matrix matrixPaint = null;
+    Matrix matrixCirclePaint = null;
+    Bitmap bmpCircle = null;
     Bitmap bmpBack = null;
 
-    RectF rectMotionPre = null;
-    RectF rectMotion = null;
-    RectF rectRotateMark = null;
-    RectF rectRotatePre = null;
-    RectF rectRotate = null;
+    RectF rectCirclePre = null;
+    RectF rectCircle = null;
 
     Paint paint = null;
     PaintFlagsDrawFilter paintFilter = null;
     ViewStatus status = ViewStatus.STATUS_MOVE;
 
-    PointF pointMotionMid = null;
+    PointF pointCircleMid = null;
+    PointF pointBgMid = null;
     PointF prePoint = null;
     PointF curPoint = null;
-    PointF rotateCenterP = null;
-
-    String savePathAll = null;
-    String savePathCovered = null;
 
     enum ViewStatus{
         STATUS_ROTATE,
         STATUS_MOVE,
     }
 
-    public ImageViewImpl_10(Context context) {
+    public ImageViewImpl_12(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
         this.context = context;
         //创建变幻图形用的Matrix
-        matrixPaint = new Matrix();
+        matrixCirclePaint = new Matrix();
         //创建画笔
         paint = new Paint();
         //画笔抗锯齿
@@ -86,58 +71,50 @@ public class ImageViewImpl_10 extends View {
         //设置画笔绘制空心图形
         paint.setStyle(Paint.Style.STROKE);
         //加载相应的图片资源
-        bmpMotion = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/motion10.png").getAbsolutePath());
-        bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageView10_bg.png").getAbsolutePath());
-        bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
+        bmpCircle = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageView12_circle2.png").getAbsolutePath());
+        bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageView12_bg2.png").getAbsolutePath());
 
-        //记录表情最初的矩形
-        rectMotionPre = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
-        //记录表情当前的矩形
-        rectMotion = new RectF(rectMotionPre);
-        //标记旋转图标位置的矩形
-        rectRotateMark = new RectF(rectMotion.right,
-                rectMotion.bottom,
-                rectMotion.right + bmpRotate.getWidth() / 2,
-                rectMotion.bottom + bmpRotate.getHeight() / 2);
-        //记录旋转图标矩形最初的矩形
-        rectRotatePre = new RectF(rectRotateMark);
-        //记录当前旋转图标位置的矩形
-        rectRotate = new RectF(rectRotateMark);
-        //记录表情矩形的中点
-        pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
+        //记录绳子最初的矩形
+        rectCirclePre = new RectF(0, 0, bmpCircle.getWidth(), bmpCircle.getHeight());
+        //记录绳子当前的矩形
+        rectCircle = new RectF(rectCirclePre);
+
+        //记录绳子矩形的中点
+        pointCircleMid = new PointF(bmpCircle.getWidth() / 2, bmpCircle.getHeight() / 2);
+        //记录背景矩形的中点
+        pointBgMid = new PointF(bmpBack.getWidth() / 2, bmpBack.getHeight() / 2);
+
         //记录上次动作的坐标
         prePoint = new PointF();
         //记录当前动作的坐标
         curPoint = new PointF();
-        //记录旋转图标中点
-        rotateCenterP = new PointF(rectMotion.right, rectMotion.bottom);
         //画布参数
         paintFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
 
-        savePathAll = new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageViewImpl_10_output_All.png").getAbsolutePath();
-        savePathCovered = new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageViewImpl_10_output_Covered.png").getAbsolutePath();
+        /* 对绳子图片进行平移，使两中点重合，然后以中点来缩放比例
+        * */
+        matrixCirclePaint.postTranslate(pointBgMid.x - pointCircleMid.x, pointBgMid.y - pointCircleMid.y);
+        matrixCirclePaint.postScale(mScale, mScale, pointBgMid.x, pointBgMid.y);
+        matrixCirclePaint.mapRect(rectCircle, rectCirclePre);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
-        Paint tmpPaint = new Paint();
-        tmpPaint.setAlpha(70);
-
         canvas.setDrawFilter(paintFilter);
+
+        /* 绘制背景
+        * */
         canvas.drawBitmap(bmpBack, 0, 0, paint);
-        canvas.drawBitmap(bmpMotion, matrixPaint, tmpPaint);
-        canvas.drawBitmap(bmpRotate, null, rectRotate, null);
-//		canvas.drawRect(rectPaint, paint);
-//		canvas.drawRect(rectRotate, paint);
-//		canvas.drawCircle(picMidPoint.x, picMidPoint.y, 5, paint);
+        canvas.drawBitmap(bmpCircle, matrixCirclePaint, null);
+
         super.onDraw(canvas);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
-        float x = event.getX();
+       /* float x = event.getX();
         float y = event.getY();
 
         switch (event.getAction()) {
@@ -196,68 +173,8 @@ public class ImageViewImpl_10 extends View {
                 break;
             default:
                 break;
-        }
+        }*/
         return true;
-    }
-
-    /**
-     * 将当前表情合并到背景并保存
-     */
-    public void saveBitmapAll() {
-        File f = new File(savePathAll);
-        //使用背景图的宽高创建一张bitmap
-        Bitmap bmpSave = Bitmap.createBitmap(bmpBack.getWidth(), bmpBack.getHeight(), Bitmap.Config.ARGB_8888);
-        //创建canvas
-        Canvas canvas = new Canvas(bmpSave);
-        //将背景图和表情画在bitmap上
-        canvas.drawBitmap(bmpBack, 0, 0, paint);
-        canvas.drawBitmap(bmpMotion, matrixPaint, paint);
-        //保存bitmap
-//		canvas.save(Canvas.ALL_SAVE_FLAG);
-//		canvas.restore();
-        try{
-            FileOutputStream out = new FileOutputStream(f);
-            bmpSave.compress(Bitmap.CompressFormat.PNG, 100, out);
-            out.flush();
-            out.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        bmpBack.recycle();
-//        bmpBack = bmpSave;
-//        //重置Matrix
-//        matrixPaint.reset();
-//        //重置旋转图标
-//        rectRotate.set(rectRotatePre);
-    }
-
-    /**
-     * 将当前表情合并到背景并保存
-     */
-    public void saveBitmapCovered() {
-        File f = new File(savePathCovered);
-        //使用背景图的宽高创建一张bitmap
-        Bitmap bmpSave = Bitmap.createBitmap(bmpBack.getWidth(), bmpBack.getHeight(), Bitmap.Config.ARGB_8888);
-        //创建canvas
-        Canvas canvas = new Canvas(bmpSave);
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-
-        //将背景图和表情画在bitmap上
-        canvas.drawBitmap(bmpMotion, matrixPaint, null);
-        canvas.drawBitmap(bmpBack, 0, 0, paint);
-
-        paint.setXfermode(null);
-
-        int[] pixels = new int[bmpSave.getHeight() * bmpSave.getWidth()];
-        bmpSave.getPixels(pixels, 0, bmpSave.getWidth(), 0, 0, bmpSave.getWidth(), bmpSave.getHeight());
-
-        ImageUtils.extractImageFromBitmapPixels(bmpSave, pixels, savePathCovered, false);
-        bmpBack.recycle();
     }
 
     //根据矩形获取中心点
