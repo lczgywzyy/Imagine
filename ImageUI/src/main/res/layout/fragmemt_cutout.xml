@@ -22,7 +22,7 @@
             android:layout_height="0dp"
             android:layout_weight="50"
             android:text="选择要制作的素材分类"
-            android:textSize="@dimen/textsize_small"
+            android:textSize="@dimen/textsize_medium"
             android:gravity="bottom"
             android:textColor="@color/darkgray">
         </TextView>
@@ -43,12 +43,13 @@
                android:layout_height="0dp"
                android:layout_weight="128">
                <LinearLayout
-                   style="@style/cutout_btn_layout">
+                   style="@style/cutout_btn_layout"
+                   android:layout_gravity="center">
                    <CheckBox
-                       android:layout_width="@dimen/btn_outter"
-                       android:layout_height="@dimen/btn_outter"
-                       android:checked="true"
-                       android:button="@drawable/selector_common_pressed_white_hold"/>
+                       style="@style/cutout_btn"
+                       android:button="@null"
+                       android:paddingLeft="10dp"
+                       android:drawableLeft="@drawable/icon_fotou"/>
                    <TextView
                        style="@style/cutout_btn_text"
                        android:text="佛头"/>
@@ -57,10 +58,10 @@
                <LinearLayout
                    style="@style/cutout_btn_layout">
                    <CheckBox
-                       android:layout_width="@dimen/btn_outter"
-                       android:layout_height="@dimen/btn_outter"
-                       android:checked="true"
-                       android:button="@drawable/selector_common_pressed_white_hold"/>
+                       style="@style/cutout_btn"
+                       android:button="@null"
+                       android:paddingLeft="8dp"
+                       android:drawableLeft="@drawable/icon_fota"/>
                    <TextView
                        style="@style/cutout_btn_text"
                        android:text="佛塔"/>
@@ -69,10 +70,10 @@
                <LinearLayout
                    style="@style/cutout_btn_layout">
                    <CheckBox
-                       android:layout_width="@dimen/btn_outter"
-                       android:layout_height="@dimen/btn_outter"
-                       android:checked="true"
-                       android:button="@drawable/selector_common_pressed_white_hold"/>
+                       style="@style/cutout_btn"
+                       android:button="@null"
+                       android:paddingLeft="8dp"
+                       android:drawableLeft="@drawable/icon_beiyun"/>
                    <TextView
                        style="@style/cutout_btn_text"
                        android:text="背云"/>
@@ -81,10 +82,10 @@
                <LinearLayout
                    style="@style/cutout_btn_layout">
                    <CheckBox
-                       android:layout_width="@dimen/btn_outter"
-                       android:layout_height="@dimen/btn_outter"
-                       android:checked="true"
-                       android:button="@drawable/selector_common_pressed_white_hold"/>
+                       style="@style/cutout_btn"
+                       android:button="@null"
+                       android:paddingLeft="10dp"
+                       android:drawableLeft="@drawable/icon_qiazi"/>
                    <TextView
                        style="@style/cutout_btn_text"
                        android:text="卡子"/>
@@ -93,10 +94,10 @@
                <LinearLayout
                    style="@style/cutout_btn_layout">
                    <CheckBox
-                       android:layout_width="@dimen/btn_outter"
-                       android:layout_height="@dimen/btn_outter"
-                       android:checked="true"
-                       android:button="@drawable/selector_common_pressed_white_hold"/>
+                       style="@style/cutout_btn"
+                       android:button="@null"
+                       android:paddingLeft="12dp"
+                       android:drawableLeft="@drawable/icon_dizizhu"/>
                    <TextView
                        style="@style/cutout_btn_text"
                        android:text="弟子珠"/>
@@ -110,9 +111,11 @@
                android:layout_weight="128">
                <LinearLayout
                    style="@style/cutout_btn_layout">
-                   <ImageButton
+                   <CheckBox
                        style="@style/cutout_btn"
-                       android:src="@drawable/icon_jishuqi"/>
+                       android:button="@null"
+                       android:paddingLeft="18dp"
+                       android:drawableLeft="@drawable/icon_jishuqi"/>
                    <TextView
                        style="@style/cutout_btn_text"
                        android:text="计数器"/>
@@ -120,9 +123,11 @@
                </LinearLayout>
                <LinearLayout
                    style="@style/cutout_btn_layout">
-                   <ImageButton
+                   <CheckBox
                        style="@style/cutout_btn"
-                       android:src="@drawable/icon_xiangzhu"/>
+                       android:button="@null"
+                       android:paddingLeft="15dp"
+                       android:drawableLeft="@drawable/icon_xiangzhu"/>
                    <TextView
                        style="@style/cutout_btn_text"
                        android:text="项珠"/>
@@ -130,9 +135,11 @@
                </LinearLayout>
                <LinearLayout
                    style="@style/cutout_btn_layout">
-                   <ImageButton
+                   <CheckBox
                        style="@style/cutout_btn"
-                       android:src="@drawable/icon_shengjie"/>
+                       android:button="@null"
+                       android:paddingLeft="16dp"
+                       android:drawableLeft="@drawable/icon_shengjie"/>
                    <TextView
                        style="@style/cutout_btn_text"
                        android:text="绳结"/>
@@ -140,9 +147,11 @@
                </LinearLayout>
                <LinearLayout
                    style="@style/cutout_btn_layout">
-                   <ImageButton
+                   <CheckBox
                        style="@style/cutout_btn"
-                       android:src="@drawable/icon_sanzhu"/>
+                       android:button="@null"
+                       android:paddingLeft="8dp"
+                       android:drawableLeft="@drawable/icon_sanzhu"/>
                    <TextView
                        style="@style/cutout_btn_text"
                        android:text="散珠"/>
@@ -150,9 +159,11 @@
                </LinearLayout>
                <LinearLayout
                    style="@style/cutout_btn_layout">
-                   <ImageButton
+                   <CheckBox
                        style="@style/cutout_btn"
-                       android:src="@drawable/icon_gepian"/>
+                       android:button="@null"
+                       android:paddingLeft="9dp"
+                       android:drawableLeft="@drawable/icon_gepian"/>
                    <TextView
                        style="@style/cutout_btn_text"
                        android:text="隔片"/>
@@ -165,13 +176,13 @@
         <Space
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="52"/>
+            android:layout_weight="30"/>
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="50"
             android:text="输入素材信息"
-            android:textSize="@dimen/textsize_small"
+            android:textSize="@dimen/textsize_medium"
             android:textColor="@color/darkgray"
             android:gravity="bottom">
         </TextView>
@@ -201,8 +212,9 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="25dp"
+                android:textColor="@color/darkgray"
                 android:textSize="@dimen/textsize_small"
-                android:background="@color/lightgray"
+                android:background="@color/transparentbrightgreen"
                 android:paddingLeft="@dimen/margin"/>
 
         </LinearLayout>
@@ -222,7 +234,8 @@
                 android:layout_width="60dp"
                 android:layout_height="25dp"
                 android:textSize="@dimen/textsize_small"
-                android:background="@color/lightgray"
+                android:textColor="@color/darkgray"
+                android:background="@color/transparentbrightgreen"
                 android:gravity="center"
                 android:inputType="number"
                 android:numeric="integer"
@@ -253,7 +266,7 @@
             <ListView
                 android:layout_width="fill_parent"
                 android:layout_height="25dp"
-                android:background="@color/lightgray">
+                android:background="@color/transparentbrightgreen">
 
             </ListView>
 

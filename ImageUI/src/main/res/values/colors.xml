@@ -88,5 +88,6 @@
 
 
     <color name="transparence_50_black">#5f000000</color>
+    <color name="transparentbrightgreen">#3f0bab4f</color>
 
 </resources>
