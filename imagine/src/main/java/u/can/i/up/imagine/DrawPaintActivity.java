@@ -4,12 +4,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -497,6 +500,44 @@ public class DrawPaintActivity extends ActionBarActivity {
 //                sb.setProgress(100);
                 ImageViewImpl_12 myView12 = new ImageViewImpl_12(this);
                 mainLayout.addView(myView12);
+                break;
+            case 13:
+                final EditText editText131 = new EditText(this);
+                editText131.setId(11301);
+                editText131.setHint("请输入素珠个数：");
+                //android:numeric
+                //integer 0x01 Input is numeric.
+                //signed 0x03 Input is numeric, with sign allowed.
+                //decimal 0x05 Input is numeric, with decimals allowed.
+//                editText131.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                editText131.setInputType(InputType.TYPE_CLASS_NUMBER);
+                RelativeLayout.LayoutParams lParams131 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                mainLayout.addView(editText131, lParams131);
+                editText131.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        int withs = editText131.getWidth();
+                        editText131.setHint(null);
+                        editText131.setWidth(withs);
+                    }
+                });
+
+                final Button button132 = new Button(this);
+                button132.setId(11302);
+                button132.setText("确定");
+                RelativeLayout.LayoutParams lParams132 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams132.addRule(RelativeLayout.RIGHT_OF, 11301);
+                mainLayout.addView(button132, lParams132);
+                button132.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Log.i(TAG, "" + editText131.getText());
+                    }
+                });
+
+                ImageViewImpl_13 myView13 = new ImageViewImpl_13(this);
+                myView13.setId(11303);
+                RelativeLayout.LayoutParams lParams133 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams133.addRule(RelativeLayout.BELOW, 11301);
+                mainLayout.addView(myView13, lParams133);
                 break;
             default:
                 break;
