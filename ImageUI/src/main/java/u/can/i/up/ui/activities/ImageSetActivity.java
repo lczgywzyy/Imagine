@@ -39,7 +39,7 @@ public class ImageSetActivity extends Activity {
         setover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), ShareActivity.class);
+                Intent i = new Intent(view.getContext(), ImageAllocateActivity.class);
                 i.putExtra("picture", byteArray);
                 startActivity(i);
 //                startActivity(new Intent(view.getContext(), ShareActivity.class));

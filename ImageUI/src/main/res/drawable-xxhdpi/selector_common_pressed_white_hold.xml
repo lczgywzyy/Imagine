@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector
   xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:state_window_focused="false" android:state_enabled="true" android:state_checked="true" android:drawable="@color/green" />
-  <item android:state_window_focused="false" android:state_enabled="true" android:state_checked="false" android:drawable="@color/darkgray" />
-  <item android:state_enabled="true" android:state_checked="true" android:state_pressed="true" android:drawable="@color/blue" />
-  <item android:state_enabled="true" android:state_checked="false" android:state_pressed="true" android:drawable="@color/yellowgreen" />
-  <item android:state_focused="true" android:state_enabled="true" android:state_checked="true" android:drawable="@color/lightgray" />
-  <item android:state_focused="true" android:state_enabled="true" android:state_checked="false" android:drawable="@color/lightblue" />
-  <item android:state_enabled="true" android:state_checked="false" android:drawable="@color/darkgray" />
-  <item android:state_enabled="true" android:state_checked="true" android:drawable="@color/green" />
+  <item android:state_window_focused="false"
+      android:state_enabled="true"
+      android:state_checked="true"
+      android:drawable="@color/transparentbrightgreen" />
+ <item android:state_focused="true"
+      android:state_enabled="true"
+      android:state_checked="true"
+      android:drawable="@color/transparentbrightgreen" />
+  <item android:state_focused="true"
+      android:state_enabled="true"
+      android:state_checked="false"
+      android:drawable="@color/transparent" />
+  <item android:state_enabled="true"
+      android:state_checked="false"
+      android:drawable="@color/transparent" />
+  <item android:state_enabled="true"
+      android:state_checked="true"
+      android:drawable="@color/transparentbrightgreen" />
 </selector>
