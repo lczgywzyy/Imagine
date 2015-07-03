@@ -504,7 +504,8 @@ public class DrawPaintActivity extends ActionBarActivity {
             case 13:
                 final EditText editText131 = new EditText(this);
                 editText131.setId(11301);
-                editText131.setHint("请输入素珠个数：");
+                editText131.setHintTextColor(Color.GRAY);
+                editText131.setHint("请输入素珠个数(10-120)：");
                 //android:numeric
                 //integer 0x01 Input is numeric.
                 //signed 0x03 Input is numeric, with sign allowed.
@@ -527,17 +528,30 @@ public class DrawPaintActivity extends ActionBarActivity {
                 RelativeLayout.LayoutParams lParams132 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
                 lParams132.addRule(RelativeLayout.RIGHT_OF, 11301);
                 mainLayout.addView(button132, lParams132);
-                button132.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Log.i(TAG, "" + editText131.getText());
-                    }
-                });
 
-                ImageViewImpl_13 myView13 = new ImageViewImpl_13(this);
+                final ImageViewImpl_13 myView13 = new ImageViewImpl_13(this);
                 myView13.setId(11303);
                 RelativeLayout.LayoutParams lParams133 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
                 lParams133.addRule(RelativeLayout.BELOW, 11301);
                 mainLayout.addView(myView13, lParams133);
+
+                button132.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+//                        Log.i(TAG, "" + editText131.getText());
+                        int inputNum = Integer.parseInt(editText131.getText().toString());
+                        editText131.setText(null);
+                        if(inputNum >= 10 && inputNum <=120){
+                            editText131.setHintTextColor(Color.GRAY);
+                            editText131.setHint("请输入素珠个数(10-120)：");
+                            myView13.updateImage(inputNum);
+                        } else {
+                            int withs = editText131.getWidth();
+                            editText131.setHintTextColor(Color.RED);
+                            editText131.setHint("请输入素珠个数(10-120)：");
+                            editText131.setWidth(withs);
+                        }
+                    }
+                });
                 break;
             default:
                 break;
