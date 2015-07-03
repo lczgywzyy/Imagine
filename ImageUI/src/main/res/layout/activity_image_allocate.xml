@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
-        android:id="@+id/match_1_framelayout"
+        android:id="@+id/allocate_1_framelayout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="816"
@@ -13,10 +13,14 @@
         android:background="@color/darkgray"
         android:layout_alignParentTop="true"
         >
-        <ImageView
-            android:id="@+id/ivImage2"
+        <RelativeLayout
+            android:id="@+id/allocate_2_framelayout"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"></RelativeLayout>
+        <!--<ImageView-->
+            <!--android:id="@+id/ivImage2"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent" />-->
         <RelativeLayout
             android:layout_gravity="bottom"
             android:id="@+id/match_1_middlebar"

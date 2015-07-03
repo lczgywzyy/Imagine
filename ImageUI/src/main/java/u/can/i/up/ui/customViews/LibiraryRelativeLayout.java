@@ -283,6 +283,35 @@ public class LibiraryRelativeLayout extends RelativeLayout
         }
     }
 
+//             @Override
+//    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+//        ChatEmoji emoji = (ChatEmoji) faceAdapters.get(current).getItem(arg2);
+//        if (emoji.getId() == R.drawable.face_del_icon) {
+//
+//
+////            int selection = et_sendmessage.getSelectionStart();
+////            String text = et_sendmessage.getText().toString();
+////            if (selection > 0) {
+////                String text2 = text.substring(selection - 1);
+////                if ("]".equals(text2)) {
+////                    int start = text.lastIndexOf("[");
+////                    int end = selection;
+////                    et_sendmessage.getText().delete(start, end);
+////                    return;
+////                }
+////                et_sendmessage.getText().delete(selection - 1, selection);
+////            }
+//        }
+//        if (!TextUtils.isEmpty(emoji.getCharacter())) {
+//            if (mListener != null)
+//                mListener.onCorpusSelected(emoji);
+//            SpannableString spannableString = FaceConversionUtil.getInstace()
+//                    .addFace(getContext(), emoji.getId(), emoji.getCharacter());
+//            et_sendmessage.append(spannableString);
+//        }
+//
+//    }
+
 //    @Override
 //    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 //        ChatEmoji emoji = (ChatEmoji) faceAdapters.get(current).getItem(arg2);

@@ -11,14 +11,20 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.factories.FaceConversionUtil;
 import u.can.i.up.ui.fragments.*;
+import u.can.i.up.ui.utils.ImageViewImpl_allocate;
 
 /**
  * @author dongfeng
@@ -69,23 +75,39 @@ public class ImageAllocateActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_allocate);
-
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
 
 
 //        final View controlsView = findViewById(R.id.fullscreen_content_controls);
 //        final View contentView = findViewById(R.id.ivImage);
-        ImageView logoview = (ImageView) findViewById(R.id.ivImage2);
+//        ImageView logoview = (ImageView) findViewById(R.id.ivImage2);
         ImageButton setover = (ImageButton)findViewById(R.id.match_2_continue);
         final byte[] byteArray = getIntent().getExtras().getByteArray("picture");
         final Bitmap image_bmp = BitmapFactory.decodeByteArray(byteArray, 0,
                 byteArray.length);
-        logoview.setImageBitmap(image_bmp);
+//        logoview.setImageBitmap(image_bmp);
+
+        final ImageViewImpl_allocate myView_allocate = new ImageViewImpl_allocate(this, image_bmp);
+        RelativeLayout.LayoutParams lParams52 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+        mainLayout.addView(myView_allocate,lParams52);
+
+
+
+//        Toast.makeText(getApplicationContext(), "导出到ImageViewImpl_10_output_All.png", Toast.LENGTH_SHORT).show();
 
         setover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Bitmap mypic = myView_allocate.saveBitmapAll();
+
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                mypic.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] bytepicture = baos.toByteArray();
+
                 Intent i = new Intent(view.getContext(), ShareActivity.class);
-                i.putExtra("picture", byteArray);
+                i.putExtra("picture", bytepicture);
                 startActivity(i);
 //                startActivity(new Intent(view.getContext(), ShareActivity.class));
             }
