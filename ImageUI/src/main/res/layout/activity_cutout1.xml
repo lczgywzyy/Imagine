@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
-        android:id="@+id/match_1_framelayout"
+        android:id="@+id/cutout_1_framelayout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="816"
@@ -13,6 +13,10 @@
         android:background="@color/darkgray"
         android:layout_alignParentTop="true"
         >
+        <RelativeLayout
+            android:id="@+id/cutout_2_framelayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"></RelativeLayout>
         <RelativeLayout
             android:id="@+id/match_1_middlebar"
             android:layout_gravity="bottom"
@@ -38,7 +42,7 @@
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true" />
             <ImageButton
-                android:id="@+id/cutout_1_continue"
+                android:id="@+id/cutout_1_setover"
                 android:background="@drawable/selector_common_pressed_50_back"
                 android:padding="@dimen/btn_padding"
                 android:layout_width="@dimen/btn_outter"
@@ -94,11 +98,13 @@
                     android:textSize="@dimen/textsize_small"
                     android:textColor="@color/darkgray"/>
                 <ImageButton
+                    android:id="@+id/square_paint"
                     android:layout_width="@dimen/action_btn"
                     android:layout_height="@dimen/action_btn"
                     android:src="@drawable/icon_cube"
                     android:background="@drawable/selector_common_pressed_white"/>
                 <ImageButton
+                    android:id="@+id/circle_paint"
                     android:layout_width="@dimen/action_btn"
                     android:layout_height="@dimen/action_btn"
                     android:src="@drawable/icon_round"
@@ -120,11 +126,13 @@
                     android:textSize="@dimen/textsize_small"
                     android:textColor="@color/darkgray"/>
                 <ImageButton
+                    android:id="@+id/square_eraze"
                     android:layout_width="@dimen/action_btn"
                     android:layout_height="@dimen/action_btn"
                     android:src="@drawable/icon_cube"
                     android:background="@drawable/selector_common_pressed_white"/>
                 <ImageButton
+                    android:id="@+id/circle_eraze"
                     android:layout_width="@dimen/action_btn"
                     android:layout_height="@dimen/action_btn"
                     android:src="@drawable/icon_round"

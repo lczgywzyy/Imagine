@@ -65,6 +65,9 @@ public class CutoutFragment extends Fragment {
                 startActivity(new Intent(view.getContext(), CutoutActivity.class));
             }
         });
+
+
+
 //        Button collocation_start = (Button)view.findViewById(R.id.collocation_start);
 //        Button libirary = (Button)view.findViewById(R.id.libirary);
 //        libirary.setOnClickListener(new View.OnClickListener() {
@@ -88,123 +91,127 @@ public class CutoutFragment extends Fragment {
         return view;
     }
 
-//    private void selectImage() {
+    private void selectImage() {
+
+//        Dialog dialog = new Dialog(getActivity(), R.style.Theme_CustomDialog);
+//        dialog.setContentView(R.layout.dialog_choose_picture);
+//        Button camara = (Button)getView().findViewById(R.id.dialog_camera_btn);
+//        Button gallery = (Button)getView().findViewById(R.id.dialog_picture_btn);
+//        Button cancel = (Button)getView().findViewById(R.id.dialog_cancel_btn);
 //
-////        Dialog dialog = new Dialog(getActivity(), R.style.Theme_CustomDialog);
-////        dialog.setContentView(R.layout.dialog_choose_picture);
-////        Button camara = (Button)getView().findViewById(R.id.dialog_camera_btn);
-////        Button gallery = (Button)getView().findViewById(R.id.dialog_picture_btn);
-////        Button cancel = (Button)getView().findViewById(R.id.dialog_cancel_btn);
-////
-////        camara.setOnClickListener(this);
-////        gallery.setOnClickListener(this);
-////        cancel.setOnClickListener(this);
-////        ivImage = (ImageView)getView().findViewById(R.id.ivImage);
-//        final CharSequence[] items = { getString(R.string.dialog_choose_camera), getString(R.string.dialog_choose_picture),
-//                getString(R.string.common_dialog_cancel_btn_text) };
+//        camara.setOnClickListener(this);
+//        gallery.setOnClickListener(this);
+//        cancel.setOnClickListener(this);
+//        ivImage = (ImageView)getView().findViewById(R.id.ivImage);
+
+
+        final CharSequence[] items = { getString(R.string.dialog_choose_camera), getString(R.string.dialog_choose_picture),
+                getString(R.string.common_dialog_cancel_btn_text) };
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.dialog));
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.dialog_setting_head_title));
+
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals(getString(R.string.dialog_choose_camera))) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, REQUEST_CAMERA);
+                } else if (items[item].equals(getString( R.string.dialog_choose_picture))) {
+                    Intent intent = new Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(
+                            Intent.createChooser(intent, "Select File"),
+                            SELECT_FILE);
+                } else if (items[item].equals(getString(R.string.common_dialog_cancel_btn_text))) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
+        }
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        byte[] bytepicture = bytes.toByteArray();
+
+        Intent newdata = new Intent(getActivity(), CutoutActivity.class);
+        newdata.putExtra("picture", bytepicture);
+        startActivity(newdata);
+
+//        ivImage.setImageBitmap(thumbnail);
+
+    }
+
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
+        Uri selectedImageUri = data.getData();
+        String[] projection = { MediaStore.MediaColumns.DATA };
+        Cursor cursor = getActivity().getContentResolver().query(selectedImageUri, projection, null, null, null);
+//                managedQuery(selectedImageUri, projection, null, null,
+//                null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+        cursor.moveToFirst();
+
+        String selectedImagePath = cursor.getString(column_index);
+
+        Bitmap bm;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(selectedImagePath, options);
+        final int REQUIRED_SIZE = 200;
+        int scale = 1;
+        while (options.outWidth / scale / 2 >= REQUIRED_SIZE
+                && options.outHeight / scale / 2 >= REQUIRED_SIZE)
+            scale *= 2;
+        options.inSampleSize = scale;
+        options.inJustDecodeBounds = false;
+        bm = BitmapFactory.decodeFile(selectedImagePath, options);
 //
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//        builder.setTitle(getString(R.string.dialog_setting_head_title));
-//        builder.setItems(items, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int item) {
-//                if (items[item].equals(getString(R.string.dialog_choose_camera))) {
-//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    startActivityForResult(intent, REQUEST_CAMERA);
-//                } else if (items[item].equals(getString( R.string.dialog_choose_picture))) {
-//                    Intent intent = new Intent(
-//                            Intent.ACTION_PICK,
-//                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                    intent.setType("image/*");
-//                    startActivityForResult(
-//                            Intent.createChooser(intent, "Select File"),
-//                            SELECT_FILE);
-//                } else if (items[item].equals(getString(R.string.common_dialog_cancel_btn_text))) {
-//                    dialog.dismiss();
-//                }
-//            }
-//        });
-//        builder.show();
-//    }
-//
-//
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == Activity.RESULT_OK) {
-//            if (requestCode == SELECT_FILE)
-//                onSelectFromGalleryResult(data);
-//            else if (requestCode == REQUEST_CAMERA)
-//                onCaptureImageResult(data);
-//        }
-//    }
-//
-//    private void onCaptureImageResult(Intent data) {
-//        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-//
-//        File destination = new File(Environment.getExternalStorageDirectory(),
-//                System.currentTimeMillis() + ".jpg");
-//
-//        FileOutputStream fo;
-//        try {
-//            destination.createNewFile();
-//            fo = new FileOutputStream(destination);
-//            fo.write(bytes.toByteArray());
-//            fo.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        byte[] bytepicture = bytes.toByteArray();
-//
-//        Intent newdata = new Intent(getActivity(), ImageSetActivity.class);
-//        newdata.putExtra("picture", bytepicture);
-//        startActivity(newdata);
-//
-////        ivImage.setImageBitmap(thumbnail);
-//
-//    }
-//
-//    @SuppressWarnings("deprecation")
-//    private void onSelectFromGalleryResult(Intent data) {
-//        Uri selectedImageUri = data.getData();
-//        String[] projection = { MediaStore.MediaColumns.DATA };
-//        Cursor cursor = getActivity().getContentResolver().query(selectedImageUri, projection, null, null, null);
-////                managedQuery(selectedImageUri, projection, null, null,
-////                null);
-//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-//        cursor.moveToFirst();
-//
-//        String selectedImagePath = cursor.getString(column_index);
-//
-//        Bitmap bm;
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inJustDecodeBounds = true;
-//        BitmapFactory.decodeFile(selectedImagePath, options);
-//        final int REQUIRED_SIZE = 200;
-//        int scale = 1;
-//        while (options.outWidth / scale / 2 >= REQUIRED_SIZE
-//                && options.outHeight / scale / 2 >= REQUIRED_SIZE)
-//            scale *= 2;
-//        options.inSampleSize = scale;
-//        options.inJustDecodeBounds = false;
-//        bm = BitmapFactory.decodeFile(selectedImagePath, options);
-////
-////        ivImage.setImageBitmap(bm);
-//
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//        byte[] bytepicture = baos.toByteArray();
-//
-//        Intent newdata = new Intent(getActivity(), ImageSetActivity.class);
-//        newdata.putExtra("picture", bytepicture);
-//        startActivity(newdata);
-//
-//
-//    }
+//        ivImage.setImageBitmap(bm);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] bytepicture = baos.toByteArray();
+
+        Intent newdata = new Intent(getActivity(), CutoutActivity.class);
+        newdata.putExtra("picture", bytepicture);
+        startActivity(newdata);
+
+
+    }
 }
