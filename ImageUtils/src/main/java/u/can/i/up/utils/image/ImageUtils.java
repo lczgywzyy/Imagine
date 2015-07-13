@@ -22,6 +22,11 @@ import java.io.OutputStream;
  */
 public class ImageUtils {
 
+    static {
+        System.loadLibrary("ImageUtils");
+    }
+    public native static String testString();
+
     /** @author 李承泽
      *  @param FromPath
      *  @param ToPath
