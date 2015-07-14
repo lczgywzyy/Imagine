@@ -1,9 +1,11 @@
 package u.can.i.up.ui.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -20,10 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.factories.FaceConversionUtil;
 import u.can.i.up.ui.fragments.*;
+import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_allocate;
 
 /**
@@ -33,7 +37,9 @@ import u.can.i.up.ui.utils.ImageViewImpl_allocate;
  */
 
 public class ImageAllocateActivity extends FragmentActivity {
-
+    ProgressDialog pDialog;
+    Bitmap mbitmap;
+//    ImageView logoview;
     /**
      * FragmentTabhost
      */
@@ -75,21 +81,28 @@ public class ImageAllocateActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_allocate);
-        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
+//        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
+        ImageViewImpl_allocate imageViewImpl_allocate = (ImageViewImpl_allocate) findViewById(R.id.ImageViewImpl_allocate);
 
 
-//        final View controlsView = findViewById(R.id.fullscreen_content_controls);
-//        final View contentView = findViewById(R.id.ivImage);
-//        ImageView logoview = (ImageView) findViewById(R.id.ivImage2);
+
+
+
+
+//        logoview = (ImageView) findViewById(R.id.ivImage2);
         ImageButton setover = (ImageButton)findViewById(R.id.match_2_continue);
-        final byte[] byteArray = getIntent().getExtras().getByteArray("picture");
-        final Bitmap image_bmp = BitmapFactory.decodeByteArray(byteArray, 0,
-                byteArray.length);
-//        logoview.setImageBitmap(image_bmp);
+//        String filename = getIntent().getStringExtra("Imagefile");
+//        Bitmap bitmap = (Bitmap) getIntent().getExtras().getParcelable("bitmap");
+//        Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("Image");
+//        Bitmap bitmap = BitmapCache.getBitmapcache();
+//        final byte[] byteArray = getIntent().getExtras().getByteArray("Image");
+//        final Bitmap image_bmp = BitmapFactory.decodeByteArray(byteArray, 0,
+//                byteArray.length);
+//        logoview.setImageBitmap(BitmapCache.getBitmapcache());
 
-        final ImageViewImpl_allocate myView_allocate = new ImageViewImpl_allocate(this, image_bmp);
-        RelativeLayout.LayoutParams lParams52 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
-        mainLayout.addView(myView_allocate,lParams52);
+//        final ImageViewImpl_allocate myView_allocate = new ImageViewImpl_allocate(this, image_bmp);
+//        RelativeLayout.LayoutParams lParams52 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+//        mainLayout.addView(myView_allocate,lParams52);
 
 
 
@@ -99,16 +112,16 @@ public class ImageAllocateActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
-                Bitmap mypic = myView_allocate.saveBitmapAll();
+//                Bitmap mypic = myView_allocate.saveBitmapAll();
 
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                mypic.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] bytepicture = baos.toByteArray();
-
-                Intent i = new Intent(view.getContext(), ShareActivity.class);
-                i.putExtra("picture", bytepicture);
-                startActivity(i);
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                mypic.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//                byte[] bytepicture = baos.toByteArray();
+//
+//                Intent i = new Intent(view.getContext(), ShareActivity.class);
+//                i.putExtra("picture", bytepicture);
+//                startActivity(i);
 //                startActivity(new Intent(view.getContext(), ShareActivity.class));
             }
         });
@@ -120,6 +133,9 @@ public class ImageAllocateActivity extends FragmentActivity {
             }
         }).start();
         initView();
+        //异步任务加载图片
+//        Loadimage loadimage = new Loadimage();
+//        loadimage.execute(filename);
     }
 
 
@@ -160,25 +176,36 @@ public class ImageAllocateActivity extends FragmentActivity {
         return view;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_image_allocate, menu);
-        return true;
-    }
+//异步任务加载图片
+//    private  class Loadimage extends AsyncTask<String, Void, String> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            pDialog = new ProgressDialog(ImageAllocateActivity.this);
+//            pDialog.setMessage("图片加载中...");
+//            pDialog.show();
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... file) {
+//            try {
+//                FileInputStream is = getApplication().openFileInput(file[0]);
+//                mbitmap = BitmapFactory.decodeStream(is);
+//                is.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            pDialog.dismiss();
+//            logoview.setImageBitmap(mbitmap);
+//        }
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
 }

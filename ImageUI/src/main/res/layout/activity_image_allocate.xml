@@ -13,14 +13,19 @@
         android:background="@color/darkgray"
         android:layout_alignParentTop="true"
         >
-        <RelativeLayout
-            android:id="@+id/allocate_2_framelayout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></RelativeLayout>
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/allocate_2_framelayout"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"></RelativeLayout>-->
         <!--<ImageView-->
             <!--android:id="@+id/ivImage2"-->
             <!--android:layout_width="fill_parent"-->
             <!--android:layout_height="fill_parent" />-->
+        <u.can.i.up.ui.utils.ImageViewImpl_allocate
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ImageViewImpl_allocate"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
         <RelativeLayout
             android:layout_gravity="bottom"
             android:id="@+id/match_1_middlebar"

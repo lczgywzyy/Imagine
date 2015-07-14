@@ -13,10 +13,14 @@
         android:background="@color/darkgray"
         android:layout_alignParentTop="true"
         >
-        <ImageView
-            android:id="@+id/ivImage1"
+        <cropper.CropImageView
+            android:id="@+id/CropImageView"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"></cropper.CropImageView>
+        <!--<ImageView-->
+            <!--android:id="@+id/ivImage1"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent" />-->
         <RelativeLayout
             android:layout_gravity="bottom"
             android:id="@+id/match_1_middlebar"
@@ -62,6 +66,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageButton
+                android:id="@+id/Button_rotate"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/btn_outter"
                 android:src="@drawable/icon_rotate"

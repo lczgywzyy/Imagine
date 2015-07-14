@@ -13,6 +13,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.os.Environment;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -21,68 +24,280 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import cropper.CropImageView;
+import cropper.cropwindow.edge.Edge;
+import cropper.util.HandleUtil;
+import cropper.util.PaintUtil;
 import u.can.i.up.ui.R;
 
 /**
- * Created by lczgywzyy on 2015/5/31.
+ * @data 2015/7/14
+ * @author dongfeng
+ * @sumary 搭配界面中，搭配部分的画图工具
+ *
  */
 public class ImageViewImpl_allocate extends View {
 
     private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_allocate.class;
-    private static final String FromPath = ".1FromPath";
-    private static final String ToPath = ".2ToPath";
+
+
+    /**
+     * The Paint used to draw the guidelines .
+     */
+    private Paint mGuidelinePaint;
+    /**
+     * The Paint used to draw the white rectangle around the crop area.
+     */
+    private Paint mBorderPaint;
+    private Paint mainPaint = null;
+
+    /**
+     * Bitmap Back  底图
+     * Bitmap Motion 素材图片
+     * Bitmap Rotate. 控制图标
+     * Bitmap Delete 删除图标
+     */
+
+    private Bitmap bmpBack = null;
+    private Bitmap bmpMotion = null;
+    private Bitmap bmpRotate = null;
+    private Bitmap bmpDelete = null;
 
     Context context = null;
-    Matrix matrixPaint = null;
-    Bitmap bmpMotion = null;
-    Bitmap bmpRotate = null;
-    Bitmap bmpBack = null;
 
+//图片变换矩阵
+    Matrix matrixPaint = null;
+
+//图片变换点阵集合
     RectF rectMotionPre = null;
     RectF rectMotion = null;
     RectF rectRotateMark = null;
     RectF rectRotatePre = null;
     RectF rectRotate = null;
 
-    Paint paint = null;
+
     PaintFlagsDrawFilter paintFilter = null;
     ViewStatus status = ViewStatus.STATUS_MOVE;
-
+// 记录图片中心点
     PointF pointMotionMid = null;
     PointF prePoint = null;
     PointF curPoint = null;
     PointF rotateCenterP = null;
 
-    String savePathAll = null;
-    String savePathCovered = null;
 
     enum ViewStatus{
         STATUS_ROTATE,
         STATUS_MOVE,
     }
 
-//    public void setBitbackByPath(String Path){
-//        bmpBack =  BitmapFactory.decodeFile(new File(Path).getAbsolutePath());
+
+
+    public ImageViewImpl_allocate(Context context) {
+        super(context);
+        init(context);
+    }
+
+    public ImageViewImpl_allocate(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    public void setBmpMotion(Bitmap mbitmap){
+        bmpMotion = mbitmap;
+        invalidate();
+    }
+
+    public void setBmpBack(Bitmap mbitmap){
+        bmpBack = mbitmap;
+        invalidate();
+    }
+
+
+//    public ImageViewImpl_allocate(Context context, Bitmap bmpMotion1) {
+//        super(context);
+//        // TODO Auto-generated constructor stub
+//        this.context = context;
+//        //创建变幻图形用的Matrix
+//        matrixPaint = new Matrix();
+//        //创建画笔
+//        paint = new Paint();
+//        //画笔抗锯齿
+//        paint.setAntiAlias(true);
+//        paint.setColor(Color.BLUE);
+//        //设置画笔绘制空心图形
+//        paint.setStyle(Paint.Style.STROKE);
+//        //加载相应的图片资源
+////        bmpMotion = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/motion10.png").getAbsolutePath());
+////        bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageView10_bg.png").getAbsolutePath());
+//        bmpBack = bmpMotion1;
+//        bmpMotion = BitmapFactory.decodeResource(getResources(), R.drawable.emoji_1);
+//        bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
+//
+//        //记录表情最初的矩形
+//        rectMotionPre = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
+//        //记录表情当前的矩形
+//        rectMotion = new RectF(rectMotionPre);
+//        //标记旋转图标位置的矩形
+//        rectRotateMark = new RectF(rectMotion.right,
+//                rectMotion.bottom,
+//                rectMotion.right + bmpRotate.getWidth() / 2,
+//                rectMotion.bottom + bmpRotate.getHeight() / 2);
+//        //记录旋转图标矩形最初的矩形
+//        rectRotatePre = new RectF(rectRotateMark);
+//        //记录当前旋转图标位置的矩形
+//        rectRotate = new RectF(rectRotateMark);
+//        //记录表情矩形的中点
+//        pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
+//        //记录上次动作的坐标
+//        prePoint = new PointF();
+//        //记录当前动作的坐标
+//        curPoint = new PointF();
+//        //记录旋转图标中点
+//        rotateCenterP = new PointF(rectMotion.right, rectMotion.bottom);
+//        //画布参数
+//        paintFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
+//
 //    }
 
-    public ImageViewImpl_allocate(Context context, Bitmap bmpMotion1) {
-        super(context);
-        // TODO Auto-generated constructor stub
-        this.context = context;
+    @Override
+    protected void onDraw(Canvas canvas) {
+        // TODO Auto-generated method stub
+        super.onDraw(canvas);
+        Paint tmpPaint = new Paint();
+        tmpPaint.setAlpha(70);
+        //paint guideline
+        drawRuleOfThirdsGuidelines(canvas);
+
+        canvas.setDrawFilter(paintFilter);
+
+
+        canvas.drawBitmap(bmpBack, 0, 0, mainPaint);
+        if (bmpMotion != null){
+        canvas.drawBitmap(bmpMotion, matrixPaint, tmpPaint);
+        canvas.drawBitmap(bmpRotate, null, rectRotate, null);
+//		canvas.drawRect(rectPaint, mainPaint);
+		canvas.drawRect(rectRotate, mainPaint);}
+//		canvas.drawCircle(picMidPoint.x, picMidPoint.y, 5, mainPaint);
+
+    }
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        // TODO Auto-generated method stub
+//        float x = event.getX();
+//        float y = event.getY();
+//
+//        switch (event.getAction()) {
+//            //手指按下的时候
+//            case MotionEvent.ACTION_DOWN:
+//                prePoint.x = x;
+//                prePoint.y = y;
+//                //按到了旋转图标上
+//                if(isInRect(x, y, rectRotate)){
+//                    status = ViewStatus.STATUS_ROTATE;
+//                }else{
+//                    status = ViewStatus.STATUS_MOVE;
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                if(status == ViewStatus.STATUS_ROTATE){
+////                    saveBitmap();
+//                }
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                curPoint.x = x;
+//                curPoint.y = y;
+//                if(status == ViewStatus.STATUS_ROTATE){
+//                    rectRotateMark.set(x,
+//                            y,
+//                            x + bmpRotate.getWidth() / 2,
+//                            y + bmpRotate.getHeight() / 2);
+//                    //获取旋转的角度
+//                    float de = getPointsDegree(prePoint, pointMotionMid, curPoint);
+//                    //获取缩放的比例
+//                    float re = getPointsDistance(pointMotionMid, curPoint) / getPointsDistance(pointMotionMid, prePoint);
+//                    if(re > 0.0001){
+//                        //对Matrix进行缩放
+//                        matrixPaint.postScale(re, re, pointMotionMid.x, pointMotionMid.y);
+//                    }
+//                    if(de > 0.0001 || de < -0.0001){
+//                        //对Matrix进行旋转
+//                        matrixPaint.postRotate(de, pointMotionMid.x, pointMotionMid.y);
+//                    }
+//                }else if(status == ViewStatus.STATUS_MOVE){
+//                    //对Matrix进行移位
+//                    matrixPaint.postTranslate(x - prePoint.x, y - prePoint.y);
+//                }
+//                prePoint.x = x;
+//                prePoint.y = y;
+//                //将矩阵map到表情矩形上
+//                matrixPaint.mapRect(rectMotion, rectMotionPre);
+//                matrixPaint.mapRect(rectRotateMark, rectRotatePre);
+//                getRectCenter(rectRotateMark, rotateCenterP);
+//                getRectCenter(rectMotion, pointMotionMid);
+//                rectRotate.set(rotateCenterP.x,
+//                        rotateCenterP.y,
+//                        rotateCenterP.x + bmpRotate.getWidth() / 2,
+//                        rotateCenterP.y + bmpRotate.getHeight() / 2);
+//                postInvalidate();
+//                break;
+//            default:
+//                break;
+//        }
+//        return true;
+//    }
+
+
+    private void drawRuleOfThirdsGuidelines(Canvas canvas) {
+
+        float w = mBorderPaint.getStrokeWidth();
+        float l = Edge.LEFT.getCoordinate() + w;
+        float t = Edge.TOP.getCoordinate() + w;
+        float r = Edge.RIGHT.getCoordinate() - w;
+        float b = Edge.BOTTOM.getCoordinate() - w;
+
+//        if (mCropShape == CropImageView.CropShape.OVAL) {
+//            l += 15 * mGuidelinePaint.getStrokeWidth();
+//            t += 15 * mGuidelinePaint.getStrokeWidth();
+//            r -= 15 * mGuidelinePaint.getStrokeWidth();
+//            b -= 15 * mGuidelinePaint.getStrokeWidth();
+//        }
+
+        // Draw vertical guidelines.
+        final float oneThirdCropWidth = Edge.getWidth() / 3;
+
+        final float x1 = l + oneThirdCropWidth;
+        canvas.drawLine(x1, t, x1, b, mGuidelinePaint);
+        final float x2 = r - oneThirdCropWidth;
+        canvas.drawLine(x2, t, x2, b, mGuidelinePaint);
+
+        // Draw horizontal guidelines.
+        final float oneThirdCropHeight = Edge.getHeight() / 3;
+
+        final float y1 = t + oneThirdCropHeight;
+        canvas.drawLine(l, y1, r, y1, mGuidelinePaint);
+        final float y2 = b - oneThirdCropHeight;
+        canvas.drawLine(l, y2, r, y2, mGuidelinePaint);
+    }
+
+    private void init(Context context) {
+
+        mGuidelinePaint = PaintUtil.newGuidelinePaint();
+        mBorderPaint = PaintUtil.newBorderPaint(context);
+//     mGuidelines = CropImageView.DEFAULT_GUIDELINES;
         //创建变幻图形用的Matrix
         matrixPaint = new Matrix();
         //创建画笔
-        paint = new Paint();
+        mainPaint = new Paint();
         //画笔抗锯齿
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLUE);
+        mainPaint.setAntiAlias(true);
+        mainPaint.setColor(Color.BLUE);
         //设置画笔绘制空心图形
-        paint.setStyle(Paint.Style.STROKE);
+        mainPaint.setStyle(Paint.Style.STROKE);
         //加载相应的图片资源
 //        bmpMotion = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/motion10.png").getAbsolutePath());
 //        bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageView10_bg.png").getAbsolutePath());
-        bmpBack = bmpMotion1;
-        bmpMotion = BitmapFactory.decodeResource(getResources(), R.drawable.emoji_1);
+//        bmpMotion = BitmapFactory.decodeResource(getResources(), R.drawable.emoji_1);
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
 
         //记录表情最初的矩形
@@ -109,90 +324,34 @@ public class ImageViewImpl_allocate extends View {
         //画布参数
         paintFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
 
-        savePathAll = new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageViewImpl_10_output_All.png").getAbsolutePath();
-        savePathCovered = new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageViewImpl_10_output_Covered.png").getAbsolutePath();
-    }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        // TODO Auto-generated method stub
-        Paint tmpPaint = new Paint();
-        tmpPaint.setAlpha(70);
 
-        canvas.setDrawFilter(paintFilter);
-        canvas.drawBitmap(bmpBack, 0, 0, paint);
-        canvas.drawBitmap(bmpMotion, matrixPaint, tmpPaint);
-        canvas.drawBitmap(bmpRotate, null, rectRotate, null);
-//		canvas.drawRect(rectPaint, paint);
-//		canvas.drawRect(rectRotate, paint);
-//		canvas.drawCircle(picMidPoint.x, picMidPoint.y, 5, paint);
-        super.onDraw(canvas);
-    }
+//        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+//
+//        mHandleRadius = HandleUtil.getTargetRadius(context);
+//
+//        mSnapRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+//                SNAP_RADIUS_DP,
+//                displayMetrics);
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // TODO Auto-generated method stub
-        float x = event.getX();
-        float y = event.getY();
+//        mBorderPaint = PaintUtil.newBorderPaint(context);
+//        mGuidelinePaint = PaintUtil.newGuidelinePaint();
+//        mBackgroundPaint = PaintUtil.newBackgroundPaint(context);
+//        mCornerPaint = PaintUtil.newCornerPaint(context);
 
-        switch (event.getAction()) {
-            //手指按下的时候
-            case MotionEvent.ACTION_DOWN:
-                prePoint.x = x;
-                prePoint.y = y;
-                //按到了旋转图标上
-                if(isInRect(x, y, rectRotate)){
-                    status = ViewStatus.STATUS_ROTATE;
-                }else{
-                    status = ViewStatus.STATUS_MOVE;
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                if(status == ViewStatus.STATUS_ROTATE){
-//                    saveBitmap();
-                }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                curPoint.x = x;
-                curPoint.y = y;
-                if(status == ViewStatus.STATUS_ROTATE){
-                    rectRotateMark.set(x,
-                            y,
-                            x + bmpRotate.getWidth() / 2,
-                            y + bmpRotate.getHeight() / 2);
-                    //获取旋转的角度
-                    float de = getPointsDegree(prePoint, pointMotionMid, curPoint);
-                    //获取缩放的比例
-                    float re = getPointsDistance(pointMotionMid, curPoint) / getPointsDistance(pointMotionMid, prePoint);
-                    if(re > 0.0001){
-                        //对Matrix进行缩放
-                        matrixPaint.postScale(re, re, pointMotionMid.x, pointMotionMid.y);
-                    }
-                    if(de > 0.0001 || de < -0.0001){
-                        //对Matrix进行旋转
-                        matrixPaint.postRotate(de, pointMotionMid.x, pointMotionMid.y);
-                    }
-                }else if(status == ViewStatus.STATUS_MOVE){
-                    //对Matrix进行移位
-                    matrixPaint.postTranslate(x - prePoint.x, y - prePoint.y);
-                }
-                prePoint.x = x;
-                prePoint.y = y;
-                //将矩阵map到表情矩形上
-                matrixPaint.mapRect(rectMotion, rectMotionPre);
-                matrixPaint.mapRect(rectRotateMark, rectRotatePre);
-                getRectCenter(rectRotateMark, rotateCenterP);
-                getRectCenter(rectMotion, pointMotionMid);
-                rectRotate.set(rotateCenterP.x,
-                        rotateCenterP.y,
-                        rotateCenterP.x + bmpRotate.getWidth() / 2,
-                        rotateCenterP.y + bmpRotate.getHeight() / 2);
-                postInvalidate();
-                break;
-            default:
-                break;
-        }
-        return true;
+//        // Sets the values for the corner sizes
+//        mCornerOffset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+//                DEFAULT_CORNER_OFFSET_DP,
+//                displayMetrics);
+//        mCornerExtension = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+//                DEFAULT_CORNER_EXTENSION_DP,
+//                displayMetrics);
+//        mCornerLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+//                DEFAULT_CORNER_LENGTH_DP,
+//                displayMetrics);
+
+//        // Sets guidelines to default until specified otherwise
+//        mGuidelines = CropImageView.DEFAULT_GUIDELINES;
     }
 
     /**
@@ -205,8 +364,8 @@ public class ImageViewImpl_allocate extends View {
         //创建canvas
         Canvas canvas = new Canvas(bmpSave);
         //将背景图和表情画在bitmap上
-        canvas.drawBitmap(bmpBack, 0, 0, paint);
-        canvas.drawBitmap(bmpMotion, matrixPaint, paint);
+        canvas.drawBitmap(bmpBack, 0, 0, mainPaint);
+        canvas.drawBitmap(bmpMotion, matrixPaint, mainPaint);
         //保存bitmap
 //		canvas.save(Canvas.ALL_SAVE_FLAG);
 //		canvas.restore();
@@ -222,7 +381,7 @@ public class ImageViewImpl_allocate extends View {
 //            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
-        bmpBack.recycle();
+//        bmpBack.recycle();
         return bmpSave;
 //        bmpBack = bmpSave;
 //        //重置Matrix
@@ -231,30 +390,30 @@ public class ImageViewImpl_allocate extends View {
 //        rectRotate.set(rectRotatePre);
     }
 
-    /**
-     * 将当前表情合并到背景并保存
-     */
-    public void saveBitmapCovered() {
-        File f = new File(savePathCovered);
-        //使用背景图的宽高创建一张bitmap
-        Bitmap bmpSave = Bitmap.createBitmap(bmpBack.getWidth(), bmpBack.getHeight(), Bitmap.Config.ARGB_8888);
-        //创建canvas
-        Canvas canvas = new Canvas(bmpSave);
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-
-        //将背景图和表情画在bitmap上
-        canvas.drawBitmap(bmpMotion, matrixPaint, null);
-        canvas.drawBitmap(bmpBack, 0, 0, paint);
-
-        paint.setXfermode(null);
-
-        int[] pixels = new int[bmpSave.getHeight() * bmpSave.getWidth()];
-        bmpSave.getPixels(pixels, 0, bmpSave.getWidth(), 0, 0, bmpSave.getWidth(), bmpSave.getHeight());
-
-        ImageUtils.extractImageFromBitmapPixels(bmpSave, pixels, savePathCovered, false);
-        bmpBack.recycle();
-    }
+//    /**
+//     * 将当前表情合并到背景并保存
+//     */
+//    public void saveBitmapCovered() {
+//        File f = new File(savePathCovered);
+//        //使用背景图的宽高创建一张bitmap
+//        Bitmap bmpSave = Bitmap.createBitmap(bmpBack.getWidth(), bmpBack.getHeight(), Bitmap.Config.ARGB_8888);
+//        //创建canvas
+//        Canvas canvas = new Canvas(bmpSave);
+//        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+//
+//        //将背景图和表情画在bitmap上
+//        canvas.drawBitmap(bmpMotion, matrixPaint, null);
+//        canvas.drawBitmap(bmpBack, 0, 0, paint);
+//
+//        paint.setXfermode(null);
+//
+//        int[] pixels = new int[bmpSave.getHeight() * bmpSave.getWidth()];
+//        bmpSave.getPixels(pixels, 0, bmpSave.getWidth(), 0, 0, bmpSave.getWidth(), bmpSave.getHeight());
+//
+//        ImageUtils.extractImageFromBitmapPixels(bmpSave, pixels, savePathCovered, false);
+//        bmpBack.recycle();
+//    }
 
     //根据矩形获取中心点
     private void getRectCenter(RectF rect, PointF p){

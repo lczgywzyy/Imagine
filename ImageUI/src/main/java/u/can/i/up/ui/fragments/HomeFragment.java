@@ -2,10 +2,13 @@ package u.can.i.up.ui.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +37,7 @@ import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.ImageSetActivity;
 import u.can.i.up.ui.activities.LibiraryActivity;
 
+
 /**
  * @author dongfeng
  * @data 2015.06.13
@@ -42,7 +46,11 @@ import u.can.i.up.ui.activities.LibiraryActivity;
 
 public class HomeFragment extends Fragment {
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    ImageView ivImage;
+//    private static final String PREFS_NAME = "PhotoProcessingPrefsFiles";
+//    private static final String PREFS_KEY_CAMERA_FILE_COUNT = "PrefsKeyCameraFileCount";
+//    private String mOriginalPhotoPath = null;
+//    ImageView ivImage;
+//    private Bitmap mBitmap = null;
 
     public static HomeFragment newInstance(Bundle bundle)
     {
@@ -78,11 +86,28 @@ public class HomeFragment extends Fragment {
 //                dialog.setContentView(R.layout.dialog_choose_picture);
 //
 //                dialog.show();
-                selectImage();
+                startActivity(new Intent(getActivity(), ImageSetActivity.class));
+//                Intent newdata = new Intent(getActivity(), ImageSetActivity.class);
+//                startActivity(newdata);
+//                selectImage();
             }
         });
         return view;
     }
+
+
+//    private int getCameraFileCount() {
+//        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+//        return prefs.getInt(PREFS_KEY_CAMERA_FILE_COUNT, 0);
+//    }
+//
+//    private void incrementCameraFileCount() {
+//        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+//        int count = prefs.getInt(PREFS_KEY_CAMERA_FILE_COUNT, 0) + 1;
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putInt(PREFS_KEY_CAMERA_FILE_COUNT, count);
+//        editor.apply();
+//    }
 
     private void selectImage() {
 
@@ -109,8 +134,28 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals(getString(R.string.dialog_choose_camera))) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, REQUEST_CAMERA);
+                    /*
+                    * @data 2015.07.12
+                    * @sumary 修正拍照后图片不清晰情况
+                    * */
+//                    File saveDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/DuoBaoChuan/");
+//                    saveDir.mkdir();
+//                    String format = String.format("%%0%dd", 3);
+//                    File saveFile;
+//                    do {
+//                        int count = getCameraFileCount();
+//                        String filename = "DuoBaoChuan_" + String.format(format, count) +"_000.jpeg";
+//                        saveFile = new File(saveDir, filename);
+//                        incrementCameraFileCount();
+//                    } while (saveFile.exists());
+//
+//                    Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE );
+//                    mOriginalPhotoPath = saveFile.getAbsolutePath();
+//                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(saveFile));
+//                    startActivityForResult(intent, REQUEST_CAMERA);
+
+
+
                 } else if (items[item].equals(getString( R.string.dialog_choose_picture))) {
                     Intent intent = new Intent(
                             Intent.ACTION_PICK,
@@ -128,6 +173,25 @@ public class HomeFragment extends Fragment {
     }
 
 
+//    private void loadPhoto(String path) {
+//        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+//
+//        if (mBitmap != null) {
+//            mBitmap.recycle();
+//        }
+//
+//        mBitmap = BitmapUtils.getSampledBitmap(path, displayMetrics.widthPixels, displayMetrics.heightPixels);
+//
+//        if (mBitmap != null && !mBitmap.isMutable()) {
+//            mBitmap = PhotoProcessing.makeBitmapMutable(mBitmap);
+//        }
+//
+//        int angle = MediaUtils.getExifOrientation(path);
+//        mBitmap = PhotoProcessing.rotate(mBitmap, angle);
+//
+////        enableFilterEditAndSaveButtons();
+//    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -140,6 +204,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void onCaptureImageResult(Intent data) {
+//        Uri photoUri = data.getData();
+////        mImageView.setImageBitmap(null);
+//        mOriginalPhotoPath = MediaUtils.getPath(getActivity(), photoUri);
+//        loadPhoto(mOriginalPhotoPath);
+////        mImageView.setImageBitmap(mBitmap);
+
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
