@@ -108,6 +108,19 @@ public class ImageSetActivity extends Activity {
             public void onClick(View view) {
                 croppedImage = cropImageView.getCroppedImage();
                 BitmapCache.setBitmapcache(croppedImage);
+                //设置缩放比例、背景图片移动距离
+                float tmpScaleX = ((float)cropImageView.getWidth()) / croppedImage.getWidth();
+                float tmpScaleY = ((float)cropImageView.getHeight()) / croppedImage.getHeight();
+                if(tmpScaleX <= tmpScaleY){
+                    BitmapCache.setBackBmpScale(tmpScaleX);
+                    BitmapCache.setBackBmpTranslateX(0);
+                    BitmapCache.setBackBmpTranslateY(((float)cropImageView.getHeight() - (float)croppedImage.getHeight() * tmpScaleX) / 2);
+                } else{
+                    BitmapCache.setBackBmpScale(tmpScaleY);
+                    BitmapCache.setBackBmpTranslateX(((float) cropImageView.getWidth() - (float) croppedImage.getWidth() * tmpScaleY) / 2);
+                    BitmapCache.setBackBmpTranslateY(0);
+                }
+
 
                 Intent i = new Intent(ImageSetActivity.this, ImageAllocateActivity.class);
                 startActivity(i);

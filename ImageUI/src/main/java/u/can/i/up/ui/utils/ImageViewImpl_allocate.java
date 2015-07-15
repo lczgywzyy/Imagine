@@ -65,32 +65,37 @@ public class ImageViewImpl_allocate extends View {
 
     Context context = null;
 
-//图片变换矩阵
+    //图片变换矩阵
+    Matrix matrixBack = new Matrix();
     Matrix matrixPaint = null;
+    Matrix matrixDelete = new Matrix();
 
-//图片变换点阵集合
+    //图片变换点阵集合
+    RectF rectBack = null;
     RectF rectMotionPre = null;
     RectF rectMotion = null;
     RectF rectRotateMark = null;
     RectF rectRotatePre = null;
     RectF rectRotate = null;
+    RectF rectDeleteMark = null;
+    RectF rectDeletePre = null;
+    RectF rectDelete = null;
 
 
     PaintFlagsDrawFilter paintFilter = null;
     ViewStatus status = ViewStatus.STATUS_MOVE;
-// 记录图片中心点
+    // 记录图片中心点
     PointF pointMotionMid = null;
     PointF prePoint = null;
     PointF curPoint = null;
     PointF rotateCenterP = null;
-
+    PointF deleteCenterP = null;
 
     enum ViewStatus{
         STATUS_ROTATE,
+        STATUS_DELETE,
         STATUS_MOVE,
     }
-
-
 
     public ImageViewImpl_allocate(Context context) {
         super(context);
@@ -170,82 +175,103 @@ public class ImageViewImpl_allocate extends View {
 
         canvas.setDrawFilter(paintFilter);
 
-
-        canvas.drawBitmap(bmpBack, 0, 0, mainPaint);
+        if(bmpBack != null) {
+            canvas.drawBitmap(bmpBack, matrixBack, mainPaint);
+        }
         if (bmpMotion != null){
-        canvas.drawBitmap(bmpMotion, matrixPaint, tmpPaint);
-        canvas.drawBitmap(bmpRotate, null, rectRotate, null);
-//		canvas.drawRect(rectPaint, mainPaint);
-		canvas.drawRect(rectRotate, mainPaint);}
+            canvas.drawBitmap(bmpMotion, matrixPaint, tmpPaint);
+            canvas.drawBitmap(bmpRotate, null, rectRotate, null);
+            canvas.drawBitmap(bmpDelete, null, rectDelete, null);
+//		    canvas.drawRect(rectPaint, mainPaint);
+//          canvas.drawRect(rectRotate, mainPaint);
+        }
 //		canvas.drawCircle(picMidPoint.x, picMidPoint.y, 5, mainPaint);
 
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        // TODO Auto-generated method stub
-//        float x = event.getX();
-//        float y = event.getY();
-//
-//        switch (event.getAction()) {
-//            //手指按下的时候
-//            case MotionEvent.ACTION_DOWN:
-//                prePoint.x = x;
-//                prePoint.y = y;
-//                //按到了旋转图标上
-//                if(isInRect(x, y, rectRotate)){
-//                    status = ViewStatus.STATUS_ROTATE;
-//                }else{
-//                    status = ViewStatus.STATUS_MOVE;
-//                }
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                if(status == ViewStatus.STATUS_ROTATE){
-////                    saveBitmap();
-//                }
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                curPoint.x = x;
-//                curPoint.y = y;
-//                if(status == ViewStatus.STATUS_ROTATE){
-//                    rectRotateMark.set(x,
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        // TODO Auto-generated method stub
+        float x = event.getX();
+        float y = event.getY();
+
+        switch (event.getAction()) {
+            //手指按下的时候
+            case MotionEvent.ACTION_DOWN:
+                prePoint.x = x;
+                prePoint.y = y;
+                //按到了旋转图标上
+                if(isInRect(x, y, rectRotate)){
+                    status = ViewStatus.STATUS_ROTATE;
+                }else if(isInRect(x, y, rectDelete)){
+                    status = ViewStatus.STATUS_DELETE;
+                }
+                else{
+                    status = ViewStatus.STATUS_MOVE;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if(status == ViewStatus.STATUS_ROTATE){
+//                    saveBitmap();
+                } else if(status == ViewStatus.STATUS_DELETE){
+                    //TODO deleteCurrentBitmap();
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                curPoint.x = x;
+                curPoint.y = y;
+                if(status == ViewStatus.STATUS_ROTATE){
+                    rectRotateMark.set(x,
+                            y,
+                            x + bmpRotate.getWidth() / 2,
+                            y + bmpRotate.getHeight() / 2);
+//                    rectDeleteMark.set(x,
 //                            y,
-//                            x + bmpRotate.getWidth() / 2,
-//                            y + bmpRotate.getHeight() / 2);
-//                    //获取旋转的角度
-//                    float de = getPointsDegree(prePoint, pointMotionMid, curPoint);
-//                    //获取缩放的比例
-//                    float re = getPointsDistance(pointMotionMid, curPoint) / getPointsDistance(pointMotionMid, prePoint);
-//                    if(re > 0.0001){
-//                        //对Matrix进行缩放
-//                        matrixPaint.postScale(re, re, pointMotionMid.x, pointMotionMid.y);
-//                    }
-//                    if(de > 0.0001 || de < -0.0001){
-//                        //对Matrix进行旋转
-//                        matrixPaint.postRotate(de, pointMotionMid.x, pointMotionMid.y);
-//                    }
-//                }else if(status == ViewStatus.STATUS_MOVE){
-//                    //对Matrix进行移位
-//                    matrixPaint.postTranslate(x - prePoint.x, y - prePoint.y);
-//                }
-//                prePoint.x = x;
-//                prePoint.y = y;
-//                //将矩阵map到表情矩形上
-//                matrixPaint.mapRect(rectMotion, rectMotionPre);
-//                matrixPaint.mapRect(rectRotateMark, rectRotatePre);
-//                getRectCenter(rectRotateMark, rotateCenterP);
-//                getRectCenter(rectMotion, pointMotionMid);
-//                rectRotate.set(rotateCenterP.x,
-//                        rotateCenterP.y,
-//                        rotateCenterP.x + bmpRotate.getWidth() / 2,
-//                        rotateCenterP.y + bmpRotate.getHeight() / 2);
-//                postInvalidate();
-//                break;
-//            default:
-//                break;
-//        }
-//        return true;
-//    }
+//                            x + bmpDelete.getWidth() / 2,
+//                            y + bmpDelete.getHeight() / 2);
+                    //获取旋转的角度
+                    float de = getPointsDegree(prePoint, pointMotionMid, curPoint);
+                    //获取缩放的比例
+                    float re = getPointsDistance(pointMotionMid, curPoint) / getPointsDistance(pointMotionMid, prePoint);
+                    if(re > 0.0001){
+                        //对Matrix进行缩放
+                        matrixPaint.postScale(re, re, pointMotionMid.x, pointMotionMid.y);
+                        matrixDelete.postTranslate(x - prePoint.x, 0);
+                    }
+                    if(de > 0.0001 || de < -0.0001){
+                        //对Matrix进行旋转
+                        matrixPaint.postRotate(de, pointMotionMid.x, pointMotionMid.y);
+                        matrixDelete.postRotate(de, pointMotionMid.x, pointMotionMid.y);
+                    }
+                }else if(status == ViewStatus.STATUS_MOVE){
+                    //对Matrix进行移位
+                    matrixPaint.postTranslate(x - prePoint.x, y - prePoint.y);
+                    matrixDelete.postTranslate(x - prePoint.x, y - prePoint.y);
+                }
+                prePoint.x = x;
+                prePoint.y = y;
+                //将矩阵map到表情矩形上
+                matrixPaint.mapRect(rectMotion, rectMotionPre);
+                matrixPaint.mapRect(rectRotateMark, rectRotatePre);
+                matrixDelete.mapRect(rectDeleteMark, rectDeletePre);
+                getRectCenter(rectRotateMark, rotateCenterP);
+                getRectCenter(rectDeleteMark, deleteCenterP);
+                getRectCenter(rectMotion, pointMotionMid);
+                rectRotate.set(rotateCenterP.x,
+                        rotateCenterP.y,
+                        rotateCenterP.x + bmpRotate.getWidth() / 2,
+                        rotateCenterP.y + bmpRotate.getHeight() / 2);
+                rectDelete.set(deleteCenterP.x,
+                        deleteCenterP.y,
+                        deleteCenterP.x + bmpDelete.getWidth() / 2,
+                        deleteCenterP.y + bmpDelete.getHeight() / 2);
+                postInvalidate();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
 
 
     private void drawRuleOfThirdsGuidelines(Canvas canvas) {
@@ -280,8 +306,9 @@ public class ImageViewImpl_allocate extends View {
         canvas.drawLine(l, y2, r, y2, mGuidelinePaint);
     }
 
+    /** TODO 当且仅当构造函数中可以调用init()
+     * */
     private void init(Context context) {
-
         mGuidelinePaint = PaintUtil.newGuidelinePaint();
         mBorderPaint = PaintUtil.newBorderPaint(context);
 //     mGuidelines = CropImageView.DEFAULT_GUIDELINES;
@@ -298,29 +325,52 @@ public class ImageViewImpl_allocate extends View {
 //        bmpMotion = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/motion10.png").getAbsolutePath());
 //        bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageView10_bg.png").getAbsolutePath());
 //        bmpMotion = BitmapFactory.decodeResource(getResources(), R.drawable.emoji_1);
-        bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
+        bmpBack = BitmapCache.getBitmapcache();
+        RectF tmpRectBack = new RectF(0, 0, bmpBack.getWidth(), bmpBack.getHeight());
+        rectBack = new RectF(tmpRectBack);
+        //背景图片缩放比例
+        matrixBack.postScale(BitmapCache.getBackBmpScale(), BitmapCache.getBackBmpScale(), 0, 0);
+        matrixBack.postTranslate(BitmapCache.getBackBmpTranslateX(), BitmapCache.getBackBmpTranslateY());
+        matrixBack.mapRect(rectBack, tmpRectBack);
 
-        //记录表情最初的矩形
-        rectMotionPre = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
-        //记录表情当前的矩形
-        rectMotion = new RectF(rectMotionPre);
-        //标记旋转图标位置的矩形
-        rectRotateMark = new RectF(rectMotion.right,
-                rectMotion.bottom,
-                rectMotion.right + bmpRotate.getWidth() / 2,
-                rectMotion.bottom + bmpRotate.getHeight() / 2);
-        //记录旋转图标矩形最初的矩形
-        rectRotatePre = new RectF(rectRotateMark);
-        //记录当前旋转图标位置的矩形
-        rectRotate = new RectF(rectRotateMark);
-        //记录表情矩形的中点
-        pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
-        //记录上次动作的坐标
-        prePoint = new PointF();
-        //记录当前动作的坐标
-        curPoint = new PointF();
-        //记录旋转图标中点
-        rotateCenterP = new PointF(rectMotion.right, rectMotion.bottom);
+        bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
+        bmpDelete = BitmapFactory.decodeResource(getResources(), R.drawable.delete_icon);
+
+        if(bmpMotion != null){
+            //记录表情最初的矩形
+            rectMotionPre = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
+            //记录表情当前的矩形
+            rectMotion = new RectF(rectMotionPre);
+            //标记旋转图标位置的矩形
+            rectRotateMark = new RectF(rectMotion.right,
+                    rectMotion.bottom,
+                    rectMotion.right + bmpRotate.getWidth() / 2,
+                    rectMotion.bottom + bmpRotate.getHeight() / 2);
+            //标记删除图标位置的矩形
+            rectDeleteMark = new RectF(rectMotion.right,
+                    rectMotion.top,
+                    rectMotion.right + bmpDelete.getWidth() / 2,
+                    rectMotion.top - bmpDelete.getHeight() / 2);
+            //记录旋转图标矩形最初的矩形
+            rectRotatePre = new RectF(rectRotateMark);
+            //记录当前旋转图标位置的矩形
+            rectRotate = new RectF(rectRotateMark);
+
+            //记录删除图标矩形最初的矩形
+            rectDeletePre = new RectF(rectDeleteMark);
+            //记录当前删除图标矩形位置的矩形
+            rectDelete = new RectF(rectDeletePre);
+
+            //记录表情矩形的中点
+            pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
+            //记录上次动作的坐标
+            prePoint = new PointF();
+            //记录当前动作的坐标
+            curPoint = new PointF();
+            //记录旋转图标中点
+            rotateCenterP = new PointF(rectMotion.right, rectMotion.bottom);
+
+        }
         //画布参数
         paintFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
 

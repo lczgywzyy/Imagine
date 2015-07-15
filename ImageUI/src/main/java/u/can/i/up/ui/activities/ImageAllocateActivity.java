@@ -83,7 +83,7 @@ public class ImageAllocateActivity extends FragmentActivity {
         setContentView(R.layout.activity_image_allocate);
 //        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
         ImageViewImpl_allocate imageViewImpl_allocate = (ImageViewImpl_allocate) findViewById(R.id.ImageViewImpl_allocate);
-
+//        imageViewImpl_allocate.setBackImage();
 
 
 
