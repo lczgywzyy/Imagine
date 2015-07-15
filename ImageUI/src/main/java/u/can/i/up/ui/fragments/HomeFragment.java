@@ -36,6 +36,7 @@ import java.io.IOException;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.ImageSetActivity;
 import u.can.i.up.ui.activities.LibiraryActivity;
+import u.can.i.up.ui.activities.PearlBuildActivity;
 
 
 /**
@@ -71,6 +72,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         Button collocation_start = (Button)view.findViewById(R.id.collocation_start);
         Button libirary = (Button)view.findViewById(R.id.libirary);
+        Button pearlbuild = (Button)view.findViewById(R.id.pearlbuild);
+
         libirary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +95,13 @@ public class HomeFragment extends Fragment {
 //                selectImage();
             }
         });
+        pearlbuild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), PearlBuildActivity.class));
+            }
+        });
+
         return view;
     }
 

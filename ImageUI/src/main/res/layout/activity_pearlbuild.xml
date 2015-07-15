@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/match_1_framelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="816"
+        android:orientation="horizontal"
+        android:background="@color/darkgray"
+        android:layout_alignParentTop="true"
+        >
+        <u.can.i.up.ui.utils.ImageViewImpl_PearlBuild
+            android:id="@+id/ImageViewImpl_PearlBuild"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"></u.can.i.up.ui.utils.ImageViewImpl_PearlBuild>
+        <!--<ImageView-->
+            <!--android:id="@+id/ivImage1"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent" />-->
+        <RelativeLayout
+            android:layout_gravity="bottom"
+            android:id="@+id/match_1_middlebar"
+            android:background="@drawable/bg_gradual_change"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/actionbar">
+            <ImageButton
+                android:id="@+id/match_1_close_btn"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:padding="@dimen/btn_padding"
+                android:layout_width="@dimen/btn_outter"
+                android:layout_height="@dimen/btn_outter"
+                android:src="@drawable/icon_wrong"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true" />
+            <ImageButton
+                android:id="@+id/match_1_continue"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:padding="@dimen/btn_padding"
+                android:layout_width="@dimen/btn_outter"
+                android:layout_height="@dimen/btn_outter"
+                android:src="@drawable/icon_right"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <!--下方工具栏-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="414"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="fill_parent" />
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/Button_rotate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/iconfont_tianjia"
+                android:background="@drawable/selector_common_pressed_white" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择素珠"
+                android:textColor="@color/darkgray"
+                android:textSize="@dimen/textsize_small"/>
+        </LinearLayout>
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="fill_parent" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="16"
+                android:orientation="horizontal"
+                android:gravity="center|left"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="素珠数量"
+                    android:textColor="@color/darkgray"
+                    android:textSize="@dimen/textsize_medium"
+                    android:gravity="center"/>
+
+                <EditText
+                    android:id="@+id/ballnumb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:textColor="@color/darkgray"
+                    android:textSize="@dimen/textsize_tiny"
+                    android:hint="请输入素珠个数(10-120)："
+                    />
+
+            </LinearLayout>
+
+
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="16"
+                android:orientation="horizontal"
+                android:gravity="center|left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="排列形状"
+                    android:textColor="@color/darkgray"
+                    android:textSize="@dimen/textsize_medium"
+                    android:gravity="center"/>
+                <Spinner
+                    android:id="@+id/showGuidelinesSpin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/pearbuildstyle"/>
+
+            </LinearLayout>
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"/>
+
+
+        </LinearLayout>
+        <!--<Space-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="fill_parent" />-->
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="100"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <Button
+            android:id="@+id/pearlbuildpreview"
+            android:layout_width="128dp"
+            android:layout_height="30dp"
+            android:text="预览"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/textsize_medium"
+            android:background="@drawable/btn_brightgreen_green_rectangle"/>
+    </LinearLayout>
+
+
+</LinearLayout>

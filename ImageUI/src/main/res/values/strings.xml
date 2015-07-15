@@ -85,7 +85,11 @@
     <string name="title_activity_share">ShareActivity</string>
     <string name="title_activity_image_allocate">ImageAllocateActivity</string>
 
-
+    <string-array name="pearbuildstyle">
+        <item>圆形</item>
+        <item>椭圆</item>
+        <item>方形</item>
+    </string-array>
 
 
 

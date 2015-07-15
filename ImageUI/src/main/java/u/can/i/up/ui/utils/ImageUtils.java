@@ -5,6 +5,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +21,11 @@ import java.io.OutputStream;
  * Created by lczgywzyy on 2015/5/10.
  */
 public class ImageUtils {
+
+//    static {
+//        System.loadLibrary("ImageUtils");
+//    }
+    public native static String testString();
 
     /** @author 李承泽
      *  @param FromPath
@@ -186,5 +194,14 @@ public class ImageUtils {
                 e.printStackTrace();
             }
         }
+    }
+    /** @author 李承泽
+     *  @param canvas 待清空图层
+     *  @since 重置图层
+     * */
+    public static void clearCanvas(Canvas canvas){
+        Paint clearPaint = new Paint();
+        clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        canvas.drawRect(0, 0, 0, 0, clearPaint);
     }
 }
