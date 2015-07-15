@@ -1,12 +1,13 @@
 package u.can.i.up.ui.activities;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import u.can.i.up.ui.R;
 
@@ -21,16 +22,16 @@ public class LibiraryDetailActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_libirary_detail);
+        setContentView(R.layout.libirary_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String title = getIntent().getStringExtra("title");
         Bitmap bitmap = getIntent().getParcelableExtra("image");
 
-        TextView titleTextView = (TextView) findViewById(R.id.detail_title);
-        titleTextView.setText(title);
-
-        ImageView imageView = (ImageView) findViewById(R.id.detail_image);
-        imageView.setImageBitmap(bitmap);
+//        TextView titleTextView = (TextView) findViewById(R.id.detail_title);
+//        titleTextView.setText(title);
+//
+//        ImageView imageView = (ImageView) findViewById(R.id.detail_image);
+//        imageView.setImageBitmap(bitmap);
     }
 
     @Override

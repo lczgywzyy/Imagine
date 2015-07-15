@@ -90,4 +90,6 @@
     <color name="transparence_50_black">#5f000000</color>
     <color name="transparentbrightgreen">#3f0bab4f</color>
 
+    <color name="bg_gray">#f0f0f0</color>
+
 </resources>
