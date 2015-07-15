@@ -6,10 +6,11 @@ import android.graphics.Bitmap;
  * Created by breeze on 2015/7/13.
  */
 public class BitmapCache {
-    public static Bitmap bitmapcache;
-    public static float backBmpScale;
-    public static float backBmpTranslateX;
-    public static float backBmpTranslateY;
+    private static Bitmap bitmapcache;
+    private static float backBmpScale;
+    private static float backBmpTranslateX;
+    private static float backBmpTranslateY;
+    private static ImageViewImpl_allocate mImageViewImpl_allocate;
 
     public static void setBitmapcache(Bitmap mbitmap){
         bitmapcache = mbitmap;
@@ -39,4 +40,11 @@ public class BitmapCache {
     public static float getBackBmpTranslateY(){
         return  backBmpTranslateY;
     }
+    public static ImageViewImpl_allocate getImageViewImpl_allocate() {
+        return mImageViewImpl_allocate;
+    }
+    public static void setImageViewImpl_allocate(ImageViewImpl_allocate imageViewImpl_allocate) {
+        mImageViewImpl_allocate = imageViewImpl_allocate;
+    }
+
 }

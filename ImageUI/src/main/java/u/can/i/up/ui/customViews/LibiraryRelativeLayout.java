@@ -1,39 +1,40 @@
 package u.can.i.up.ui.customViews;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.SpannableString;
-import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.factories.FaceConversionUtil;
+import u.can.i.up.ui.utils.BitmapCache;
+import u.can.i.up.ui.utils.ImageViewImpl_allocate;
 
 /**
  * @author dongfeng
  * @data 2015.06.24
  * @sumary 素材选择底框：类似表情输入，供素材选择
  */
-public class LibiraryRelativeLayout extends RelativeLayout
-         {
+public class LibiraryRelativeLayout extends RelativeLayout implements OnItemClickListener
+{
 
+    private String TAG = LibiraryRelativeLayout.class.getName();
     private Context context;
 
     /** 表情页的监听事件 */
@@ -178,7 +179,7 @@ public class LibiraryRelativeLayout extends RelativeLayout
             LibiraryAdapter adapter = new LibiraryAdapter(context, emojis.get(i));
             view.setAdapter(adapter);
             faceAdapters.add(adapter);
-//            view.setOnItemClickListener(this);
+            view.setOnItemClickListener(this);
             view.setNumColumns(7);
             view.setBackgroundColor(Color.TRANSPARENT);
             view.setHorizontalSpacing(1);
@@ -283,38 +284,12 @@ public class LibiraryRelativeLayout extends RelativeLayout
         }
     }
 
-//             @Override
-//    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-//        ChatEmoji emoji = (ChatEmoji) faceAdapters.get(current).getItem(arg2);
-//        if (emoji.getId() == R.drawable.face_del_icon) {
-//
-//
-////            int selection = et_sendmessage.getSelectionStart();
-////            String text = et_sendmessage.getText().toString();
-////            if (selection > 0) {
-////                String text2 = text.substring(selection - 1);
-////                if ("]".equals(text2)) {
-////                    int start = text.lastIndexOf("[");
-////                    int end = selection;
-////                    et_sendmessage.getText().delete(start, end);
-////                    return;
-////                }
-////                et_sendmessage.getText().delete(selection - 1, selection);
-////            }
-//        }
-//        if (!TextUtils.isEmpty(emoji.getCharacter())) {
-//            if (mListener != null)
-//                mListener.onCorpusSelected(emoji);
-//            SpannableString spannableString = FaceConversionUtil.getInstace()
-//                    .addFace(getContext(), emoji.getId(), emoji.getCharacter());
-//            et_sendmessage.append(spannableString);
-//        }
-//
-//    }
-
-//    @Override
-//    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-//        ChatEmoji emoji = (ChatEmoji) faceAdapters.get(current).getItem(arg2);
+    @Override
+    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        ChatEmoji emoji = (ChatEmoji) faceAdapters.get(current).getItem(arg2);
+        Log.i(TAG, "1");
+        ImageViewImpl_allocate imageViewImpl_allocate = BitmapCache.getImageViewImpl_allocate();
+        imageViewImpl_allocate.setBmpMotion(BitmapFactory.decodeResource(getResources(), emoji.getId()));
 //        if (emoji.getId() == R.drawable.face_del_icon) {
 //            int selection = et_sendmessage.getSelectionStart();
 //            String text = et_sendmessage.getText().toString();
@@ -336,6 +311,6 @@ public class LibiraryRelativeLayout extends RelativeLayout
 //                    .addFace(getContext(), emoji.getId(), emoji.getCharacter());
 //            et_sendmessage.append(spannableString);
 //        }
-//
-//    }
+
+    }
 }

@@ -25,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.customViews.LibiraryRelativeLayout;
 import u.can.i.up.ui.factories.FaceConversionUtil;
 import u.can.i.up.ui.fragments.*;
 import u.can.i.up.ui.utils.BitmapCache;
@@ -83,11 +84,10 @@ public class ImageAllocateActivity extends FragmentActivity {
         setContentView(R.layout.activity_image_allocate);
 //        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
         ImageViewImpl_allocate imageViewImpl_allocate = (ImageViewImpl_allocate) findViewById(R.id.ImageViewImpl_allocate);
+        BitmapCache.setImageViewImpl_allocate(imageViewImpl_allocate);
 //        imageViewImpl_allocate.setBackImage();
-
-
-
-
+//        LibiraryRelativeLayout sLibiraryRelativeLayout = (LibiraryRelativeLayout) findViewById(R.id.LibiraryRelativeLayout);
+//        sLibiraryRelativeLayout.setmImageViewImpl_allocate(imageViewImpl_allocate);
 
 //        logoview = (ImageView) findViewById(R.id.ivImage2);
         ImageButton setover = (ImageButton)findViewById(R.id.match_2_continue);
@@ -111,9 +111,7 @@ public class ImageAllocateActivity extends FragmentActivity {
         setover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 //                Bitmap mypic = myView_allocate.saveBitmapAll();
-
 
 //                ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //                mypic.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -133,11 +131,19 @@ public class ImageAllocateActivity extends FragmentActivity {
             }
         }).start();
         initView();
+
+
         //异步任务加载图片
 //        Loadimage loadimage = new Loadimage();
 //        loadimage.execute(filename);
     }
-
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        ImageViewImpl_allocate imageViewImpl_allocate = (ImageViewImpl_allocate) findViewById(R.id.ImageViewImpl_allocate);
+//        LibiraryRelativeLayout sLibiraryRelativeLayout = (LibiraryRelativeLayout) findViewById(R.id.LibiraryRelativeLayout);
+//        sLibiraryRelativeLayout.setmImageViewImpl_allocate(imageViewImpl_allocate);
+//    }
 
     /**
      * 初始化组件
