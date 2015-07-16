@@ -1,5 +1,6 @@
 package u.can.i.up.utils.image;
 
+import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 
@@ -9,17 +10,36 @@ import android.graphics.PointF;
 public class Pearl {
 
     private PointF center = null;
-    private Matrix PointSuzhuMatrix = null;
+    private Matrix mMatrix = null;
     private int PearlType = -1;
+    private String IconPath = null;
+    private Bitmap mBitmap = null;
 
     enum PearlTypeEnum{
         HEADER,
         NECK,
     }
 
+    public Pearl(Bitmap bmp, Matrix matrix){
+        this.mBitmap = bmp;
+        this.mMatrix = new Matrix(matrix);
+    }
+
+    public Pearl(Matrix matrix){
+        this.mMatrix = new Matrix(matrix);
+    }
+
     public Pearl(PointF point, Matrix matrix){
         this.center = new PointF(point.x, point.y);
-        this.PointSuzhuMatrix = new Matrix(matrix);
+        this.mMatrix = new Matrix(matrix);
+    }
+
+    public Bitmap getBitmap() {
+        return mBitmap;
+    }
+
+    public void setBitmap(Bitmap mBitmap) {
+        this.mBitmap = mBitmap;
     }
 
     public void setCenter(PointF point){
@@ -30,12 +50,12 @@ public class Pearl {
         return this.center;
     }
 
-    public Matrix getPointSuzhuMatrix() {
-        return this.PointSuzhuMatrix;
+    public Matrix getMatrix() {
+        return this.mMatrix;
     }
 
-    public void setPointSuzhuMatrix(Matrix pointSuzhuMatrix) {
-        this.PointSuzhuMatrix = pointSuzhuMatrix;
+    public void setMatrix(Matrix pointSuzhuMatrix) {
+        this.mMatrix = pointSuzhuMatrix;
     }
 
     public int getPearlType() {

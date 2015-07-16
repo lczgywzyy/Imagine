@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +39,9 @@ import u.can.i.up.ui.utils.ImageViewImpl_allocate;
  */
 
 public class ImageAllocateActivity extends FragmentActivity {
+
+    private final String TAG = this.getClass().getName();
+
     ProgressDialog pDialog;
     Bitmap mbitmap;
 //    ImageView logoview;
@@ -91,6 +95,7 @@ public class ImageAllocateActivity extends FragmentActivity {
 
 //        logoview = (ImageView) findViewById(R.id.ivImage2);
         ImageButton setover = (ImageButton)findViewById(R.id.match_2_continue);
+        ImageButton closeBtm = (ImageButton)findViewById(R.id.match_1_close_btn);
 //        String filename = getIntent().getStringExtra("Imagefile");
 //        Bitmap bitmap = (Bitmap) getIntent().getExtras().getParcelable("bitmap");
 //        Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("Image");
@@ -107,7 +112,12 @@ public class ImageAllocateActivity extends FragmentActivity {
 
 
 //        Toast.makeText(getApplicationContext(), "导出到ImageViewImpl_10_output_All.png", Toast.LENGTH_SHORT).show();
-
+        closeBtm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BitmapCache.getImageViewImpl_allocate().turnLastAction();
+            }
+        });
         setover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

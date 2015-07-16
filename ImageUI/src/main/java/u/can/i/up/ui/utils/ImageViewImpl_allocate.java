@@ -9,26 +9,18 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
-import android.os.Environment;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import cropper.CropImageView;
 import cropper.cropwindow.edge.Edge;
-import cropper.util.HandleUtil;
 import cropper.util.PaintUtil;
 import u.can.i.up.ui.R;
+import u.can.i.up.utils.image.Pearl;
 
 /**
  * @data 2015/7/14
@@ -69,15 +61,15 @@ public class ImageViewImpl_allocate extends View {
     Matrix matrixPaint = null;
 
     //图片变换点阵集合
-    RectF rectBack = null;
-    RectF rectMotionPre = null;
-    RectF rectMotion = null;
-    RectF rectRotateMark = null;
-    RectF rectRotatePre = null;
-    RectF rectRotate = null;
-    RectF rectDeleteMark = null;
-    RectF rectDeletePre = null;
-    RectF rectDelete = null;
+    RectF rectBack = new RectF();
+    RectF rectMotionPre = new RectF();
+    RectF rectMotion = new RectF();
+    RectF rectRotateMark = new RectF();
+    RectF rectRotatePre = new RectF();
+    RectF rectRotate = new RectF();
+    RectF rectDeleteMark = new RectF();
+    RectF rectDeletePre = new RectF();
+    RectF rectDelete = new RectF();
 
 
     PaintFlagsDrawFilter paintFilter = null;
@@ -88,6 +80,9 @@ public class ImageViewImpl_allocate extends View {
     PointF curPoint = new PointF();
     PointF rotateCenterP = new PointF();
     PointF deleteCenterP = new PointF();
+
+    //记录所有珠子布局的List
+    List<Pearl> mPearlList = new ArrayList<Pearl>();
 
     enum ViewStatus{
         STATUS_ROTATE,
@@ -108,6 +103,10 @@ public class ImageViewImpl_allocate extends View {
     /** TODO 当且仅当构造函数中可以调用init()
      * */
     private void init(Context context) {
+
+        //PearList重置
+        mPearlList.clear();
+
         mGuidelinePaint = PaintUtil.newGuidelinePaint();
         mBorderPaint = PaintUtil.newBorderPaint(context);
 //     mGuidelines = CropImageView.DEFAULT_GUIDELINES;
@@ -215,6 +214,11 @@ public class ImageViewImpl_allocate extends View {
         if(bmpBack != null) {
             canvas.drawBitmap(bmpBack, matrixBack, mainPaint);
         }
+        if(mPearlList != null && !mPearlList.isEmpty()){
+            for (Pearl pearl: mPearlList){
+                canvas.drawBitmap(pearl.getBitmap(), pearl.getMatrix(), null);
+            }
+        }
         if (bmpMotion != null){
             canvas.drawBitmap(bmpMotion, matrixPaint, null);
             canvas.drawBitmap(bmpRotate, null, rectRotate, null);
@@ -287,14 +291,14 @@ public class ImageViewImpl_allocate extends View {
                 getRectCenter(rectRotateMark, rotateCenterP);
                 getRectCenter(rectDeleteMark, deleteCenterP);
                 getRectCenter(rectMotion, pointMotionMid);
-                rectRotate.set(rotateCenterP.x,
-                        rotateCenterP.y,
-                        rotateCenterP.x + bmpRotate.getWidth(),
-                        rotateCenterP.y + bmpRotate.getHeight());
-                rectDelete.set(deleteCenterP.x,
-                        deleteCenterP.y,
-                        deleteCenterP.x + bmpDelete.getWidth(),
-                        deleteCenterP.y + bmpDelete.getHeight());
+                rectRotate.set(rectRotateMark.left,
+                        rectRotateMark.top,
+                        rectRotateMark.left + bmpRotate.getWidth(),
+                        rectRotateMark.top + bmpRotate.getHeight());
+                rectDelete.set(rectDeleteMark.left,
+                        rectDeleteMark.top - bmpDelete.getHeight(),
+                        rectDeleteMark.left + bmpDelete.getWidth(),
+                        rectDeleteMark.top);
                 postInvalidate();
                 break;
             default:
@@ -304,8 +308,13 @@ public class ImageViewImpl_allocate extends View {
     }
 
     public void setBmpMotion(Bitmap mbitmap){
+        if(bmpMotion != null){
+            Pearl tmpPearl = new Pearl(bmpMotion, matrixPaint);
+            mPearlList.add(tmpPearl);
+        }
         bmpMotion = mbitmap;
         if(bmpMotion != null){
+
             //记录表情最初的矩形
             rectMotionPre = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
             //记录表情当前的矩形
@@ -317,9 +326,9 @@ public class ImageViewImpl_allocate extends View {
                     rectMotion.bottom + bmpRotate.getHeight());
             //标记删除图标位置的矩形
             rectDeleteMark = new RectF(rectMotion.right,
-                    rectMotion.top,
+                    rectMotion.top - bmpDelete.getHeight(),
                     rectMotion.right + bmpDelete.getWidth(),
-                    rectMotion.top - bmpDelete.getHeight());
+                    rectMotion.top);
             //记录旋转图标矩形最初的矩形
             rectRotatePre = new RectF(rectRotateMark);
             //记录当前旋转图标位置的矩形
@@ -343,6 +352,40 @@ public class ImageViewImpl_allocate extends View {
         }
         invalidate();
     }
+
+    public void turnLastAction(){
+        Pearl tmpPearl = null;
+        if(mPearlList != null && !mPearlList.isEmpty()){
+            tmpPearl = mPearlList.get(mPearlList.size() - 1);
+            mPearlList.remove(mPearlList.size() - 1);
+
+        bmpMotion = tmpPearl.getBitmap();
+        matrixPaint = tmpPearl.getMatrix();
+        matrixPaint.mapRect(rectMotion, new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight()));
+        matrixPaint.mapRect(rectRotate, new RectF(bmpMotion.getWidth(), bmpMotion.getHeight(), bmpMotion.getWidth() + bmpRotate.getWidth(), bmpMotion.getHeight() + bmpRotate.getHeight()));
+        matrixPaint.mapRect(rectDelete, new RectF(bmpMotion.getWidth(), 0 - bmpDelete.getHeight(), bmpMotion.getWidth() + bmpDelete.getWidth(), 0));
+        rectRotate.set(rectRotate.left,
+                rectRotate.top,
+                rectRotate.left + bmpRotate.getWidth(),
+                rectRotate.top + bmpRotate.getHeight());
+        rectDelete.set(rectDelete.left,
+                rectDelete.top - bmpDelete.getHeight(),
+                rectDelete.left + bmpDelete.getWidth(),
+                rectDelete.top);
+        }else if(bmpMotion != null){
+            bmpMotion = null;
+        }
+//        rectRotate = new RectF(rectMotion.right,
+//                rectMotion.bottom,
+//                rectMotion.right + bmpRotate.getWidth(),
+//                rectMotion.bottom + bmpRotate.getHeight());
+//        rectDelete = new RectF(rectMotion.right,
+//                rectMotion.top - bmpDelete.getHeight(),
+//                rectMotion.right + bmpDelete.getWidth(),
+//                rectMotion.top);
+        invalidate();
+    }
+
     private void deleteCurrentMotion(){
         bmpMotion = null;
         invalidate();
@@ -447,7 +490,7 @@ public class ImageViewImpl_allocate extends View {
     //判断点是否在矩形内
     private boolean isInRect(float x, float y, RectF rect){
         boolean ret = false;
-        if(x > rect.left && x < rect.right && y > rect.top && y < rect.bottom){
+        if(rect != null && x > rect.left && x < rect.right && y > rect.top && y < rect.bottom){
             ret = true;
         }
         return ret;

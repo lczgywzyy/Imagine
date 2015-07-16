@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import u.can.i.up.utils.image.Pearl;
 
 
 /**
@@ -146,7 +147,7 @@ public class ImageViewImpl_PearlBuild extends View {
         /* 绘制素珠点
         * */
         for(Pearl p: mPearlList){
-            canvas.drawBitmap(bmpSuzhu, p.getPointSuzhuMatrix(), null);
+            canvas.drawBitmap(bmpSuzhu, p.getMatrix(), null);
         }
     }
 
