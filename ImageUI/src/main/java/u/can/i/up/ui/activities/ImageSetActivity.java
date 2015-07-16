@@ -79,6 +79,11 @@ public class ImageSetActivity extends Activity {
         ImageButton loadimage = (ImageButton)findViewById(R.id.match_1_close_btn);
         ImageButton crop = (ImageButton)findViewById(R.id.match_1_continue);
 
+//        Uri photoUri = getIntent().getParcelableExtra("photoUri");
+//        cropImageView.setImageUri(photoUri);
+        cropImageView.setImageBitmap(BitmapCache.getBitmapcache());
+
+
         rotateButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -87,13 +92,13 @@ public class ImageSetActivity extends Activity {
             }
         });
 
-        loadimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(getPickImageChooserIntent(), 200);
-//                selectImage();
-            }
-        });
+//        loadimage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivityForResult(getPickImageChooserIntent(), 200);
+////                selectImage();
+//            }
+//        });
 
 
 

@@ -2,10 +2,13 @@ package u.can.i.up.ui.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -13,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,11 +36,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import cropper.CropImageView;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.ImageSetActivity;
 import u.can.i.up.ui.activities.LibiraryActivity;
 import u.can.i.up.ui.activities.PearlBuildActivity;
+import u.can.i.up.ui.utils.BitmapCache;
 
 
 /**
@@ -89,10 +97,10 @@ public class HomeFragment extends Fragment {
 //                dialog.setContentView(R.layout.dialog_choose_picture);
 //
 //                dialog.show();
-                startActivity(new Intent(getActivity(), ImageSetActivity.class));
+//                startActivity(new Intent(getActivity(), ImageSetActivity.class));
 //                Intent newdata = new Intent(getActivity(), ImageSetActivity.class);
 //                startActivity(newdata);
-//                selectImage();
+                selectImage();
             }
         });
         pearlbuild.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +129,8 @@ public class HomeFragment extends Fragment {
 
     private void selectImage() {
 
+
+//        startActivityForResult(getPickImageChooserIntent(), 200);
 //        Dialog dialog = new Dialog(getActivity(), R.style.Theme_CustomDialog);
 //        dialog.setContentView(R.layout.dialog_choose_picture);
 //        Button camara = (Button)getView().findViewById(R.id.dialog_camera_btn);
@@ -144,28 +154,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals(getString(R.string.dialog_choose_camera))) {
-                    /*
-                    * @data 2015.07.12
-                    * @sumary 修正拍照后图片不清晰情况
-                    * */
-//                    File saveDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/DuoBaoChuan/");
-//                    saveDir.mkdir();
-//                    String format = String.format("%%0%dd", 3);
-//                    File saveFile;
-//                    do {
-//                        int count = getCameraFileCount();
-//                        String filename = "DuoBaoChuan_" + String.format(format, count) +"_000.jpeg";
-//                        saveFile = new File(saveDir, filename);
-//                        incrementCameraFileCount();
-//                    } while (saveFile.exists());
-//
-//                    Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE );
-//                    mOriginalPhotoPath = saveFile.getAbsolutePath();
-//                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(saveFile));
-//                    startActivityForResult(intent, REQUEST_CAMERA);
-
-
-
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, REQUEST_CAMERA);
                 } else if (items[item].equals(getString( R.string.dialog_choose_picture))) {
                     Intent intent = new Intent(
                             Intent.ACTION_PICK,
@@ -182,6 +172,17 @@ public class HomeFragment extends Fragment {
         builder.show();
     }
 
+
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode == Activity.RESULT_OK) {
+//            Uri imageUri = getPickImageResultUri(data);
+//
+//            BitmapCache.setBitmapcache(croppedImage);
+//
+//        }
+//    }
 
 //    private void loadPhoto(String path) {
 //        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -221,35 +222,35 @@ public class HomeFragment extends Fragment {
 ////        mImageView.setImageBitmap(mBitmap);
 
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        byte[] bytepicture = bytes.toByteArray();
-
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+//
+//        File destination = new File(Environment.getExternalStorageDirectory(),
+//                System.currentTimeMillis() + ".jpg");
+//
+//        FileOutputStream fo;
+//        try {
+//            destination.createNewFile();
+//            fo = new FileOutputStream(destination);
+//            fo.write(bytes.toByteArray());
+//            fo.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        byte[] bytepicture = bytes.toByteArray();
+        BitmapCache.setBitmapcache(thumbnail);
         Intent newdata = new Intent(getActivity(), ImageSetActivity.class);
-        newdata.putExtra("picture", bytepicture);
+//        newdata.putExtra("photoUri", photoUri);
         startActivity(newdata);
 
 //        ivImage.setImageBitmap(thumbnail);
 
     }
-
+//
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Uri selectedImageUri = data.getData();
@@ -274,17 +275,102 @@ public class HomeFragment extends Fragment {
         options.inSampleSize = scale;
         options.inJustDecodeBounds = false;
         bm = BitmapFactory.decodeFile(selectedImagePath, options);
+////
+////        ivImage.setImageBitmap(bm);
 //
-//        ivImage.setImageBitmap(bm);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] bytepicture = baos.toByteArray();
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//        byte[] bytepicture = baos.toByteArray();
 
         Intent newdata = new Intent(getActivity(), ImageSetActivity.class);
-        newdata.putExtra("picture", bytepicture);
+        BitmapCache.setBitmapcache(bm);
+//        newdata.putExtra("photoUri", selectedImageUri);
         startActivity(newdata);
 
 
     }
+
+//    /**
+//     * Create a chooser intent to select the source to get image from.<br/>
+//     * The source can be camera's (ACTION_IMAGE_CAPTURE) or gallery's (ACTION_GET_CONTENT).<br/>
+//     * All possible sources are added to the intent chooser.
+//     */
+//    public Intent getPickImageChooserIntent() {
+//
+//        // Determine Uri of camera image to save.
+//        Uri outputFileUri = getCaptureImageOutputUri();
+//
+//        List<Intent> allIntents = new ArrayList<>();
+//        PackageManager packageManager = getPackageManager();
+//
+//        // collect all camera intents
+//        Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+//        for (ResolveInfo res : listCam) {
+//            Intent intent = new Intent(captureIntent);
+//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+//            intent.setPackage(res.activityInfo.packageName);
+//            if (outputFileUri != null) {
+//                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+//            }
+//            allIntents.add(intent);
+//        }
+//
+//        // collect all gallery intents
+//        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//        galleryIntent.setType("image/*");
+//        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
+//        for (ResolveInfo res : listGallery) {
+//            Intent intent = new Intent(galleryIntent);
+//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+//            intent.setPackage(res.activityInfo.packageName);
+//            allIntents.add(intent);
+//        }
+//
+//        // the main intent is the last in the list (fucking android) so pickup the useless one
+//        Intent mainIntent = allIntents.get(allIntents.size() - 1);
+//        for (Intent intent : allIntents) {
+//            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
+//                mainIntent = intent;
+//                break;
+//            }
+//        }
+//        allIntents.remove(mainIntent);
+//
+//        // Create a chooser from the main intent
+//        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
+//
+//        // Add all other intents
+//        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
+//
+//        return chooserIntent;
+//    }
+//
+//    /**
+//     * Get URI to image received from capture by camera.
+//     */
+//    private Uri getCaptureImageOutputUri() {
+//        Uri outputFileUri = null;
+//        File getImage = getExternalCacheDir();
+//        if (getImage != null) {
+//            outputFileUri = Uri.fromFile(new File(getImage.getPath(), "pickImageResult.jpeg"));
+//        }
+//        return outputFileUri;
+//    }
+//
+//    /**
+//     * Get the URI of the selected image from {@link #getPickImageChooserIntent()}.<br/>
+//     * Will return the correct URI for camera and gallery image.
+//     *
+//     * @param data the returned data of the activity result
+//     */
+//    public Uri getPickImageResultUri(Intent data) {
+//        boolean isCamera = true;
+//        if (data != null) {
+//            String action = data.getAction();
+//            isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
+//        }
+//        return isCamera ? getCaptureImageOutputUri() : data.getData();
+//    }
+
 }
