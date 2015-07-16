@@ -13,10 +13,14 @@
         android:background="@color/darkgray"
         android:layout_alignParentTop="true"
         >
-        <RelativeLayout
-            android:id="@+id/cutout_2_framelayout"
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/cutout_2_framelayout"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"></RelativeLayout>-->
+        <ImageView
+            android:id="@+id/cutout_image"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></RelativeLayout>
+            android:layout_height="fill_parent" />
         <RelativeLayout
             android:id="@+id/match_1_middlebar"
             android:layout_gravity="bottom"
