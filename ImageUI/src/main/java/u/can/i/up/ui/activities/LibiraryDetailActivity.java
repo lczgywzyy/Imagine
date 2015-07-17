@@ -19,7 +19,7 @@ public class LibiraryDetailActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.libirary_detail_activity);
+        setContentView(R.layout.activity_libirary_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String title = getIntent().getStringExtra("title");
         Bitmap bitmap = getIntent().getParcelableExtra("image");

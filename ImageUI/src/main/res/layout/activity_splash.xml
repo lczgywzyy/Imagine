@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@drawable/mainpage_bg"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.AppCompat.NoActionBar">
     <!--<LinearLayout-->
     <!--android:layout_width="fill_parent"-->
     <!--android:layout_height="0dp"-->
@@ -36,7 +37,7 @@
             android:layout_height="wrap_content"
             android:text="一款帮你搭配串珠的APP"
             android:textColor="@color/white"
-            android:textSize="@dimen/mainpage_tv_tip_textsize"/>
+            android:textSize="@dimen/textsize_medium"/>
     </LinearLayout>
     <!--<LinearLayout-->
         <!--android:layout_width="fill_parent"-->

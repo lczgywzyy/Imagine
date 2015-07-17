@@ -146,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Create the first fragment to be shown
         Bundle bundle = new Bundle();
-//        bundle.putInt(ColorFragment.sARGUMENT_COLOR, R.color.blue_500);
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -182,27 +181,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         view.setSelected(true);
 
                         Bundle bundle = new Bundle();
-//                        bundle.putInt(ColorFragment.sARGUMENT_COLOR, R.color.blue_500);
-
-                        // Insert the fragment by replacing any existing fragment
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_activity_content_frame, HomeFragment.newInstance(bundle))
-                                .commit();
-                        break;
-                    }
-
-                    case R.id.navigation_drawer_items_list_FrameLayout_libirary:
-                    {
-                        if (getSupportActionBar() != null)
-                        {
-                            getSupportActionBar().setTitle(getString(R.string.toolbar_title_libirary));
-                        }
-
-                        view.setSelected(true);
-
-                        Bundle bundle = new Bundle();
-//                        bundle.putInt(ColorFragment.sARGUMENT_COLOR, R.color.amber_500);
 
                         // Insert the fragment by replacing any existing fragment
                         getSupportFragmentManager()

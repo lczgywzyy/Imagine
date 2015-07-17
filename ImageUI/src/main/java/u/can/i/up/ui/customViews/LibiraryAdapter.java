@@ -57,7 +57,7 @@ public class LibiraryAdapter extends BaseAdapter {
         ViewHolder viewHolder=null;
         if(convertView == null) {
             viewHolder=new ViewHolder();
-            convertView=inflater.inflate(R.layout.item_libirary, null);
+            convertView=inflater.inflate(R.layout.item_material_selected, null);
             viewHolder.iv_face=(ImageView)convertView.findViewById(R.id.gridImage);
             convertView.setTag(viewHolder);
         } else {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/Theme.AppCompat.NoActionBar"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -70,7 +71,7 @@
             <View
                 android:layout_width="105dp"
                 android:layout_height="1dp"
-                android:background="@color/lightgray"
+                android:background="@color/white"
                 android:layout_marginBottom="7dp"/>
             <TextView
                 android:layout_width="50dp"
@@ -78,12 +79,12 @@
                 android:text="分享至"
                 android:textSize="@dimen/textsize_micro"
                 android:gravity="center|bottom"
-                android:textColor="@color/lightgray"
+                android:textColor="@color/white"
                 />
             <View
                 android:layout_width="105dp"
                 android:layout_height="1dp"
-                android:background="@color/lightgray"
+                android:background="@color/white"
                 android:layout_marginBottom="7dp"/>
 
         </LinearLayout>
@@ -171,8 +172,7 @@
                 style="@style/match_3_space_between_btn" />
             <TextView
                 style="@style/match_3_btn_text"
-                android:textSize="7sp"
-                android:text="Instagram"/>
+                android:text="Insta"/>
             <Space
                 style="@style/match_3_space_between_btn" />
             <TextView

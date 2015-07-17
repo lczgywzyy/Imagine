@@ -17,6 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:textSize="12sp" />
+        android:textSize="@dimen/textsize_micro" />
 
 </LinearLayout>

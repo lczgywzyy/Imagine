@@ -3,7 +3,10 @@
 <u.can.i.up.ui.customViews.ScrimInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_activity_navigation_drawer_rootLayout"
-    style="@style/ScrimInsetsLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true"
+    android:layout_gravity="start"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -14,15 +17,15 @@
         <FrameLayout
             android:id="@+id/navigation_drawer_account_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/navigation_drawer_account_section_default_height"
+            android:layout_height="@dimen/drawer_account_section_default_height"
             android:clickable="true"
-            android:background="@color/toolbar_background"
-            tools:layout_height="@dimen/navigation_drawer_account_section_default_height">
+            android:background="@color/darkgray"
+            tools:layout_height="@dimen/drawer_account_section_default_height">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:foreground="@color/black_alpha_50">
+                android:foreground="@color/transparence_50_black">
 
                 <!--<com.android.volley.toolbox.NetworkImageView-->
                     <!--android:id="@+id/navigation_drawer_user_account_picture_cover"-->
@@ -54,13 +57,13 @@
 
                     <TextView
                         android:id="@+id/navigation_drawer_account_information_display_name"
-                        style="@style/NavDrawerAccountInfoText"
+                        style="@style/drawerInfoText"
                         android:text="@string/tools_text_account_information_username"
                         tools:fontFamily="sans-serif-medium"/>
 
                     <TextView
                         android:id="@+id/navigation_drawer_account_information_email"
-                        style="@style/NavDrawerAccountInfoText"
+                        style="@style/drawerInfoText"
                         android:text="@string/tools_text_account_information_email"
                         tools:fontFamily="sans-serif"/>
 
@@ -81,8 +84,8 @@
                     android:src="@drawable/ic_account_circle_demo" />
                 <Button
                     android:id="@+id/search_user"
-                    android:layout_width="@dimen/junior_btn_size"
-                    android:layout_height="@dimen/junior_btn_size"
+                    android:layout_width="@dimen/sys_btn"
+                    android:layout_height="@dimen/sys_btn"
                     android:layout_alignTop="@+id/navigation_drawer_user_account_picture_profile"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
@@ -106,7 +109,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/toolbar_background"
+            android:background="@color/darkgray"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/nav_drawer_vertical_spacing_listing"
             android:paddingTop="@dimen/nav_drawer_vertical_spacing_listing">
@@ -126,14 +129,14 @@
                         style="@style/NavDrawerRowItemIcon"
                         android:src="@drawable/btn_lux_true"
                         tools:ignore="ContentDescription"
-                        tools:tint="@color/nav_drawer_item_icon_selected" />
+                        tools:tint="@color/brightgreen" />
 
                     <TextView
                         android:id="@+id/navigation_drawer_items_textView_home"
                         style="@style/NavDrawerRowItemText"
                         android:text="@string/nav_drawer_item_home"
                         tools:fontFamily="sans-serif-medium"
-                        tools:textColor="@color/nav_drawer_item_text_selected"/>
+                        tools:textColor="@color/white"/>
 
                 </FrameLayout>
 
@@ -155,8 +158,12 @@
 
                 </FrameLayout>
 
-                <include
-                    layout="@layout/navigation_drawer_divider"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:layout_marginBottom="@dimen/nav_drawer_vertical_spacing_listing_divider_bottom"
+                    android:layout_marginTop="@dimen/nav_drawer_vertical_spacing_listing_divider_top"
+                    android:background="@color/white"/>
 
                 <FrameLayout
                     android:id="@+id/navigation_drawer_items_list_linearLayout_setup"

@@ -20,7 +20,7 @@
         <!--<ImageView-->
             <!--android:id="@+id/ivImage1"-->
             <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent" />-->
+            <!--android:layout_height="fill_parent" />-->、
         <RelativeLayout
             android:layout_gravity="bottom"
             android:id="@+id/match_1_middlebar"
@@ -58,60 +58,88 @@
         android:orientation="horizontal">
 
         <Space
-            android:layout_width="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="80"
             android:layout_height="fill_parent" />
         <LinearLayout
-            android:layout_width="80dp"
+            android:layout_width="0dp"
+            android:layout_weight="180"
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:gravity="center">
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="60"/>
             <ImageButton
                 android:id="@+id/Button_rotate"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/iconfont_tianjia"
+                android:layout_height="0dp"
+                android:layout_weight="120"
+                android:src="@drawable/icon_tianjia"
                 android:background="@drawable/selector_common_pressed_white" />
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="25"/>
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="选择素珠"
+                android:layout_height="0dp"
+                android:layout_weight="40"
+                android:text="选择底珠材料"
                 android:textColor="@color/darkgray"
                 android:textSize="@dimen/textsize_small"/>
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="40"/>
         </LinearLayout>
         <Space
-            android:layout_width="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="20"
             android:layout_height="fill_parent" />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="320"
             android:layout_height="fill_parent"
             android:orientation="vertical">
             <Space
                 android:layout_width="fill_parent"
-                android:layout_height="20dp"
+                android:layout_height="0dp"
+                android:layout_weight="70"
                 />
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="16"
+                android:layout_weight="50"
                 android:orientation="horizontal"
                 android:gravity="center|left"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="素珠数量"
+                    android:text="底珠数量："
                     android:textColor="@color/darkgray"
-                    android:textSize="@dimen/textsize_medium"
+                    android:textSize="@dimen/textsize_small"
                     android:gravity="center"/>
 
                 <EditText
                     android:id="@+id/ballnumb"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/darkgray"
-                    android:textSize="@dimen/textsize_tiny"
-                    android:hint="请输入素珠个数(10-120)："
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="@dimen/textsize_small"
+                    android:hint="范围15-120"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="个"
+                    android:textColor="@color/darkgray"
+                    android:textSize="@dimen/textsize_small"
+                    android:gravity="center"/>
 
             </LinearLayout>
 
@@ -119,21 +147,21 @@
             <Space
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="8"/>
+                android:layout_weight="15"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="16"
+                android:layout_weight="90"
                 android:orientation="horizontal"
                 android:gravity="center|left">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="排列形状"
+                    android:text="底珠排列形状"
                     android:textColor="@color/darkgray"
-                    android:textSize="@dimen/textsize_medium"
+                    android:textSize="@dimen/textsize_small"
                     android:gravity="center"/>
                 <Spinner
                     android:id="@+id/showGuidelinesSpin"
@@ -149,9 +177,10 @@
 
 
         </LinearLayout>
-        <!--<Space-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="fill_parent" />-->
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="80"
+            android:layout_height="fill_parent" />
 
     </LinearLayout>
     <LinearLayout
@@ -160,13 +189,13 @@
         android:layout_weight="100"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:gravity="center"
+        android:gravity="center|top"
         >
         <Button
             android:id="@+id/pearlbuildpreview"
             android:layout_width="128dp"
-            android:layout_height="30dp"
-            android:text="预览"
+            android:layout_height="40dp"
+            android:text="预 览"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="@dimen/textsize_medium"

@@ -75,7 +75,7 @@
         android:background="@color/white">
 
         <include
-        layout="@layout/libirarytab_navigator"/>
+        layout="@layout/navigator_material_selected"/>
 
     </FrameLayout>
     <!--<LinearLayout-->
@@ -88,7 +88,7 @@
 
         <!--&lt;!&ndash; The navigation tab &ndash;&gt;-->
         <!--<include-->
-            <!--layout="@layout/libirarytab_navigator"/>-->
+
     <!--</LinearLayout>-->
 
 </LinearLayout>

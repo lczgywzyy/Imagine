@@ -62,7 +62,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-        setContentView(R.layout.activity_login1);
+        setContentView(R.layout.activity_login);
 
         Button login = (Button) findViewById(R.id.login_start);
         login.setOnClickListener(new OnClickListener() {

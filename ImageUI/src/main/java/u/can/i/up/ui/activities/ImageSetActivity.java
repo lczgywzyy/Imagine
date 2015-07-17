@@ -67,7 +67,7 @@ public class ImageSetActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_set1);
+        setContentView(R.layout.activity_image_set);
         // Initialize components of the app
         final CropImageView cropImageView = (CropImageView) findViewById(R.id.CropImageView);
         //Sets the rotate button

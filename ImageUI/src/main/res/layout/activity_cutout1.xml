@@ -17,8 +17,8 @@
             <!--android:id="@+id/cutout_2_framelayout"-->
             <!--android:layout_width="fill_parent"-->
             <!--android:layout_height="fill_parent"></RelativeLayout>-->
-        <ImageView
-            android:id="@+id/cutout_image"
+        <u.can.i.up.ui.utils.ImageViewImpl_cutout
+            android:id="@+id/ImageViewImpl_cutout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
         <RelativeLayout
@@ -219,6 +219,7 @@
                     android:progress="100"
                     android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
                     android:thumb="@drawable/seekbar_thumb"
+                    android:thumbOffset="0dp"
                     />
 
             </LinearLayout>
@@ -257,6 +258,7 @@
                     android:progress="100"
                     android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
                     android:thumb="@drawable/seekbar_thumb"
+                    android:thumbOffset="0dp"
                     />
 
             </LinearLayout>
@@ -294,6 +296,7 @@
                     android:progress="100"
                     android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
                     android:thumb="@drawable/seekbar_thumb"
+                    android:thumbOffset="0dp"
                     />
 
             </LinearLayout>

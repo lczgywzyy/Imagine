@@ -87,6 +87,8 @@ public class ImageViewImpl_cutout extends View {
     private float tmpCircleRadius = 100L;
     private float tmpCircleRadiusRatio = 1L;
 
+
+
     public ImageViewImpl_cutout(Context context) {
         super(context);
         mContext = context;

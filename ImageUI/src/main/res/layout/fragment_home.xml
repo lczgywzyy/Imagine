@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="一款帮你搭配串珠的APP"
             android:textColor="@color/white"
-            android:textSize="@dimen/mainpage_tv_tip_textsize"/>
+            android:textSize="@dimen/textsize_medium"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,33 +46,41 @@
         <Button
             android:id="@+id/collocation_start"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/mainpage_startbtn_height"
+            android:layout_height="72dp"
             android:background="@drawable/btn_cube_turquoise"
             android:layout_weight="1"
             android:text="@string/collocation_start"
             android:textColor="@color/white"
-            android:textSize="@dimen/mainpage_startbtn_textsize"/>
-        <include
-            layout="@layout/navigation_drawer_divider"/>
+            android:textSize="@dimen/textsize_large"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/nav_drawer_vertical_spacing_listing_divider_bottom"
+            android:layout_marginTop="@dimen/nav_drawer_vertical_spacing_listing_divider_top"
+            android:background="@color/white"/>
         <Button
             android:id="@+id/libirary"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/mainpage_startbtn_height"
+            android:layout_height="72dp"
             android:background="@drawable/btn_cube_turquoise"
             android:layout_weight="1"
             android:text="@string/libirary"
             android:textColor="@color/white"
-            android:textSize="@dimen/mainpage_startbtn_textsize"/>
-        <include
-            layout="@layout/navigation_drawer_divider"/>
+            android:textSize="@dimen/textsize_large"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginBottom="@dimen/nav_drawer_vertical_spacing_listing_divider_bottom"
+            android:layout_marginTop="@dimen/nav_drawer_vertical_spacing_listing_divider_top"
+            android:background="@color/white"/>
         <Button
             android:id="@+id/pearlbuild"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/mainpage_startbtn_height"
+            android:layout_height="72dp"
             android:background="@drawable/btn_cube_turquoise"
             android:layout_weight="1"
             android:text="@string/new_start"
             android:textColor="@color/white"
-            android:textSize="@dimen/mainpage_startbtn_textsize"/>
+            android:textSize="@dimen/textsize_large"/>
     </LinearLayout>
 </LinearLayout>

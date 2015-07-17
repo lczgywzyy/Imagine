@@ -67,7 +67,7 @@ public class TintOnStateImageView extends ImageView
     private void updateTintColor()
     {
         int color = mColorStateList.getColorForState(getDrawableState(),
-                getResources().getColor(R.color.nav_drawer_item_icon_normal));
+                getResources().getColor(R.color.white));
 
         super.setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }

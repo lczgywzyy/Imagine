@@ -37,7 +37,7 @@ public class ListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_library_type, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.mTextView = (TextView) convertView.findViewById(android.R.id.text1);
             convertView.setTag(viewHolder);

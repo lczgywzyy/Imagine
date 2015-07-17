@@ -85,7 +85,7 @@ public class ImageAllocateActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_allocate);
+        setContentView(R.layout.activity_image_collocate);
 //        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
         ImageViewImpl_allocate imageViewImpl_allocate = (ImageViewImpl_allocate) findViewById(R.id.ImageViewImpl_allocate);
         BitmapCache.setImageViewImpl_allocate(imageViewImpl_allocate);
@@ -183,7 +183,7 @@ public class ImageAllocateActivity extends FragmentActivity {
      * 给每个Tab按钮设置图标和文字
      */
     private View getTabItemView(int index) {
-        View view = mLayoutInflater.inflate(R.layout.tab_item_view, null);
+        View view = mLayoutInflater.inflate(R.layout.item_navigator_material_selected, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
         imageView.setImageResource(mImageArray[index]);
         TextView textView = (TextView) view.findViewById(R.id.textview);

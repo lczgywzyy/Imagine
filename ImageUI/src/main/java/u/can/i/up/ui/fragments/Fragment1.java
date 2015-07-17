@@ -21,6 +21,6 @@ public class Fragment1 extends Fragment{
 //				FaceConversionUtil.getInstace().getFileText(getActivity());
 //			}
 //		}).start();
-		return inflater.inflate(R.layout.fragment1, null);
+		return inflater.inflate(R.layout.fragment_material_selected, null);
 	}	
 }

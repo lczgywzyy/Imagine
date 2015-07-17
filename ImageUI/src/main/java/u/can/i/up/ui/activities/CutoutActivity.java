@@ -42,12 +42,15 @@ public class CutoutActivity extends Activity {
         final ImageButton square_eraze = (ImageButton)findViewById(R.id.square_eraze);
         final ImageButton circle_eraze = (ImageButton)findViewById(R.id.circle_eraze);
 
-        ImageView cutout_image = (ImageView)findViewById(R.id.cutout_image);
-//        final byte[] byteArray = getIntent().getExtras().getByteArray("picture");
-//        final Bitmap image_bmp = BitmapFactory.decodeByteArray(byteArray, 0,
-//                byteArray.length);
-        Uri photoUri = getIntent().getParcelableExtra("photoUri");
-        cutout_image.setImageURI(photoUri);
+        ImageViewImpl_cutout imageViewImpl_cutout = (ImageViewImpl_cutout) findViewById(R.id.ImageViewImpl_cutout);
+
+//        ImageView cutout_image = (ImageView)findViewById(R.id.cutout_image);
+////        final byte[] byteArray = getIntent().getExtras().getByteArray("picture");
+////        final Bitmap image_bmp = BitmapFactory.decodeByteArray(byteArray, 0,
+////                byteArray.length);
+//        //载入图片
+//        Uri photoUri = getIntent().getParcelableExtra("photoUri");
+//        cutout_image.setImageURI(photoUri);
 
 
 

@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         // The last two arguments ensure LayoutParams are inflated properly
-        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         Button collocation_start = (Button)view.findViewById(R.id.collocation_start);
         Button libirary = (Button)view.findViewById(R.id.libirary);
         Button pearlbuild = (Button)view.findViewById(R.id.pearlbuild);
