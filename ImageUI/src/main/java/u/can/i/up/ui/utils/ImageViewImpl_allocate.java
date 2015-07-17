@@ -433,6 +433,12 @@ public class ImageViewImpl_allocate extends View {
         Canvas canvas = new Canvas(bmpSave);
         //将背景图和表情画在bitmap上
         canvas.drawBitmap(bmpBack, 0, 0, mainPaint);
+
+//        if(mPearlList != null && !mPearlList.isEmpty()){
+//            for (Pearl pearl: mPearlList){
+//                canvas.drawBitmap(pearl.getBitmap(), pearl.getMatrix(), null);
+//            }
+//        }
         canvas.drawBitmap(bmpMotion, matrixPaint, mainPaint);
         //保存bitmap
 //		canvas.save(Canvas.ALL_SAVE_FLAG);
