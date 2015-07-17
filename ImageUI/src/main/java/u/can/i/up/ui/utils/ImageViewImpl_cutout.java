@@ -13,6 +13,8 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
 import android.util.Log;
@@ -87,13 +89,16 @@ public class ImageViewImpl_cutout extends View {
     private float tmpCircleRadius = 100L;
     private float tmpCircleRadiusRatio = 1L;
 
+    public void setmBitmap(Bitmap bitmap){
 
+//
+//        try {
+//            mBitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), photoUri);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
-    public ImageViewImpl_cutout(Context context) {
-        super(context);
-        mContext = context;
-        mBitmap = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/4.png").getAbsolutePath());
-//        mBitmap = mBitmap1;
+        mBitmap = bitmap;
         mLayer = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         SectionPixels = new int[mBitmap.getHeight() * mBitmap.getWidth()];
 
@@ -103,6 +108,29 @@ public class ImageViewImpl_cutout extends View {
         rectMotion = new RectF(rectMotionPre);
     }
 
+    public ImageViewImpl_cutout(Context context,Bitmap bitmap) {
+        super(context);
+        mContext = context;
+
+
+    }
+
+    public ImageViewImpl_cutout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        mContext = context;
+
+    }
+
+//    public void setmBitmap(){
+//
+//    }
+//
+//    /** TODO 当且仅当构造函数中可以调用init()
+//     * */
+//    private void init(Context context) {
+//
+//    }
+//
     @Override
     protected void onDraw(Canvas canvas) {
         this.mCanvas = canvas;

@@ -87,7 +87,7 @@ public class ImageAllocateActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_collocate);
 //        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
-        ImageViewImpl_allocate imageViewImpl_allocate = (ImageViewImpl_allocate) findViewById(R.id.ImageViewImpl_allocate);
+        final ImageViewImpl_allocate imageViewImpl_allocate = (ImageViewImpl_allocate) findViewById(R.id.ImageViewImpl_allocate);
         BitmapCache.setImageViewImpl_allocate(imageViewImpl_allocate);
 //        imageViewImpl_allocate.setBackImage();
 //        LibiraryRelativeLayout sLibiraryRelativeLayout = (LibiraryRelativeLayout) findViewById(R.id.LibiraryRelativeLayout);
@@ -121,16 +121,12 @@ public class ImageAllocateActivity extends FragmentActivity {
         setover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Bitmap mypic = myView_allocate.saveBitmapAll();
-
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                mypic.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//                byte[] bytepicture = baos.toByteArray();
-//
+                Bitmap mypic = imageViewImpl_allocate.saveBitmapAll();
+                BitmapCache.setBitmapcache(mypic);
 //                Intent i = new Intent(view.getContext(), ShareActivity.class);
 //                i.putExtra("picture", bytepicture);
 //                startActivity(i);
-//                startActivity(new Intent(view.getContext(), ShareActivity.class));
+                startActivity(new Intent(view.getContext(), ShareActivity.class));
             }
         });
 

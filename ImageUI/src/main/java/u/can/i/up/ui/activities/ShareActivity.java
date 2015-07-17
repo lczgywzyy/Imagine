@@ -7,9 +7,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.utils.BitmapCache;
 
 /**
  * @author dongfeng
@@ -24,11 +27,20 @@ public class ShareActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
         ImageView share_image = (ImageView) findViewById(R.id.share_image);
+        ImageButton cutout_1_close_btn = (ImageButton)findViewById(R.id.cutout_1_close_btn);
 
-        final byte[] byteArray = getIntent().getExtras().getByteArray("picture");
-        final Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,
-                byteArray.length);
-        share_image.setImageBitmap(bitmap);
+
+//        final byte[] byteArray = getIntent().getExtras().getByteArray("picture");
+//        final Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,
+//                byteArray.length);
+        share_image.setImageBitmap(BitmapCache.getBitmapcache());
+
+        cutout_1_close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
 
