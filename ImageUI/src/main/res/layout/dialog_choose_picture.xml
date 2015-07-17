@@ -26,7 +26,7 @@
         style="@style/dialog_choose_pic_btn"
         android:text="@string/dialog_choose_camera" />
     <View
-        android:background="@color/middlegray"
+        android:background="@color/gray_70"
         android:layout_width="fill_parent"
         android:layout_height="1.0dip" />
 
@@ -36,7 +36,7 @@
         style="@style/dialog_choose_pic_btn"
         android:text="@string/dialog_choose_picture" />
     <View
-        android:background="@color/middlegray"
+        android:background="@color/gray_70"
         android:layout_width="fill_parent"
         android:layout_height="1.0dip" />
 
@@ -46,7 +46,7 @@
         style="@style/dialog_choose_pic_btn"
         android:text="取消" />
     <View
-        android:background="@color/middlegray"
+        android:background="@color/gray_70"
         android:layout_width="fill_parent"
         android:layout_height="1.0dip" />
 

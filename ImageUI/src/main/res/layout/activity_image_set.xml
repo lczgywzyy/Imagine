@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="816"
         android:orientation="horizontal"
-        android:background="@color/darkgray"
+        android:background="@color/gray_80"
         android:layout_alignParentTop="true"
         >
         <cropper.CropImageView
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="旋转"
-                android:textColor="@color/darkgray"
+                android:textColor="@color/gray_80"
                 android:textSize="@dimen/textsize_small"/>
         </LinearLayout>
 
@@ -110,7 +110,7 @@
                     android:layout_width="43dp"
                     android:layout_height="fill_parent"
                     android:text="亮度"
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/gray_80"
                     android:textSize="@dimen/textsize_small"
                     android:gravity="center"/>
 
@@ -148,7 +148,7 @@
                     android:layout_width="43dp"
                     android:layout_height="fill_parent"
                     android:text="对比度"
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/gray_80"
                     android:textSize="@dimen/textsize_small"
                     android:gravity="center"/>
 
@@ -185,7 +185,7 @@
                     android:layout_width="43dp"
                     android:layout_height="fill_parent"
                     android:text="饱和度"
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/gray_80"
                     android:textSize="@dimen/textsize_small"
                     android:gravity="center"/>
                 <SeekBar
@@ -221,7 +221,7 @@
                     android:layout_width="43dp"
                     android:layout_height="fill_parent"
                     android:text="比例尺"
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/gray_80"
                     android:textSize="@dimen/textsize_small"
                     android:gravity="center"/>
                 <SeekBar
@@ -257,11 +257,11 @@
                     android:text="请输入间隔大小"
                     android:gravity="bottom"
                     android:textSize="@dimen/textsize_small"
-                    android:textColor="@color/darkgray"/>
+                    android:textColor="@color/gray_80"/>
                 <EditText
                     android:layout_width="40dp"
                     android:layout_height="fill_parent"
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/gray_80"
                     android:textSize="@dimen/textsize_small"
                     android:inputType="number"
                     android:gravity="center|bottom"
@@ -273,7 +273,7 @@
                     android:text="mm"
                     android:gravity="bottom"
                     android:textSize="@dimen/textsize_small"
-                    android:textColor="@color/darkgray"/>
+                    android:textColor="@color/gray_80"/>
             </LinearLayout>
             <Space
                 android:layout_width="fill_parent"

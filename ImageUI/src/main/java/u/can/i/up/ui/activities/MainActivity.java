@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         mTextView_AccountDisplayName = (TextView) findViewById(R.id.navigation_drawer_account_information_display_name);
-        mTextView_AccountEmail = (TextView) findViewById(R.id.navigation_drawer_account_information_email);
+//        mTextView_AccountEmail = (TextView) findViewById(R.id.navigation_drawer_account_information_email);
 
         mTextView_Home = (TextView) findViewById(R.id.navigation_drawer_items_textView_home);
         mTextView_Libirary = (TextView) findViewById(R.id.navigation_drawer_items_textView_libirary);
@@ -82,11 +82,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // Typefaces
-        mTextView_AccountDisplayName.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-        mTextView_AccountEmail.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_regular));
-        mTextView_Home.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-        mTextView_Libirary.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-        mTextView_Setup.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
+//        mTextView_AccountDisplayName.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
+//        mTextView_AccountEmail.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_regular));
+//        mTextView_Home.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
+//        mTextView_Libirary.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
+//        mTextView_Setup.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
 
 
         // Navigation Drawer

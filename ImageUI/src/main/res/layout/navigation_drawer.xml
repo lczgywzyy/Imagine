@@ -14,58 +14,55 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- 个人信息-->
+
         <FrameLayout
             android:id="@+id/navigation_drawer_account_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/drawer_account_section_default_height"
             android:clickable="true"
-            android:background="@color/darkgray"
+            android:background="@color/gray_80"
             tools:layout_height="@dimen/drawer_account_section_default_height">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:foreground="@color/transparence_50_black">
 
-                <!--<com.android.volley.toolbox.NetworkImageView-->
-                    <!--android:id="@+id/navigation_drawer_user_account_picture_cover"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@color/toolbar_background"-->
-                    <!--android:scaleType="centerCrop"-->
-                    <!--tools:ignore="ContentDescription" />-->
-
-            </FrameLayout>
-
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/navigation_drawer_account_section"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="@dimen/nav_drawer_vertical_spacing_listing"
-                android:paddingEnd="@dimen/nav_drawer_vertical_keyline_right"
-                android:paddingLeft="@dimen/nav_drawer_vertical_keyline_icon_left"
-                android:paddingRight="@dimen/nav_drawer_vertical_keyline_right"
-                android:paddingStart="@dimen/nav_drawer_vertical_keyline_icon_left">
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/navigation_drawer_user_account_picture_profile"
+                    android:layout_width="@dimen/navigation_drawer_profile_image_size"
+                    android:layout_height="@dimen/navigation_drawer_profile_image_size"
+                    android:src="@drawable/ic_account_circle_demo" />
 
                 <LinearLayout
                     android:id="@+id/navigation_drawer_account_information"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/navigation_drawer_account_information_height"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:layout_alignParentBottom="true"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/navigation_drawer_account_information_display_name"
-                        style="@style/drawerInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textsize_medium"
+                        android:layout_gravity="center"
                         android:text="@string/tools_text_account_information_username"
                         tools:fontFamily="sans-serif-medium"/>
 
-                    <TextView
-                        android:id="@+id/navigation_drawer_account_information_email"
-                        style="@style/drawerInfoText"
-                        android:text="@string/tools_text_account_information_email"
-                        tools:fontFamily="sans-serif"/>
+                    <!--<TextView-->
+                        <!--android:id="@+id/navigation_drawer_account_information_email"-->
+                        <!--style="@style/drawerInfoText"-->
+                        <!--android:text="@string/tools_text_account_information_email"-->
+                        <!--tools:fontFamily="sans-serif"/>-->
 
                 </LinearLayout>
 
@@ -76,22 +73,17 @@
                     <!--android:layout_above="@id/navigation_drawer_account_information"-->
                     <!--android:src="@drawable/ic_account_circle_demo" />-->
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/navigation_drawer_user_account_picture_profile"
-                    android:layout_width="@dimen/navigation_drawer_profile_image_size"
-                    android:layout_height="@dimen/navigation_drawer_profile_image_size"
-                    android:layout_above="@id/navigation_drawer_account_information"
-                    android:src="@drawable/ic_account_circle_demo" />
-                <Button
-                    android:id="@+id/search_user"
-                    android:layout_width="@dimen/sys_btn"
-                    android:layout_height="@dimen/sys_btn"
-                    android:layout_alignTop="@+id/navigation_drawer_user_account_picture_profile"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:background="@drawable/btn_search"
-                    android:layout_gravity="right"
-                    />
+
+                <!--<Button-->
+                    <!--android:id="@+id/search_user"-->
+                    <!--android:layout_width="@dimen/sys_btn"-->
+                    <!--android:layout_height="@dimen/sys_btn"-->
+                    <!--android:layout_alignTop="@+id/navigation_drawer_user_account_picture_profile"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:background="@drawable/btn_search"-->
+                    <!--android:layout_gravity="right"-->
+                    <!--/>-->
 
                 <!--<SearchView-->
                     <!--android:layout_width="wrap_content"-->
@@ -101,7 +93,7 @@
                     <!--android:layout_alignParentRight="true"-->
                     <!--android:layout_alignParentEnd="true" />-->
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </FrameLayout>
 
@@ -109,7 +101,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/darkgray"
+            android:background="@color/gray_80"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/nav_drawer_vertical_spacing_listing"
             android:paddingTop="@dimen/nav_drawer_vertical_spacing_listing">
@@ -119,10 +111,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                <!-- 第一个按钮-->
 
                 <FrameLayout
                     android:id="@+id/navigation_drawer_items_list_linearLayout_home"
-                    style="@style/NavDrawerRowLayout.Main">
+                    style="@style/NavDrawerRowLayout.Main"
+                    android:paddingLeft="50dp">
 
                     <u.can.i.up.ui.customViews.TintOnStateImageView
                         android:id="@+id/navigation_drawer_items_list_icon_home"
@@ -140,9 +134,26 @@
 
                 </FrameLayout>
 
+
+
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_70"
+                    android:layout_marginRight="@dimen/drawer_divider_padding"
+                    android:layout_marginLeft="@dimen/drawer_divider_padding"
+               />
+
+
+
+
+
+                <!--第二个按钮-->
                 <FrameLayout
                     android:id="@+id/navigation_drawer_items_list_linearLayout_libirary"
-                    style="@style/NavDrawerRowLayout.Main" >
+                    style="@style/NavDrawerRowLayout.Main"
+                    android:paddingLeft="50dp">
 
                     <u.can.i.up.ui.customViews.TintOnStateImageView
                         android:id="@+id/navigation_drawer_items_list_icon_libirary"
@@ -159,15 +170,21 @@
                 </FrameLayout>
 
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider_height"
-                    android:layout_marginBottom="@dimen/nav_drawer_vertical_spacing_listing_divider_bottom"
-                    android:layout_marginTop="@dimen/nav_drawer_vertical_spacing_listing_divider_top"
-                    android:background="@color/white"/>
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_70"
+                    android:layout_marginRight="@dimen/drawer_divider_padding"
+                    android:layout_marginLeft="@dimen/drawer_divider_padding"
+                    />
+
+
+
+               <!--第三个按钮-->
 
                 <FrameLayout
                     android:id="@+id/navigation_drawer_items_list_linearLayout_setup"
-                    style="@style/NavDrawerRowLayout.Secondary">
+                    style="@style/NavDrawerRowLayout.Secondary"
+                    android:paddingLeft="50dp">
 
                     <u.can.i.up.ui.customViews.TintOnStateImageView
                         android:id="@+id/navigation_drawer_items_list_icon_setup"
@@ -182,9 +199,23 @@
                         tools:fontFamily="sans-serif-medium" />
 
                 </FrameLayout>
+
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_70"
+                    android:layout_marginRight="@dimen/drawer_divider_padding"
+                    android:layout_marginLeft="@dimen/drawer_divider_padding"
+                    />
+
+
+
+                <!--第四个按钮-->
                 <FrameLayout
                     android:id="@+id/navigation_drawer_items_list_linearLayout_about"
-                    style="@style/NavDrawerRowLayout.Secondary">
+                    style="@style/NavDrawerRowLayout.Secondary"
+                    android:paddingLeft="50dp">
 
                     <u.can.i.up.ui.customViews.TintOnStateImageView
                         android:id="@+id/navigation_drawer_items_list_icon_about"

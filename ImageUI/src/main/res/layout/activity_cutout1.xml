@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="816"
         android:orientation="horizontal"
-        android:background="@color/darkgray"
+        android:background="@color/gray_80"
         android:layout_alignParentTop="true"
         >
         <!--<RelativeLayout-->
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:text="抠图工具"
                 android:textSize="@dimen/textsize_small"
-                android:textColor="@color/darkgray"/>
+                android:textColor="@color/gray_80"/>
             <Space
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:text="画笔"
                     android:textSize="@dimen/textsize_small"
-                    android:textColor="@color/darkgray"/>
+                    android:textColor="@color/gray_80"/>
                 <ImageButton
                     android:id="@+id/square_paint"
                     android:layout_width="@dimen/action_btn"
@@ -128,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:text="橡皮"
                     android:textSize="@dimen/textsize_small"
-                    android:textColor="@color/darkgray"/>
+                    android:textColor="@color/gray_80"/>
                 <ImageButton
                     android:id="@+id/square_eraze"
                     android:layout_width="@dimen/action_btn"
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:text="形状"
                     android:textSize="@dimen/textsize_small"
-                    android:textColor="@color/darkgray"/>
+                    android:textColor="@color/gray_80"/>
                 <ImageButton
                     android:layout_width="@dimen/action_btn"
                     android:layout_height="@dimen/action_btn"
@@ -205,7 +205,7 @@
                     android:layout_width="43dp"
                     android:layout_height="fill_parent"
                     android:text="亮度"
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/gray_80"
                     android:textSize="@dimen/textsize_small"
                     android:gravity="center"/>
 
@@ -244,7 +244,7 @@
                     android:layout_width="43dp"
                     android:layout_height="fill_parent"
                     android:text="对比度"
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/gray_80"
                     android:textSize="@dimen/textsize_small"
                     android:gravity="center"/>
 
@@ -283,7 +283,7 @@
                     android:layout_width="43dp"
                     android:layout_height="fill_parent"
                     android:text="饱和度"
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/gray_80"
                     android:textSize="@dimen/textsize_small"
                     android:gravity="center"/>
                 <SeekBar

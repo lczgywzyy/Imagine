@@ -30,10 +30,12 @@
     <color name="blue">#07c697</color>
     <color name="lightgreen">#84c78f</color>
     <color name="lightblue">#83dec3</color>
-    <color name="darkgray">#242424</color>
-    <color name="middlegray">#818181</color>
-    <color name="blueegray">#a9b7b7</color>
-    <color name="lightgrey">#f0f0f0</color>
+    <color name="gray_80">#202121</color>
+    <color name="gray_90">#151515</color>
+    <color name="gray_70">#252727</color>
+    <color name="gray_30">#818181</color>
+    <color name="gray_20">#a9b7b7</color>
+    <color name="gray_10">#f0f0f0</color>
     <!--透明颜色-->
     <color name="transparence_50_black">#5f000000</color>
     <color name="transparentbluegray">#3fa9b7b7</color>

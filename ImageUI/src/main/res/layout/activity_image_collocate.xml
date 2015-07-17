@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="816"
         android:orientation="horizontal"
-        android:background="@color/darkgray"
+        android:background="@color/gray_80"
         android:layout_alignParentTop="true"
         >
         <!--<RelativeLayout-->

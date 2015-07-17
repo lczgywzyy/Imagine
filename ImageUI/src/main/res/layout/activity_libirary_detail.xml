@@ -42,7 +42,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="298"
-        android:background="@color/lightgrey"
+        android:background="@color/gray_10"
         android:paddingLeft="@dimen/margin"
         android:paddingRight="@dimen/margin"
         android:orientation="vertical"
