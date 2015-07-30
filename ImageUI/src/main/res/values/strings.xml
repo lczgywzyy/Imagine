@@ -22,6 +22,8 @@
     <string name="collocation_start">串珠搭配</string>
     <string name="libirary">素材中心</string>
     <string name="new_start">新组串珠</string>
+    <string name="libirary_display">素材展示</string>
+    <string name="libirary_detail">素材详情</string>
 
     <!-- Typeface names -->
     <string name="typeface_roboto_regular">Roboto-Regular</string>
@@ -90,8 +92,4 @@
         <item>椭圆</item>
         <item>方形</item>
     </string-array>
-
-
-
-
 </resources>

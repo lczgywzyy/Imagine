@@ -15,17 +15,13 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import cropper.CropImageView;
 import u.can.i.up.ui.R;
-import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_PearlBuild;
-import u.can.i.up.ui.utils.ImageViewImpl_allocate;
 
 /**
  * @author dongfeng

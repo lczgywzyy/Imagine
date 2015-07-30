@@ -28,9 +28,9 @@ import u.can.i.up.utils.image.Pearl;
  * @sumary 搭配界面中，搭配部分的画图工具
  *
  */
-public class ImageViewImpl_allocate extends View {
+public class ImageViewImpl_collocate extends View {
 
-    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_allocate.class;
+    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_collocate.class;
 
     /**
      * The Paint used to draw the guidelines .
@@ -90,12 +90,12 @@ public class ImageViewImpl_allocate extends View {
         STATUS_MOVE,
     }
 
-    public ImageViewImpl_allocate(Context context) {
+    public ImageViewImpl_collocate(Context context) {
         super(context);
         init(context);
     }
 
-    public ImageViewImpl_allocate(Context context, AttributeSet attrs) {
+    public ImageViewImpl_collocate(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
@@ -386,6 +386,9 @@ public class ImageViewImpl_allocate extends View {
         invalidate();
     }
 
+    /**
+     * 删除素材函数
+     * */
     private void deleteCurrentMotion(){
         bmpMotion = null;
         invalidate();
@@ -432,14 +435,17 @@ public class ImageViewImpl_allocate extends View {
         //创建canvas
         Canvas canvas = new Canvas(bmpSave);
         //将背景图和表情画在bitmap上
-        canvas.drawBitmap(bmpBack, 0, 0, mainPaint);
+        canvas.drawBitmap(bmpBack, 0,0, null);
+        //将素材画在bitmap上
+        if(mPearlList != null && !mPearlList.isEmpty()){
+            for (Pearl pearl: mPearlList){
+                Matrix tmpMatrix = pearl.getMatrix();
+                tmpMatrix.postScale(1 / BitmapCache.getBackBmpScale(), 1/BitmapCache.getBackBmpScale(), 0, 0);
+                canvas.drawBitmap(pearl.getBitmap(), tmpMatrix, null);
+            }
+        }
 
-//        if(mPearlList != null && !mPearlList.isEmpty()){
-//            for (Pearl pearl: mPearlList){
-//                canvas.drawBitmap(pearl.getBitmap(), pearl.getMatrix(), null);
-//            }
-//        }
-        canvas.drawBitmap(bmpMotion, matrixPaint, mainPaint);
+//        canvas.drawBitmap(bmpMotion, matrixPaint, mainPaint);
         //保存bitmap
 //		canvas.save(Canvas.ALL_SAVE_FLAG);
 //		canvas.restore();

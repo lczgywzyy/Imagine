@@ -24,7 +24,7 @@ import java.util.List;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.factories.FaceConversionUtil;
 import u.can.i.up.ui.utils.BitmapCache;
-import u.can.i.up.ui.utils.ImageViewImpl_allocate;
+import u.can.i.up.ui.utils.ImageViewImpl_collocate;
 
 /**
  * @author dongfeng
@@ -288,8 +288,8 @@ public class LibiraryRelativeLayout extends RelativeLayout implements OnItemClic
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         ChatEmoji emoji = (ChatEmoji) faceAdapters.get(current).getItem(arg2);
         Log.i(TAG, "1");
-        ImageViewImpl_allocate imageViewImpl_allocate = BitmapCache.getImageViewImpl_allocate();
-        imageViewImpl_allocate.setBmpMotion(BitmapFactory.decodeResource(getResources(), emoji.getId()));
+        ImageViewImpl_collocate imageViewImpl_collocate = BitmapCache.getImageViewImpl_allocate();
+        imageViewImpl_collocate.setBmpMotion(BitmapFactory.decodeResource(getResources(), emoji.getId()));
 //        if (emoji.getId() == R.drawable.face_del_icon) {
 //            int selection = et_sendmessage.getSelectionStart();
 //            String text = et_sendmessage.getText().toString();

@@ -10,7 +10,7 @@ public class BitmapCache {
     private static float backBmpScale;
     private static float backBmpTranslateX;
     private static float backBmpTranslateY;
-    private static ImageViewImpl_allocate mImageViewImpl_allocate;
+    private static ImageViewImpl_collocate mImageViewImpl_collocate;
 
     public static void setBitmapcache(Bitmap mbitmap){
         bitmapcache = mbitmap;
@@ -40,11 +40,11 @@ public class BitmapCache {
     public static float getBackBmpTranslateY(){
         return  backBmpTranslateY;
     }
-    public static ImageViewImpl_allocate getImageViewImpl_allocate() {
-        return mImageViewImpl_allocate;
+    public static ImageViewImpl_collocate getImageViewImpl_allocate() {
+        return mImageViewImpl_collocate;
     }
-    public static void setImageViewImpl_allocate(ImageViewImpl_allocate imageViewImpl_allocate) {
-        mImageViewImpl_allocate = imageViewImpl_allocate;
+    public static void setImageViewImpl_allocate(ImageViewImpl_collocate imageViewImpl_collocate) {
+        mImageViewImpl_collocate = imageViewImpl_collocate;
     }
 
 }

@@ -2,7 +2,6 @@ package u.can.i.up.ui.activities;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,14 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-
 import u.can.i.up.ui.R;
-import u.can.i.up.ui.utils.ImageViewImpl_allocate;
 import u.can.i.up.ui.utils.ImageViewImpl_cutout;
 
 /**
@@ -35,7 +29,7 @@ public class CutoutActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cutout1);
+        setContentView(R.layout.activity_cutout);
         ImageButton setover = (ImageButton)findViewById(R.id.cutout_1_setover);
         final ImageButton square_paint = (ImageButton)findViewById(R.id.square_paint);
         final ImageButton circle_paint = (ImageButton)findViewById(R.id.circle_paint);

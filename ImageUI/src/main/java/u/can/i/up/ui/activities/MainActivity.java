@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import u.can.i.up.ui.fragments.HomeFragment;
 import u.can.i.up.ui.customViews.ScrimInsetsFrameLayout;
-import u.can.i.up.ui.managers.ManagerTypeface;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.utils.UtilsDevice;
 import u.can.i.up.ui.utils.UtilsMiscellaneous;
@@ -80,20 +79,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTextView_Libirary = (TextView) findViewById(R.id.navigation_drawer_items_textView_libirary);
         mTextView_Setup = (TextView) findViewById(R.id.navigation_drawer_items_textView_setup);
 
-
-        // Typefaces
-//        mTextView_AccountDisplayName.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-//        mTextView_AccountEmail.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_regular));
-//        mTextView_Home.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-//        mTextView_Libirary.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-//        mTextView_Setup.setTypeface(ManagerTypeface.getTypeface(this, R.string.typeface_roboto_medium));
-
-
         // Navigation Drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_DrawerLayout);
         mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.primaryDark));
         mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.main_activity_navigation_drawer_rootLayout);
-
 
         mActionBarDrawerToggle = new ActionBarDrawerToggle
                 (
@@ -194,13 +183,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // Start intent to send an email
                         startActivity(new Intent(view.getContext(), OtherActivity.class));
                         break;
-
-//                    case R.id.navigation_drawer_items_list_linearLayout_about:
-//                        // Show about activity
-//
-//
-//                        startActivity(new Intent(view.getContext(), OtherActivity.class));
-//                        break;
 
                     default:
                         break;

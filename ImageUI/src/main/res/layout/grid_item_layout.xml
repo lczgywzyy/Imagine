@@ -9,7 +9,9 @@
     <ImageView
         android:id="@+id/grid_image"
         android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        android:background="@color/gray_10"
+        />
 
     <TextView
         android:id="@+id/grid_text"
@@ -17,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
+        android:textColor="@color/black"
         android:textSize="@dimen/textsize_micro" />
 
 </LinearLayout>

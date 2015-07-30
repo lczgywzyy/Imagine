@@ -43,7 +43,7 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="ImageViewImpl_allocate">
+    <declare-styleable name="ImageViewImpl_collocate">
         <!--<attr name="guidelines">-->
             <!--<enum name="on" value="2"/>-->
             <!--<enum name="onTouch" value="1"/>-->

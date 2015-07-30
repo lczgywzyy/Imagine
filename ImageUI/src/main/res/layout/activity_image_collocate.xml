@@ -21,7 +21,7 @@
             <!--android:id="@+id/ivImage2"-->
             <!--android:layout_width="fill_parent"-->
             <!--android:layout_height="fill_parent" />-->
-        <u.can.i.up.ui.utils.ImageViewImpl_allocate
+        <u.can.i.up.ui.utils.ImageViewImpl_collocate
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ImageViewImpl_allocate"
             android:layout_width="fill_parent"

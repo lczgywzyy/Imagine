@@ -1,36 +1,23 @@
 package u.can.i.up.ui.activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 
 import u.can.i.up.ui.R;
-import u.can.i.up.ui.customViews.LibiraryRelativeLayout;
 import u.can.i.up.ui.factories.FaceConversionUtil;
 import u.can.i.up.ui.fragments.*;
 import u.can.i.up.ui.utils.BitmapCache;
-import u.can.i.up.ui.utils.ImageViewImpl_allocate;
+import u.can.i.up.ui.utils.ImageViewImpl_collocate;
 
 /**
  * @author dongfeng
@@ -87,8 +74,8 @@ public class ImageAllocateActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_collocate);
 //        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
-        final ImageViewImpl_allocate imageViewImpl_allocate = (ImageViewImpl_allocate) findViewById(R.id.ImageViewImpl_allocate);
-        BitmapCache.setImageViewImpl_allocate(imageViewImpl_allocate);
+        final ImageViewImpl_collocate imageViewImpl_collocate = (ImageViewImpl_collocate) findViewById(R.id.ImageViewImpl_allocate);
+        BitmapCache.setImageViewImpl_allocate(imageViewImpl_collocate);
 //        imageViewImpl_allocate.setBackImage();
 //        LibiraryRelativeLayout sLibiraryRelativeLayout = (LibiraryRelativeLayout) findViewById(R.id.LibiraryRelativeLayout);
 //        sLibiraryRelativeLayout.setmImageViewImpl_allocate(imageViewImpl_allocate);
@@ -121,7 +108,7 @@ public class ImageAllocateActivity extends FragmentActivity {
         setover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bitmap mypic = imageViewImpl_allocate.saveBitmapAll();
+                Bitmap mypic = imageViewImpl_collocate.saveBitmapAll();
                 BitmapCache.setBitmapcache(mypic);
 //                Intent i = new Intent(view.getContext(), ShareActivity.class);
 //                i.putExtra("picture", bytepicture);

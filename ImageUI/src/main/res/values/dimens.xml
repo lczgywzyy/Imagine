@@ -62,4 +62,8 @@
     <dimen name="drawer_btn_paddingleft">50dp</dimen>
     <dimen name="drawer_divider_padding">50dp</dimen>
 
+    <!--libirary slidetab-->
+    <dimen name="slide_elevation">2dp</dimen>
+
+
 </resources>

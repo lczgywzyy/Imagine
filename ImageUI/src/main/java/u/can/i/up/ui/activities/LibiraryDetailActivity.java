@@ -1,8 +1,11 @@
 package u.can.i.up.ui.activities;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,13 +17,18 @@ import u.can.i.up.ui.R;
  * @sumary 素材详细页面：展示素材详细信息
  */
 
-public class LibiraryDetailActivity extends ActionBarActivity {
+public class LibiraryDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_libirary_detail);
+
+        final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(R.string.libirary_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         String title = getIntent().getStringExtra("title");
         Bitmap bitmap = getIntent().getParcelableExtra("image");
 

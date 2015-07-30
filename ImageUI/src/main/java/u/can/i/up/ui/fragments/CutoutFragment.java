@@ -21,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -34,8 +33,6 @@ import java.util.List;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.CutoutActivity;
-import u.can.i.up.ui.activities.ImageSetActivity;
-import u.can.i.up.ui.activities.LibiraryActivity;
 
 
 /**
@@ -68,35 +65,10 @@ public class CutoutFragment extends Fragment {
         testcutout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 startActivityForResult(getPickImageChooserIntent(), 200);
 //                startActivity(new Intent(view.getContext(), CutoutActivity.class));
             }
         });
-
-
-
-//        Button collocation_start = (Button)view.findViewById(R.id.collocation_start);
-//        Button libirary = (Button)view.findViewById(R.id.libirary);
-//        libirary.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(view.getContext(), LibiraryActivity.class));
-//            }
-//        });
-//        collocation_start.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Dialog dialog = new Dialog(getActivity(), R.style.Theme_CustomDialog);
-////                //final Dialog dialog = new Dialog(this, R.style.Theme_CustomDialog);
-////                //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-////                dialog.setContentView(R.layout.dialog_choose_picture);
-////
-////                dialog.show();
-//                selectImage();
-//            }
-//        });
         return view;
     }
 
