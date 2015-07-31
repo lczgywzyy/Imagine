@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import u.can.i.up.utils.image.ImageUtils;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -229,7 +232,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button12 = new Button(this);
         button12.setId(11200);
-        button12.setText("测试12：自由搭配(绳子)");
+        button12.setText("测试12：自由搭配(绳)");
         RelativeLayout.LayoutParams lParams12 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams12.addRule(RelativeLayout.BELOW, 11100);
         mainLayout.addView(button12, lParams12);   //将按钮放入layout组件
@@ -246,7 +249,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button13 = new Button(this);
         button13.setId(11300);
-        button13.setText("测试13：自由搭配(素珠)");
+        button13.setText("测试13：自由搭配(素珠/圆链)");
         RelativeLayout.LayoutParams lParams13 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams13.addRule(RelativeLayout.RIGHT_OF, 11200);
         lParams13.addRule(RelativeLayout.BELOW, 11100);
@@ -262,7 +265,25 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        Button button14 = new Button(this);
+        button14.setId(11400);
+        button14.setText("测试14：自由搭配(素珠/水滴型)");
+        RelativeLayout.LayoutParams lParams14 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+        lParams14.addRule(RelativeLayout.BELOW, 11200);
+        mainLayout.addView(button14, lParams14);   //将按钮放入layout组件
+        button14.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DrawPaintActivity.class);
+                Bundle bundleSimple = new Bundle();
+                bundleSimple.putInt("BUTTON", 14);
+                intent.putExtras(bundleSimple);
+                startActivity(intent);
+            }
+        });
         setContentView(mainLayout);
+
+        Log.i(TAG, ImageUtils.testString());
     }
 
     @Override
