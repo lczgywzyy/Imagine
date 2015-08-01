@@ -2,6 +2,7 @@ package u.can.i.up.ui.activities;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,9 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.utils.ImageViewImpl_collocate;
 import u.can.i.up.ui.utils.ImageViewImpl_cutout;
 
 /**
@@ -29,12 +36,12 @@ public class CutoutActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cutout);
+        setContentView(R.layout.activity_cutout1);
         ImageButton setover = (ImageButton)findViewById(R.id.cutout_1_setover);
-        final ImageButton square_paint = (ImageButton)findViewById(R.id.square_paint);
-        final ImageButton circle_paint = (ImageButton)findViewById(R.id.circle_paint);
-        final ImageButton square_eraze = (ImageButton)findViewById(R.id.square_eraze);
-        final ImageButton circle_eraze = (ImageButton)findViewById(R.id.circle_eraze);
+//        final ImageButton square_paint = (ImageButton)findViewById(R.id.square_paint);
+        final RadioButton circle_paint = (RadioButton)findViewById(R.id.circle_paint);
+//        final ImageButton square_eraze = (ImageButton)findViewById(R.id.square_eraze);
+        final RadioButton circle_eraze = (RadioButton)findViewById(R.id.circle_eraze);
 
         final ImageViewImpl_cutout imageViewImpl_cutout = (ImageViewImpl_cutout) findViewById(R.id.ImageViewImpl_cutout);
 
@@ -54,53 +61,53 @@ public class CutoutActivity extends Activity {
         imageViewImpl_cutout.isDrawing = false;
         imageViewImpl_cutout.paintShape = 0;//0 圆形画笔
         imageViewImpl_cutout.paintType = 0;//0 画笔 1 橡皮
-        square_paint.setBackgroundColor(Color.RED);
-        square_paint.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (imageViewImpl_cutout.isDrawing) {
-                    imageViewImpl_cutout.isDrawing = false;
-                    imageViewImpl_cutout.paintType = 0;
-
-                    square_paint.setBackgroundColor(Color.RED);
-                    circle_paint.setBackgroundColor(Color.RED);
-                    square_eraze.setBackgroundColor(Color.RED);
-                    circle_eraze.setBackgroundColor(Color.RED);
-                    imageViewImpl_cutout.paintShape = 0;
-                } else {
-                    imageViewImpl_cutout.isDrawing = true;
-                    imageViewImpl_cutout.paintType = 0;
-                    square_paint.setBackgroundColor(Color.GREEN);
-                    circle_paint.setBackgroundColor(Color.RED);
-                    square_eraze.setBackgroundColor(Color.RED);
-                    circle_eraze.setBackgroundColor(Color.RED);
-                    imageViewImpl_cutout.paintShape = 0;
-                }
-            }
-        });
-
-        square_eraze.setBackgroundColor(Color.RED);
-        square_eraze.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "112");
-//                        button111.setText("描点");
-                if (imageViewImpl_cutout.paintType == 0) {
-                    imageViewImpl_cutout.paintType = 1;
-                    square_paint.setBackgroundColor(Color.RED);
-                    square_eraze.setBackgroundColor(Color.GREEN);
-                    circle_paint.setBackgroundColor(Color.RED);
-                    circle_eraze.setBackgroundColor(Color.RED);
-
-                } else {
-                    imageViewImpl_cutout.paintType = 0;
-                    square_paint.setBackgroundColor(Color.RED);
-                    square_eraze.setBackgroundColor(Color.RED);
-                    circle_paint.setBackgroundColor(Color.RED);
-                    circle_eraze.setBackgroundColor(Color.RED);
-                }
-            }
-        });
+//        square_paint.setBackgroundColor(Color.TRANSPARENT);
+//        square_paint.setOnClickListener(new Button.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (imageViewImpl_cutout.isDrawing) {
+//                    imageViewImpl_cutout.isDrawing = false;
+//                    imageViewImpl_cutout.paintType = 0;
+//
+//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
+//                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
+//                    imageViewImpl_cutout.paintShape = 0;
+//                } else {
+//                    imageViewImpl_cutout.isDrawing = true;
+//                    imageViewImpl_cutout.paintType = 0;
+//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
+//                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
+//                    imageViewImpl_cutout.paintShape = 0;
+//                }
+//            }
+//        });
+//
+//        square_eraze.setBackgroundColor(Color.TRANSPARENT);
+//        square_eraze.setOnClickListener(new Button.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.i(TAG, "112");
+////                        button111.setText("描点");
+//                if (imageViewImpl_cutout.paintType == 0) {
+//                    imageViewImpl_cutout.paintType = 1;
+//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
+//                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
+//
+//                } else {
+//                    imageViewImpl_cutout.paintType = 0;
+//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
+//                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
+//                }
+//            }
+//        });
 
 //        button113.setOnClickListener(new Button.OnClickListener() {
 //            @Override
@@ -111,16 +118,16 @@ public class CutoutActivity extends Activity {
 //            }
 //        });
 
-        circle_paint.setBackgroundColor(Color.RED);
+        circle_paint.setBackgroundColor(Color.TRANSPARENT);
         circle_paint.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "115");
                 imageViewImpl_cutout.paintShape = 1;
-                square_paint.setBackgroundColor(Color.RED);
-                square_eraze.setBackgroundColor(Color.RED);
-                circle_paint.setBackgroundColor(Color.GREEN);
-                circle_eraze.setBackgroundColor(Color.RED);
+//                square_paint.setBackgroundColor(Color.TRANSPARENT);
+//                square_eraze.setBackgroundColor(Color.TRANSPARENT);
+                circle_paint.setBackgroundColor(Color.TRANSPARENT);
+                circle_eraze.setBackgroundColor(Color.TRANSPARENT);
 
             }
         });

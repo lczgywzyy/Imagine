@@ -61,43 +61,7 @@
             android:layout_width="0dp"
             android:layout_weight="80"
             android:layout_height="fill_parent" />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="180"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:gravity="center">
-            <Space
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="60"/>
-            <ImageButton
-                android:id="@+id/Button_rotate"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="120"
-                android:src="@drawable/icon_tianjia"
-                android:background="@drawable/selector_common_pressed_white" />
-            <Space
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="25"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="40"
-                android:text="选择底珠材料"
-                android:textColor="@color/gray_80"
-                android:textSize="@dimen/textsize_small"/>
-            <Space
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="40"/>
-        </LinearLayout>
-        <Space
-            android:layout_width="0dp"
-            android:layout_weight="20"
-            android:layout_height="fill_parent" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="320"
@@ -106,7 +70,7 @@
             <Space
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="70"
+                android:layout_weight="30"
                 />
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -118,9 +82,43 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="底珠数量："
+                    android:text="输入素材颗数："
                     android:textColor="@color/gray_80"
+                    android:textSize="@dimen/textsize_smalltitle"
+                    android:gravity="center"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_80"
+                    android:inputType="number"
+                    android:gravity="center"
                     android:textSize="@dimen/textsize_small"
+                    android:hint="范围15-120"
+
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="颗"
+                    android:textColor="@color/gray_80"
+                    android:textSize="@dimen/textsize_smalltitle"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50"
+                android:orientation="horizontal"
+                android:gravity="center|left"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="输入单颗素材直径："
+                    android:textColor="@color/gray_80"
+                    android:textSize="@dimen/textsize_smalltitle"
                     android:gravity="center"/>
 
                 <EditText
@@ -131,28 +129,26 @@
                     android:inputType="number"
                     android:gravity="center"
                     android:textSize="@dimen/textsize_small"
-                    android:hint="范围15-120"
+                    android:maxLength="3"
+                    android:minEms="3"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="个"
+                    android:text="mm"
+                    android:layout_marginLeft="5dp"
                     android:textColor="@color/gray_80"
-                    android:textSize="@dimen/textsize_small"
+                    android:textSize="@dimen/textsize_smalltitle"
                     android:gravity="center"/>
 
             </LinearLayout>
 
 
-            <Space
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="15"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="90"
+                android:layout_weight="50"
                 android:orientation="horizontal"
                 android:gravity="center|left">
 
@@ -161,7 +157,7 @@
                     android:layout_height="fill_parent"
                     android:text="底珠排列形状"
                     android:textColor="@color/gray_80"
-                    android:textSize="@dimen/textsize_small"
+                    android:textSize="@dimen/textsize_smalltitle"
                     android:gravity="center"/>
                 <Spinner
                     android:id="@+id/showGuidelinesSpin"
@@ -186,7 +182,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="60"
         android:background="@color/white"
         android:orientation="horizontal"
         android:gravity="center|top"

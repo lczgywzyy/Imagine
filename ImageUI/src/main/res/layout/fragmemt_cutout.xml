@@ -48,8 +48,8 @@
                 <CheckBox
                     style="@style/cutout_btn"
                     android:button="@null"
-                    android:paddingLeft="10dp"
-                    android:drawableLeft="@drawable/icon_fotou"/>
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/icon_fotou_1"/>
                 <TextView
                     style="@style/cutout_btn_text"
                     android:text="佛头"/>
@@ -60,8 +60,8 @@
                 <CheckBox
                     style="@style/cutout_btn"
                     android:button="@null"
-                    android:paddingLeft="8dp"
-                    android:drawableLeft="@drawable/icon_fota"/>
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/icon_fota_1"/>
                 <TextView
                     style="@style/cutout_btn_text"
                     android:text="佛塔"/>
@@ -72,8 +72,8 @@
                 <CheckBox
                     style="@style/cutout_btn"
                     android:button="@null"
-                    android:paddingLeft="8dp"
-                    android:drawableLeft="@drawable/icon_beiyun"/>
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/icon_beiyun_1"/>
                 <TextView
                     style="@style/cutout_btn_text"
                     android:text="背云"/>
@@ -84,8 +84,8 @@
                 <CheckBox
                     style="@style/cutout_btn"
                     android:button="@null"
-                    android:paddingLeft="10dp"
-                    android:drawableLeft="@drawable/icon_qiazi"/>
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/icon_qiazi_1"/>
                 <TextView
                     style="@style/cutout_btn_text"
                     android:text="卡子"/>
@@ -96,8 +96,8 @@
                 <CheckBox
                     style="@style/cutout_btn"
                     android:button="@null"
-                    android:paddingLeft="12dp"
-                    android:drawableLeft="@drawable/icon_dizizhu"/>
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/icon_dizizhu_1"/>
                 <TextView
                     style="@style/cutout_btn_text"
                     android:text="弟子珠"/>
@@ -114,8 +114,8 @@
                 <CheckBox
                     style="@style/cutout_btn"
                     android:button="@null"
-                    android:paddingLeft="18dp"
-                    android:drawableLeft="@drawable/icon_jishuqi"/>
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/icon_jishuqi_1"/>
                 <TextView
                     style="@style/cutout_btn_text"
                     android:text="计数器"/>
@@ -126,8 +126,8 @@
                 <CheckBox
                     style="@style/cutout_btn"
                     android:button="@null"
-                    android:paddingLeft="15dp"
-                    android:drawableLeft="@drawable/icon_xiangzhu"/>
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/icon_xiangzhu_1"/>
                 <TextView
                     style="@style/cutout_btn_text"
                     android:text="项珠"/>
@@ -138,8 +138,8 @@
                 <CheckBox
                     style="@style/cutout_btn"
                     android:button="@null"
-                    android:paddingLeft="16dp"
-                    android:drawableLeft="@drawable/icon_shengjie"/>
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/icon_shengjie_1"/>
                 <TextView
                     style="@style/cutout_btn_text"
                     android:text="绳结"/>
@@ -150,8 +150,8 @@
                 <CheckBox
                     style="@style/cutout_btn"
                     android:button="@null"
-                    android:paddingLeft="8dp"
-                    android:drawableLeft="@drawable/icon_sanzhu"/>
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/icon_sanzhu_1"/>
                 <TextView
                     style="@style/cutout_btn_text"
                     android:text="散珠"/>
@@ -162,8 +162,8 @@
                 <CheckBox
                     style="@style/cutout_btn"
                     android:button="@null"
-                    android:paddingLeft="9dp"
-                    android:drawableLeft="@drawable/icon_gepian"/>
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/icon_gepian_1"/>
                 <TextView
                     style="@style/cutout_btn_text"
                     android:text="隔片"/>
@@ -247,6 +247,7 @@
                 android:text="mm"
                 android:textSize="@dimen/textsize_small"
                 android:textColor="@color/gray_80"
+                android:layout_marginLeft="5dp"
 
                 />
 

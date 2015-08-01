@@ -40,5 +40,6 @@
     <color name="transparence_50_black">#5f000000</color>
     <color name="transparentbluegray">#3fa9b7b7</color>
     <color name="transparent">#00000000</color>
+    <color name="transparent_white">#80ffffff</color>
 
 </resources>

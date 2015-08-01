@@ -131,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Set the first item as selected for the first time
         getSupportActionBar().setTitle(R.string.toolbar_title_home);
+
+
         mFrameLayout_Home.setSelected(true);
 
         // Create the first fragment to be shown

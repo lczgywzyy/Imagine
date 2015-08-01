@@ -43,18 +43,18 @@ public class LibiraryActivity extends AppCompatActivity {
         slidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer(){
             @Override
             public int getIndicatorColor(int position) {
-                return Color.RED;
+                return Color.WHITE;
             }
         });
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

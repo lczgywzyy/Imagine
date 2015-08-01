@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="countries">
-        <item>佛头,icon_fotou</item>
-        <item>佛塔,icon_fota</item>
-        <item>背云,icon_beiyun</item>
-        <item>卡子,icon_qiazi</item>
-        <item>弟子珠,incon_dizizhu</item>
-        <item>计数器,icon_jishuqi</item>
-        <item>项珠,icon_xiangzhu</item>
-        <item>绳结,icon_shengjie</item>
-        <item>散珠,icon_sanzhu</item>
-        <item>隔片,icon_gepian</item>
+        <item>佛头,icon_fotou_1</item>
+        <item>佛塔,icon_fota_1</item>
+        <item>背云,icon_beiyun_1</item>
+        <item>卡子,icon_qiazi_1</item>
+        <item>弟子珠,icon_dizizhu_1</item>
+        <item>计数器,icon_jishuqi_1</item>
+        <item>项珠,icon_xiangzhu_1</item>
+        <item>绳结,icon_shengjie_1</item>
+        <item>散珠,icon_sanzhu_1</item>
+        <item>隔片,icon_gepian_1</item>
     </string-array>
 </resources>

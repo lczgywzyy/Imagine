@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+    <!-- main toolbar-->
+    <style
+        name="MainToolbar" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorPrimary">@color/brightgreen</item>
+        <item name="colorPrimaryDark">@color/darkgreen</item>
+        <item name="android:textColorPrimary">@color/gray_90</item>
+    </style>
+
+    <!-- custom toolbar-->
     <style
         name="BaseTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/brightgreen</item>
@@ -14,5 +23,7 @@
 
     <style name="BaseTheme.MainTheme.WithNavDrawer">
     </style>
+
+
 
 </resources>

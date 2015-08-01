@@ -2,333 +2,218 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true">
-
+    android:clipToPadding="true"
+    android:theme="@style/Theme.AppCompat.NoActionBar">
     <include
         layout="@layout/toolbar"
         />
+
     <!--<LinearLayout-->
         <!--android:layout_width="fill_parent"-->
         <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="48"-->
-        <!--android:background="@drawable/bg_gradual_change"-->
-        <!--android:paddingRight="@dimen/margin">-->
-        <!--<ImageButton-->
-            <!--android:id="@+id/detail_back"-->
-            <!--android:layout_width="48dp"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:layout_gravity="center|left"-->
-            <!--android:background="@drawable/selector_common_pressed_50_back"-->
-            <!--android:src="@drawable/icon_back"/>-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:gravity="center"-->
-            <!--android:textSize="@dimen/textsize_medium"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:text="天然欧泊宝石 opal裸石水滴火彩"/>-->
+        <!--android:layout_weight="48"></LinearLayout>-->
 
-    <!--</LinearLayout>-->
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="270">
+        android:layout_weight="360">
         <ImageView
             android:id="@+id/detail_image"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:src="@drawable/detail_textpiv"
-            android:scaleType="centerCrop"/>
+            android:src="@drawable/logo" />
 
     </FrameLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="298"
-        android:background="@color/gray_10"
-        android:paddingLeft="@dimen/margin"
-        android:paddingRight="@dimen/margin"
+        android:layout_weight="208"
+        android:background="@color/white"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
         android:orientation="vertical"
         >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="48dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="天然欧泊宝石 opal裸石水滴火彩"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textsize_smalltitle"
-                android:layout_gravity="center"/>
-            <ImageButton
-                android:layout_width="@dimen/btn_outter"
-                android:layout_height="@dimen/btn_outter"
-                android:gravity="center|left"
-                android:src="@drawable/icon_like"
-                android:background="@drawable/selector_common_pressed_50_back"
-                />
-            <ImageButton
-                android:layout_width="@dimen/btn_outter"
-                android:layout_height="@dimen/btn_outter"
-                android:gravity="center|left"
-                android:src="@drawable/icon_save"
-                android:background="@drawable/selector_common_pressed_50_back"
-                />
-
-        </LinearLayout>
-
-         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:layout_weight="80">
-             <LinearLayout
-                 android:layout_width="0dp"
-                 android:layout_height="fill_parent"
-                 android:layout_weight="1"
-                 android:orientation="vertical"
-                 >
-                  <LinearLayout
-                     android:layout_width="fill_parent"
-                     android:layout_height="0dp"
-                     android:layout_weight="15"
-                     android:gravity="center|left">
-                     <ImageView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:src="@drawable/icon_size"/>
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="尺寸: "
-                         android:layout_marginLeft="@dimen/margin_text"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="9mm*13mm*16mm"
-                          android:textSize="@dimen/textsize_micro"
-                          android:textColor="@color/black"/>
-                 </LinearLayout>
-                 <Space
-                     android:layout_width="fill_parent"
-                     android:layout_height="0dp"
-                     android:layout_weight="5"/>
-                 <LinearLayout
-                     android:layout_width="fill_parent"
-                     android:layout_height="0dp"
-                     android:layout_weight="15"
-                     android:gravity="center|left">
-                     <ImageView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:src="@drawable/icon_holesize"/>
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="直径: "
-                         android:layout_marginLeft="@dimen/margin_text"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                      <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="无"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                 </LinearLayout>
-                 <Space
-                     android:layout_width="fill_parent"
-                     android:layout_height="0dp"
-                     android:layout_weight="5"/>
-                 <LinearLayout
-                     android:layout_width="fill_parent"
-                     android:layout_height="0dp"
-                     android:layout_weight="15"
-                     android:gravity="center|left">
-                     <ImageView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:src="@drawable/icon_price"/>
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="价格: "
-                         android:layout_marginLeft="@dimen/margin_text"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="775RMB"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                 </LinearLayout>
-
-             </LinearLayout>
-             <LinearLayout
-                 android:layout_width="0dp"
-                 android:layout_height="fill_parent"
-                 android:layout_weight="0.7"
-                 android:orientation="vertical"
-                 >
-                 <LinearLayout
-                     android:layout_width="fill_parent"
-                     android:layout_height="0dp"
-                     android:layout_weight="15"
-                     android:gravity="center|left">
-                     <ImageView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:src="@drawable/icon_material"/>
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="材质: "
-                         android:layout_marginLeft="@dimen/margin_text"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="欧泊"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                 </LinearLayout>
-                 <Space
-                     android:layout_width="fill_parent"
-                     android:layout_height="0dp"
-                     android:layout_weight="5"/>
-                 <LinearLayout
-                     android:layout_width="fill_parent"
-                     android:layout_height="0dp"
-                     android:layout_weight="15"
-                     android:gravity="center|left">
-                     <ImageView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:src="@drawable/icon_sort"/>
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text=" 类别: "
-                         android:layout_marginLeft="@dimen/margin_text"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="无"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                 </LinearLayout>
-                 <Space
-                     android:layout_width="fill_parent"
-                     android:layout_height="0dp"
-                     android:layout_weight="5"/>
-                 <LinearLayout
-                     android:layout_width="fill_parent"
-                     android:layout_height="0dp"
-                     android:layout_weight="15"
-                     android:gravity="center|left">
-                     <ImageView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:src="@drawable/icon_weight"/>
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="重量: "
-                         android:layout_marginLeft="@dimen/margin_text"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="3.1克拉"
-                         android:textSize="@dimen/textsize_micro"
-                         android:textColor="@color/black"/>
-                 </LinearLayout>
-
-             </LinearLayout>
-
-        </LinearLayout>
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="8"/>
+        <!--可点击按钮-->
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="48"
-            android:orientation="horizontal"
-            android:gravity="left|center">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_right_smallblack"
-              />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:button="@drawable/icon_detail_save"
+                android:text="收藏宝贝(20)"
+                android:textColor="@color/black"
                 android:textSize="@dimen/textsize_micro"
-                android:text=" 商家担保:  "
-                android:textColor="@color/black"/>
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/icon_like"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textsize_micro"
-                android:text="  秘银觅饰 "
-                android:textColor="@color/black"/>
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:background="@drawable/btn_brightgreen_green_rectangle"
-                android:text="去店里"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textsize_small"/>
+                android:layout_gravity="center"
+            />
 
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.8"
+                android:button="@drawable/icon_detail_zan"
+                android:text="点赞(20)"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsize_micro"
+                />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="@color/gray_30"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp" />
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.7"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:src="@drawable/icon_share"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsize_micro"
+                android:layout_gravity="left"
+                />
         </LinearLayout>
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="12"/>
+
+        <!-- 商品名字-->
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="150"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:layout_gravity="left|top"
-                android:src="@drawable/icon_comment"/>
-            <Space
-                android:layout_width="4dp"
-                android:layout_height="fill_parent" />
+            android:layout_weight="40">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="商家描述：裸石的图片真的不好拍，本来以为月光石就够不好拍照片了，原来最难的在这里.每颗石头的火彩都很好，个人觉得比照片上的火彩要好相信懂欧泊石的亲们都应该知道，克拉大一点，价格就会翻倍的增长照片都是在自然光直射下拍摄，欧泊的光彩每个角度都有变化，不同光照下颜色也略显不同花了不少功夫，每个石头都拍了照片，呈现了大小厚度p，亲们自己看图挑选火彩形态"
+                android:layout_height="fill_parent"
+                android:text="骨雕刻一念之差佛头腰珠三通吊坠"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textsize_micro"/>
+                android:gravity="center|left"
+                android:textSize="@dimen/textsize_medium"/>
+        </LinearLayout>
 
+        <!-- 物品信息-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="80"
+            android:orientation="vertical">
+
+            <!-- 物品尺寸-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/icon_detail_size"
+                    android:layout_gravity="center"/>
+                <Space
+                    android:layout_width="15dp"
+                    android:layout_height="fill_parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="尺寸："
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:textSize="@dimen/textsize_small"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="9.02*7.1*5.04mm"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:textSize="@dimen/textsize_small"/>
+            </LinearLayout>
+
+            <!--去商家-->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/icon_detail_shangjia"
+                    android:layout_gravity="center"/>
+                <Space
+                    android:layout_width="15dp"
+                    android:layout_height="fill_parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="商家："
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:textSize="@dimen/textsize_small"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="龙御艺塑"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:textSize="@dimen/textsize_small"/>
+                <Space
+                    android:layout_width="15dp"
+                    android:layout_height="fill_parent" />
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/btn_brightgreen_green_rectangle"
+                    android:text="去店里"
+                    android:textSize="@dimen/textsize_small"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
 
         </LinearLayout>
         <Space
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="20"/>
+            android:layout_weight="5"/>
+
+       <LinearLayout
+           android:layout_width="fill_parent"
+           android:layout_height="0dp"
+           android:layout_weight="35"
+           android:orientation="horizontal"
+           android:layout_gravity="bottom"
+           android:gravity="center"
+           >
+           <View
+               android:layout_width="98dp"
+               android:layout_height="1dp"
+               android:background="@color/gray_30"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="继续拖动 查看详情"
+               android:textColor="@color/gray_30"
+               android:textSize="@dimen/textsize_tiny"
+               android:layout_marginTop="10dp"
+               android:layout_marginBottom="10dp"
+               android:layout_marginLeft="10dp"
+               android:layout_marginRight="10dp"/>
+           <View
+               android:layout_width="98dp"
+               android:layout_height="1dp"
+               android:background="@color/gray_30"/>
+
+           
+       </LinearLayout>
 
 
+        </LinearLayout>
 
-    </LinearLayout>
+
 
 </LinearLayout>

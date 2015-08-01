@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="48">
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/cutout_1_framelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="360"
+        android:background="@color/gray_80"
+        android:layout_alignParentTop="true"
+        >
+        <!--<LinearLayout-->
+            <!--android:id="@+id/cutout_2_framelayout"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent">-->
+
+        <!--</LinearLayout>-->
+        <u.can.i.up.ui.utils.ImageViewImpl_cutout
+            android:id="@+id/ImageViewImpl_cutout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+
+
+
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/match_1_middlebar"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_gradual_change"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/actionbar">
+        <ImageButton
+            android:id="@+id/cutout_1_close_btn"
+            android:background="@drawable/selector_common_pressed_50_back"
+            android:padding="@dimen/btn_padding"
+            android:layout_width="@dimen/btn_outter"
+            android:layout_height="@dimen/btn_outter"
+            android:src="@drawable/icon_wrong"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
+        <ImageButton
+            android:id="@+id/cutout_1_back_btn"
+            android:background="@drawable/selector_common_pressed_50_back"
+            android:padding="@dimen/btn_padding"
+            android:layout_width="@dimen/btn_outter"
+            android:layout_height="@dimen/btn_outter"
+            android:src="@drawable/icon_chexiao"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true" />
+        <ImageButton
+            android:id="@+id/cutout_1_setover"
+            android:background="@drawable/selector_common_pressed_50_back"
+            android:padding="@dimen/btn_padding"
+            android:layout_width="@dimen/btn_outter"
+            android:layout_height="@dimen/btn_outter"
+            android:src="@drawable/icon_right"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+    <!--下方工具栏-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="160"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="32"
+            android:layout_height="fill_parent" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="100"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center|left">
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="35"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="抠图工具"
+                android:textSize="@dimen/textsize_small"
+                android:textColor="@color/gray_80"/>
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="14"/>
+
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0sp"
+                android:layout_weight="70"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="5"
+                        android:text="画笔"
+                        android:textColor="@color/gray_80"
+                        android:gravity="center|left"/>
+                    <Space
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="5"
+                        android:text="橡皮"
+                        android:textColor="@color/gray_80"
+                        android:gravity="center|left"/>
+                </LinearLayout>
+
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <RadioButton
+                        android:id="@+id/circle_paint"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="5"
+                        android:button="@drawable/icon_circle_radio"/>
+                    <Space
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+                    <RadioButton
+                        android:id="@+id/circle_eraze"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="5"
+                        android:button="@drawable/icon_circle_radio"/>
+
+                </RadioGroup>
+
+        </LinearLayout>
+
+
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4"/>
+
+
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="35"/>
+
+        </LinearLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="fill_parent" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="230"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="15"/>
+            <!--亮度-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="16"
+                android:orientation="horizontal"
+                android:gravity="center|left"
+                >
+
+                <TextView
+                    android:layout_width="43dp"
+                    android:layout_height="fill_parent"
+                    android:text="亮度"
+                    android:textColor="@color/gray_80"
+                    android:textSize="@dimen/textsize_small"
+                    android:gravity="center"/>
+
+                <SeekBar
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:maxHeight="3.0dp"
+                    android:minHeight="3.0dp"
+                    android:max="200"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
+                    android:thumb="@drawable/seekbar_thumb"
+                    android:thumbOffset="0dp"
+                    />
+
+            </LinearLayout>
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"/>
+            <!--对比度-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="16"
+                android:orientation="horizontal"
+                android:gravity="center|left">
+
+                <TextView
+                    android:layout_width="43dp"
+                    android:layout_height="fill_parent"
+                    android:text="对比度"
+                    android:textColor="@color/gray_80"
+                    android:textSize="@dimen/textsize_small"
+                    android:gravity="center"/>
+
+                <SeekBar
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:maxHeight="3.0dp"
+                    android:minHeight="3.0dp"
+                    android:max="200"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
+                    android:thumb="@drawable/seekbar_thumb"
+                    android:thumbOffset="0dp"
+                    />
+
+            </LinearLayout>
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"/>
+            <!--饱和度-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="16"
+                android:orientation="horizontal"
+                android:gravity="center|left">
+
+                <TextView
+                    android:layout_width="43dp"
+                    android:layout_height="fill_parent"
+                    android:text="饱和度"
+                    android:textColor="@color/gray_80"
+                    android:textSize="@dimen/textsize_small"
+                    android:gravity="center"/>
+                <SeekBar
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:maxHeight="3.0dp"
+                    android:minHeight="3.0dp"
+                    android:max="200"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
+                    android:thumb="@drawable/seekbar_thumb"
+                    android:thumbOffset="0dp"
+                    />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="20"/>
+
+
+        </LinearLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:layout_height="fill_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>
