@@ -42,6 +42,7 @@ public class Pearl {
         this.mBitmap = mBitmap;
     }
 
+
     public void setCenter(PointF point){
         this.center = point;
     }

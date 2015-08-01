@@ -25,9 +25,9 @@ import u.can.i.up.utils.image.Pearl;
 /**
  * Created by lczgywzyy on 2015/5/31.
  */
-public class ImageViewImpl_13 extends View {
+public class ImageViewImpl_14 extends View {
 
-    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_13.class;
+    private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_14.class;
     private static final String FromPath = ".1FromPath/ImageView13";
     private static final String ToPath = ".2ToPath/ImageView13";
 
@@ -61,7 +61,7 @@ public class ImageViewImpl_13 extends View {
     Paint paint = null;
     PaintFlagsDrawFilter paintFilter = null;
 
-    public ImageViewImpl_13(Context context) {
+    public ImageViewImpl_14(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
         this.context = context;

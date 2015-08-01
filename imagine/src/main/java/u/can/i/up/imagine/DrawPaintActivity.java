@@ -553,6 +553,52 @@ public class DrawPaintActivity extends ActionBarActivity {
                     }
                 });
                 break;
+            case 14:
+                final EditText editText141 = new EditText(this);
+                editText141.setId(11401);
+                editText141.setHintTextColor(Color.GRAY);
+                editText141.setHint("请输入素珠个数(10-120)：");
+                editText141.setInputType(InputType.TYPE_CLASS_NUMBER);
+                RelativeLayout.LayoutParams lParams141 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                mainLayout.addView(editText141, lParams141);
+                editText141.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        int withs = editText141.getWidth();
+                        editText141.setHint(null);
+                        editText141.setWidth(withs);
+                    }
+                });
+
+                final Button button142 = new Button(this);
+                button142.setId(11402);
+                button142.setText("确定");
+                RelativeLayout.LayoutParams lParams142 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams142.addRule(RelativeLayout.RIGHT_OF, 11401);
+                mainLayout.addView(button142, lParams142);
+
+                final ImageViewImpl_14 myView14 = new ImageViewImpl_14(this);
+                myView14.setId(11403);
+                RelativeLayout.LayoutParams lParams143 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams143.addRule(RelativeLayout.BELOW, 11401);
+                mainLayout.addView(myView14, lParams143);
+
+                button142.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        int inputNum = Integer.parseInt(editText141.getText().toString());
+                        editText141.setText(null);
+                        if(inputNum >= 10 && inputNum <=120){
+                            editText141.setHintTextColor(Color.GRAY);
+                            editText141.setHint("请输入素珠个数(10-120)：");
+                            myView14.updateImage(inputNum);
+                        } else {
+                            int withs = editText141.getWidth();
+                            editText141.setHintTextColor(Color.RED);
+                            editText141.setHint("请输入素珠个数(10-120)：");
+                            editText141.setWidth(withs);
+                        }
+                    }
+                });
+                break;
             default:
                 break;
         }
