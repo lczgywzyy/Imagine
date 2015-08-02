@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_10">
+    <include
+        layout="@layout/toolbar"
+        />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+
+
+        <!--头像-->
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin"
+                android:text="头像"
+                android:textColor="@color/gray_80"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:layout_gravity="left|center"/>
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="@dimen/margin"
+                android:background="@color/black"
+                android:layout_gravity="right|center"
+          />
+        </FrameLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="@color/gray_10"/>
+
+        <!--昵称-->
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+   >
+
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="晶晶"
+                android:paddingRight="@dimen/margin"
+                android:gravity="right|center"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:textColor="@color/gray_30"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:layout_gravity="right|center"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="昵称"
+                android:paddingLeft="@dimen/margin"
+                android:textColor="@color/gray_80"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:layout_gravity="left|center"/>
+        </FrameLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="@color/gray_10"/>
+
+        <!-- 手机号-->
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="18801127727"
+                android:paddingRight="@dimen/margin"
+                android:gravity="right|center"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:textColor="@color/gray_30"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:layout_gravity="right|center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机号"
+                android:paddingLeft="@dimen/margin"
+                android:textColor="@color/gray_80"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:layout_gravity="left|center"/>
+        </FrameLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="@color/gray_10"/>
+
+        <!-- 邮箱-->
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="未认证"
+                android:paddingRight="@dimen/margin"
+                android:gravity="right|center"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:textColor="@color/gray_30"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:layout_gravity="right|center"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="邮箱"
+                android:paddingLeft="@dimen/margin"
+                android:textColor="@color/gray_80"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:layout_gravity="left|center"/>
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+    <!--更换密码-->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="更换密码"
+                android:paddingLeft="@dimen/margin"
+                android:gravity="left|center"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:textColor="@color/gray_80"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:layout_gravity="left|center"/>
+
+
+
+    </LinearLayout>
+
+
+
+        <Button
+            android:layout_width="140dp"
+            android:layout_height="55dp"
+            android:text="退出当前账户"
+            android:gravity="center"
+            android:textSize="@dimen/textsize_medium"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_brightgreen_green_rectangle"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"/>
+
+
+
+
+
+
+
+
+
+</LinearLayout>

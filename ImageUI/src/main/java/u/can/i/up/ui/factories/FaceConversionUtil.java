@@ -30,7 +30,7 @@ import u.can.i.up.ui.customViews.ChatEmoji;
 public class FaceConversionUtil {
 
 	/** 每一页表情的个数 */
-	private int pageSize = 20;
+	private int pageSize = 13;
 
 	private static FaceConversionUtil mFaceConversionUtil;
 

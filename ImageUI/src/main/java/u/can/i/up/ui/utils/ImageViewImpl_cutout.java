@@ -90,14 +90,12 @@ public class ImageViewImpl_cutout extends View {
     private float tmpCircleRadiusRatio = 1L;
 
     public void setmBitmap(Bitmap bitmap){
-
 //
 //        try {
 //            mBitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), photoUri);
 //        }catch (Exception e){
 //            e.printStackTrace();
 //        }
-
         mBitmap = bitmap;
         mLayer = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         SectionPixels = new int[mBitmap.getHeight() * mBitmap.getWidth()];

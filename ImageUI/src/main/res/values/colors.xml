@@ -24,7 +24,7 @@
     <color name="black">#000000</color>
     <color name="green">#0a8940</color>
     <color name="darkgreen">#0a6040</color>
-    <color name="brightgreen">#0bab4f</color>
+    <color name="brightgreen">#03b55f</color>
     <color name="yellowgreen">#61b02c</color>
     <color name="darkyellowgreen">#4d8427</color>
     <color name="blue">#07c697</color>
@@ -35,11 +35,11 @@
     <color name="gray_70">#252727</color>
     <color name="gray_30">#818181</color>
     <color name="gray_20">#a9b7b7</color>
+    <color name="gray_15">#eaeaea</color>
     <color name="gray_10">#f0f0f0</color>
     <!--透明颜色-->
     <color name="transparence_50_black">#5f000000</color>
     <color name="transparentbluegray">#3fa9b7b7</color>
     <color name="transparent">#00000000</color>
     <color name="transparent_white">#80ffffff</color>
-
 </resources>

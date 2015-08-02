@@ -151,7 +151,7 @@
 
                 <!--第二个按钮-->
                 <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_libirary"
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_mylibirary"
                     style="@style/NavDrawerRowLayout.Main"
                     android:paddingLeft="50dp">
 
@@ -164,7 +164,7 @@
                     <TextView
                         android:id="@+id/navigation_drawer_items_textView_libirary"
                         style="@style/NavDrawerRowItemText"
-                        android:text="@string/nav_drawer_item_libirary"
+                        android:text="@string/nav_drawer_item_mylibirary"
                         tools:fontFamily="sans-serif-medium"/>
 
                 </FrameLayout>
@@ -211,25 +211,25 @@
 
 
 
-                <!--第四个按钮-->
-                <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_about"
-                    style="@style/NavDrawerRowLayout.Secondary"
-                    android:paddingLeft="50dp">
+                <!--&lt;!&ndash;第四个按钮&ndash;&gt;-->
+                <!--<FrameLayout-->
+                    <!--android:id="@+id/navigation_drawer_items_list_linearLayout_about"-->
+                    <!--style="@style/NavDrawerRowLayout.Secondary"-->
+                    <!--android:paddingLeft="50dp">-->
 
-                    <u.can.i.up.ui.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_about"
-                        style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/btn_about_true"
-                        tools:ignore="ContentDescription" />
+                    <!--<u.can.i.up.ui.customViews.TintOnStateImageView-->
+                        <!--android:id="@+id/navigation_drawer_items_list_icon_about"-->
+                        <!--style="@style/NavDrawerRowItemIcon"-->
+                        <!--android:src="@drawable/btn_about_true"-->
+                        <!--tools:ignore="ContentDescription" />-->
 
-                    <TextView
-                        android:id="@+id/navigation_drawer_items_textView_about"
-                        style="@style/NavDrawerRowItemText"
-                        android:text="@string/nav_drawer_about"
-                        tools:fontFamily="sans-serif-medium" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/navigation_drawer_items_textView_about"-->
+                        <!--style="@style/NavDrawerRowItemText"-->
+                        <!--android:text="@string/nav_drawer_about"-->
+                        <!--tools:fontFamily="sans-serif-medium" />-->
 
-                </FrameLayout>
+                <!--</FrameLayout>-->
             </LinearLayout>
 
         </ScrollView>

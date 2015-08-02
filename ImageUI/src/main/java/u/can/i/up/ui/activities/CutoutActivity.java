@@ -61,76 +61,55 @@ public class CutoutActivity extends Activity {
         imageViewImpl_cutout.isDrawing = false;
         imageViewImpl_cutout.paintShape = 0;//0 圆形画笔
         imageViewImpl_cutout.paintType = 0;//0 画笔 1 橡皮
-//        square_paint.setBackgroundColor(Color.TRANSPARENT);
-//        square_paint.setOnClickListener(new Button.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (imageViewImpl_cutout.isDrawing) {
-//                    imageViewImpl_cutout.isDrawing = false;
-//                    imageViewImpl_cutout.paintType = 0;
-//
-//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
-//                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
-//                    imageViewImpl_cutout.paintShape = 0;
-//                } else {
-//                    imageViewImpl_cutout.isDrawing = true;
-//                    imageViewImpl_cutout.paintType = 0;
-//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
-//                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
-//                    imageViewImpl_cutout.paintShape = 0;
-//                }
-//            }
-//        });
-//
-//        square_eraze.setBackgroundColor(Color.TRANSPARENT);
-//        square_eraze.setOnClickListener(new Button.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.i(TAG, "112");
-////                        button111.setText("描点");
-//                if (imageViewImpl_cutout.paintType == 0) {
-//                    imageViewImpl_cutout.paintType = 1;
-//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
-//                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
-//
-//                } else {
-//                    imageViewImpl_cutout.paintType = 0;
-//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
-//                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
-//                }
-//            }
-//        });
-
-//        button113.setOnClickListener(new Button.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.i(TAG, "113：导出图片到/sdcard/.2ToPath/OUTPUT_11.png");
-//                myView11.exportImageByFinger();
-//                Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/OUTPUT_11.png", Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
         circle_paint.setBackgroundColor(Color.TRANSPARENT);
         circle_paint.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "115");
-                imageViewImpl_cutout.paintShape = 1;
-//                square_paint.setBackgroundColor(Color.TRANSPARENT);
-//                square_eraze.setBackgroundColor(Color.TRANSPARENT);
-                circle_paint.setBackgroundColor(Color.TRANSPARENT);
-                circle_eraze.setBackgroundColor(Color.TRANSPARENT);
+                if (imageViewImpl_cutout.isDrawing) {
+                    imageViewImpl_cutout.isDrawing = false;
+                    imageViewImpl_cutout.paintType = 0;
 
+//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
+                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
+                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
+                    imageViewImpl_cutout.paintShape = 0;
+                } else {
+                    imageViewImpl_cutout.isDrawing = true;
+                    imageViewImpl_cutout.paintType = 0;
+//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
+                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
+                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
+                    imageViewImpl_cutout.paintShape = 0;
+                }
             }
         });
+//
+        circle_eraze.setBackgroundColor(Color.TRANSPARENT);
+        circle_eraze.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "112");
+//                        button111.setText("描点");
+                if (imageViewImpl_cutout.paintType == 0) {
+                    imageViewImpl_cutout.paintType = 1;
+//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
+                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
+                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
+
+                } else {
+                    imageViewImpl_cutout.paintType = 0;
+//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
+//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
+                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
+                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
+                }
+            }
+        });
+
 
         setover.setOnClickListener(new Button.OnClickListener() {
             @Override

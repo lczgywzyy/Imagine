@@ -60,6 +60,9 @@ public class PearlBuildActivity extends Activity {
             @Override
             public void onClick(View view) {
                 int inputNum = Integer.parseInt(ballnum.getText().toString());
+//                String a = ballnum.getText().toString();
+//                int inputNum = Integer.parseInt(a);
+
                 ballnum.setText(null);
                 if (inputNum >= 10 && inputNum <= 120) {
                     ballnum.setHintTextColor(Color.GRAY);

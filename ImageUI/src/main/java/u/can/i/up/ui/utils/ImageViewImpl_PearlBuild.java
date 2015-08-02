@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import u.can.i.up.ui.R;
 import u.can.i.up.utils.image.Pearl;
 
 
@@ -32,25 +33,36 @@ public class ImageViewImpl_PearlBuild extends View {
     private static final String FromPath = ".1FromPath/ImageView13";
     private static final String ToPath = ".2ToPath/ImageView13";
 
-    Context context = null;
-    //素珠矩阵
-    Matrix PointSuzhuMatrix = new Matrix();
+    /**
+     * The Paint used to draw the pic.
+     */
+    Paint paint = null;
+    PaintFlagsDrawFilter paintFilter = null;
 
-    Canvas mCanvas = null;
-
+    /**
+     * Bitmap Back  底图
+     * Bitmap Suzhu 素珠图片
+     */
     Bitmap bmpSuzhu = null;
     Bitmap bmpBack = null;
 
-    //背景中心
-    PointF mBgCenterPoint = null;
-    //整个珠子列表
-    List<Pearl> mPearlList = new ArrayList<Pearl>();
+    Context context = null;
+    Canvas mCanvas = null;
 
-    //第一颗素珠的中心
-    PointF mFirstSuzhuCenterPoint = null;
+    //素珠变换矩阵
+    Matrix PointSuzhuMatrix = new Matrix();
+    //图片变换点阵集合
+    RectF rectBack = new RectF();
     //第一颗素珠的矩形位置
     RectF mFirstSuzhuRec = null;
     RectF mFirstSuzhuRecPre = null;
+    //背景图片中心点
+    PointF mBgCenterPoint = null;
+    //第一颗素珠的中心
+    PointF mFirstSuzhuCenterPoint = null;
+    //整个珠子列表
+    List<Pearl> mPearlList = new ArrayList<Pearl>();
+
     //输入素珠个数，默认为-1
     int mSuzhuNum = -1;
 
@@ -59,8 +71,6 @@ public class ImageViewImpl_PearlBuild extends View {
     //素珠缩放比例
     float mSuzhuScale = 1.0f;
 
-    Paint paint = null;
-    PaintFlagsDrawFilter paintFilter = null;
 
 
     public ImageViewImpl_PearlBuild(Context context) {
@@ -73,6 +83,13 @@ public class ImageViewImpl_PearlBuild extends View {
         init(context);
     }
 
+    public void setBmpBack(Bitmap mbitmap){
+        bmpBack = mbitmap;
+    }
+
+    public void setBmpSuzhu(Bitmap mbitmap){
+        bmpSuzhu = mbitmap;
+    }
 
     /** TODO 当且仅当构造函数中可以调用init()
      * */
@@ -89,7 +106,8 @@ public class ImageViewImpl_PearlBuild extends View {
 
         //创建素珠点的Matrix
         PointSuzhuMatrix = new Matrix();
-
+//        bmpBack = BitmapFactory.decodeResource(context.getResources(), R.drawable.pearbuild_background);
+//        bmpSuzhu = BitmapFactory.decodeResource(context.getResources(),R.drawable.pearlbuild_suzhu);
         //加载相应的图片资源
         bmpSuzhu = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/suzhu.png").getAbsolutePath());
         bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/bg.png").getAbsolutePath());
@@ -104,34 +122,6 @@ public class ImageViewImpl_PearlBuild extends View {
         mPearlList.add(new Pearl(mFirstSuzhuCenterPoint, PointSuzhuMatrix));
 
     }
-//    public ImageViewImpl_PearlBuild(Context context) {
-//        super(context);
-//        // TODO Auto-generated constructor stub
-//        this.context = context;
-//        //创建画笔
-//        paint = new Paint();
-//        //画笔抗锯齿
-//        paint.setAntiAlias(true);
-//        paint.setColor(Color.BLUE);
-//        //设置画笔绘制空心图形
-//        paint.setStyle(Paint.Style.STROKE);
-//
-//        //创建素珠点的Matrix
-//        PointSuzhuMatrix = new Matrix();
-//
-//        //加载相应的图片资源
-//        bmpSuzhu = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/suzhu.png").getAbsolutePath());
-//        bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/bg.png").getAbsolutePath());
-//
-//        //记录表情矩形的中点
-//        mBgCenterPoint = new PointF(bmpBack.getWidth() / 2, bmpBack.getHeight() / 2);
-//
-//        //默认素珠个数为1
-//        mSuzhuNum = 1;
-//        //初始化函数，在第一次初始化之后将第一个素珠显示出来，作为展示。
-//        mInitial();
-//        mPearlList.add(new Pearl(mFirstSuzhuCenterPoint, PointSuzhuMatrix));
-//    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -140,7 +130,6 @@ public class ImageViewImpl_PearlBuild extends View {
         mCanvas = canvas;
 
         canvas.setDrawFilter(paintFilter);
-
         /* 绘制背景
         * */
         canvas.drawBitmap(bmpBack, 0, 0, paint);

@@ -1,13 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_10">
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <include
+        layout="@layout/toolbar"
+        />
 
-    <!--<include-->
-        <!--layout="@layout/toolbar"/>-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <!--浏览图片质量-->
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+           >
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="省流量优化"
+                android:gravity="right|center"
+                android:textSize="@dimen/textsize_small"
+                android:textColor="@color/gray_30"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:layout_gravity="right|center"
+                android:paddingRight="@dimen/margin"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="图片显示"
+                android:textColor="@color/gray_80"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:layout_gravity="left|center"
+                android:paddingLeft="@dimen/margin"
+                android:paddingRight="@dimen/margin"/>
+
+        </FrameLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="@color/gray_10" />
+
+        <!-- 同步设置-->
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+       >
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="省流量上传"
+                android:gravity="right|center"
+                android:textSize="@dimen/textsize_small"
+                android:textColor="@color/gray_30"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:layout_gravity="right|center"
+                android:paddingRight="@dimen/margin"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="同步设置"
+                android:textColor="@color/gray_80"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:layout_gravity="left|center"
+                android:paddingLeft="@dimen/margin"
+                android:paddingRight="@dimen/margin"/>
+
+        </FrameLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="@color/gray_10" />
+        <!--版本更新-->
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+
+           >
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="V1.0.0"
+                android:gravity="right|center"
+                android:textSize="@dimen/textsize_small"
+                android:textColor="@color/gray_30"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:layout_gravity="right|center"
+                android:paddingRight="@dimen/margin"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="版本更新"
+                android:textColor="@color/gray_80"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:layout_gravity="left|center"
+                android:paddingLeft="@dimen/margin"
+                android:paddingRight="@dimen/margin"/>
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+
+
+    <!--意见反馈-->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:text="清除缓存"
+            android:gravity="left|center"
+            android:textSize="@dimen/textsize_smalltitle"
+            android:textColor="@color/gray_80"
+            android:background="@drawable/selector_common_pressed_50_back"
+            android:layout_gravity="left|center"
+            android:paddingLeft="@dimen/margin"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="@color/gray_10"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:text="意见反馈"
+            android:gravity="left|center"
+            android:textSize="@dimen/textsize_smalltitle"
+            android:textColor="@color/gray_80"
+            android:background="@drawable/selector_common_pressed_50_back"
+            android:layout_gravity="left|center"
+            android:paddingLeft="@dimen/margin"/>
+
+
+
+    </LinearLayout>
+
+
+
+   </LinearLayout>

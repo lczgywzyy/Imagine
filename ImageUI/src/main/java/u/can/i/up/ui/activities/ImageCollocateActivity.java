@@ -25,7 +25,7 @@ import u.can.i.up.ui.utils.ImageViewImpl_collocate;
  * @sumary 搭配界面：底图选择完毕，往底图贴素材
  */
 
-public class ImageAllocateActivity extends FragmentActivity {
+public class ImageCollocateActivity extends FragmentActivity {
 
     private final String TAG = this.getClass().getName();
 
@@ -54,10 +54,15 @@ public class ImageAllocateActivity extends FragmentActivity {
      * 存放图片数组
      *
      */
-    private int mImageArray[] = { R.drawable.icon_fotou,
-            R.drawable.icon_fota, R.drawable.icon_beiyun,
-            R.drawable.icon_qiazi, R.drawable.incon_dizizhu, R.drawable.icon_jishuqi, R.drawable.icon_xiangzhu,
-            R.drawable.icon_shengjie, R.drawable.icon_sanzhu, R.drawable.icon_gepian };
+    private int mImageArray[] = { R.drawable.icon_fotou_1,
+            R.drawable.icon_fota_1, R.drawable.icon_beiyun_1,
+            R.drawable.icon_qiazi_1, R.drawable.icon_dizizhu_1, R.drawable.icon_jishuqi_1, R.drawable.icon_xiangzhu_1,
+            R.drawable.icon_shengjie_1, R.drawable.icon_sanzhu_1, R.drawable.icon_gepian_1 };
+
+//    private int mImageArray[] = { R.drawable.icon_fotou,
+//            R.drawable.icon_fota, R.drawable.icon_beiyun,
+//            R.drawable.icon_qiazi, R.drawable.icon_dizizhu, R.drawable.icon_jishuqi, R.drawable.icon_xiangzhu,
+//            R.drawable.icon_shengjie, R.drawable.icon_sanzhu, R.drawable.icon_gepian };
 
     /**
      * 选修卡文字
@@ -76,29 +81,10 @@ public class ImageAllocateActivity extends FragmentActivity {
 //        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
         final ImageViewImpl_collocate imageViewImpl_collocate = (ImageViewImpl_collocate) findViewById(R.id.ImageViewImpl_allocate);
         BitmapCache.setImageViewImpl_allocate(imageViewImpl_collocate);
-//        imageViewImpl_allocate.setBackImage();
-//        LibiraryRelativeLayout sLibiraryRelativeLayout = (LibiraryRelativeLayout) findViewById(R.id.LibiraryRelativeLayout);
-//        sLibiraryRelativeLayout.setmImageViewImpl_allocate(imageViewImpl_allocate);
 
-//        logoview = (ImageView) findViewById(R.id.ivImage2);
         ImageButton setover = (ImageButton)findViewById(R.id.match_2_continue);
         ImageButton closeBtm = (ImageButton)findViewById(R.id.match_1_close_btn);
-//        String filename = getIntent().getStringExtra("Imagefile");
-//        Bitmap bitmap = (Bitmap) getIntent().getExtras().getParcelable("bitmap");
-//        Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("Image");
-//        Bitmap bitmap = BitmapCache.getBitmapcache();
-//        final byte[] byteArray = getIntent().getExtras().getByteArray("Image");
-//        final Bitmap image_bmp = BitmapFactory.decodeByteArray(byteArray, 0,
-//                byteArray.length);
-//        logoview.setImageBitmap(BitmapCache.getBitmapcache());
 
-//        final ImageViewImpl_allocate myView_allocate = new ImageViewImpl_allocate(this, image_bmp);
-//        RelativeLayout.LayoutParams lParams52 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
-//        mainLayout.addView(myView_allocate,lParams52);
-
-
-
-//        Toast.makeText(getApplicationContext(), "导出到ImageViewImpl_10_output_All.png", Toast.LENGTH_SHORT).show();
         closeBtm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +102,7 @@ public class ImageAllocateActivity extends FragmentActivity {
                 startActivity(new Intent(view.getContext(), ShareActivity.class));
             }
         });
-
+        //初始化素材导航资源图片
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -125,18 +111,10 @@ public class ImageAllocateActivity extends FragmentActivity {
         }).start();
         initView();
 
-
         //异步任务加载图片
 //        Loadimage loadimage = new Loadimage();
 //        loadimage.execute(filename);
     }
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        ImageViewImpl_allocate imageViewImpl_allocate = (ImageViewImpl_allocate) findViewById(R.id.ImageViewImpl_allocate);
-//        LibiraryRelativeLayout sLibiraryRelativeLayout = (LibiraryRelativeLayout) findViewById(R.id.LibiraryRelativeLayout);
-//        sLibiraryRelativeLayout.setmImageViewImpl_allocate(imageViewImpl_allocate);
-//    }
 
     /**
      * 初始化组件
@@ -181,7 +159,7 @@ public class ImageAllocateActivity extends FragmentActivity {
 //        @Override
 //        protected void onPreExecute() {
 //            super.onPreExecute();
-//            pDialog = new ProgressDialog(ImageAllocateActivity.this);
+//            pDialog = new ProgressDialog(ImageCollocateActivity.this);
 //            pDialog.setMessage("图片加载中...");
 //            pDialog.show();
 //        }

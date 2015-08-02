@@ -4,15 +4,25 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <FrameLayout
-        android:id="@+id/match_1_framelayout"
+    <!--<FrameLayout-->
+        <!--android:id="@+id/match_1_framelayout"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="816"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:background="@color/gray_80"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!-->-->
+
+    <LinearLayout
+        android:id="@+id/cutout_1_framelayout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="816"
-        android:orientation="horizontal"
+        android:layout_weight="360"
         android:background="@color/gray_80"
         android:layout_alignParentTop="true"
         >
+
         <u.can.i.up.ui.utils.ImageViewImpl_PearlBuild
             android:id="@+id/ImageViewImpl_PearlBuild"
             android:layout_width="fill_parent"
@@ -20,7 +30,9 @@
         <!--<ImageView-->
             <!--android:id="@+id/ivImage1"-->
             <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent" />-->、
+            <!--android:layout_height="fill_parent" />-->
+    </LinearLayout>
+    <!--中间工具栏-->
         <RelativeLayout
             android:layout_gravity="bottom"
             android:id="@+id/match_1_middlebar"
@@ -47,13 +59,11 @@
                 android:layout_centerVertical="true" />
         </RelativeLayout>
 
-    </FrameLayout>
-
     <!--下方工具栏-->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="414"
+        android:layout_weight="160"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -88,6 +98,7 @@
                     android:gravity="center"/>
 
                 <EditText
+                    android:id="@+id/ballnumb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_80"
@@ -122,7 +133,7 @@
                     android:gravity="center"/>
 
                 <EditText
-                    android:id="@+id/ballnumb"
+                    android:id="@+id/ballsize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_80"
@@ -182,7 +193,6 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="60"
         android:background="@color/white"
         android:orientation="horizontal"
         android:gravity="center|top"
@@ -190,8 +200,8 @@
         <Button
             android:id="@+id/pearlbuildpreview"
             android:layout_width="128dp"
-            android:layout_height="40dp"
-            android:text="预 览"
+            android:layout_height="35dp"
+            android:text="@string/preview_button"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="@dimen/textsize_medium"

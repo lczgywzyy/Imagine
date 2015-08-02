@@ -5,12 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="48">
-
-    </LinearLayout>
-    <LinearLayout
         android:id="@+id/cutout_1_framelayout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
@@ -22,16 +16,13 @@
             <!--android:id="@+id/cutout_2_framelayout"-->
             <!--android:layout_width="fill_parent"-->
             <!--android:layout_height="fill_parent">-->
-
         <!--</LinearLayout>-->
         <u.can.i.up.ui.utils.ImageViewImpl_cutout
             android:id="@+id/ImageViewImpl_cutout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
-
-
-
     </LinearLayout>
+    <!--中间工具栏-->
     <RelativeLayout
         android:id="@+id/match_1_middlebar"
         android:layout_gravity="bottom"

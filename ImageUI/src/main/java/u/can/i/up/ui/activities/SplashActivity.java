@@ -2,10 +2,20 @@ package u.can.i.up.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.application.IApplicationConfig;
+import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 
 /**
  * @author dongfeng
@@ -16,10 +26,32 @@ public class SplashActivity extends Activity {
     // Splash screen timer
     String now_playing, earned;
     private static int SPLASH_TIME_OUT = 1000;
+   private SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        settings = getSharedPreferences("setting", 0);
         setContentView(R.layout.activity_splash);
+
+
+        if(this.getSharedPreferences("setting",0).getInt("START", 0)==0) {
+            try {
+                copyAssetDirToFiles();
+                copyAssetDb();
+                getSharedPreferences("setting",0).edit().putInt("START", 1);
+                getSharedPreferences("setting",0).edit().commit();
+                ((IApplication)getApplication()).psqLiteOpenHelper =new PSQLiteOpenHelper(this);
+                ((IApplication)getApplication()).arrayListPearlBeans =((IApplication)getApplication()).psqLiteOpenHelper.getPearls();
+                ((IApplication)getApplication()).arrayListTMaterial=((IApplication)getApplication()).psqLiteOpenHelper.getTMaterials();
+
+            } catch (IOException e) {
+
+            }
+        }
+
+
+
+
         new Handler().postDelayed(new Runnable() {
 
             /*
@@ -39,78 +71,62 @@ public class SplashActivity extends Activity {
             }
         }, SPLASH_TIME_OUT);
 
-//        /**
-//         * Showing splashscreen while making network calls to download necessary
-//         * data before launching the app Will use AsyncTask to make http call
-//         */
-//        new PrefetchData().execute();
+
     }
 
 
-//    /**
-//     * Async Task to make http call
-//     */
-//    private class PrefetchData extends AsyncTask<Void, Void, Void> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            // before making http calls
-//
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... arg0) {
-//            /*
-//             * Will make http call here This call will download required data
-//             * before launching the app
-//             * example:
-//             * 1. Downloading and storing in SQLite
-//             * 2. Downloading images
-//             * 3. Fetching and parsing the xml / json
-//             * 4. Sending device information to server
-//             * 5. etc.,
-//             */
-//
-//            JsonParser jsonParser = new JsonParser();
-//            String json = jsonParser
-//                    .getJSONFromUrl("http://api.androidhive.info/game/game_stats.json");
-//
-//            Log.e("Response: ", "> " + json);
-//
-//            if (json != null) {
-//                try {
-//                    JSONObject jObj = new JSONObject(json)
-//                            .getJSONObject("game_stat");
-//                    now_playing = jObj.getString("now_playing");
-//                    earned = jObj.getString("earned");
-//
-//                    Log.e("JSON", "> " + now_playing + earned);
-//
-//                } catch (JSONException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void result) {
-//            super.onPostExecute(result);
-//            // After completing http call
-//            // will close this activity and lauch main activity
-//            Intent i = new Intent(SplashActivity.this, MainActivity.class);
-//            i.putExtra("now_playing", now_playing);
-//            i.putExtra("earned", earned);
-//            startActivity(i);
-//
-//            // close this activity
-//            finish();
-//        }
-//
-//    }
+    private  void copyAssetDirToFiles()
+            throws IOException {
+        File dir = new File( IApplicationConfig.DIRECTORY_MATERIAL);
 
-}
+        AssetManager assetManager = getResources().getAssets();
+        String[] children = assetManager.list("Material");
+        for (String child : children) {
+            copyAssetFileToFiles(child);
+
+        }
+    }
+
+    private  void copyAssetFileToFiles(String filename)
+            throws IOException {
+        InputStream is = getResources().getAssets().open("Material"+File.separator+filename);
+        byte[] buffer = new byte[is.available()];
+        is.read(buffer);
+        is.close();
+
+        File of = new File(IApplicationConfig.DIRECTORY_MATERIAL+File.separator + filename);
+        of.createNewFile();
+        FileOutputStream os = new FileOutputStream(of);
+        os.write(buffer);
+        os.close();
+    }
+
+    private  void copyAssetDb()throws IOException{
+
+        InputStream is=getResources().getAssets().open("pearls.db");
+        (new File("/data/data/u.can.i.up.ui/databases")).mkdir();
+        File pearldbf = new File("/data/data/u.can.i.up.ui/databases/pearls.db");
+        pearldbf.createNewFile();
+        FileOutputStream pearldb=new FileOutputStream(pearldbf);
+
+
+        byte[] buffer = new byte[1024];
+        int length;
+        while((length=is.read(buffer))>0){
+            pearldb.write(buffer,0,length);
+        }
+        pearldb.close();
+        is.close();
+    }
+
+
+
+
+    }
+
+
+
+
+
+
+

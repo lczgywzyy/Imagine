@@ -1,7 +1,6 @@
 package u.can.i.up.ui.activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initialise()
     {
         // Toolbar
-        final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
 
         // Layout resources
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNavDrawerEntriesRootView = (LinearLayout)findViewById(R.id.navigation_drawer_linearLayout_entries_root_view);
 
         mFrameLayout_Home = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_home);
-        mFrameLayout_Libirary = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_libirary);
+        mFrameLayout_Libirary = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_mylibirary);
         mFrameLayout_Setup = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_setup);
 
 
@@ -149,8 +147,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         if (view.getId() == R.id.navigation_drawer_account_view)
         {
-            mDrawerLayout.closeDrawer(Gravity.START);
-
+//            mDrawerLayout.closeDrawer(Gravity.START);
+            startActivity(new Intent(view.getContext(), PersonalActivity.class));
             // If the user is signed in, go to the profile, otherwise show sign up / sign in
         }
         else
@@ -181,9 +179,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     }
 
+                    case R.id.navigation_drawer_items_list_linearLayout_mylibirary:
+                    {
+                        if (getSupportActionBar() != null)
+                        {
+                            getSupportActionBar().setTitle(getString(R.string.toolbar_title_home));
+                        }
+
+
+                        view.setSelected(true);
+
+                        Bundle bundle = new Bundle();
+
+                        // Insert the fragment by replacing any existing fragment
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_activity_content_frame, HomeFragment.newInstance(bundle))
+                                .commit();
+                        break;
+                    }
+
                     case R.id.navigation_drawer_items_list_linearLayout_setup:
                         // Start intent to send an email
-                        startActivity(new Intent(view.getContext(), OtherActivity.class));
+                        startActivity(new Intent(view.getContext(), SettingActivity.class));
                         break;
 
                     default:

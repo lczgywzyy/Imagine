@@ -12,6 +12,7 @@
     <!-- android:windowSoftInputMode="adjustResize|stateVisible" -->
     <application
         android:allowBackup="true"
+        android:name=".application.IApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/BaseTheme" >
@@ -19,14 +20,10 @@
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/BaseTheme.MainTheme.WithNavDrawer" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
-            android:name=".activities.OtherActivity"
+            android:name=".activities.SettingActivity"
             android:label="@string/other_activity"
             android:parentActivityName=".activities.MainActivity" >
         </activity>
@@ -36,8 +33,7 @@
         </activity>
         <activity
             android:name=".activities.ImageSetActivity"
-            android:label="@string/title_activity_image_set"
-             >
+            android:label="@string/title_activity_image_set" >
         </activity>
         <activity
             android:name=".activities.CutoutActivity"
@@ -45,14 +41,16 @@
         </activity>
         <activity
             android:name=".activities.LibiraryActivity"
-
             android:label="@string/title_activity_libirary" >
         </activity>
         <activity
             android:name=".activities.SplashActivity"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.LibirarydisplayActivity"
@@ -67,12 +65,16 @@
             android:label="@string/title_activity_share" >
         </activity>
         <activity
-            android:name=".activities.ImageAllocateActivity"
+            android:name=".activities.ImageCollocateActivity"
             android:label="@string/title_activity_image_allocate" >
         </activity>
         <activity
             android:name=".activities.PearlBuildActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".activities.PersonalActivity"
+            android:label="@string/title_activity_personal" >
         </activity>
     </application>
 

@@ -12,7 +12,7 @@ import u.can.i.up.ui.R;
  *
  * @author Sotti https://plus.google.com/+PabloCostaTirado/about
  */
-public class OtherActivity extends AppCompatActivity
+public class SettingActivity extends AppCompatActivity
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -28,8 +28,8 @@ public class OtherActivity extends AppCompatActivity
      */
     private void initialise()
     {
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null)
         {

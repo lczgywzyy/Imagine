@@ -8,10 +8,12 @@
     <string name="other_activity">设置</string>
 
     <!-- Navigation Drawer -->
-    <string name="nav_drawer_item_home">我的搭配</string>
-    <string name="nav_drawer_item_libirary">好友</string>
+    <string name="nav_drawer_item_home">首页</string>
+    <string name="nav_drawer_item_mylibirary">我的相册</string>
     <string name="nav_drawer_setup">设置</string>
     <string name="nav_drawer_about">关于</string>
+
+
     <string name="navigation_drawer_opened">The navigation drawer is opened</string>
     <string name="navigation_drawer_closed">The navigation drawer is closed</string>
     <string name="tag_nav_drawer_main_entry">nav_drawer_main_entry</string>
@@ -24,10 +26,14 @@
     <string name="new_start">新组串珠</string>
     <string name="libirary_display">素材展示</string>
     <string name="libirary_detail">素材详情</string>
-
+    <string name="personal_activity">个人信息</string>
     <!-- Typeface names -->
     <string name="typeface_roboto_regular">Roboto-Regular</string>
     <string name="typeface_roboto_medium">Roboto-Medium</string>
+
+    <!-- pearlbuild -->
+    <string name="preview_button">预览</string>
+
 
     <!-- picture select dialog names -->
     <string name="dialog_setting_head_title">请选择底图</string>
@@ -92,4 +98,5 @@
         <item>椭圆</item>
         <item>方形</item>
     </string-array>
+    <string name="title_activity_personal">PersonalActivityActivity</string>
 </resources>
