@@ -10,7 +10,7 @@ public class Pearl {
 
     private int SMaterialId;
 
-    private int TMaterrialId;
+    private int TMaterialId;
 
     private int MerchantCode;
 
@@ -24,13 +24,13 @@ public class Pearl {
 
     private float Aperture;
 
-    private long Md5;
+    private String Md5;
 
     private String PicDirectory;
 
     private String Material;
 
-    private String Desciption;
+    private String Description;
 
     public int getSMaterialId() {
         return SMaterialId;
@@ -40,12 +40,12 @@ public class Pearl {
         this.SMaterialId = SMaterialId;
     }
 
-    public int getTMaterrialId() {
-        return TMaterrialId;
+    public int getTMaterialId() {
+        return TMaterialId;
     }
 
-    public void setTMaterrialId(int TMaterrialId) {
-        this.TMaterrialId = TMaterrialId;
+    public void setTMaterialId(int TMaterialId) {
+        this.TMaterialId = TMaterialId;
     }
 
     public int getMerchantCode() {
@@ -96,11 +96,11 @@ public class Pearl {
         Aperture = aperture;
     }
 
-    public long getMd5() {
+    public String getMd5() {
         return Md5;
     }
 
-    public void setMd5(long md5) {
+    public void setMd5(String md5) {
         Md5 = md5;
     }
 
@@ -120,11 +120,11 @@ public class Pearl {
         Material = material;
     }
 
-    public String getDesciption() {
-        return Desciption;
+    public String getDescription() {
+        return Description;
     }
 
-    public void setDesciption(String desciption) {
-        Desciption = desciption;
+    public void setDescription(String description) {
+        Description = description;
     }
 }

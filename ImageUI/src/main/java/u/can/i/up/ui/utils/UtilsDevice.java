@@ -1,6 +1,7 @@
 package u.can.i.up.ui.utils;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 
 /**
@@ -23,4 +24,14 @@ public class UtilsDevice
 
         return metrics.widthPixels;
     }
+
+    public static boolean hasExternalStorage(){
+        return Environment.isExternalStorageEmulated();
+    }
+
+
+
+
+
+
 }
