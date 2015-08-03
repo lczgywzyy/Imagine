@@ -1,8 +1,13 @@
 package u.can.i.up.ui.beans;
 
+import android.graphics.Bitmap;
+
+import java.util.List;
+
 /**
  * Created by Pengp on 2015/8/3.
  */
+
 public class HttpStatus <T>{
 
 
@@ -10,8 +15,9 @@ public class HttpStatus <T>{
 
         private String httpMsg;
 
-        private T httpObj;
+        private List<T> httpObj;
 
+        private Bitmap bitmap;
         public int getHttpStatus() {
             return httpStatus;
         }
@@ -28,11 +34,19 @@ public class HttpStatus <T>{
             this.httpMsg = httpMsg;
         }
 
-        public T getHttpObj() {
+        public List<T> getHttpObj() {
             return httpObj;
         }
 
-        public void setHttpObj(T httpObj) {
+        public void setHttpObj(List<T> httpObj) {
             this.httpObj = httpObj;
         }
-    }
+
+        public Bitmap getBitmap() {
+            return bitmap;
+        }
+
+        public void setBitmap(Bitmap bitmap) {
+             this.bitmap = bitmap;
+         }
+}

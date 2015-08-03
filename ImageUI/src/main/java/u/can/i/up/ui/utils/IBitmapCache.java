@@ -38,13 +38,12 @@ public class IBitmapCache {
 
     }
 
-    /**Í¼Æ¬ÍøÂç¼ÓÔØ**/
+    /**Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½**/
     public Bitmap loadBitmapHttp(String uri){
 
         return null;
     }
 
-    /**SD¿¨Í¼Æ¬¼ÓÔØ**/
     public Bitmap loadBitmapLocal(String path){
 
         File file=new File(path.toString());
@@ -77,7 +76,6 @@ public class IBitmapCache {
             SoftReference<Bitmap> softReference=cache.get(uri);
             Bitmap bitmap=softReference.get();
             if(bitmap==null){
-                //±»»ØÊÕ£¬ÖØĞÂ¼ÓÔØ;
                 cache.remove(uri);
                 return loadBitmapLocal(uri);
             }

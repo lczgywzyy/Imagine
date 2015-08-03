@@ -3,12 +3,8 @@ package u.can.i.up.ui.net;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.JsonToken;
-import android.webkit.MimeTypeMap;
 
-
-import org.json.JSONObject;
-
+import com.alibaba.fastjson.JSON;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
@@ -16,18 +12,17 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
+import java.lang.reflect.ParameterizedType;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import u.can.i.up.ui.beans.HttpStatus;
 import u.can.i.up.ui.utils.StringUtils;
 
-/**
- * Created by MZH on 2015/8/2.
- */
 public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
 
 
@@ -48,6 +43,7 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
 
     public HttpManager(String url,HttpType type,HashMap<String,String> hashParam) {
         super();
+        this.url=url;
         this.hashParam=hashParam;
         this.type=type;
     }
@@ -71,6 +67,7 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
 
     @Override
     protected void onPostExecute(u.can.i.up.ui.beans.HttpStatus s) {
+
         super.onPostExecute(s);
     }
 
@@ -93,16 +90,17 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
     protected u.can.i.up.ui.beans.HttpStatus <T> doInBackground(Integer... params) {
         HttpStatus<T> httpStatus=new HttpStatus<>();
         try {
-            initConnection();
             switch (type){
                 case POST:
                     initConnectionPost();
                     break;
                 case GET:
                     initConnectionGet();
+                    break;
                 default:
                     return null;
             }
+
             httpStatus.setHttpStatus( urlConnection.getResponseCode());
             switch (urlConnection.getResponseCode()){
                 case HttpURLConnection.HTTP_OK:
@@ -115,10 +113,20 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
                         byte[] bytes=new byte[1024];
                         if(mimeType.contains("image/")){
                             Bitmap bitmap= BitmapFactory.decodeStream(netInput);
-
-
-
+                            int width=bitmap.getWidth();
+                            httpStatus.setBitmap(bitmap);
                         }else if(mimeType.contains("/json")){
+                            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                            while((m=netInput.read(bytes))>0){
+                                outStream.write(bytes,0,m);
+                            }
+                            String jsonStr=new String(outStream.toByteArray(),"utf-8");
+                            /**转换为T**/
+                            Class < T >  entityClass  =  (Class < T > ) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[ 0 ];
+                            List<T> list=JSON.parseArray(jsonStr,entityClass);
+                            httpStatus.setHttpObj(list);
+                            netInput.close();
+                            outStream.close();
                         }
                     }else{
                         return null;
@@ -145,12 +153,13 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
         }catch (IOException e){
             httpStatus.setHttpStatus(-1);
             httpStatus.setHttpMsg("io error");
+        }finally {
+            urlConnection.disconnect();
         }
         return httpStatus;
     }
 
     private void initConnection() throws IOException{
-        urlConnection=(HttpURLConnection)new URL(url).openConnection();
         urlConnection.setRequestProperty("connection", "Keep-Alive");
         urlConnection.setRequestProperty("Accept-Charset", "utf-8");
         urlConnection.setConnectTimeout(3000);
@@ -158,8 +167,10 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
     }
 
     private void initConnectionPost() throws IOException{
+        urlConnection=(HttpURLConnection)new URL(url).openConnection();
         urlConnection.setRequestMethod("POST");
         urlConnection.setDoInput(true);
+        initConnection();
         if(imgs==null&&files.length==0) {
             initParamsPost();
         }else{
@@ -168,8 +179,27 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
     }
 
     private void initConnectionGet()throws IOException{
+        if(hashParam!=null) {
+            StringBuilder buffer = new StringBuilder("?");
+            Iterator iterator = hashParam.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                String key = String.valueOf(entry.getKey());
+                String val = String.valueOf(entry.getValue());
+                buffer.append(key);
+                buffer.append("=");
+                buffer.append(val);
+                if (iterator.hasNext()) {
+                    buffer.append("&");
+                }
+            }
+            url = url + buffer.toString();
+        }
+        urlConnection=(HttpURLConnection)new URL(url).openConnection();
         urlConnection.setRequestMethod("GET");
-        iniParamsGet();
+        initConnection();
+
+
     }
 
     /**提交表单**/
@@ -189,9 +219,6 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
             }
         }
         urlConnection.getOutputStream().write(buffer.toString().getBytes());
-
-
-
 
     }
 
@@ -233,7 +260,7 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
             }
 
                 String  contentType = "image/png";
-                StringBuffer strBuf = new StringBuffer();
+                StringBuilder strBuf = new StringBuilder();
                 strBuf.append("\r\n").append(BOUNDARY).append(
                         "\r\n");
                 strBuf.append("Content-Disposition: form-data; name=\""
@@ -246,7 +273,6 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 value.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 urlConnection.getOutputStream().write(baos.toByteArray());
-
 
         }
     }
@@ -284,23 +310,26 @@ public class HttpManager<T> extends AsyncTask<Integer,Integer,HttpStatus> {
     }
 
     private void iniParamsGet(){
-        StringBuilder buffer=new StringBuilder("?");
-        Iterator iterator= hashParam.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            String key = String.valueOf(entry.getKey());
-            String val = String.valueOf(entry.getValue());
-            buffer.append(key);
-            buffer.append("=");
-            buffer.append(val);
-            if(iterator.hasNext()) {
-                buffer.append("&");
+        if(hashParam!=null) {
+            StringBuilder buffer = new StringBuilder("?");
+            Iterator iterator = hashParam.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                String key = String.valueOf(entry.getKey());
+                String val = String.valueOf(entry.getValue());
+                buffer.append(key);
+                buffer.append("=");
+                buffer.append(val);
+                if (iterator.hasNext()) {
+                    buffer.append("&");
+                }
             }
+            url = url + buffer.toString();
         }
-        url=url+buffer.toString();
     }
-     enum HttpType{
+    public enum HttpType{
         GET,POST
     }
 
 }
+

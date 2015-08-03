@@ -19,11 +19,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.Buffer;
+import java.util.concurrent.ExecutionException;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
+import u.can.i.up.ui.beans.HttpStatus;
+import u.can.i.up.ui.beans.Pearl;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
+import u.can.i.up.ui.net.HttpManager;
 import u.can.i.up.ui.utils.IBitmapCache;
 
 /**
@@ -57,7 +61,6 @@ public class SplashActivity extends Activity {
 
             }
         }
-
 
 
 
