@@ -1,34 +1,24 @@
 package u.can.i.up.ui.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.Buffer;
-import java.util.concurrent.ExecutionException;
+import java.util.HashMap;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
-import u.can.i.up.ui.beans.HttpStatus;
 import u.can.i.up.ui.beans.Pearl;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.net.HttpManager;
-import u.can.i.up.ui.utils.IBitmapCache;
 
 /**
  * @author dongfeng
@@ -61,9 +51,7 @@ public class SplashActivity extends Activity {
 
             }
         }
-
-
-
+        testUpload();
         new Handler().postDelayed(new Runnable() {
 
             /*
@@ -85,6 +73,45 @@ public class SplashActivity extends Activity {
 
 
     }
+
+    private void testUpload(){
+
+        HashMap<String,String> param=new HashMap<>();
+        param.put("name","Pengp");
+        param.put("password","password");
+
+        File[] files=new File[10];
+
+        for(int i=1;i<11;i++){
+            File file=new File(IApplicationConfig.DIRECTORY_MATERIAL+File.separator+"emoji_"+String.valueOf(i)+".png");
+            files[i-1]=file;
+
+        }
+
+        HttpManager<Pearl> http=new HttpManager<>("http://192.168.106.1:39915/getPearls.ashx", HttpManager.HttpType.POST,param,Pearl.class,null,files);
+
+        http.execute();
+
+
+    }
+
+    private void testGet(){
+
+    }
+
+
+
+    private void testPost(){
+        HashMap<String,String> param=new HashMap<>();
+        param.put("name","Pengp");
+        param.put("password","password");
+        HttpManager<Pearl> http=new HttpManager<>("http://192.168.106.1:39915/getPearls.ashx", HttpManager.HttpType.POST,param,Pearl.class);
+        http.execute();
+    }
+
+
+
+
 
 
     private  void copyAssetDirToFiles()

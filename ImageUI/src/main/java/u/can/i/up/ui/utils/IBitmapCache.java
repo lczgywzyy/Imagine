@@ -18,7 +18,6 @@ public class IBitmapCache {
 
     public static IBitmapCache BitmapCache=null;
 
-    private Bitmap bitmap;
 
     private HashMap<String,SoftReference<Bitmap>> cache=new HashMap<>();
 
@@ -38,7 +37,6 @@ public class IBitmapCache {
 
     }
 
-    /**ͼƬ�������**/
     public Bitmap loadBitmapHttp(String uri){
 
         return null;
@@ -49,11 +47,9 @@ public class IBitmapCache {
         File file=new File(path.toString());
 
         if(file.exists()){
-            bitmap=BitmapFactory.decodeFile(path);
 
-            if(bitmap==null) return null;
 
-            SoftReference<Bitmap> softReference=new SoftReference<>(bitmap,queue);
+            SoftReference<Bitmap> softReference=new SoftReference<>(BitmapFactory.decodeFile(path),queue);
 
             cache.put(path,softReference);
 

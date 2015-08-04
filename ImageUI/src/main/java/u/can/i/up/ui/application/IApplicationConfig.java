@@ -9,7 +9,6 @@ import java.io.File;
  */
 public class IApplicationConfig {
 
-    /**文件存储路径**/
 
     public static final String DIRECTORY_ROOT=Environment.getExternalStorageDirectory()+ File.separator+"PearlString";
 
@@ -17,7 +16,6 @@ public class IApplicationConfig {
 
     public static  final String DIRECTORY_SMATERIAL=DIRECTORY_ROOT+File.separator+"SMaterial";
 
-    /**网络连接地址**/
 
 
 
