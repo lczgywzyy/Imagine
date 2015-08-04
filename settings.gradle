@@ -1,1 +1,1 @@
-include ':imagine', ':ImageUtils', ':ImageUI', ':ImageMagick', ':ImageMagickUI', ':ZoomImageView'
+include ':imagine', ':ImageUtils', ':ImageUI', ':ImageMagick', ':ImageMagickUI', ':ZoomImageView', 'android-gif-drawable-master'
