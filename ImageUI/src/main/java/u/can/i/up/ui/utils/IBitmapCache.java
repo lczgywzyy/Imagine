@@ -38,13 +38,13 @@ public class IBitmapCache {
 
     }
 
-    /**Í¼Æ¬ÍøÂç¼ÓÔØ**/
+    /**å›¾ç‰‡ç½‘ç»œåŠ è½½**/
     public Bitmap loadBitmapHttp(String uri){
 
         return null;
     }
 
-    /**SD¿¨Í¼Æ¬¼ÓÔØ**/
+    /**SDå¡å›¾ç‰‡åŠ è½½**/
     public Bitmap loadBitmapLocal(String path){
 
         File file=new File(path.toString());
@@ -71,13 +71,13 @@ public class IBitmapCache {
             if(uri.startsWith("http")||uri.startsWith("https")){
                 return loadBitmapHttp(uri);
             }else {
-              return loadBitmapLocal(uri);
+                return loadBitmapLocal(uri);
             }
         }else{
             SoftReference<Bitmap> softReference=cache.get(uri);
             Bitmap bitmap=softReference.get();
             if(bitmap==null){
-                //±»»ØÊÕ£¬ÖØĞÂ¼ÓÔØ;
+                //è¢«å›æ”¶ï¼Œé‡æ–°åŠ è½½;
                 cache.remove(uri);
                 return loadBitmapLocal(uri);
             }
