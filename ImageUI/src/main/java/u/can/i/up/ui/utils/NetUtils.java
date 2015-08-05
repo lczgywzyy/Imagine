@@ -27,6 +27,10 @@ public class NetUtils {
 
     }
 
+    public static void newCheckUpdate(){
+
+    }
+
     public static void netGetTMaterial(){
 
     }

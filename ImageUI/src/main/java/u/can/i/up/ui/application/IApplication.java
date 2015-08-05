@@ -6,10 +6,10 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
+import u.can.i.up.ui.beans.Pearl;
 import u.can.i.up.ui.beans.TMaterial;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.utils.UtilsDevice;
-import u.can.i.up.ui.beans.PearlBeans;
 
 /**
  * Created by Pengp on 2015/7/31.
@@ -19,7 +19,7 @@ public class IApplication extends Application {
 
     public PSQLiteOpenHelper psqLiteOpenHelper;
 
-    public ArrayList<PearlBeans> arrayListPearlBeans =new ArrayList<>();
+    public ArrayList<Pearl> arrayListPearl=new ArrayList<>();
 
     public ArrayList<TMaterial> arrayListTMaterial=new ArrayList<>();
 
@@ -45,15 +45,11 @@ public class IApplication extends Application {
 
             File directoryRoot=new File(IApplicationConfig.DIRECTORY_ROOT);
 
-            File dirctoryMaterial=new File(IApplicationConfig.DIRECTORY_MATERIAL);
 
             File dirctorySMaterial=new File(IApplicationConfig.DIRECTORY_SMATERIAL);
 
             if(!directoryRoot.exists()){
                 directoryRoot.mkdir();
-            }
-            if(!dirctoryMaterial.exists()){
-                dirctoryMaterial.mkdir();
             }
             if(!dirctorySMaterial.exists()){
                 dirctorySMaterial.mkdir();

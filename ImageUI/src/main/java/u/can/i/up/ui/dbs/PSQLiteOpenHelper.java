@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-import u.can.i.up.ui.beans.PearlBeans;
+import u.can.i.up.ui.beans.Pearl;
 import u.can.i.up.ui.beans.TMaterial;
 
 /**
@@ -19,7 +19,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String strTMaterial="create table if not exists TMaterial(TMaterialId INTEGER primary key autoincrement,TMaterialName Text not null,TMaterialMd Text not null,Description Text);";
 
-    private static final  String strSMaterial="create table if not exists SMaterial(SMaterialId integer primary key autoincrement,MD5 Text not null,TMaterialId integer,PicDirectory Text not null,Name not null,Type integer default 0 not null,Material Text not null,Size Real not null,Weight integer not null,Aperture Real not null,Price Real not null,Description Text not null,MerchantCode integer not null,foreign key(TMaterialId) references TMaterial(TMaterialId));";
+    private static final  String strSMaterial="create table if not exists SMaterial(SMaterialId integer primary key autoincrement,MD5 Text not null,category integer,path Text not null,name not null,type integer default 1 not null,material Text not null,size Text not null,weight TEXT not null,aperture TEXT not null,price TEXT not null,description Text not null,MerchantCode integer default 0,foreign key(category) references TMaterial(TMaterialId));";
 
     private static final String strSPearl="create table if not exists SPearl(SpearlId integer primary key autoincrement,MD5 Text not null,PearsList Text not null,PicDirectory Text not null,Description Text not null,Name Text not null ,Sync boolean default false,Price real not null);";
 
@@ -56,52 +56,53 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         super.setWriteAheadLoggingEnabled(enabled);
     }
 
-    public ArrayList<PearlBeans> getPearls(){
+    public ArrayList<Pearl> getPearls(){
 
         SQLiteDatabase db=this.getWritableDatabase();
         String querySql="select * from V_SMaterial";
-        ArrayList<PearlBeans> arrayPearlBeans =new ArrayList<PearlBeans>();
+        ArrayList<Pearl> arrayPearl=new ArrayList<Pearl>();
 
         Cursor cursor=db.rawQuery(querySql,null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
-            PearlBeans pearlBeans =new PearlBeans();
-            pearlBeans.setAperture(cursor.getFloat(cursor.getColumnIndex("Aperture")));
-            pearlBeans.setDescription(cursor.getString(cursor.getColumnIndex("Description")));
-            pearlBeans.setMaterial(cursor.getString(cursor.getColumnIndex("Material")));
-            pearlBeans.setMd5(cursor.getString(cursor.getColumnIndex("MD5")));
-            pearlBeans.setMerchantCode(cursor.getInt(cursor.getColumnIndex("MerchantCode")));
-            pearlBeans.setPicDirectory(cursor.getString(cursor.getColumnIndex("PicDirectory")));
-            pearlBeans.setPrice(cursor.getFloat(cursor.getColumnIndex("Price")));
-            pearlBeans.setSize(cursor.getFloat(cursor.getColumnIndex("Size")));
-            pearlBeans.setSMaterialId(cursor.getInt(cursor.getColumnIndex("SMaterialId")));
-            pearlBeans.setTMaterialId(cursor.getInt(cursor.getColumnIndex("TMaterialId")));
-            pearlBeans.setType(cursor.getInt(cursor.getColumnIndex("Type")));
-            pearlBeans.setWeight(cursor.getInt(cursor.getColumnIndex("Weight")));
-            arrayPearlBeans.add(pearlBeans);
+            Pearl pearl=new Pearl();
+            pearl.setAperture(cursor.getString(cursor.getColumnIndex("aperture")));
+            pearl.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+            pearl.setMaterial(cursor.getString(cursor.getColumnIndex("material")));
+            pearl.setMD5(cursor.getString(cursor.getColumnIndex("MD5")));
+            pearl.setMerchantCode(cursor.getInt(cursor.getColumnIndex("MerchantCode")));
+            pearl.setPath(cursor.getString(cursor.getColumnIndex("path")));
+            pearl.setPrice(cursor.getString(cursor.getColumnIndex("price")));
+            pearl.setSize(cursor.getString(cursor.getColumnIndex("size")));
+            pearl.setSMaterialId(cursor.getInt(cursor.getColumnIndex("SMaterialId")));
+            pearl.setCategory(cursor.getInt(cursor.getColumnIndex("category")));
+            pearl.setType(cursor.getInt(cursor.getColumnIndex("type")));
+            pearl.setWeight(cursor.getString(cursor.getColumnIndex("weight")));
+            pearl.setName(cursor.getString(cursor.getColumnIndex("name")));
+            arrayPearl.add(pearl);
             cursor.moveToNext();
 
         }
 
-        return arrayPearlBeans;
+        return arrayPearl;
     }
 
 
-    public boolean addPearl(PearlBeans pearlBeans){
+    public boolean addPearl(Pearl pearl){
 
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put("Aperture", pearlBeans.getAperture());
-        values.put("Description", pearlBeans.getDescription());
-        values.put("Material", pearlBeans.getMaterial());
-        values.put("MD5", pearlBeans.getMd5());
-        values.put("MerchantCode", pearlBeans.getMerchantCode());
-        values.put("PicDirectory", pearlBeans.getPicDirectory());
-        values.put("TMaterialId", pearlBeans.getTMaterialId());
-        values.put("Type", pearlBeans.getType());
-        values.put("Price", pearlBeans.getPrice());;
-        values.put("Size", pearlBeans.getSize());
-        values.put("Weight", pearlBeans.getWeight());
+        values.put("aperture",pearl.getAperture());
+        values.put("description",pearl.getDescription());
+        values.put("material",pearl.getMaterial());
+        values.put("MD5",pearl.getMD5());
+        values.put("MerchantCode",pearl.getMerchantCode());
+        values.put("path",pearl.getPath());
+        values.put("category",pearl.getCategory());
+        values.put("Type",pearl.getType());
+        values.put("price",pearl.getPrice());;
+        values.put("size",pearl.getSize());
+        values.put("weight",pearl.getWeight());
         long status=db.insert("SMaterial",null,values);
 
         if(status==-1){
@@ -111,9 +112,9 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean deletePearl(PearlBeans pearlBeans){
+    public boolean deletePearl(Pearl pearl){
         SQLiteDatabase db=this.getWritableDatabase();
-        long status= db.delete("SMaterial","SMaterialId=?",new String[]{String.valueOf(pearlBeans.getTMaterialId())});
+        long status= db.delete("SMaterial","SMaterialId=?",new String[]{String.valueOf(pearl.getSMaterialId())});
         if(status==-1){
             return  false;
         }else{
@@ -122,7 +123,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean updatePearl(PearlBeans pearlBeans){
+    public boolean updatePearl(Pearl pearl){
         return  true;
     }
 
@@ -156,7 +157,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         values.put("Description",tMaterial.getDescription());
         values.put("TMaterialMd",tMaterial.getTMaterialMd());
         values.put("TMaterialName",tMaterial.getTMaterialName());
-        long status=db.insert("TMaterial",null,values);
+        long status=db.insert("SMaterial",null,values);
         if(status==-1){
             return false;
         }
@@ -165,7 +166,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public boolean deleteTMaterial(TMaterial tMaterial){
         SQLiteDatabase db=this.getWritableDatabase();
-        long status= db.delete("TMaterial", "TMaterialId=?", new String[]{String.valueOf(tMaterial.getTMaterialId())});
+        long status= db.delete("SMaterial", "TMaterialId=?", new String[]{String.valueOf(tMaterial.getTMaterialId())});
 
         if(status==-1){
             return false;

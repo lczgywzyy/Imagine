@@ -25,4 +25,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:1.3.0'
     compile project(':ImageUtils')
     compile project(':android-gif-drawable-master')
+    compile 'com.alibaba:fastjson:1.2.6'
 }
