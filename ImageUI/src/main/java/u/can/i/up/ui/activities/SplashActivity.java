@@ -50,6 +50,10 @@ public class SplashActivity extends Activity {
             } catch (IOException e) {
 
             }
+        }else{
+            ((IApplication) getApplication()).psqLiteOpenHelper = new PSQLiteOpenHelper(this);
+            ((IApplication) getApplication()).arrayListPearl = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
+            ((IApplication) getApplication()).arrayListTMaterial = ((IApplication) getApplication()).psqLiteOpenHelper.getTMaterials();
         }
         new Handler().postDelayed(new Runnable() {
 
