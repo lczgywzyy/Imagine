@@ -435,14 +435,17 @@ public class ImageViewImpl_collocate extends View {
         //创建canvas
         Canvas canvas = new Canvas(bmpSave);
         //将背景图和表情画在bitmap上
-        canvas.drawBitmap(bmpBack, 0,0, null);
+        canvas.drawBitmap(bmpBack, matrixBack, null);
         //将素材画在bitmap上
         if(mPearlList != null && !mPearlList.isEmpty()){
             for (Pearl pearl: mPearlList){
                 Matrix tmpMatrix = pearl.getMatrix();
-                tmpMatrix.postScale(1 / BitmapCache.getBackBmpScale(), 1/BitmapCache.getBackBmpScale(), 0, 0);
+                //tmpMatrix.postScale(1 / BitmapCache.getBackBmpScale(), 1/BitmapCache.getBackBmpScale(), 0, 0);
                 canvas.drawBitmap(pearl.getBitmap(), tmpMatrix, null);
             }
+        }
+        if(bmpMotion != null){
+            canvas.drawBitmap(bmpMotion, matrixPaint, null);
         }
 
 //        canvas.drawBitmap(bmpMotion, matrixPaint, mainPaint);

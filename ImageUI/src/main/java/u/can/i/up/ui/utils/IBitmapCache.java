@@ -38,13 +38,13 @@ public class IBitmapCache {
 
     }
 
-
+    /**图片网络加载**/
     public Bitmap loadBitmapHttp(String uri){
 
         return null;
     }
 
-
+    /**SD卡图片加载**/
     public Bitmap loadBitmapLocal(String path){
 
         File file=new File(path.toString());
@@ -71,13 +71,13 @@ public class IBitmapCache {
             if(uri.startsWith("http")||uri.startsWith("https")){
                 return loadBitmapHttp(uri);
             }else {
-              return loadBitmapLocal(uri);
+                return loadBitmapLocal(uri);
             }
         }else{
             SoftReference<Bitmap> softReference=cache.get(uri);
             Bitmap bitmap=softReference.get();
             if(bitmap==null){
-
+                //被回收，重新加载;
                 cache.remove(uri);
                 return loadBitmapLocal(uri);
             }
