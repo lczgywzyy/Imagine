@@ -12,9 +12,10 @@ public class IApplicationConfig {
 
     public static final String DIRECTORY_ROOT=Environment.getExternalStorageDirectory()+ File.separator+"PearlString";
 
-    public static  final String DIRECTORY_MATERIAL=DIRECTORY_ROOT+File.separator+"Material";
-
     public static  final String DIRECTORY_SMATERIAL=DIRECTORY_ROOT+File.separator+"SMaterial";
+
+
+    public static final String HTTP_URL_BASE="http://45.55.12.70";
 
 
 

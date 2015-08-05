@@ -121,7 +121,7 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
                             Bitmap bitmap = BitmapFactory.decodeStream(netInput);
                             int width = bitmap.getWidth();
                             httpStatus.setBitmap(bitmap);
-                        } else if (mimeType.contains("/json")) {
+                        } else if (mimeType.contains("/json")||mimeType.contains("text/html")) {
                             BufferedReader reader = new BufferedReader(new InputStreamReader(netInput));
                             StringBuilder sb = new StringBuilder();
                             String line = null;

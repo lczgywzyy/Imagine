@@ -9,6 +9,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,13 +22,15 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.ImageView;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.utils.IBitmapCache;
 
 /**
  * @author dongfeng
@@ -74,6 +77,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 LoginActivity.this.finish();
             }
         });
+
+        ImageView img=(ImageView)findViewById(R.id.logo);
+
+
+        Test t=new Test(img);
+        t.execute();
+
+
+
+
         // Set up the login form.
 //        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 //        populateAutoComplete();
@@ -102,6 +115,46 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 //        mProgressView = findViewById(R.id.login_progress);
     }
 
+    class Test extends AsyncTask<Integer,Integer,Bitmap>{
+
+        private ImageView img;
+
+        public Test(ImageView img) {
+            super();
+            this.img=img;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap s) {
+            img.setImageBitmap(s);
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onCancelled(Bitmap s) {
+            super.onCancelled(s);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Integer... params) {
+            return IBitmapCache.getBitMapCache().getBitmap("/static/img/png/b9/53/b9538264fd7521e8c50e0ff9c4ce28cf.png","xxxxxxxxxx");
+        }
+    }
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
     }

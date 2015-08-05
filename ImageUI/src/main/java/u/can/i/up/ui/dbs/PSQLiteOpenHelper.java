@@ -19,7 +19,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String strTMaterial="create table if not exists TMaterial(TMaterialId INTEGER primary key autoincrement,TMaterialName Text not null,TMaterialMd Text not null,Description Text);";
 
-    private static final  String strSMaterial="create table if not exists SMaterial(SMaterialId integer primary key autoincrement,MD5 Text not null,TMaterialId integer,PicDirectory Text not null,Name not null,Type integer default 0 not null,Material Text not null,Size Real not null,Weight integer not null,Aperture Real not null,Price Real not null,Description Text not null,MerchantCode integer not null,foreign key(TMaterialId) references TMaterial(TMaterialId));";
+    private static final  String strSMaterial="create table if not exists SMaterial(SMaterialId integer primary key autoincrement,MD5 Text not null,category integer,path Text not null,name not null,type integer default 1 not null,material Text not null,size Text not null,weight TEXT not null,aperture TEXT not null,price TEXT not null,description Text not null,MerchantCode integer default 0,foreign key(category) references TMaterial(TMaterialId));";
 
     private static final String strSPearl="create table if not exists SPearl(SpearlId integer primary key autoincrement,MD5 Text not null,PearsList Text not null,PicDirectory Text not null,Description Text not null,Name Text not null ,Sync boolean default false,Price real not null);";
 
@@ -66,18 +66,19 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             Pearl pearl=new Pearl();
-            pearl.setAperture(cursor.getFloat(cursor.getColumnIndex("Aperture")));
-            pearl.setDescription(cursor.getString(cursor.getColumnIndex("Description")));
-            pearl.setMaterial(cursor.getString(cursor.getColumnIndex("Material")));
-            pearl.setMd5(cursor.getString(cursor.getColumnIndex("MD5")));
+            pearl.setAperture(cursor.getString(cursor.getColumnIndex("aperture")));
+            pearl.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+            pearl.setMaterial(cursor.getString(cursor.getColumnIndex("material")));
+            pearl.setMD5(cursor.getString(cursor.getColumnIndex("MD5")));
             pearl.setMerchantCode(cursor.getInt(cursor.getColumnIndex("MerchantCode")));
-            pearl.setPicDirectory(cursor.getString(cursor.getColumnIndex("PicDirectory")));
-            pearl.setPrice(cursor.getFloat(cursor.getColumnIndex("Price")));
-            pearl.setSize(cursor.getFloat(cursor.getColumnIndex("Size")));
+            pearl.setPath(cursor.getString(cursor.getColumnIndex("path")));
+            pearl.setPrice(cursor.getString(cursor.getColumnIndex("price")));
+            pearl.setSize(cursor.getString(cursor.getColumnIndex("size")));
             pearl.setSMaterialId(cursor.getInt(cursor.getColumnIndex("SMaterialId")));
-            pearl.setTMaterialId(cursor.getInt(cursor.getColumnIndex("TMaterialId")));
-            pearl.setType(cursor.getInt(cursor.getColumnIndex("Type")));
-            pearl.setWeight(cursor.getInt(cursor.getColumnIndex("Weight")));
+            pearl.setCategory(cursor.getInt(cursor.getColumnIndex("category")));
+            pearl.setType(cursor.getInt(cursor.getColumnIndex("type")));
+            pearl.setWeight(cursor.getString(cursor.getColumnIndex("weight")));
+            pearl.setName(cursor.getString(cursor.getColumnIndex("name")));
             arrayPearl.add(pearl);
             cursor.moveToNext();
 
@@ -91,17 +92,17 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put("Aperture",pearl.getAperture());
-        values.put("Description",pearl.getDescription());
-        values.put("Material",pearl.getMaterial());
-        values.put("MD5",pearl.getMd5());
+        values.put("aperture",pearl.getAperture());
+        values.put("description",pearl.getDescription());
+        values.put("material",pearl.getMaterial());
+        values.put("MD5",pearl.getMD5());
         values.put("MerchantCode",pearl.getMerchantCode());
-        values.put("PicDirectory",pearl.getPicDirectory());
-        values.put("TMaterialId",pearl.getTMaterialId());
+        values.put("path",pearl.getPath());
+        values.put("category",pearl.getCategory());
         values.put("Type",pearl.getType());
-        values.put("Price",pearl.getPrice());;
-        values.put("Size",pearl.getSize());
-        values.put("Weight",pearl.getWeight());
+        values.put("price",pearl.getPrice());;
+        values.put("size",pearl.getSize());
+        values.put("weight",pearl.getWeight());
         long status=db.insert("SMaterial",null,values);
 
         if(status==-1){
@@ -113,7 +114,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public boolean deletePearl(Pearl pearl){
         SQLiteDatabase db=this.getWritableDatabase();
-        long status= db.delete("SMaterial","SMaterialId=?",new String[]{String.valueOf(pearl.getTMaterialId())});
+        long status= db.delete("SMaterial","SMaterialId=?",new String[]{String.valueOf(pearl.getSMaterialId())});
         if(status==-1){
             return  false;
         }else{
@@ -156,7 +157,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         values.put("Description",tMaterial.getDescription());
         values.put("TMaterialMd",tMaterial.getTMaterialMd());
         values.put("TMaterialName",tMaterial.getTMaterialName());
-        long status=db.insert("TMaterial",null,values);
+        long status=db.insert("SMaterial",null,values);
         if(status==-1){
             return false;
         }
@@ -165,7 +166,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public boolean deleteTMaterial(TMaterial tMaterial){
         SQLiteDatabase db=this.getWritableDatabase();
-        long status= db.delete("TMaterial", "TMaterialId=?", new String[]{String.valueOf(tMaterial.getTMaterialId())});
+        long status= db.delete("SMaterial", "TMaterialId=?", new String[]{String.valueOf(tMaterial.getTMaterialId())});
 
         if(status==-1){
             return false;
