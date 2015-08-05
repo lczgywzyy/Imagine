@@ -33,7 +33,13 @@
 
     <!-- pearlbuild -->
     <string name="preview_button">预览</string>
-
+    <!-- image set -->
+    <string name="scale">比例</string>
+    <string name="crop_button">确定剪裁</string>
+    <string name="brightness">亮度</string>
+    <string name="saturation">饱和度</string>
+    <string name="contrast">对比度</string>
+    <string name="ruler_sumary">用白框框选出要替换的素材，并输入尺寸</string>
 
     <!-- picture select dialog names -->
     <string name="dialog_setting_head_title">请选择底图</string>

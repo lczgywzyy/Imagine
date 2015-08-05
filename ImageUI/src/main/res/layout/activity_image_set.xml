@@ -56,239 +56,252 @@
 
 
     <!--下方工具栏-->
-    <LinearLayout
+    <!--下方工具栏-->
+    <FrameLayout
+        android:id="@+id/libirarylayout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="160"
-        android:background="@color/white"
-        android:orientation="horizontal">
+        android:background="@color/white">
 
-        <Space
-            android:layout_width="46dp"
-            android:layout_height="fill_parent" />
-        <!-- 旋转-->
-        <LinearLayout
-            android:layout_width="@dimen/btn_outter"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageButton
-                android:id="@+id/Button_rotate"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/btn_outter"
-                android:src="@drawable/icon_rotate"
-                android:background="@drawable/selector_common_pressed_white" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="旋转"
-                android:textColor="@color/gray_80"
-                android:textSize="@dimen/textsize_small"/>
-        </LinearLayout>
+        <include
+            layout="@layout/navigator_imageset_selected"/>
 
-        <Space
-            android:layout_width="22dp"
-            android:layout_height="fill_parent" />
-        <!-- 滑动条-->
-        <LinearLayout
-            android:layout_width="237dp"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
-            <Space
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="35"/>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="32"
-                android:orientation="horizontal"
-                android:gravity="center|left"
-                >
-                <ImageView
-                    android:layout_width="@dimen/btn_small"
-                    android:layout_height="@dimen/btn_small"
-                    android:src="@drawable/icon_bright"/>
-                <Space
-                    android:layout_width="@dimen/match_1_scroll_margin_horizental"
-                    android:layout_height="fill_parent" />
-                <TextView
-                    android:layout_width="43dp"
-                    android:layout_height="fill_parent"
-                    android:text="亮度"
-                    android:textColor="@color/gray_80"
-                    android:textSize="@dimen/textsize_small"
-                    android:gravity="center"/>
+    </FrameLayout>
 
-                <SeekBar
-                    android:layout_gravity="center"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:maxHeight="3.0dp"
-                    android:minHeight="3.0dp"
-                    android:max="200"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
-                    android:thumb="@drawable/seekbar_thumb"
-                    android:thumbOffset="0dp"
-                    />
+    <!--<LinearLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="160"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="horizontal">-->
 
+        <!--<Space-->
+            <!--android:layout_width="46dp"-->
+            <!--android:layout_height="fill_parent" />-->
+        <!--&lt;!&ndash; 旋转&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="@dimen/btn_outter"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:gravity="center">-->
+            <!--<ImageButton-->
+                <!--android:id="@+id/Button_rotate"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="@dimen/btn_outter"-->
+                <!--android:src="@drawable/icon_rotate"-->
+                <!--android:background="@drawable/selector_common_pressed_white" />-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="旋转"-->
+                <!--android:textColor="@color/gray_80"-->
+                <!--android:textSize="@dimen/textsize_small"/>-->
+        <!--</LinearLayout>-->
 
-            </LinearLayout>
+        <!--<Space-->
+            <!--android:layout_width="22dp"-->
+            <!--android:layout_height="fill_parent" />-->
+        <!--&lt;!&ndash; 滑动条&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="237dp"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:orientation="vertical">-->
+            <!--<Space-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="35"/>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="32"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center|left"-->
+                <!-->-->
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/btn_small"-->
+                    <!--android:layout_height="@dimen/btn_small"-->
+                    <!--android:src="@drawable/icon_bright"/>-->
+                <!--<Space-->
+                    <!--android:layout_width="@dimen/match_1_scroll_margin_horizental"-->
+                    <!--android:layout_height="fill_parent" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="43dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="亮度"-->
+                    <!--android:textColor="@color/gray_80"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:gravity="center"/>-->
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="32"
-                android:orientation="horizontal"
-                android:gravity="center|left">
-                <ImageView
-                    android:layout_width="@dimen/btn_small"
-                    android:layout_height="@dimen/btn_small"
-                    android:src="@drawable/icon_contrast"/>
-                <Space
-                    android:layout_width="@dimen/match_1_scroll_margin_horizental"
-                    android:layout_height="fill_parent" />
-                <TextView
-                    android:layout_width="43dp"
-                    android:layout_height="fill_parent"
-                    android:text="对比度"
-                    android:textColor="@color/gray_80"
-                    android:textSize="@dimen/textsize_small"
-                    android:gravity="center"/>
-
-                <SeekBar
-                    android:layout_gravity="center"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:maxHeight="3.0dp"
-                    android:minHeight="3.0dp"
-                    android:max="200"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
-                    android:thumb="@drawable/seekbar_thumb"
-                    android:thumbOffset="0dp"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="32"
-                android:orientation="horizontal"
-                android:gravity="center|left">
-                <ImageView
-                    android:layout_width="@dimen/btn_small"
-                    android:layout_height="@dimen/btn_small"
-                    android:src="@drawable/icon_saturation"/>
-                <Space
-                    android:layout_width="@dimen/match_1_scroll_margin_horizental"
-                    android:layout_height="fill_parent" />
-                <TextView
-                    android:layout_width="43dp"
-                    android:layout_height="fill_parent"
-                    android:text="饱和度"
-                    android:textColor="@color/gray_80"
-                    android:textSize="@dimen/textsize_small"
-                    android:gravity="center"/>
-                <SeekBar
-                    android:layout_gravity="center"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:maxHeight="3.0dp"
-                    android:minHeight="3.0dp"
-                    android:max="200"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
-                    android:thumb="@drawable/seekbar_thumb"
-                    android:thumbOffset="0dp"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="32"
-                android:orientation="horizontal"
-                android:gravity="center|left">
-                <ImageView
-                    android:layout_width="@dimen/btn_small"
-                    android:layout_height="@dimen/btn_small"
-                    android:src="@drawable/icon_ruler"/>
-                <Space
-                    android:layout_width="@dimen/match_1_scroll_margin_horizental"
-                    android:layout_height="fill_parent" />
-                <TextView
-                    android:layout_width="43dp"
-                    android:layout_height="fill_parent"
-                    android:text="比例尺"
-                    android:textColor="@color/gray_80"
-                    android:textSize="@dimen/textsize_small"
-                    android:gravity="center"/>
-                <SeekBar
-                    android:layout_gravity="center"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:maxHeight="3.0dp"
-                    android:minHeight="3.0dp"
-                    android:max="200"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
-                    android:thumb="@drawable/seekbar_thumb"
-                    android:thumbOffset="0dp"
-                    />
-
-            </LinearLayout>
-            <Space
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="8"/>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="16"
-                android:orientation="horizontal"
-                android:gravity="center|left"
-                android:paddingLeft="31dp"
-                android:textSize="@dimen/textsize_small">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="请输入间隔大小"
-                    android:gravity="bottom"
-                    android:textSize="@dimen/textsize_small"
-                    android:textColor="@color/gray_80"/>
-                <EditText
-                    android:layout_width="40dp"
-                    android:layout_height="fill_parent"
-                    android:textColor="@color/gray_80"
-                    android:textSize="@dimen/textsize_small"
-                    android:inputType="number"
-                    android:gravity="center|bottom"
-                    android:maxLength="3"
-                    android:background="@color/transparentbluegray"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="mm"
-                    android:gravity="bottom"
-                    android:textSize="@dimen/textsize_small"
-                    android:textColor="@color/gray_80"/>
-            </LinearLayout>
-            <Space
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="35"/>
+                <!--<SeekBar-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:focusable="true"-->
+                    <!--android:maxHeight="3.0dp"-->
+                    <!--android:minHeight="3.0dp"-->
+                    <!--android:max="200"-->
+                    <!--android:progress="100"-->
+                    <!--android:progressDrawable="@drawable/seekbar_black_white_gradualchange"-->
+                    <!--android:thumb="@drawable/seekbar_thumb"-->
+                    <!--android:thumbOffset="0dp"-->
+                    <!--/>-->
 
 
-        </LinearLayout>
+            <!--</LinearLayout>-->
 
-    </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="32"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center|left">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/btn_small"-->
+                    <!--android:layout_height="@dimen/btn_small"-->
+                    <!--android:src="@drawable/icon_contrast"/>-->
+                <!--<Space-->
+                    <!--android:layout_width="@dimen/match_1_scroll_margin_horizental"-->
+                    <!--android:layout_height="fill_parent" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="43dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="对比度"-->
+                    <!--android:textColor="@color/gray_80"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:gravity="center"/>-->
+
+                <!--<SeekBar-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:focusable="true"-->
+                    <!--android:maxHeight="3.0dp"-->
+                    <!--android:minHeight="3.0dp"-->
+                    <!--android:max="200"-->
+                    <!--android:progress="100"-->
+                    <!--android:progressDrawable="@drawable/seekbar_black_white_gradualchange"-->
+                    <!--android:thumb="@drawable/seekbar_thumb"-->
+                    <!--android:thumbOffset="0dp"-->
+                    <!--/>-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="32"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center|left">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/btn_small"-->
+                    <!--android:layout_height="@dimen/btn_small"-->
+                    <!--android:src="@drawable/icon_saturation"/>-->
+                <!--<Space-->
+                    <!--android:layout_width="@dimen/match_1_scroll_margin_horizental"-->
+                    <!--android:layout_height="fill_parent" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="43dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="饱和度"-->
+                    <!--android:textColor="@color/gray_80"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:gravity="center"/>-->
+                <!--<SeekBar-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:focusable="true"-->
+                    <!--android:maxHeight="3.0dp"-->
+                    <!--android:minHeight="3.0dp"-->
+                    <!--android:max="200"-->
+                    <!--android:progress="100"-->
+                    <!--android:progressDrawable="@drawable/seekbar_black_white_gradualchange"-->
+                    <!--android:thumb="@drawable/seekbar_thumb"-->
+                    <!--android:thumbOffset="0dp"-->
+                    <!--/>-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="32"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center|left">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/btn_small"-->
+                    <!--android:layout_height="@dimen/btn_small"-->
+                    <!--android:src="@drawable/icon_ruler"/>-->
+                <!--<Space-->
+                    <!--android:layout_width="@dimen/match_1_scroll_margin_horizental"-->
+                    <!--android:layout_height="fill_parent" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="43dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="比例尺"-->
+                    <!--android:textColor="@color/gray_80"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:gravity="center"/>-->
+                <!--<SeekBar-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:focusable="true"-->
+                    <!--android:maxHeight="3.0dp"-->
+                    <!--android:minHeight="3.0dp"-->
+                    <!--android:max="200"-->
+                    <!--android:progress="100"-->
+                    <!--android:progressDrawable="@drawable/seekbar_black_white_gradualchange"-->
+                    <!--android:thumb="@drawable/seekbar_thumb"-->
+                    <!--android:thumbOffset="0dp"-->
+                    <!--/>-->
+
+            <!--</LinearLayout>-->
+            <!--<Space-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="8"/>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="16"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center|left"-->
+                <!--android:paddingLeft="31dp"-->
+                <!--android:textSize="@dimen/textsize_small">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="请输入间隔大小"-->
+                    <!--android:gravity="bottom"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:textColor="@color/gray_80"/>-->
+                <!--<EditText-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:textColor="@color/gray_80"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:inputType="number"-->
+                    <!--android:gravity="center|bottom"-->
+                    <!--android:maxLength="3"-->
+                    <!--android:background="@color/transparentbluegray"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="mm"-->
+                    <!--android:gravity="bottom"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:textColor="@color/gray_80"/>-->
+            <!--</LinearLayout>-->
+            <!--<Space-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="35"/>-->
+
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
 
 </LinearLayout>

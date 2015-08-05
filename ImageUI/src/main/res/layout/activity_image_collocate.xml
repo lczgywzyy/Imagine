@@ -21,14 +21,6 @@
         android:background="@color/gray_80"
         android:layout_alignParentTop="true"
         >
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/allocate_2_framelayout"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent"></RelativeLayout>-->
-        <!--<ImageView-->
-            <!--android:id="@+id/ivImage2"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent" />-->
         <u.can.i.up.ui.utils.ImageViewImpl_collocate
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ImageViewImpl_allocate"
@@ -87,17 +79,5 @@
         layout="@layout/navigator_material_selected"/>
 
     </FrameLayout>
-    <!--<LinearLayout-->
-        <!--android:id="@+id/libirarylayout"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="414"-->
-        <!--android:background="@color/white"-->
-        <!--android:orientation="vertical">-->
-
-        <!--&lt;!&ndash; The navigation tab &ndash;&gt;-->
-        <!--<include-->
-
-    <!--</LinearLayout>-->
 
 </LinearLayout>

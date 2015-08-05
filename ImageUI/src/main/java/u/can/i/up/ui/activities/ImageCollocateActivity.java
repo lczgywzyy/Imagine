@@ -68,11 +68,8 @@ public class ImageCollocateActivity extends FragmentActivity {
      * 选修卡文字
      *
      */
-    private String mTextArray[] = { "佛头", "佛塔", "背云", "卡子", "弟子珠","计数器", "项珠", "绳结", "散珠", "隔片" };
-    /**
-     *
-     *
-     */
+    private String mTextArray[] = { "佛头", "佛塔", "背云", "卡子", "弟子珠",
+            "计数器", "项珠", "绳结", "散珠", "隔片" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
