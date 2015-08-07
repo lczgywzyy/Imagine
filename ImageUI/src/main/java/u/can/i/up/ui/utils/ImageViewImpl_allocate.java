@@ -88,6 +88,7 @@ public class ImageViewImpl_allocate extends View {
         STATUS_ROTATE,
         STATUS_DELETE,
         STATUS_MOVE,
+        STATUS_SWITCH
     }
 
     public ImageViewImpl_allocate(Context context) {
@@ -246,9 +247,41 @@ public class ImageViewImpl_allocate extends View {
                     status = ViewStatus.STATUS_ROTATE;
                 }else if(isInRect(x, y, rectDelete)){
                     status = ViewStatus.STATUS_DELETE;
-                }
-                else{
+                }else if(isInRect(x,y,rectMotion)){
                     status = ViewStatus.STATUS_MOVE;
+                }else{
+                    //按到了别的珠子上
+                    int index=-1;
+                    for(int i=0;i<mPearlList.size();i++){
+                        Pearl pearl=mPearlList.get(mPearlList.size()-1-i);
+
+                        Bitmap bitmap=pearl.getBitmap();
+
+                        RectF rectF=new RectF(0,0,bitmap.getWidth(), bitmap.getHeight());
+
+                        pearl.getMatrix().mapRect(rectF);
+
+                        if(rectF.contains(x,y)){
+                            index=mPearlList.size()-1-i;
+                            break;
+                        }
+                    }
+
+                    if(index==-1){
+                        status = ViewStatus.STATUS_MOVE;
+                    }else{
+                        status=ViewStatus.STATUS_SWITCH;
+                        Pearl pearl=mPearlList.get(index);
+
+                        mPearlList.remove(index);
+                        Pearl pearlBmp=new Pearl(bmpMotion,matrixPaint);
+                        mPearlList.add(pearlBmp);
+
+                        bmpMotion=pearl.getBitmap();
+                        matrixPaint=new Matrix(pearl.getMatrix());
+                    }
+
+
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -256,6 +289,9 @@ public class ImageViewImpl_allocate extends View {
 //                    saveBitmap();
                 } else if(status == ViewStatus.STATUS_DELETE){
                     deleteCurrentMotion();
+                }else if(status==ViewStatus.STATUS_SWITCH){
+                    invalidate();
+
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -387,7 +423,25 @@ public class ImageViewImpl_allocate extends View {
     }
 
     private void deleteCurrentMotion(){
-        bmpMotion = null;
+
+
+
+        if(mPearlList.size()>0) {
+            bmpMotion = mPearlList.get(mPearlList.size() - 1).getBitmap();
+
+            matrixPaint = mPearlList.get(mPearlList.size() - 1).getMatrix();
+
+            mPearlList.remove(mPearlList.size() - 1);
+
+            rectRotate.set(0, 0, 0, 0);
+
+            rectDelete.set(0, 0, 0, 0);
+
+            //
+
+        }else{
+            bmpMotion=null;
+        }
         invalidate();
     }
 
@@ -432,6 +486,8 @@ public class ImageViewImpl_allocate extends View {
         //创建canvas
         Canvas canvas = new Canvas(bmpSave);
         //将背景图和表情画在bitmap上
+
+
         canvas.drawBitmap(bmpBack, 0, 0, mainPaint);
 
 //        if(mPearlList != null && !mPearlList.isEmpty()){
@@ -439,6 +495,9 @@ public class ImageViewImpl_allocate extends View {
 //                canvas.drawBitmap(pearl.getBitmap(), pearl.getMatrix(), null);
 //            }
 //        }
+        for(int i=0;i<mPearlList.size();i++){
+            canvas.drawBitmap(mPearlList.get(i).getBitmap(),mPearlList.get(i).getMatrix(),mainPaint);
+        }
         canvas.drawBitmap(bmpMotion, matrixPaint, mainPaint);
         //保存bitmap
 //		canvas.save(Canvas.ALL_SAVE_FLAG);
