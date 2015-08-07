@@ -40,10 +40,10 @@ public class BitmapCache {
     public static float getBackBmpTranslateY(){
         return  backBmpTranslateY;
     }
-    public static ImageViewImpl_collocate getImageViewImpl_allocate() {
+    public static ImageViewImpl_collocate getImageViewImpl_collocate() {
         return mImageViewImpl_collocate;
     }
-    public static void setImageViewImpl_allocate(ImageViewImpl_collocate imageViewImpl_collocate) {
+    public static void setImageViewImpl_collocate(ImageViewImpl_collocate imageViewImpl_collocate) {
         mImageViewImpl_collocate = imageViewImpl_collocate;
     }
 

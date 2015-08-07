@@ -77,7 +77,7 @@ public class ImageCollocateActivity extends FragmentActivity {
         setContentView(R.layout.activity_image_collocate);
 //        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
         final ImageViewImpl_collocate imageViewImpl_collocate = (ImageViewImpl_collocate) findViewById(R.id.ImageViewImpl_allocate);
-        BitmapCache.setImageViewImpl_allocate(imageViewImpl_collocate);
+        BitmapCache.setImageViewImpl_collocate(imageViewImpl_collocate);
 
         ImageButton setover = (ImageButton)findViewById(R.id.match_2_continue);
         ImageButton closeBtm = (ImageButton)findViewById(R.id.match_1_close_btn);
@@ -85,17 +85,16 @@ public class ImageCollocateActivity extends FragmentActivity {
         closeBtm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BitmapCache.getImageViewImpl_allocate().turnLastAction();
+                BitmapCache.getImageViewImpl_collocate().turnLastAction();
             }
         });
         setover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bitmap mypic = imageViewImpl_collocate.saveBitmapAll();
+//                ShareActivity.exportImageByFinger(mypic);
+
                 BitmapCache.setBitmapcache(mypic);
-//                Intent i = new Intent(view.getContext(), ShareActivity.class);
-//                i.putExtra("picture", bytepicture);
-//                startActivity(i);
                 startActivity(new Intent(view.getContext(), ShareActivity.class));
             }
         });

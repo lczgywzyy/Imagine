@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import u.can.i.up.ui.R;
@@ -19,7 +20,7 @@ public class CropImageSetFragment extends Fragment{
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_imageset_cropimage, container, false);
 
-		ImageButton test = (ImageButton)view.findViewById(R.id.crop_free);
+		RadioButton test = (RadioButton)view.findViewById(R.id.crop_free);
 		test.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

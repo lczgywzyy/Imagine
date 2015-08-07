@@ -141,7 +141,8 @@ public class ImageSetActivity extends FragmentActivity {
         int count = mFragmentArray.length;
         for (int i = 0; i < count; i++) {
             // 给每个Tab按钮设置图标、文字和内容
-
+//            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(null)
+//                    .setIndicator(getTabItemView(i));
             TabHost.TabSpec tabSpec = mTabHost.newTabSpec(mTextArray[i])
                     .setIndicator(getTabItemView(i));
             // 将Tab按钮添加进Tab选项卡中

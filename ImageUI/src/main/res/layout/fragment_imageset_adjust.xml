@@ -1,10 +1,113 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+    <!--亮度-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="16"
+        android:orientation="horizontal"
+        android:gravity="center|left"
+        >
 
+        <TextView
+            android:layout_width="43dp"
+            android:layout_height="fill_parent"
+            android:text="亮度"
+            android:textColor="@color/gray_80"
+            android:textSize="@dimen/textsize_small"
+            android:gravity="center"/>
 
+        <SeekBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:maxHeight="3.0dp"
+            android:minHeight="3.0dp"
+            android:max="200"
+            android:progress="100"
+            android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
+            android:thumb="@drawable/seekbar_thumb"
+            android:thumbOffset="0dp"
+            />
+
+    </LinearLayout>
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"/>
+    <!--对比度-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="16"
+        android:orientation="horizontal"
+        android:gravity="center|left">
+
+        <TextView
+            android:layout_width="43dp"
+            android:layout_height="fill_parent"
+            android:text="对比度"
+            android:textColor="@color/gray_80"
+            android:textSize="@dimen/textsize_small"
+            android:gravity="center"/>
+
+        <SeekBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:maxHeight="3.0dp"
+            android:minHeight="3.0dp"
+            android:max="200"
+            android:progress="100"
+            android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
+            android:thumb="@drawable/seekbar_thumb"
+            android:thumbOffset="0dp"
+            />
+
+    </LinearLayout>
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"/>
+    <!--饱和度-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="16"
+        android:orientation="horizontal"
+        android:gravity="center|left">
+
+        <TextView
+            android:layout_width="43dp"
+            android:layout_height="fill_parent"
+            android:text="饱和度"
+            android:textColor="@color/gray_80"
+            android:textSize="@dimen/textsize_small"
+            android:gravity="center"/>
+        <SeekBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:maxHeight="3.0dp"
+            android:minHeight="3.0dp"
+            android:max="200"
+            android:progress="100"
+            android:progressDrawable="@drawable/seekbar_black_white_gradualchange"
+            android:thumb="@drawable/seekbar_thumb"
+            android:thumbOffset="0dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
 
 </FrameLayout>

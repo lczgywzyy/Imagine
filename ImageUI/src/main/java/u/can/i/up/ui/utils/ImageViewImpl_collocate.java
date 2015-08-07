@@ -88,6 +88,7 @@ public class ImageViewImpl_collocate extends View {
         STATUS_ROTATE,
         STATUS_DELETE,
         STATUS_MOVE,
+        STATUS_SWITCH
     }
 
     public ImageViewImpl_collocate(Context context) {
@@ -120,84 +121,17 @@ public class ImageViewImpl_collocate extends View {
         //设置画笔绘制空心图形
         mainPaint.setStyle(Paint.Style.STROKE);
         //加载相应的图片资源
-//        bmpMotion = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/motion10.png").getAbsolutePath());
-//        bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageView10_bg.png").getAbsolutePath());
-//        bmpMotion = BitmapFactory.decodeResource(getResources(), R.drawable.emoji_1);
         bmpBack = BitmapCache.getBitmapcache();
         RectF tmpRectBack = new RectF(0, 0, bmpBack.getWidth(), bmpBack.getHeight());
         rectBack = new RectF(tmpRectBack);
-        //背景图片缩放比例
-        matrixBack.postScale(BitmapCache.getBackBmpScale(), BitmapCache.getBackBmpScale(), 0, 0);
-        matrixBack.postTranslate(BitmapCache.getBackBmpTranslateX(), BitmapCache.getBackBmpTranslateY());
-        matrixBack.mapRect(rectBack, tmpRectBack);
-
+//        //背景图片缩放比例
+//        matrixBack.postScale(BitmapCache.getBackBmpScale(), BitmapCache.getBackBmpScale(), 0, 0);
+//        matrixBack.postTranslate(BitmapCache.getBackBmpTranslateX(), BitmapCache.getBackBmpTranslateY());
+//        matrixBack.mapRect(rectBack, tmpRectBack);
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
         bmpDelete = BitmapFactory.decodeResource(getResources(), R.drawable.delete_icon);
-//
-//        if(bmpMotion != null){
-//            //记录表情最初的矩形
-//            rectMotionPre = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
-//            //记录表情当前的矩形
-//            rectMotion = new RectF(rectMotionPre);
-//            //标记旋转图标位置的矩形
-//            rectRotateMark = new RectF(rectMotion.right,
-//                    rectMotion.bottom,
-//                    rectMotion.right + bmpRotate.getWidth() / 2,
-//                    rectMotion.bottom + bmpRotate.getHeight() / 2);
-//            //标记删除图标位置的矩形
-//            rectDeleteMark = new RectF(rectMotion.right,
-//                    rectMotion.top,
-//                    rectMotion.right + bmpDelete.getWidth() / 2,
-//                    rectMotion.top - bmpDelete.getHeight() / 2);
-//            //记录旋转图标矩形最初的矩形
-//            rectRotatePre = new RectF(rectRotateMark);
-//            //记录当前旋转图标位置的矩形
-//            rectRotate = new RectF(rectRotateMark);
-//
-//            //记录删除图标矩形最初的矩形
-//            rectDeletePre = new RectF(rectDeleteMark);
-//            //记录当前删除图标矩形位置的矩形
-//            rectDelete = new RectF(rectDeletePre);
-//
-//            //记录表情矩形的中点
-//            pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
-//            //记录上次动作的坐标
-//            prePoint = new PointF();
-//            //记录当前动作的坐标
-//            curPoint = new PointF();
-//            //记录旋转图标中点
-//            rotateCenterP = new PointF(rectMotion.right, rectMotion.bottom);
-//
-//        }
         //画布参数
         paintFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
-
-//        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-//
-//        mHandleRadius = HandleUtil.getTargetRadius(context);
-//
-//        mSnapRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-//                SNAP_RADIUS_DP,
-//                displayMetrics);
-
-//        mBorderPaint = PaintUtil.newBorderPaint(context);
-//        mGuidelinePaint = PaintUtil.newGuidelinePaint();
-//        mBackgroundPaint = PaintUtil.newBackgroundPaint(context);
-//        mCornerPaint = PaintUtil.newCornerPaint(context);
-
-//        // Sets the values for the corner sizes
-//        mCornerOffset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-//                DEFAULT_CORNER_OFFSET_DP,
-//                displayMetrics);
-//        mCornerExtension = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-//                DEFAULT_CORNER_EXTENSION_DP,
-//                displayMetrics);
-//        mCornerLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-//                DEFAULT_CORNER_LENGTH_DP,
-//                displayMetrics);
-
-//        // Sets guidelines to default until specified otherwise
-//        mGuidelines = CropImageView.DEFAULT_GUIDELINES;
     }
 
     @Override
@@ -227,8 +161,84 @@ public class ImageViewImpl_collocate extends View {
 //          canvas.drawRect(rectRotate, mainPaint);
         }
 //		canvas.drawCircle(picMidPoint.x, picMidPoint.y, 5, mainPaint);
-
     }
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        // TODO Auto-generated method stub
+//        float x = event.getX();
+//        float y = event.getY();
+//
+//        switch (event.getAction()) {
+//            //手指按下的时候
+//            case MotionEvent.ACTION_DOWN:
+//                prePoint.x = x;
+//                prePoint.y = y;
+//                //按到了旋转图标上
+//                if(isInRect(x, y, rectRotate)){
+//                    status = ViewStatus.STATUS_ROTATE;
+//                }else if(isInRect(x, y, rectDelete)){
+//                    status = ViewStatus.STATUS_DELETE;
+//                }
+//                else{
+//                    status = ViewStatus.STATUS_MOVE;
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                if(status == ViewStatus.STATUS_ROTATE){
+////                    saveBitmap();
+//                } else if(status == ViewStatus.STATUS_DELETE){
+//                    deleteCurrentMotion();
+//                }
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                curPoint.x = x;
+//                curPoint.y = y;
+//                if(status == ViewStatus.STATUS_ROTATE){
+//                    rectRotateMark.set(x,
+//                            y,
+//                            x + bmpRotate.getWidth(),
+//                            y + bmpRotate.getHeight());
+//                    //获取旋转的角度
+//                    float de = getPointsDegree(prePoint, pointMotionMid, curPoint);
+//                    //获取缩放的比例
+//                    float re = getPointsDistance(pointMotionMid, curPoint) / getPointsDistance(pointMotionMid, prePoint);
+//                    if(re > 0.0001){
+//                        //对Matrix进行缩放
+//                        matrixPaint.postScale(re, re, pointMotionMid.x, pointMotionMid.y);
+//                    }
+//                    if(de > 0.0001 || de < -0.0001){
+//                        //对Matrix进行旋转
+//                        matrixPaint.postRotate(de, pointMotionMid.x, pointMotionMid.y);
+//                    }
+//                }else if(status == ViewStatus.STATUS_MOVE){
+//                    //对Matrix进行移位
+//                    matrixPaint.postTranslate(x - prePoint.x, y - prePoint.y);
+//                }
+//                prePoint.x = x;
+//                prePoint.y = y;
+//                //将矩阵map到表情矩形上
+//                matrixPaint.mapRect(rectMotion, rectMotionPre);
+//                matrixPaint.mapRect(rectRotateMark, rectRotatePre);
+//                matrixPaint.mapRect(rectDeleteMark, rectDeletePre);
+//                getRectCenter(rectRotateMark, rotateCenterP);
+//                getRectCenter(rectDeleteMark, deleteCenterP);
+//                getRectCenter(rectMotion, pointMotionMid);
+//                rectRotate.set(rectRotateMark.left,
+//                        rectRotateMark.top,
+//                        rectRotateMark.left + bmpRotate.getWidth(),
+//                        rectRotateMark.top + bmpRotate.getHeight());
+//                rectDelete.set(rectDeleteMark.left,
+//                        rectDeleteMark.top - bmpDelete.getHeight(),
+//                        rectDeleteMark.left + bmpDelete.getWidth(),
+//                        rectDeleteMark.top);
+//                postInvalidate();
+//                break;
+//            default:
+//                break;
+//        }
+//        return true;
+//    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -246,9 +256,41 @@ public class ImageViewImpl_collocate extends View {
                     status = ViewStatus.STATUS_ROTATE;
                 }else if(isInRect(x, y, rectDelete)){
                     status = ViewStatus.STATUS_DELETE;
-                }
-                else{
+                }else if(isInRect(x,y,rectMotion)){
                     status = ViewStatus.STATUS_MOVE;
+                }else{
+                    //按到了别的珠子上
+                    int index=-1;
+                    for(int i=0;i<mPearlList.size();i++){
+                        Pearl pearl=mPearlList.get(mPearlList.size()-1-i);
+
+                        Bitmap bitmap=pearl.getBitmap();
+
+                        RectF rectF=new RectF(0,0,bitmap.getWidth(), bitmap.getHeight());
+
+                        pearl.getMatrix().mapRect(rectF);
+
+                        if(rectF.contains(x,y)){
+                            index=mPearlList.size()-1-i;
+                            break;
+                        }
+                    }
+
+                    if(index==-1){
+                        status = ViewStatus.STATUS_MOVE;
+                    }else{
+                        status=ViewStatus.STATUS_MOVE;
+                        Pearl pearl=mPearlList.get(index);
+
+                        mPearlList.remove(index);
+                        Pearl pearlBmp=new Pearl(bmpMotion,matrixPaint);
+                        mPearlList.add(pearlBmp);
+
+                        bmpMotion=pearl.getBitmap();
+                        matrixPaint=new Matrix(pearl.getMatrix());
+                    }
+
+
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -306,6 +348,7 @@ public class ImageViewImpl_collocate extends View {
         }
         return true;
     }
+
 
     public void setBmpMotion(Bitmap mbitmap){
         if(bmpMotion != null){

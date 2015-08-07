@@ -3,26 +3,43 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:gravity="center"
         >
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/scale"
+            android:layout_height="wrap_content"
+            android:text="用白框框选出要替换的素材，并输入尺寸"
             android:textColor="@color/gray_80"
-            android:textSize="@dimen/textsize_smalltitle"
-            android:layout_gravity="left|center"
-            />
-        <ImageButton
+            android:textSize="@dimen/textsize_smalltitle"/>
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:src="@drawable/icon_free"
-            />
-
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp">
+            <EditText
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:textColor="@color/gray_80"
+                android:background="@color/gray_10"
+                android:inputType="number"
+                android:gravity="center"
+                android:textSize="@dimen/textsize_smalltitle"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="mm"
+                android:textColor="@color/gray_80"
+                android:textSize="@dimen/textsize_smalltitle"
+                android:layout_gravity="center|bottom"/>
+        </LinearLayout>
 
     </LinearLayout>
 

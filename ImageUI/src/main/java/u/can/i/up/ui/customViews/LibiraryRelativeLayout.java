@@ -288,7 +288,7 @@ public class LibiraryRelativeLayout extends RelativeLayout implements OnItemClic
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         ChatEmoji emoji = (ChatEmoji) faceAdapters.get(current).getItem(arg2);
         Log.i(TAG, "1");
-        ImageViewImpl_collocate imageViewImpl_collocate = BitmapCache.getImageViewImpl_allocate();
+        ImageViewImpl_collocate imageViewImpl_collocate = BitmapCache.getImageViewImpl_collocate();
         imageViewImpl_collocate.setBmpMotion(BitmapFactory.decodeResource(getResources(), emoji.getId()));
 //        if (emoji.getId() == R.drawable.face_del_icon) {
 //            int selection = et_sendmessage.getSelectionStart();

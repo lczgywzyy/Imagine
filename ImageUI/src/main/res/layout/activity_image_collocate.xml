@@ -25,7 +25,10 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ImageViewImpl_allocate"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            />
     </LinearLayout>
 
     <!--中间工具栏-->
