@@ -433,7 +433,22 @@ public class ImageViewImpl_collocate extends View {
      * 删除素材函数
      * */
     private void deleteCurrentMotion(){
-        bmpMotion = null;
+        if(mPearlList.size()>0) {
+            bmpMotion = mPearlList.get(mPearlList.size() - 1).getBitmap();
+
+            matrixPaint = mPearlList.get(mPearlList.size() - 1).getMatrix();
+
+            mPearlList.remove(mPearlList.size() - 1);
+
+            rectRotate.set(0, 0, 0, 0);
+
+            rectDelete.set(0, 0, 0, 0);
+
+            //
+
+        }else{
+            bmpMotion=null;
+        }
         invalidate();
     }
 

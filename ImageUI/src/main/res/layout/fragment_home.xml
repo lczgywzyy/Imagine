@@ -19,7 +19,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp" />
 
-            <pl.droidsonroids.gif.GifTextureView
+          <!--  <pl.droidsonroids.gif.GifTextureView
                 app:isOpaque="false"
                 app:freezesAnimation="true"
                 android:id="@+id/gifTextureView"
@@ -28,7 +28,7 @@
                 android:layout_gravity="bottom|right"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"/>-->
         </LinearLayout>
         <!-- 云纹素材-->
         <ImageView

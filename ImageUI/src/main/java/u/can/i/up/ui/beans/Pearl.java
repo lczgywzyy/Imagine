@@ -19,6 +19,16 @@ public class Pearl {
 
     private String size;
 
+    public String gettMaterialName() {
+        return tMaterialName;
+    }
+
+    public void settMaterialName(String tMaterialName) {
+        this.tMaterialName = tMaterialName;
+    }
+
+    private String tMaterialName;
+
     public String getName() {
         return name;
     }

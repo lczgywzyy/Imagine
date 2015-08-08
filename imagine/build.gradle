@@ -5,7 +5,6 @@ android {
         MyKeystore {
             keyAlias 'UCanIUpExpert.keystore'
             keyPassword 'lczgywzyy'
-            storeFile file('K:/UCanIUpExpert.keystore')
             storePassword 'lczgywzyy'
         }
     }

@@ -13,10 +13,15 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import u.can.i.up.ui.R;
-import u.can.i.up.ui.factories.FaceConversionUtil;
+import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.beans.Pearl;
+import u.can.i.up.ui.beans.TMaterial;
 import u.can.i.up.ui.fragments.*;
 import u.can.i.up.ui.utils.BitmapCache;
+import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_collocate;
 
 /**
@@ -47,35 +52,23 @@ public class ImageCollocateActivity extends FragmentActivity {
      * Fragment数组界面
      *
      */
-    private Class mFragmentArray[] = { Fragment1.class, Fragment2.class,
-            Fragment3.class, Fragment4.class, Fragment5.class,
-            Fragment6.class, Fragment7.class, Fragment8.class, Fragment9.class, Fragment10.class };
-    /**
-     * 存放图片数组
-     *
-     */
-    private int mImageArray[] = { R.drawable.icon_fotou_1,
-            R.drawable.icon_fota_1, R.drawable.icon_beiyun_1,
-            R.drawable.icon_qiazi_1, R.drawable.icon_dizizhu_1, R.drawable.icon_jishuqi_1, R.drawable.icon_xiangzhu_1,
-            R.drawable.icon_shengjie_1, R.drawable.icon_sanzhu_1, R.drawable.icon_gepian_1 };
+//    private Class mFragmentArray[] = { Fragment1.class, Fragment2.class,
+//            Fragment3.class, Fragment4.class, Fragment5.class,
+//            Fragment6.class, Fragment7.class, Fragment8.class, Fragment9.class, Fragment10.class };
 
-//    private int mImageArray[] = { R.drawable.icon_fotou,
-//            R.drawable.icon_fota, R.drawable.icon_beiyun,
-//            R.drawable.icon_qiazi, R.drawable.icon_dizizhu, R.drawable.icon_jishuqi, R.drawable.icon_xiangzhu,
-//            R.drawable.icon_shengjie, R.drawable.icon_sanzhu, R.drawable.icon_gepian };
+    private ArrayList<Pearl> pearlArrayList=new ArrayList<>();
 
-    /**
-     * 选修卡文字
-     *
-     */
-    private String mTextArray[] = { "佛头", "佛塔", "背云", "卡子", "弟子珠",
-            "计数器", "项珠", "绳结", "散珠", "隔片" };
+    private ArrayList<TMaterial> tMaterialArrayList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_collocate);
-//        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.allocate_2_framelayout);
+        pearlArrayList=((IApplication)getApplication()).arrayListPearl;
+
+        tMaterialArrayList=((IApplication)getApplication()).arrayListTMaterial;
+
         final ImageViewImpl_collocate imageViewImpl_collocate = (ImageViewImpl_collocate) findViewById(R.id.ImageViewImpl_allocate);
         BitmapCache.setImageViewImpl_collocate(imageViewImpl_collocate);
 
@@ -99,12 +92,12 @@ public class ImageCollocateActivity extends FragmentActivity {
             }
         });
         //初始化素材导航资源图片
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FaceConversionUtil.getInstace().getFileText(getApplication());
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                FaceConversionUtil.getInstace().getFileText(getApplication());
+//            }
+//        }).start();
         initView();
 
         //异步任务加载图片
@@ -122,13 +115,16 @@ public class ImageCollocateActivity extends FragmentActivity {
         mTabHost = (FragmentTabHost) findViewById(R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         // 得到fragment的个数
-        int count = mFragmentArray.length;
+        int count = tMaterialArrayList.size();
         for (int i = 0; i < count; i++) {
             // 给每个Tab按钮设置图标、文字和内容
-            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(mTextArray[i])
+            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(tMaterialArrayList.get(i).getTMaterialName())
                     .setIndicator(getTabItemView(i));
             // 将Tab按钮添加进Tab选项卡中
-            mTabHost.addTab(tabSpec, mFragmentArray[i], null);
+
+            Bundle bundle=new Bundle();
+
+            mTabHost.addTab(tabSpec, Fragment1.class, bundle);
             // 设置Tab按钮的背景
             mTabHost.getTabWidget().getChildAt(i)
                     .setBackgroundResource(R.drawable.selector_tab_background);
@@ -142,9 +138,9 @@ public class ImageCollocateActivity extends FragmentActivity {
     private View getTabItemView(int index) {
         View view = mLayoutInflater.inflate(R.layout.item_navigator_material_selected, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
-        imageView.setImageResource(mImageArray[index]);
+        imageView.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(null,tMaterialArrayList.get(index).getTMaterialMd()));
         TextView textView = (TextView) view.findViewById(R.id.textview);
-        textView.setText(mTextArray[index]);
+        textView.setText(tMaterialArrayList.get(index).getTMaterialName());
 
         return view;
     }

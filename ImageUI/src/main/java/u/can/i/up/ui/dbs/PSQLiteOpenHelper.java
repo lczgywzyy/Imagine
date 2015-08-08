@@ -79,6 +79,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
             pearl.setType(cursor.getInt(cursor.getColumnIndex("type")));
             pearl.setWeight(cursor.getString(cursor.getColumnIndex("weight")));
             pearl.setName(cursor.getString(cursor.getColumnIndex("name")));
+            pearl.settMaterialName(cursor.getString(cursor.getColumnIndex("TMaterialName")));
             arrayPearl.add(pearl);
             cursor.moveToNext();
 
