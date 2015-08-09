@@ -16,7 +16,7 @@ import java.util.HashMap;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
-import u.can.i.up.ui.beans.Pearl;
+import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.net.HttpManager;
 
@@ -44,7 +44,7 @@ public class SplashActivity extends Activity {
                 getSharedPreferences("setting", 0).edit().putInt("START", 1);
                 getSharedPreferences("setting", 0).edit().commit();
                 ((IApplication) getApplication()).psqLiteOpenHelper = new PSQLiteOpenHelper(this);
-                ((IApplication) getApplication()).arrayListPearl = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
+                ((IApplication) getApplication()).arrayListPearlBeans = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
                 ((IApplication) getApplication()).arrayListTMaterial = ((IApplication) getApplication()).psqLiteOpenHelper.getTMaterials();
 
             } catch (IOException e) {
@@ -52,7 +52,7 @@ public class SplashActivity extends Activity {
             }
         }else{
             ((IApplication) getApplication()).psqLiteOpenHelper = new PSQLiteOpenHelper(this);
-            ((IApplication) getApplication()).arrayListPearl = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
+            ((IApplication) getApplication()).arrayListPearlBeans = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
             ((IApplication) getApplication()).arrayListTMaterial = ((IApplication) getApplication()).psqLiteOpenHelper.getTMaterials();
         }
         new Handler().postDelayed(new Runnable() {
@@ -91,7 +91,7 @@ public class SplashActivity extends Activity {
 
         }
 
-        HttpManager<Pearl> http=new HttpManager<>("http://192.168.106.1:39915/getPearls.ashx", HttpManager.HttpType.POST,param,Pearl.class,null,files);
+        HttpManager<PearlBeans> http=new HttpManager<>("http://192.168.106.1:39915/getPearls.ashx", HttpManager.HttpType.POST,param,PearlBeans.class,null,files);
 
         http.execute();
 
@@ -100,7 +100,7 @@ public class SplashActivity extends Activity {
 
     private void testGet(){
         HashMap<String,String> param=new HashMap<>();
-        HttpManager<Pearl> http=new HttpManager<>("http://45.55.12.70/AppImageFetch?username=%E6%9D%8E%E6%89%BF%E6%B3%BD&email=xyq547133@163.com&tString=MjAxNS0wOC0wMSAyMjo1MToyMA==&eString=af1de97da311c37feaecde33ba87c6b0&tokenString=TWpBeE5TMHdPQzB3TVNBeU1qbzFNVG95TUE9PWFmMWRlOTdkYTMxMWMzN2ZlYWVjZGUzM2JhODdjNmIw&category=1&type=1", HttpManager.HttpType.GET,param,Pearl.class);
+        HttpManager<PearlBeans> http=new HttpManager<>("http://45.55.12.70/AppImageFetch?username=%E6%9D%8E%E6%89%BF%E6%B3%BD&email=xyq547133@163.com&tString=MjAxNS0wOC0wMSAyMjo1MToyMA==&eString=af1de97da311c37feaecde33ba87c6b0&tokenString=TWpBeE5TMHdPQzB3TVNBeU1qbzFNVG95TUE9PWFmMWRlOTdkYTMxMWMzN2ZlYWVjZGUzM2JhODdjNmIw&category=1&type=1", HttpManager.HttpType.GET,param,PearlBeans.class);
         http.execute();
     }
 
@@ -110,7 +110,7 @@ public class SplashActivity extends Activity {
         HashMap<String,String> param=new HashMap<>();
         param.put("name","Pengp");
         param.put("password","password");
-        HttpManager<Pearl> http=new HttpManager<>("http://192.168.106.1:39915/getPearls.ashx", HttpManager.HttpType.POST,param,Pearl.class);
+        HttpManager<PearlBeans> http=new HttpManager<>("http://192.168.106.1:39915/getPearls.ashx", HttpManager.HttpType.POST,param,PearlBeans.class);
         http.execute();
     }
 

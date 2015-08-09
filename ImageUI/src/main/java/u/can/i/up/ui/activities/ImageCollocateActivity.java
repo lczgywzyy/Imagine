@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
-import u.can.i.up.ui.beans.Pearl;
+import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
 import u.can.i.up.ui.fragments.*;
 import u.can.i.up.ui.utils.BitmapCache;
@@ -48,15 +48,7 @@ public class ImageCollocateActivity extends FragmentActivity {
      */
     private LayoutInflater mLayoutInflater;
 
-    /**
-     * Fragment数组界面
-     *
-     */
-//    private Class mFragmentArray[] = { Fragment1.class, Fragment2.class,
-//            Fragment3.class, Fragment4.class, Fragment5.class,
-//            Fragment6.class, Fragment7.class, Fragment8.class, Fragment9.class, Fragment10.class };
-
-    private ArrayList<Pearl> pearlArrayList=new ArrayList<>();
+    private ArrayList<PearlBeans> pearlBeansArrayList =new ArrayList<>();
 
     private ArrayList<TMaterial> tMaterialArrayList = new ArrayList<>();
 
@@ -65,7 +57,7 @@ public class ImageCollocateActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_collocate);
-        pearlArrayList=((IApplication)getApplication()).arrayListPearl;
+        pearlBeansArrayList =((IApplication)getApplication()).arrayListPearlBeans;
 
         tMaterialArrayList=((IApplication)getApplication()).arrayListTMaterial;
 
@@ -91,13 +83,7 @@ public class ImageCollocateActivity extends FragmentActivity {
                 startActivity(new Intent(view.getContext(), ShareActivity.class));
             }
         });
-        //初始化素材导航资源图片
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                FaceConversionUtil.getInstace().getFileText(getApplication());
-//            }
-//        }).start();
+
         initView();
 
         //异步任务加载图片
@@ -124,7 +110,7 @@ public class ImageCollocateActivity extends FragmentActivity {
 
             Bundle bundle=new Bundle();
 
-            mTabHost.addTab(tabSpec, Fragment1.class, bundle);
+            mTabHost.addTab(tabSpec, CollocateTabFragment.class, bundle);
             // 设置Tab按钮的背景
             mTabHost.getTabWidget().getChildAt(i)
                     .setBackgroundResource(R.drawable.selector_tab_background);

@@ -1,13 +1,10 @@
 package u.can.i.up.ui.fragments;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.LayoutInflaterFactory;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,21 +21,21 @@ import java.util.Iterator;
 import java.util.List;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
-import u.can.i.up.ui.beans.Pearl;
+import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.customViews.ViewPagerAdapter;
 import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_collocate;
 
 
-public class Fragment1 extends Fragment implements AdapterView.OnItemClickListener{
+public class CollocateTabFragment extends Fragment implements AdapterView.OnItemClickListener{
 
 
 	public static final int NumsPearl=14;
 
-	private ArrayList<Pearl> arrayListTPearls;
+	private ArrayList<PearlBeans> arrayListTPearlBeanses;
 
-	private ArrayList<Pearl> arrayListPearls;
+	private ArrayList<PearlBeans> arrayListPearlBeanses;
 
 	private ArrayList<GridView> arrayListGridView;
 
@@ -69,23 +66,23 @@ public class Fragment1 extends Fragment implements AdapterView.OnItemClickListen
 	}
 
 	private void setArrayList(){
-		arrayListPearls=((IApplication)getActivity().getApplication()).arrayListPearl;
+		arrayListPearlBeanses =((IApplication)getActivity().getApplication()).arrayListPearlBeans;
 
         arrayListGridView=new ArrayList<>();
 
-        arrayListTPearls=new ArrayList<>();
+        arrayListTPearlBeanses =new ArrayList<>();
 
-		Iterator<Pearl> iterator=arrayListPearls.iterator();
+		Iterator<PearlBeans> iterator= arrayListPearlBeanses.iterator();
 
         String tag=getTag();
 
 		while(iterator.hasNext()){
 
-            Pearl pearl=iterator.next();
+            PearlBeans pearlBeans =iterator.next();
 
 
-            if(tag!=null&&tag.equals(pearl.gettMaterialName())) {
-                arrayListTPearls.add(pearl);
+            if(tag!=null&&tag.equals(pearlBeans.gettMaterialName())) {
+                arrayListTPearlBeanses.add(pearlBeans);
             }
 		}
 
@@ -99,12 +96,9 @@ public class Fragment1 extends Fragment implements AdapterView.OnItemClickListen
 
 	private void initPageCounts(){
 
-        double countd=((double)arrayListTPearls.size())/((double)NumsPearl);
-        int counti=arrayListTPearls.size()/NumsPearl;
+        double countd=((double) arrayListTPearlBeanses.size())/((double)NumsPearl);
+        int counti= arrayListTPearlBeanses.size()/NumsPearl;
         pageCounts=countd==counti?counti:counti+1;
-       // pageCounts= arrayListTPearls.size()/NumsPearl==(int)(arrayListTPearls.size()/NumsPearl)?(int)(arrayListTPearls.size()/NumsPearl):(int)(arrayListTPearls.size()/NumsPearl)+1;
-
-
 	}
 
 	private void initGridViews(){
@@ -129,7 +123,7 @@ public class Fragment1 extends Fragment implements AdapterView.OnItemClickListen
             int end=0;
             if(i==pageCounts-1){
                 //last
-                end=arrayListTPearls.size();
+                end= arrayListTPearlBeanses.size();
             }else{
                 //not last
                 end=begin+NumsPearl;
@@ -150,16 +144,16 @@ public class Fragment1 extends Fragment implements AdapterView.OnItemClickListen
 
         int beginP=begin;
         int endP=end;
-        List<Pearl> pearlArrayList=(List)arrayListTPearls.subList(beginP,endP);
+        List<PearlBeans> pearlBeansArrayList =(List) arrayListTPearlBeanses.subList(beginP,endP);
 
-        return new GridViewAdapter(getActivity(),pearlArrayList);
+        return new GridViewAdapter(getActivity(), pearlBeansArrayList);
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ImageViewImpl_collocate imageViewImpl_collocate = BitmapCache.getImageViewImpl_collocate();
-        imageViewImpl_collocate.setBmpMotion(IBitmapCache.getBitMapCache().getBitmap(((Pearl) parent.getAdapter().getItem(position)).getPath(), ((Pearl) parent.getAdapter().getItem(position)).getMD5()));
+        imageViewImpl_collocate.setBmpMotion(IBitmapCache.getBitMapCache().getBitmap(((PearlBeans) parent.getAdapter().getItem(position)).getPath(), ((PearlBeans) parent.getAdapter().getItem(position)).getMD5()));
 
     }
 
@@ -169,18 +163,18 @@ public class Fragment1 extends Fragment implements AdapterView.OnItemClickListen
 
         private Context context;
 
-        private List<Pearl> pearlArrayList;
+        private List<PearlBeans> pearlBeansArrayList;
 
         private LayoutInflater inflate;
 
-        public GridViewAdapter(Context context,List<Pearl> pearlArrayList){
+        public GridViewAdapter(Context context,List<PearlBeans> pearlBeansArrayList){
 
             this.context=context;
-            this.pearlArrayList=pearlArrayList;
+            this.pearlBeansArrayList = pearlBeansArrayList;
             this.inflate=LayoutInflater.from(context);
         }
         public int getCount() {
-            return pearlArrayList.size();
+            return pearlBeansArrayList.size();
         }
         public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -193,15 +187,15 @@ public class Fragment1 extends Fragment implements AdapterView.OnItemClickListen
             } else {
                 viewHolder=(ViewHolder)convertView.getTag();
             }
-            viewHolder.iv_face.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(pearlArrayList.get(position).getPath(),pearlArrayList.get(position).getMD5()));
+            viewHolder.iv_face.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(pearlBeansArrayList.get(position).getPath(), pearlBeansArrayList.get(position).getMD5()));
 
-            viewHolder.iv_face.setTag(pearlArrayList.get(position));
+            viewHolder.iv_face.setTag(pearlBeansArrayList.get(position));
 
 
             return convertView;
         }
-        public Pearl getItem(int position) {
-            return pearlArrayList.get(position);
+        public PearlBeans getItem(int position) {
+            return pearlBeansArrayList.get(position);
         }
 
         public long getItemId(int position) {

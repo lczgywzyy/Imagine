@@ -1,8 +1,5 @@
 package u.can.i.up.ui.beans;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-
 /**
  * Created by Pengp on 2015/7/29.
  */
@@ -10,27 +7,47 @@ public class PearlBeans {
 
     private int SMaterialId;
 
-    private int TMaterialId;
+    private int category;
 
     private int MerchantCode;
 
     private int type;
 
-    private int Weight;
+    private String weight;
 
-    private float Size;
+    private String name;
 
-    private float Price;
+    private String size;
 
-    private float Aperture;
+    public String gettMaterialName() {
+        return tMaterialName;
+    }
 
-    private String Md5;
+    public void settMaterialName(String tMaterialName) {
+        this.tMaterialName = tMaterialName;
+    }
 
-    private String PicDirectory;
+    private String tMaterialName;
 
-    private String Material;
+    public String getName() {
+        return name;
+    }
 
-    private String Description;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String price;
+
+    private String aperture;
+
+    private String MD5;
+
+    private String path;
+
+    private String material;
+
+    private String description;
 
     public int getSMaterialId() {
         return SMaterialId;
@@ -40,12 +57,12 @@ public class PearlBeans {
         this.SMaterialId = SMaterialId;
     }
 
-    public int getTMaterialId() {
-        return TMaterialId;
+    public int getCategory() {
+        return category;
     }
 
-    public void setTMaterialId(int TMaterialId) {
-        this.TMaterialId = TMaterialId;
+    public void setCategory(int category) {
+        this.category = category;
     }
 
     public int getMerchantCode() {
@@ -56,22 +73,6 @@ public class PearlBeans {
         MerchantCode = merchantCode;
     }
 
-    public int getWeight() {
-        return Weight;
-    }
-
-    public void setWeight(int weight) {
-        Weight = weight;
-    }
-
-    public float getSize() {
-        return Size;
-    }
-
-    public void setSize(float size) {
-        Size = size;
-    }
-
     public int getType() {
         return type;
     }
@@ -80,51 +81,69 @@ public class PearlBeans {
         this.type = type;
     }
 
-    public float getPrice() {
-        return Price;
+    public String getWeight() {
+        return weight;
     }
 
-    public void setPrice(float price) {
-        Price = price;
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
-    public float getAperture() {
-        return Aperture;
+
+
+    public String getMD5() {
+        return MD5;
     }
 
-    public void setAperture(float aperture) {
-        Aperture = aperture;
+    public void setMD5(String MD5) {
+        this.MD5 = MD5;
     }
 
-    public String getMd5() {
-        return Md5;
+    public String getSize() {
+        return size;
     }
 
-    public void setMd5(String md5) {
-        Md5 = md5;
+    public void setSize(String size) {
+        this.size = size;
     }
 
-    public String getPicDirectory() {
-        return PicDirectory;
+    public String getPrice() {
+        return price;
     }
 
-    public void setPicDirectory(String picDirectory) {
-        PicDirectory = picDirectory;
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getAperture() {
+        return aperture;
+    }
+
+    public void setAperture(String aperture) {
+        this.aperture = aperture;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getMaterial() {
-        return Material;
+        return material;
     }
 
     public void setMaterial(String material) {
-        Material = material;
+        this.material = material;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 }

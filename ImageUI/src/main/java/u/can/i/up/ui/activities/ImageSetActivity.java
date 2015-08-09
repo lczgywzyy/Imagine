@@ -84,6 +84,7 @@ public class ImageSetActivity extends FragmentActivity {
         setContentView(R.layout.activity_image_set);
         // Initialize components of the app
         final  CropImageView cropImageView = (CropImageView) findViewById(R.id.CropImageView);
+        BitmapCache.setCropImageView(cropImageView);
         //Sets the rotate button
 //        final ImageButton rotateButton = (ImageButton) findViewById(R.id.Button_rotate);
 

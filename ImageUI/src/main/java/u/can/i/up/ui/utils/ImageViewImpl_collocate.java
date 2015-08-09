@@ -1,6 +1,7 @@
 package u.can.i.up.ui.utils;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,6 +14,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,9 @@ import u.can.i.up.utils.image.Pearl;
 public class ImageViewImpl_collocate extends View {
 
     private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_collocate.class;
-
+    private static final ImageView.ScaleType[] VALID_SCALE_TYPES = new ImageView.ScaleType[]{ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.CENTER_INSIDE, ImageView.ScaleType.FIT_CENTER};
+    public static final int DEFAULT_SCALE_TYPE_INDEX = 0;
+    private ImageView.ScaleType mScaleType = VALID_SCALE_TYPES[DEFAULT_SCALE_TYPE_INDEX];
     /**
      * The Paint used to draw the guidelines .
      */
@@ -98,6 +102,14 @@ public class ImageViewImpl_collocate extends View {
 
     public ImageViewImpl_collocate(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+//        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ImageViewImpl_collocate, 0, 0);
+//        try {
+//            mScaleType = VALID_SCALE_TYPES[ta.getInt(R.styleable.CropImageView_scaleType, DEFAULT_SCALE_TYPE_INDEX)];
+//        } finally {
+//            ta.recycle();
+//        }
+
         init(context);
     }
 

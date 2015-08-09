@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-import u.can.i.up.ui.beans.Pearl;
+import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
 
 /**
@@ -56,54 +56,54 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         super.setWriteAheadLoggingEnabled(enabled);
     }
 
-    public ArrayList<Pearl> getPearls(){
+    public ArrayList<PearlBeans> getPearls(){
 
         SQLiteDatabase db=this.getWritableDatabase();
         String querySql="select * from V_SMaterial";
-        ArrayList<Pearl> arrayPearl=new ArrayList<Pearl>();
+        ArrayList<PearlBeans> arrayPearlBeans =new ArrayList<PearlBeans>();
 
         Cursor cursor=db.rawQuery(querySql,null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
-            Pearl pearl=new Pearl();
-            pearl.setAperture(cursor.getString(cursor.getColumnIndex("aperture")));
-            pearl.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-            pearl.setMaterial(cursor.getString(cursor.getColumnIndex("material")));
-            pearl.setMD5(cursor.getString(cursor.getColumnIndex("MD5")));
-            pearl.setMerchantCode(cursor.getInt(cursor.getColumnIndex("MerchantCode")));
-            pearl.setPath(cursor.getString(cursor.getColumnIndex("path")));
-            pearl.setPrice(cursor.getString(cursor.getColumnIndex("price")));
-            pearl.setSize(cursor.getString(cursor.getColumnIndex("size")));
-            pearl.setSMaterialId(cursor.getInt(cursor.getColumnIndex("SMaterialId")));
-            pearl.setCategory(cursor.getInt(cursor.getColumnIndex("category")));
-            pearl.setType(cursor.getInt(cursor.getColumnIndex("type")));
-            pearl.setWeight(cursor.getString(cursor.getColumnIndex("weight")));
-            pearl.setName(cursor.getString(cursor.getColumnIndex("name")));
-            pearl.settMaterialName(cursor.getString(cursor.getColumnIndex("TMaterialName")));
-            arrayPearl.add(pearl);
+            PearlBeans pearlBeans =new PearlBeans();
+            pearlBeans.setAperture(cursor.getString(cursor.getColumnIndex("aperture")));
+            pearlBeans.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+            pearlBeans.setMaterial(cursor.getString(cursor.getColumnIndex("material")));
+            pearlBeans.setMD5(cursor.getString(cursor.getColumnIndex("MD5")));
+            pearlBeans.setMerchantCode(cursor.getInt(cursor.getColumnIndex("MerchantCode")));
+            pearlBeans.setPath(cursor.getString(cursor.getColumnIndex("path")));
+            pearlBeans.setPrice(cursor.getString(cursor.getColumnIndex("price")));
+            pearlBeans.setSize(cursor.getString(cursor.getColumnIndex("size")));
+            pearlBeans.setSMaterialId(cursor.getInt(cursor.getColumnIndex("SMaterialId")));
+            pearlBeans.setCategory(cursor.getInt(cursor.getColumnIndex("category")));
+            pearlBeans.setType(cursor.getInt(cursor.getColumnIndex("type")));
+            pearlBeans.setWeight(cursor.getString(cursor.getColumnIndex("weight")));
+            pearlBeans.setName(cursor.getString(cursor.getColumnIndex("name")));
+            pearlBeans.settMaterialName(cursor.getString(cursor.getColumnIndex("TMaterialName")));
+            arrayPearlBeans.add(pearlBeans);
             cursor.moveToNext();
 
         }
 
-        return arrayPearl;
+        return arrayPearlBeans;
     }
 
 
-    public boolean addPearl(Pearl pearl){
+    public boolean addPearl(PearlBeans pearlBeans){
 
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put("aperture",pearl.getAperture());
-        values.put("description",pearl.getDescription());
-        values.put("material",pearl.getMaterial());
-        values.put("MD5",pearl.getMD5());
-        values.put("MerchantCode",pearl.getMerchantCode());
-        values.put("path",pearl.getPath());
-        values.put("category",pearl.getCategory());
-        values.put("Type",pearl.getType());
-        values.put("price",pearl.getPrice());;
-        values.put("size",pearl.getSize());
-        values.put("weight",pearl.getWeight());
+        values.put("aperture", pearlBeans.getAperture());
+        values.put("description", pearlBeans.getDescription());
+        values.put("material", pearlBeans.getMaterial());
+        values.put("MD5", pearlBeans.getMD5());
+        values.put("MerchantCode", pearlBeans.getMerchantCode());
+        values.put("path", pearlBeans.getPath());
+        values.put("category", pearlBeans.getCategory());
+        values.put("Type", pearlBeans.getType());
+        values.put("price", pearlBeans.getPrice());;
+        values.put("size", pearlBeans.getSize());
+        values.put("weight", pearlBeans.getWeight());
         long status=db.insert("SMaterial",null,values);
 
         if(status==-1){
@@ -113,9 +113,9 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean deletePearl(Pearl pearl){
+    public boolean deletePearl(PearlBeans pearlBeans){
         SQLiteDatabase db=this.getWritableDatabase();
-        long status= db.delete("SMaterial","SMaterialId=?",new String[]{String.valueOf(pearl.getSMaterialId())});
+        long status= db.delete("SMaterial","SMaterialId=?",new String[]{String.valueOf(pearlBeans.getSMaterialId())});
         if(status==-1){
             return  false;
         }else{
@@ -124,7 +124,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean updatePearl(Pearl pearl){
+    public boolean updatePearl(PearlBeans pearlBeans){
         return  true;
     }
 

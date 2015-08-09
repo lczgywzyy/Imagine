@@ -6,7 +6,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
-import u.can.i.up.ui.beans.Pearl;
+import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.utils.UtilsDevice;
@@ -19,7 +19,7 @@ public class IApplication extends Application {
 
     public PSQLiteOpenHelper psqLiteOpenHelper;
 
-    public ArrayList<Pearl> arrayListPearl=new ArrayList<>();
+    public ArrayList<PearlBeans> arrayListPearlBeans =new ArrayList<>();
 
     public ArrayList<TMaterial> arrayListTMaterial=new ArrayList<>();
 

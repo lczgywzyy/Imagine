@@ -2,6 +2,8 @@ package u.can.i.up.ui.utils;
 
 import android.graphics.Bitmap;
 
+import cropper.CropImageView;
+
 /**
  * Created by breeze on 2015/7/13.
  */
@@ -11,6 +13,7 @@ public class BitmapCache {
     private static float backBmpTranslateX;
     private static float backBmpTranslateY;
     private static ImageViewImpl_collocate mImageViewImpl_collocate;
+    private static CropImageView mcropImageView;
 
     public static void setBitmapcache(Bitmap mbitmap){
         bitmapcache = mbitmap;
@@ -43,8 +46,17 @@ public class BitmapCache {
     public static ImageViewImpl_collocate getImageViewImpl_collocate() {
         return mImageViewImpl_collocate;
     }
+
+    public static CropImageView getCropImageView() {
+        return mcropImageView;
+    }
+
     public static void setImageViewImpl_collocate(ImageViewImpl_collocate imageViewImpl_collocate) {
         mImageViewImpl_collocate = imageViewImpl_collocate;
+    }
+
+    public static void setCropImageView(CropImageView cropImageView) {
+        mcropImageView = cropImageView;
     }
 
 }
