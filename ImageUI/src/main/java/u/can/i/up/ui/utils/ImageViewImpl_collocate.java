@@ -23,6 +23,7 @@ import cropper.cropwindow.edge.Edge;
 import cropper.util.PaintUtil;
 import u.can.i.up.ui.R;
 import u.can.i.up.utils.image.Pearl;
+import u.can.i.up.utils.image.ViewStatus;
 
 /**
  * @data 2015/7/14
@@ -87,13 +88,6 @@ public class ImageViewImpl_collocate extends View {
 
     //记录所有珠子布局的List
     List<Pearl> mPearlList = new ArrayList<Pearl>();
-
-    enum ViewStatus{
-        STATUS_ROTATE,
-        STATUS_DELETE,
-        STATUS_MOVE,
-        STATUS_SWITCH
-    }
 
     public ImageViewImpl_collocate(Context context) {
         super(context);
