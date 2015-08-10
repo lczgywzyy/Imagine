@@ -2,6 +2,8 @@ package u.can.i.up.utils.image;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.PointF;
+import android.graphics.RectF;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -54,5 +56,33 @@ public class ImageAlgrithms {
                 }
             } while ((node = queue.poll()) != null);
         }
+    }
+    //判断点是否在矩形内
+    public static boolean isInRect(float x, float y, RectF rect){
+        boolean ret = false;
+        if(rect != null && x > rect.left && x < rect.right && y > rect.top && y < rect.bottom){
+            ret = true;
+        }
+        return ret;
+    }
+    //根据矩形获取中心点
+    public static void getRectCenter(RectF rect, PointF p){
+        p.x = rect.left + (rect.right - rect.left) / 2;
+        p.y = rect.top + (rect.bottom - rect.top) / 2;
+    }
+    //求两点间距离
+    public static float getPointsDistance(PointF p1, PointF p2) {
+        float ret = (float) Math.sqrt(Math.abs((p1.x - p2.x) * (p1.x - p2.x)
+                + (p1.y - p2.y) * (p1.y - p2.y)));
+        return ret;
+    }
+    //求角ABC
+    public static float getPointsDegree(PointF a, PointF b, PointF c){
+        if(Math.abs(a.x - c.x) < 2 && Math.abs(a.y - c.y) < 2){
+            return 0.0f;
+        }
+        float ret = (float) (  Math.toDegrees(Math.atan2(c.y - b.y, c.x - b.x)
+                - Math.atan2(a.y - b.y, a.x - b.x)));
+        return ret;
     }
 }

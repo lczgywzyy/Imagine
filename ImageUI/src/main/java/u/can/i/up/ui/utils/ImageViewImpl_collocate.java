@@ -22,6 +22,7 @@ import java.util.List;
 import cropper.cropwindow.edge.Edge;
 import cropper.util.PaintUtil;
 import u.can.i.up.ui.R;
+import u.can.i.up.utils.image.ImageAlgrithms;
 import u.can.i.up.utils.image.Pearl;
 import u.can.i.up.utils.image.ViewStatus;
 
@@ -258,11 +259,11 @@ public class ImageViewImpl_collocate extends View {
                 prePoint.x = x;
                 prePoint.y = y;
                 //按到了旋转图标上
-                if(isInRect(x, y, rectRotate)){
+                if(ImageAlgrithms.isInRect(x, y, rectRotate)){
                     status = ViewStatus.STATUS_ROTATE;
-                }else if(isInRect(x, y, rectDelete)){
+                }else if(ImageAlgrithms.isInRect(x, y, rectDelete)){
                     status = ViewStatus.STATUS_DELETE;
-                }else if(isInRect(x,y,rectMotion)){
+                }else if(ImageAlgrithms.isInRect(x, y, rectMotion)){
                     status = ViewStatus.STATUS_MOVE;
                 }else{
                     //按到了别的珠子上
@@ -315,9 +316,9 @@ public class ImageViewImpl_collocate extends View {
                             x + bmpRotate.getWidth(),
                             y + bmpRotate.getHeight());
                     //获取旋转的角度
-                    float de = getPointsDegree(prePoint, pointMotionMid, curPoint);
+                    float de = ImageAlgrithms.getPointsDegree(prePoint, pointMotionMid, curPoint);
                     //获取缩放的比例
-                    float re = getPointsDistance(pointMotionMid, curPoint) / getPointsDistance(pointMotionMid, prePoint);
+                    float re = ImageAlgrithms.getPointsDistance(pointMotionMid, curPoint) / ImageAlgrithms.getPointsDistance(pointMotionMid, prePoint);
                     if(re > 0.0001){
                         //对Matrix进行缩放
                         matrixPaint.postScale(re, re, pointMotionMid.x, pointMotionMid.y);
@@ -336,9 +337,9 @@ public class ImageViewImpl_collocate extends View {
                 matrixPaint.mapRect(rectMotion, rectMotionPre);
                 matrixPaint.mapRect(rectRotateMark, rectRotatePre);
                 matrixPaint.mapRect(rectDeleteMark, rectDeletePre);
-                getRectCenter(rectRotateMark, rotateCenterP);
-                getRectCenter(rectDeleteMark, deleteCenterP);
-                getRectCenter(rectMotion, pointMotionMid);
+                ImageAlgrithms.getRectCenter(rectRotateMark, rotateCenterP);
+                ImageAlgrithms.getRectCenter(rectDeleteMark, deleteCenterP);
+                ImageAlgrithms.getRectCenter(rectMotion, pointMotionMid);
                 rectRotate.set(rectRotateMark.left,
                         rectRotateMark.top,
                         rectRotateMark.left + bmpRotate.getWidth(),
@@ -559,36 +560,4 @@ public class ImageViewImpl_collocate extends View {
 //        ImageUtils.extractImageFromBitmapPixels(bmpSave, pixels, savePathCovered, false);
 //        bmpBack.recycle();
 //    }
-
-    //根据矩形获取中心点
-    private void getRectCenter(RectF rect, PointF p){
-        p.x = rect.left + (rect.right - rect.left) / 2;
-        p.y = rect.top + (rect.bottom - rect.top) / 2;
-    }
-
-    //判断点是否在矩形内
-    private boolean isInRect(float x, float y, RectF rect){
-        boolean ret = false;
-        if(rect != null && x > rect.left && x < rect.right && y > rect.top && y < rect.bottom){
-            ret = true;
-        }
-        return ret;
-    }
-
-    //求两点间距离
-    private float getPointsDistance(PointF p1, PointF p2) {
-        float ret = (float) Math.sqrt(Math.abs((p1.x - p2.x) * (p1.x - p2.x)
-                + (p1.y - p2.y) * (p1.y - p2.y)));
-        return ret;
-    }
-
-    //求角ABC
-    private float getPointsDegree(PointF a, PointF b, PointF c){
-        if(Math.abs(a.x - c.x) < 2 && Math.abs(a.y - c.y) < 2){
-            return 0.0f;
-        }
-        float ret = (float) (  Math.toDegrees(Math.atan2(c.y - b.y, c.x - b.x)
-                - Math.atan2(a.y - b.y, a.x - b.x)));
-        return ret;
-    }
 }
