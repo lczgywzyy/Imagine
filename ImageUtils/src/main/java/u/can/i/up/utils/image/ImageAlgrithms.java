@@ -6,6 +6,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -57,7 +58,12 @@ public class ImageAlgrithms {
             } while ((node = queue.poll()) != null);
         }
     }
-    //判断点是否在矩形内
+    /** @author lcz.
+     *  @param x
+     *  @param y
+     *  @param rect
+     *  @since   判断点是否在矩形内
+     * */
     public static boolean isInRect(float x, float y, RectF rect){
         boolean ret = false;
         if(rect != null && x > rect.left && x < rect.right && y > rect.top && y < rect.bottom){
@@ -84,5 +90,38 @@ public class ImageAlgrithms {
         float ret = (float) (  Math.toDegrees(Math.atan2(c.y - b.y, c.x - b.x)
                 - Math.atan2(a.y - b.y, a.x - b.x)));
         return ret;
+    }
+    /** @author lcz.
+     *  @param pearlList
+     *  @param rectMotion
+     *  @return 如果重叠，返回重叠的最小值。
+     *  @since  得到指定珠子是否重叠
+     * */
+    public static int isOverlayed(List<Pearl> pearlList, RectF rectMotion){
+        if(pearlList == null || pearlList.isEmpty()){
+            return -1;
+        }
+        if(rectMotion == null){
+            return -1;
+        }
+        PointF targetPoint = new PointF((rectMotion.left + rectMotion.right) / 2, (rectMotion.top + rectMotion.bottom) / 2);
+        float targetRadius = rectMotion.width() / 2;
+        //最小值的key
+        int minKey1 = -1;
+        float minRadius1 = 100000;
+
+        for (int i = 0; i < pearlList.size(); i++){
+            Pearl p = pearlList.get(i);
+            PointF tmpCenter = p.getCenter();
+            float tmpRadius = p.getBitmap().getWidth() / 2;
+            float tmpDistance = getPointsDistance(targetPoint, tmpCenter);
+            if(tmpDistance < (targetRadius + tmpRadius)){
+                if(tmpDistance < minRadius1){
+                    minRadius1 = tmpDistance;
+                    minKey1 = i;
+                }
+            }
+        }
+        return minKey1;
     }
 }

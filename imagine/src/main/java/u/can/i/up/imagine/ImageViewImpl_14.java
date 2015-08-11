@@ -19,8 +19,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import u.can.i.up.utils.image.ImageAlgrithms;
 import u.can.i.up.utils.image.ImageUtils;
 import u.can.i.up.utils.image.Pearl;
+import u.can.i.up.utils.image.ViewStatus;
 
 /**
  * Created by lczgywzyy on 2015/5/31.
@@ -34,11 +36,36 @@ public class ImageViewImpl_14 extends View {
     Context context = null;
     //素珠矩阵
     Matrix PointSuzhuMatrix = new Matrix();
+    Matrix matrixPaint = null;
 
     Canvas mCanvas = null;
 
     Bitmap bmpSuzhu = null;
-    Bitmap bmpBack = null;
+
+    private Bitmap bmpBack = null;
+    private Bitmap bmpMotion = null;
+    private Bitmap bmpRotate = null;
+    private Bitmap bmpDelete = null;
+
+    ViewStatus status = ViewStatus.STATUS_MOVE;
+
+    //图片变换点阵集合
+    RectF rectBack = new RectF();
+    RectF rectMotionPre = new RectF();
+    RectF rectMotion = new RectF();
+    RectF rectRotateMark = new RectF();
+    RectF rectRotatePre = new RectF();
+    RectF rectRotate = new RectF();
+    RectF rectDeleteMark = new RectF();
+    RectF rectDeletePre = new RectF();
+    RectF rectDelete = new RectF();
+
+    // 记录图片中心点
+    PointF pointMotionMid = new PointF();
+    PointF prePoint = new PointF();
+    PointF curPoint = new PointF();
+    PointF rotateCenterP = new PointF();
+    PointF deleteCenterP = new PointF();
 
     //背景中心
     PointF mBgCenterPoint = null;
@@ -75,10 +102,14 @@ public class ImageViewImpl_14 extends View {
 
         //创建素珠点的Matrix
         PointSuzhuMatrix = new Matrix();
+        matrixPaint = new Matrix();
 
         //加载相应的图片资源
         bmpSuzhu = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/suzhu.png").getAbsolutePath());
         bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/bg.png").getAbsolutePath());
+
+        bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
+        bmpDelete = BitmapFactory.decodeResource(getResources(), R.drawable.delete_icon);
 
         //记录表情矩形的中点
         mBgCenterPoint = new PointF(bmpBack.getWidth() / 2, bmpBack.getHeight() / 2);
@@ -106,11 +137,88 @@ public class ImageViewImpl_14 extends View {
         for(Pearl p: mPearlList){
             canvas.drawBitmap(bmpSuzhu, p.getMatrix(), null);
         }
+        if (bmpMotion != null){
+            canvas.drawBitmap(bmpMotion, matrixPaint, null);
+            canvas.drawBitmap(bmpRotate, null, rectRotate, null);
+            canvas.drawBitmap(bmpDelete, null, rectDelete, null);
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
+        float x = event.getX();
+        float y = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                prePoint.x = x;
+                prePoint.y = y;
+                if(ImageAlgrithms.isInRect(x, y, rectRotate)){
+                    status = ViewStatus.STATUS_ROTATE;
+                }else if(ImageAlgrithms.isInRect(x, y, rectDelete)){
+                    status = ViewStatus.STATUS_DELETE;
+                }else{
+                    status = ViewStatus.STATUS_MOVE;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.d(TAG, "rectMotion.left:" + rectMotion.left);
+                Log.d(TAG, "rectMotion.top:" + rectMotion.top);
+                Log.d(TAG, "rectMotion.right:" + rectMotion.right);
+                Log.d(TAG, "rectMotion.bottom:" + rectMotion.bottom);
+                PointF tmpPoint =  new PointF((rectMotion.left + rectMotion.right) / 2, (rectMotion.top + rectMotion.bottom) / 2);
+//                float angle1 = ImageAlgrithms.getPointsDegree(mPearlList.get(0).getCenter(), mBgCenterPoint, tmpPoint);
+//                float angle2 = ImageAlgrithms.getPointsDegree(tmpPoint, mBgCenterPoint, mPearlList.get(1).getCenter());
+//                Log.d(TAG, "angle1:" + angle1);
+//                Log.d(TAG, "angle2:" + angle2);
+                int i = ImageAlgrithms.isOverlayed(mPearlList, rectMotion);
+                Log.d(TAG, "" + i);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                curPoint.x = x;
+                curPoint.y = y;
+                if(status == ViewStatus.STATUS_ROTATE){
+                    rectRotateMark.set(x,
+                            y,
+                            x + bmpRotate.getWidth(),
+                            y + bmpRotate.getHeight());
+                    //获取旋转的角度
+                    float de = ImageAlgrithms.getPointsDegree(prePoint, pointMotionMid, curPoint);
+                    //获取缩放的比例
+                    float re = ImageAlgrithms.getPointsDistance(pointMotionMid, curPoint) / ImageAlgrithms.getPointsDistance(pointMotionMid, prePoint);
+                    if(re > 0.0001){
+                        //对Matrix进行缩放
+                        matrixPaint.postScale(re, re, pointMotionMid.x, pointMotionMid.y);
+                    }
+                    if(de > 0.0001 || de < -0.0001){
+                        //对Matrix进行旋转
+                        matrixPaint.postRotate(de, pointMotionMid.x, pointMotionMid.y);
+                    }
+                }else if(status == ViewStatus.STATUS_MOVE){
+                    //对Matrix进行移位
+                    matrixPaint.postTranslate(x - prePoint.x, y - prePoint.y);
+                }
+                prePoint.x = x;
+                prePoint.y = y;
+                //将矩阵map到表情矩形上
+                matrixPaint.mapRect(rectMotion, rectMotionPre);
+                matrixPaint.mapRect(rectRotateMark, rectRotatePre);
+                matrixPaint.mapRect(rectDeleteMark, rectDeletePre);
+                ImageAlgrithms.getRectCenter(rectRotateMark, rotateCenterP);
+                ImageAlgrithms.getRectCenter(rectDeleteMark, deleteCenterP);
+                ImageAlgrithms.getRectCenter(rectMotion, pointMotionMid);
+                rectRotate.set(rectRotateMark.left,
+                        rectRotateMark.top,
+                        rectRotateMark.left + bmpRotate.getWidth(),
+                        rectRotateMark.top + bmpRotate.getHeight());
+                rectDelete.set(rectDeleteMark.left,
+                        rectDeleteMark.top - bmpDelete.getHeight(),
+                        rectDeleteMark.left + bmpDelete.getWidth(),
+                        rectDeleteMark.top);
+                postInvalidate();
+                break;
+        }
         return true;
     }
     public void updateImage(int vSuzhuNum){
@@ -120,15 +228,15 @@ public class ImageViewImpl_14 extends View {
         /* 计算素珠点
         * */
         //对素珠进行缩放
-        PointSuzhuMatrix.postScale(mSuzhuScale, mSuzhuScale, (mFirstSuzhuRec.left + mFirstSuzhuRec.right)/2, (mFirstSuzhuRec.top + mFirstSuzhuRec.bottom)/2);
-        mPearlList.add(new Pearl(mFirstSuzhuCenterPoint, PointSuzhuMatrix));
+        PointSuzhuMatrix.postScale(mSuzhuScale, mSuzhuScale, (mFirstSuzhuRec.left + mFirstSuzhuRec.right) / 2, (mFirstSuzhuRec.top + mFirstSuzhuRec.bottom) / 2);
+        mPearlList.add(new Pearl(bmpSuzhu, mFirstSuzhuCenterPoint, PointSuzhuMatrix));
         //根据素珠个数，生成整串珠子
-        for (int i = 1; i <= mSuzhuNum; i++ ){
+        for (int i = 1; i < mSuzhuNum; i++ ){
             //对Matrix进行旋转
             PointSuzhuMatrix.postRotate(360f/mSuzhuNum, mBgCenterPoint.x, mBgCenterPoint.y);
             PointSuzhuMatrix.mapRect(mFirstSuzhuRec, mFirstSuzhuRecPre);
             PointF tmpCenterPF = new PointF((mFirstSuzhuRec.left + mFirstSuzhuRec.right)/2, (mFirstSuzhuRec.top + mFirstSuzhuRec.bottom)/2);
-            mPearlList.add(new Pearl(tmpCenterPF, PointSuzhuMatrix));
+            mPearlList.add(new Pearl(bmpSuzhu,tmpCenterPF, PointSuzhuMatrix));
         }
         //清空画布
         ImageUtils.clearCanvas(mCanvas);
@@ -153,4 +261,51 @@ public class ImageViewImpl_14 extends View {
         //计算素珠的缩放比例
         mSuzhuScale = (float) ((radius * Math.sin(Math.toRadians(360f/mSuzhuNum/2))) / (bmpSuzhu.getHeight()/2));
     }
+
+    public void setBmpMotion(Bitmap mbitmap){
+        if(bmpMotion != null){
+//            Pearl tmpPearl = new Pearl(bmpMotion, matrixPaint);
+//            mPearlList.add(tmpPearl);
+        }
+        bmpMotion = mbitmap;
+        if(bmpMotion != null){
+
+            //记录表情最初的矩形
+            rectMotionPre = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
+            //记录表情当前的矩形
+            rectMotion = new RectF(rectMotionPre);
+            //标记旋转图标位置的矩形
+            rectRotateMark = new RectF(rectMotion.right,
+                    rectMotion.bottom,
+                    rectMotion.right + bmpRotate.getWidth(),
+                    rectMotion.bottom + bmpRotate.getHeight());
+            //标记删除图标位置的矩形
+            rectDeleteMark = new RectF(rectMotion.right,
+                    rectMotion.top - bmpDelete.getHeight(),
+                    rectMotion.right + bmpDelete.getWidth(),
+                    rectMotion.top);
+            //记录旋转图标矩形最初的矩形
+            rectRotatePre = new RectF(rectRotateMark);
+            //记录当前旋转图标位置的矩形
+            rectRotate = new RectF(rectRotateMark);
+
+            //记录删除图标矩形最初的矩形
+            rectDeletePre = new RectF(rectDeleteMark);
+            //记录当前删除图标矩形位置的矩形
+            rectDelete = new RectF(rectDeletePre);
+
+            //记录表情矩形的中点
+            pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
+            //记录上次动作的坐标
+            prePoint = new PointF();
+            //记录当前动作的坐标
+            curPoint = new PointF();
+            //记录旋转图标中点
+            rotateCenterP = new PointF(rectMotion.right, rectMotion.bottom);
+
+            matrixPaint.reset();
+        }
+        invalidate();
+    }
+
 }

@@ -33,6 +33,11 @@ public class Pearl {
         this.center = new PointF(point.x, point.y);
         this.mMatrix = new Matrix(matrix);
     }
+    public Pearl(Bitmap bm, PointF point, Matrix matrix){
+        this.mBitmap = bm;
+        this.center = new PointF(point.x, point.y);
+        this.mMatrix = new Matrix(matrix);
+    }
 
     public Bitmap getBitmap() {
         return mBitmap;

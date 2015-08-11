@@ -1,5 +1,6 @@
 package u.can.i.up.imagine;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
@@ -576,17 +577,24 @@ public class DrawPaintActivity extends ActionBarActivity {
                 lParams142.addRule(RelativeLayout.RIGHT_OF, 11401);
                 mainLayout.addView(button142, lParams142);
 
-                final ImageViewImpl_14 myView14 = new ImageViewImpl_14(this);
-                myView14.setId(11403);
+                final Button button143 = new Button(this);
+                button143.setId(11403);
+                button143.setText("添加");
                 RelativeLayout.LayoutParams lParams143 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
-                lParams143.addRule(RelativeLayout.BELOW, 11401);
-                mainLayout.addView(myView14, lParams143);
+                lParams143.addRule(RelativeLayout.RIGHT_OF, 11402);
+                mainLayout.addView(button143, lParams143);
+
+                final ImageViewImpl_14 myView14 = new ImageViewImpl_14(this);
+                myView14.setId(11404);
+                RelativeLayout.LayoutParams lParams144 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                lParams144.addRule(RelativeLayout.BELOW, 11401);
+                mainLayout.addView(myView14, lParams144);
 
                 button142.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         int inputNum = Integer.parseInt(editText141.getText().toString());
                         editText141.setText(null);
-                        if(inputNum >= 10 && inputNum <=120){
+                        if (inputNum >= 10 && inputNum <= 120) {
                             editText141.setHintTextColor(Color.GRAY);
                             editText141.setHint("请输入素珠个数(10-120)：");
                             myView14.updateImage(inputNum);
@@ -596,6 +604,12 @@ public class DrawPaintActivity extends ActionBarActivity {
                             editText141.setHint("请输入素珠个数(10-120)：");
                             editText141.setWidth(withs);
                         }
+                    }
+                });
+
+                button143.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        myView14.setBmpMotion(BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/ImageView14/a.png").getAbsolutePath()));
                     }
                 });
                 break;
