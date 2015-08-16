@@ -1,5 +1,6 @@
 package u.can.i.up.ui.customViews;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,25 +8,31 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.beans.TMaterial;
+import u.can.i.up.ui.utils.IBitmapCache;
 
 public class ListViewAdapter extends BaseAdapter {
     private final Context mContext;
-    private final String[] mDataset;
 
-    public ListViewAdapter(Context context, String[] dataset) {
+    private ArrayList<TMaterial> tMaterialArrayList;
+
+    public ListViewAdapter(Context context) {
         mContext = context;
-        mDataset = dataset;
+        tMaterialArrayList=((IApplication)((Activity)context).getApplication()).arrayListTMaterial;
     }
 
     @Override
     public int getCount() {
-        return mDataset.length;
+        return tMaterialArrayList.size();
     }
 
     @Override
-    public String getItem(int position) {
-        return mDataset[position];
+    public TMaterial getItem(int position) {
+        return tMaterialArrayList.get(position);
     }
 
     @Override
@@ -45,13 +52,11 @@ public class ListViewAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        String[] values = mDataset[position].split(",");
-        String countryName = values[0];
-        int flagResId = mContext.getResources().getIdentifier(values[1], "drawable", mContext.getPackageName());
-        viewHolder.mTextView.setText(countryName);
-        viewHolder.mTextView.setCompoundDrawablesWithIntrinsicBounds(flagResId, 0, 0, 0);
+        String name = tMaterialArrayList.get(position).getTMaterialName();
+        viewHolder.mTextView.setText(name);
+        IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.mTextView);
 
-
+        bitmapAsync.execute(null,tMaterialArrayList.get(position).getTMaterialMd(),"left");
         return convertView;
     }
 

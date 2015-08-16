@@ -3,6 +3,7 @@ package u.can.i.up.ui.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,8 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,11 +20,16 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -33,6 +41,9 @@ import java.util.List;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.CutoutActivity;
+import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.beans.TMaterial;
+import u.can.i.up.ui.utils.IBitmapCache;
 
 
 /**
@@ -43,6 +54,10 @@ import u.can.i.up.ui.activities.CutoutActivity;
 public class CutoutFragment extends Fragment {
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     ImageView ivImage;
+
+    private GridView gridView;
+
+    private ArrayList<TMaterial> tMaterials;
 
     public static CutoutFragment newInstance(Bundle bundle)
     {
@@ -69,6 +84,8 @@ public class CutoutFragment extends Fragment {
 //                startActivity(new Intent(view.getContext(), CutoutActivity.class));
             }
         });
+        gridView=(GridView)view.findViewById(R.id.gridView);
+        setGridView();
         return view;
     }
 
@@ -137,6 +154,22 @@ public class CutoutFragment extends Fragment {
 //                onCaptureImageResult(data);
 //        }
 //    }
+
+    private void setGridView(){
+        tMaterials= ((IApplication)getActivity().getApplication()).arrayListTMaterial;
+        gridView.setNumColumns(5);
+        gridView.setBackgroundColor(Color.TRANSPARENT);
+        gridView.setHorizontalSpacing(1);
+        gridView.setVerticalSpacing(1);
+        gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+        gridView.setCacheColorHint(0);
+        gridView.setPadding(5, 0, 5, 0);
+        gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        gridView.setGravity(Gravity.CENTER);
+        GridViewAdapters gridViewAdapter=new GridViewAdapters(getActivity(),tMaterials);
+        gridView.setAdapter(gridViewAdapter);
+
+    }
 
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
@@ -289,5 +322,52 @@ public class CutoutFragment extends Fragment {
             isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
         }
         return isCamera ? getCaptureImageOutputUri() : data.getData();
+    }
+    class GridViewAdapters extends  BaseAdapter{
+
+
+
+        private Context context;
+
+        private List<TMaterial> tmaterialArrayList;
+
+
+        public GridViewAdapters(Context context,List<TMaterial> pearlBeansArrayList){
+
+            this.context=context;
+            this.tmaterialArrayList = pearlBeansArrayList;
+        }
+        public int getCount() {
+            return tmaterialArrayList.size();
+        }
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.item_library_type, parent, false);
+                viewHolder = new ViewHolder();
+                viewHolder.mTextView = (TextView) convertView.findViewById(android.R.id.text1);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            String name = tmaterialArrayList.get(position).getTMaterialName();
+            viewHolder.mTextView.setText(name);
+            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.mTextView);
+
+            bitmapAsync.execute(null, tmaterialArrayList.get(position).getTMaterialMd(),"bottom");
+            return convertView;
+        }
+        public TMaterial getItem(int position) {
+            return tmaterialArrayList.get(position);
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        class ViewHolder {
+            private TextView mTextView;
+        }
     }
 }

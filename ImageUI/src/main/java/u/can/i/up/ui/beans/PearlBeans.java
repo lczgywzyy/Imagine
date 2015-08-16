@@ -1,9 +1,12 @@
 package u.can.i.up.ui.beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Pengp on 2015/7/29.
  */
-public class PearlBeans {
+public class PearlBeans implements Parcelable {
 
     private int SMaterialId;
 
@@ -146,4 +149,54 @@ public class PearlBeans {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(weight);
+        dest.writeString(name);
+        dest.writeString(size);
+        dest.writeString(tMaterialName);
+        dest.writeString(price);
+        dest.writeString(aperture);
+        dest.writeString(MD5);
+        dest.writeString(path);
+        dest.writeString(description);
+        dest.writeInt(SMaterialId);
+        dest.writeInt(category);
+        dest.writeInt(MerchantCode);
+        dest.writeInt(type);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<PearlBeans> CREATOR=new Creator<PearlBeans>() {
+        @Override
+        public PearlBeans createFromParcel(Parcel source) {
+
+            PearlBeans pearlBeans=new PearlBeans();
+            pearlBeans.setWeight(source.readString());
+            pearlBeans.setName(source.readString());
+            pearlBeans.setSize(source.readString());
+            pearlBeans.settMaterialName(source.readString());
+            pearlBeans.setPrice(source.readString());
+            pearlBeans.setAperture(source.readString());
+            pearlBeans.setMD5(source.readString());
+            pearlBeans.setPath(source.readString());
+            pearlBeans.setDescription(source.readString());
+            pearlBeans.setSMaterialId(source.readInt());
+            pearlBeans.setCategory(source.readInt());
+            pearlBeans.setMerchantCode(source.readInt());
+            pearlBeans.setType(source.readInt());
+            return pearlBeans;
+        }
+
+        @Override
+        public PearlBeans[] newArray(int size) {
+            return new PearlBeans[size];
+        }
+    };
+
 }

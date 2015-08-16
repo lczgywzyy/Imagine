@@ -27,14 +27,17 @@ public class BaseMaterialFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_listview, container, false);
 
         ListView list = (ListView) root.findViewById(android.R.id.list);
-        ListViewAdapter listAdapter = new ListViewAdapter(getActivity(),
-                getResources().getStringArray(R.array.countries));
+        ListViewAdapter listAdapter = new ListViewAdapter(getActivity());
         list.setAdapter(listAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(new Intent(view.getContext(), LibirarydisplayActivity.class));
+                Intent intent=new Intent(view.getContext(),LibirarydisplayActivity.class);
+                intent.putExtra("position",i);
+
+                startActivity(intent);
             }
+
         });
         return root;
     }

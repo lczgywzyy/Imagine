@@ -21,8 +21,9 @@
         android:layout_weight="360">
         <ImageView
             android:id="@+id/detail_image"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="200dp"
+            android:layout_gravity="center"
+            android:layout_height="200dp"
             android:src="@drawable/logo" />
 
     </FrameLayout>
@@ -92,7 +93,8 @@
                 android:text="骨雕刻一念之差佛头腰珠三通吊坠"
                 android:textColor="@color/black"
                 android:gravity="center|left"
-                android:textSize="@dimen/textsize_medium"/>
+                android:textSize="@dimen/textsize_medium"
+                android:id="@+id/name" />
         </LinearLayout>
 
         <!-- 物品信息-->

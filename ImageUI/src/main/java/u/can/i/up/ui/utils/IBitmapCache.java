@@ -2,6 +2,11 @@ package u.can.i.up.ui.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -160,6 +165,43 @@ public class IBitmapCache {
     }
 
 
+
+    public static  class BitmapAsync extends AsyncTask<String,Integer,Bitmap>{
+
+        private View view;
+
+        String position;
+        public BitmapAsync(View img) {
+            super();
+            this.view=img;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            position=params[2];
+            return  IBitmapCache.getBitMapCache().getBitmap(params[0], params[1]);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap s) {
+            super.onPostExecute(s);
+            if(view instanceof ImageView) {
+                ((ImageView) view).setImageBitmap(s);
+            }else if(view instanceof TextView){
+
+                if("bottom".equals(position)){
+                    ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(null, new BitmapDrawable(s), null, null);
+                }else if("left".equals(position)){
+                    ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(new BitmapDrawable(s), null, null, null);
+                }
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+    }
 
 
 

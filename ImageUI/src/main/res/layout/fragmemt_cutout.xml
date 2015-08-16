@@ -19,7 +19,7 @@
             android:layout_weight="50"/>
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
+            android:layout_height="10dp"
             android:layout_weight="50"
             android:text="选择要制作的素材分类"
             android:textSize="@dimen/textsize_medium"
@@ -38,139 +38,22 @@
         </LinearLayout>
         <!-- 中间的BTN-->
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="128">
-            <LinearLayout
-                style="@style/cutout_btn_layout"
-                android:layout_gravity="center">
-                <CheckBox
-                    style="@style/cutout_btn"
-                    android:button="@null"
-                    android:paddingLeft="5dp"
-                    android:drawableLeft="@drawable/icon_fotou_1"/>
-                <TextView
-                    style="@style/cutout_btn_text"
-                    android:text="佛头"/>
 
-            </LinearLayout>
-            <LinearLayout
-                style="@style/cutout_btn_layout">
-                <CheckBox
-                    style="@style/cutout_btn"
-                    android:button="@null"
-                    android:paddingLeft="5dp"
-                    android:drawableLeft="@drawable/icon_fota_1"/>
-                <TextView
-                    style="@style/cutout_btn_text"
-                    android:text="佛塔"/>
+            <GridView
+                android:id="@+id/gridView"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_margin="5dp"
+                android:layout_weight="400"
+                android:columnWidth="100dp"
+                android:drawSelectorOnTop="true"
+                android:gravity="center"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="15dp"
+                android:focusable="true"
+                android:clickable="true"/>
 
-            </LinearLayout>
-            <LinearLayout
-                style="@style/cutout_btn_layout">
-                <CheckBox
-                    style="@style/cutout_btn"
-                    android:button="@null"
-                    android:paddingLeft="5dp"
-                    android:drawableLeft="@drawable/icon_beiyun_1"/>
-                <TextView
-                    style="@style/cutout_btn_text"
-                    android:text="背云"/>
-
-            </LinearLayout>
-            <LinearLayout
-                style="@style/cutout_btn_layout">
-                <CheckBox
-                    style="@style/cutout_btn"
-                    android:button="@null"
-                    android:paddingLeft="5dp"
-                    android:drawableLeft="@drawable/icon_qiazi_1"/>
-                <TextView
-                    style="@style/cutout_btn_text"
-                    android:text="卡子"/>
-
-            </LinearLayout>
-            <LinearLayout
-                style="@style/cutout_btn_layout">
-                <CheckBox
-                    style="@style/cutout_btn"
-                    android:button="@null"
-                    android:paddingLeft="5dp"
-                    android:drawableLeft="@drawable/icon_dizizhu_1"/>
-                <TextView
-                    style="@style/cutout_btn_text"
-                    android:text="弟子珠"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="128">
-            <LinearLayout
-                style="@style/cutout_btn_layout">
-                <CheckBox
-                    style="@style/cutout_btn"
-                    android:button="@null"
-                    android:paddingLeft="5dp"
-                    android:drawableLeft="@drawable/icon_jishuqi_1"/>
-                <TextView
-                    style="@style/cutout_btn_text"
-                    android:text="计数器"/>
-
-            </LinearLayout>
-            <LinearLayout
-                style="@style/cutout_btn_layout">
-                <CheckBox
-                    style="@style/cutout_btn"
-                    android:button="@null"
-                    android:paddingLeft="5dp"
-                    android:drawableLeft="@drawable/icon_xiangzhu_1"/>
-                <TextView
-                    style="@style/cutout_btn_text"
-                    android:text="项珠"/>
-
-            </LinearLayout>
-            <LinearLayout
-                style="@style/cutout_btn_layout">
-                <CheckBox
-                    style="@style/cutout_btn"
-                    android:button="@null"
-                    android:paddingLeft="5dp"
-                    android:drawableLeft="@drawable/icon_shengjie_1"/>
-                <TextView
-                    style="@style/cutout_btn_text"
-                    android:text="绳结"/>
-
-            </LinearLayout>
-            <LinearLayout
-                style="@style/cutout_btn_layout">
-                <CheckBox
-                    style="@style/cutout_btn"
-                    android:button="@null"
-                    android:paddingLeft="5dp"
-                    android:drawableLeft="@drawable/icon_sanzhu_1"/>
-                <TextView
-                    style="@style/cutout_btn_text"
-                    android:text="散珠"/>
-
-            </LinearLayout>
-            <LinearLayout
-                style="@style/cutout_btn_layout">
-                <CheckBox
-                    style="@style/cutout_btn"
-                    android:button="@null"
-                    android:paddingLeft="5dp"
-                    android:drawableLeft="@drawable/icon_gepian_1"/>
-                <TextView
-                    style="@style/cutout_btn_text"
-                    android:text="隔片"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
 
 
         <Space
@@ -179,7 +62,7 @@
             android:layout_weight="30"/>
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
+            android:layout_height="10dp"
             android:layout_weight="50"
             android:text="输入素材信息"
             android:textSize="@dimen/textsize_medium"

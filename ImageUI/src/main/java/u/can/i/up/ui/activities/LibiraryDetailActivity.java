@@ -9,8 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.beans.PearlBeans;
+import u.can.i.up.ui.utils.IBitmapCache;
 
 /**
  * @author dongfeng
@@ -20,43 +23,36 @@ import u.can.i.up.ui.R;
 
 public class LibiraryDetailActivity extends AppCompatActivity {
 
+    private PearlBeans pearlBeans;
+
+    private TextView textName;
+
+    private ImageView Image;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_libirary_detail);
-
+        setBar();
+        getData();
+        setViews();
+    }
+    private void setBar(){
         final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(R.string.libirary_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        String title = getIntent().getStringExtra("title");
-        Bitmap bitmap = getIntent().getParcelableExtra("image");
-
-//        TextView titleTextView = (TextView) findViewById(R.id.detail_title);
-//        titleTextView.setText(title);
-//
-        ImageView imageView = (ImageView) findViewById(R.id.detail_image);
-        imageView.setImageBitmap(bitmap);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_libirary_detail, menu);
-//        return true;
-//    }
+    private void setViews(){
+        textName=(TextView)findViewById(R.id.name);
+        Image=(ImageView)findViewById(R.id.detail_image);
+        textName.setText(pearlBeans.getName());
+        IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(Image);
+        bitmapAsync.execute(pearlBeans.getPath(),pearlBeans.getMD5(),"img");
+    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    private void getData(){
+        pearlBeans=getIntent().getParcelableExtra("pearl");
     }
 }
