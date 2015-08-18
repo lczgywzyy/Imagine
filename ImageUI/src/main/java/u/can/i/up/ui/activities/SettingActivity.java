@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import u.can.i.up.ui.R;
 
 
+
 /**
  * Represents other activity different from the main activity
  *
