@@ -11,6 +11,7 @@ public class Pearl {
 
     private PointF center = null;
     private Matrix mMatrix = null;
+    private float mRadius = -1;
     private int PearlType = -1;
     private String IconPath = null;
     private Bitmap mBitmap = null;
@@ -33,10 +34,16 @@ public class Pearl {
         this.center = new PointF(point.x, point.y);
         this.mMatrix = new Matrix(matrix);
     }
-    public Pearl(Bitmap bm, PointF point, Matrix matrix){
+//    public Pearl(Bitmap bm, PointF point, Matrix matrix){
+//        this.mBitmap = bm;
+//        this.center = new PointF(point.x, point.y);
+//        this.mMatrix = new Matrix(matrix);
+//    }
+    public Pearl(Bitmap bm, PointF point, Matrix matrix, float radius){
         this.mBitmap = bm;
         this.center = new PointF(point.x, point.y);
         this.mMatrix = new Matrix(matrix);
+        this.mRadius = radius;
     }
 
     public Bitmap getBitmap() {
@@ -61,7 +68,7 @@ public class Pearl {
     }
 
     public void setMatrix(Matrix pointSuzhuMatrix) {
-        this.mMatrix = pointSuzhuMatrix;
+        this.mMatrix = new Matrix(pointSuzhuMatrix);
     }
 
     public int getPearlType() {
@@ -70,5 +77,13 @@ public class Pearl {
 
     public void setPearlType(int pearlType) {
         this.PearlType = pearlType;
+    }
+
+    public float getRadius() {
+        return mRadius;
+    }
+
+    public void setRadius(float mRadius) {
+        this.mRadius = mRadius;
     }
 }
