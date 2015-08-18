@@ -132,9 +132,9 @@ public class ImageViewImpl_collocate extends View {
         RectF tmpRectBack = new RectF(0, 0, bmpBack.getWidth(), bmpBack.getHeight());
         rectBack = new RectF(tmpRectBack);
 //        //背景图片缩放比例
-//        matrixBack.postScale(BitmapCache.getBackBmpScale(), BitmapCache.getBackBmpScale(), 0, 0);
-//        matrixBack.postTranslate(BitmapCache.getBackBmpTranslateX(), BitmapCache.getBackBmpTranslateY());
-//        matrixBack.mapRect(rectBack, tmpRectBack);
+        matrixBack.postScale(BitmapCache.getBackBmpScale(), BitmapCache.getBackBmpScale(), 0, 0);
+        matrixBack.postTranslate(BitmapCache.getBackBmpTranslateX(), BitmapCache.getBackBmpTranslateY());
+        matrixBack.mapRect(rectBack, tmpRectBack);
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
         bmpDelete = BitmapFactory.decodeResource(getResources(), R.drawable.delete_icon);
         //画布参数
@@ -500,6 +500,7 @@ public class ImageViewImpl_collocate extends View {
         //创建canvas
         Canvas canvas = new Canvas(bmpSave);
         //将背景图和表情画在bitmap上
+
         canvas.drawBitmap(bmpBack, matrixBack, null);
         //将素材画在bitmap上
         if(mPearlList != null && !mPearlList.isEmpty()){
