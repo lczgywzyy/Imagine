@@ -1,14 +1,17 @@
 package u.can.i.up.ui.activities;
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -28,25 +31,15 @@ import u.can.i.up.ui.utils.BitmapCache;
  * @data 2015.06.13
  * @sumary 底图照片修改页面：用户选择照片后，对照片进行裁剪，旋转，调整，比例尺
  */
-public class ImageSetActivity extends FragmentActivity {
+public class ImageSetActivity extends Fragment {
 
     // Static final constants
     private static final int DEFAULT_ASPECT_RATIO_VALUES = 20;
 
     private static final int ROTATE_NINETY_DEGREES = 90;
 
-    private static final String ASPECT_RATIO_X = "ASPECT_RATIO_X";
-
-    private static final String ASPECT_RATIO_Y = "ASPECT_RATIO_Y";
-
-    private static final int ON_TOUCH = 1;
-
     // Instance variables
-    private int mAspectRatioX = DEFAULT_ASPECT_RATIO_VALUES;
-    private int mAspectRatioY = DEFAULT_ASPECT_RATIO_VALUES;
-    int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     Bitmap croppedImage;
-    ProgressDialog pDialog;
 
     /**
      * FragmentTabhost
@@ -78,21 +71,40 @@ public class ImageSetActivity extends FragmentActivity {
      */
     private String mTextArray[] = { "剪裁", "旋转", "调整", "比例尺" };
 
+    public static ImageSetActivity newInstance(Bundle bundle)
+    {
+        ImageSetActivity imageSetActivity = new ImageSetActivity();
+
+        if (bundle != null)
+        {
+            imageSetActivity.setArguments(bundle);
+        }
+
+        return imageSetActivity;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_set);
+    }
+
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_image_set, container, false);
+        mLayoutInflater = LayoutInflater.from(view.getContext());
+        // 找到TabHost
+        mTabHost = (FragmentTabHost) view.findViewById(R.id.imageset_tabhost);
+        mTabHost.setup(getActivity(), getFragmentManager(), R.id.imageset_realtabcontent);
+
         // Initialize components of the app
-        final  CropImageView cropImageView = (CropImageView) findViewById(R.id.CropImageView);
-        BitmapCache.setCropImageView(cropImageView);
-        //Sets the rotate button
-//        final ImageButton rotateButton = (ImageButton) findViewById(R.id.Button_rotate);
-
-        ImageButton loadimage = (ImageButton)findViewById(R.id.match_1_close_btn);
-        ImageButton crop = (ImageButton)findViewById(R.id.match_1_continue);
-
-        Uri photoUri = getIntent().getParcelableExtra("photoUri");
-        cropImageView.setImageUri(photoUri);
+//        final  CropImageView cropImageView = (CropImageView) view.findViewById(R.id.CropImageView);
+//        BitmapCache.setCropImageView(cropImageView);
+//        ImageButton loadimage = (ImageButton)view.findViewById(R.id.match_1_close_btn);
+//        ImageButton crop = (ImageButton)view.findViewById(R.id.match_1_continue);
+//
+//        Uri photoUri = getActivity().getIntent().getParcelableExtra("photoUri");
+//        cropImageView.setImageUri(photoUri);
 
 //        rotateButton.setOnClickListener(new View.OnClickListener() {
 //
@@ -102,42 +114,41 @@ public class ImageSetActivity extends FragmentActivity {
 //            }
 //        });
 
-        crop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                croppedImage = cropImageView.getCroppedImage();
-                BitmapCache.setBitmapcache(croppedImage);
-                //设置缩放比例、背景图片移动距离
-                float tmpScaleX = ((float)cropImageView.getWidth()) / croppedImage.getWidth();
-                float tmpScaleY = ((float)cropImageView.getHeight()) / croppedImage.getHeight();
-                if(tmpScaleX <= tmpScaleY){
-                    BitmapCache.setBackBmpScale(tmpScaleX);
-                    BitmapCache.setBackBmpTranslateX(0);
-                    BitmapCache.setBackBmpTranslateY(((float)cropImageView.getHeight() - (float)croppedImage.getHeight() * tmpScaleX) / 2);
-                } else{
-                    BitmapCache.setBackBmpScale(tmpScaleY);
-                    BitmapCache.setBackBmpTranslateX(((float) cropImageView.getWidth() - (float) croppedImage.getWidth() * tmpScaleY) / 2);
-                    BitmapCache.setBackBmpTranslateY(0);
-                }
-
-                Intent i = new Intent(ImageSetActivity.this, ImageCollocateActivity.class);
-                startActivity(i);
-
-            }
-        });
+//        crop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                croppedImage = cropImageView.getCroppedImage();
+//                BitmapCache.setBitmapcache(croppedImage);
+//                //设置缩放比例、背景图片移动距离
+//                float tmpScaleX = ((float) cropImageView.getWidth()) / croppedImage.getWidth();
+//                float tmpScaleY = ((float) cropImageView.getHeight()) / croppedImage.getHeight();
+//                if (tmpScaleX <= tmpScaleY) {
+//                    BitmapCache.setBackBmpScale(tmpScaleX);
+//                    BitmapCache.setBackBmpTranslateX(0);
+//                    BitmapCache.setBackBmpTranslateY(((float) cropImageView.getHeight() - (float) croppedImage.getHeight() * tmpScaleX) / 2);
+//                } else {
+//                    BitmapCache.setBackBmpScale(tmpScaleY);
+//                    BitmapCache.setBackBmpTranslateX(((float) cropImageView.getWidth() - (float) croppedImage.getWidth() * tmpScaleY) / 2);
+//                    BitmapCache.setBackBmpTranslateY(0);
+//                }
+//
+//                Intent i = new Intent(view.getContext(), ImageCollocateActivity.class);
+//                startActivity(i);
+//
+//            }
+//        });
         initView();
-    }
+        return view;
 
+    }
 
     /**
      * 初始化组件
      */
     private void initView() {
-        mLayoutInflater = LayoutInflater.from(this);
 
-        // 找到TabHost
-        mTabHost = (FragmentTabHost) findViewById(R.id.imageset_tabhost);
-        mTabHost.setup(this, getSupportFragmentManager(), R.id.imageset_realtabcontent);
+
+
         // 得到fragment的个数
         int count = mFragmentArray.length;
         for (int i = 0; i < count; i++) {

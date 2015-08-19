@@ -112,7 +112,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <!-- 第一个按钮-->
-
                 <FrameLayout
                     android:id="@+id/navigation_drawer_items_list_linearLayout_home"
                     style="@style/NavDrawerRowLayout.Main"
@@ -134,9 +133,6 @@
 
                 </FrameLayout>
 
-
-
-
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="2dp"
@@ -145,27 +141,25 @@
                     android:layout_marginLeft="@dimen/drawer_divider_padding"
                />
 
-
-
-
-
-                <!--第二个按钮-->
+                <!-- 第二个按钮-->
                 <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_mylibirary"
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_library"
                     style="@style/NavDrawerRowLayout.Main"
                     android:paddingLeft="50dp">
 
                     <u.can.i.up.ui.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_libirary"
+                        android:id="@+id/navigation_drawer_items_list_icon_library"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/btn_lib_ture"
-                        tools:ignore="ContentDescription" />
+                        android:src="@drawable/btn_lux_true"
+                        tools:ignore="ContentDescription"
+                        tools:tint="@color/brightgreen" />
 
                     <TextView
                         android:id="@+id/navigation_drawer_items_textView_libirary"
                         style="@style/NavDrawerRowItemText"
-                        android:text="@string/nav_drawer_item_mylibirary"
-                        tools:fontFamily="sans-serif-medium"/>
+                        android:text="@string/nav_drawer_item_library"
+                        tools:fontFamily="sans-serif-medium"
+                        tools:textColor="@color/white"/>
 
                 </FrameLayout>
 
@@ -177,7 +171,66 @@
                     android:layout_marginLeft="@dimen/drawer_divider_padding"
                     />
 
+                <!-- 第三个按钮-->
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_pearlbuild"
+                    style="@style/NavDrawerRowLayout.Main"
+                    android:paddingLeft="50dp">
 
+                    <u.can.i.up.ui.customViews.TintOnStateImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_pearlbuild"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/btn_lux_true"
+                        tools:ignore="ContentDescription"
+                        tools:tint="@color/brightgreen" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_pearlbuild"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_item_pearlbuild"
+                        tools:fontFamily="sans-serif-medium"
+                        tools:textColor="@color/white"/>
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_70"
+                    android:layout_marginRight="@dimen/drawer_divider_padding"
+                    android:layout_marginLeft="@dimen/drawer_divider_padding"
+                    />
+                <include
+                    layout="@layout/navigation_drawer_divider"/>
+
+
+                <!--第四个按钮-->
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_myalbum"
+                    style="@style/NavDrawerRowLayout.Main"
+                    android:paddingLeft="50dp">
+
+                    <u.can.i.up.ui.customViews.TintOnStateImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_myalbum"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/btn_lib_ture"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_myalbum"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_item_myalbum"
+                        />
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_70"
+                    android:layout_marginRight="@dimen/drawer_divider_padding"
+                    android:layout_marginLeft="@dimen/drawer_divider_padding"
+                    />
 
                <!--第三个按钮-->
 
@@ -200,7 +253,6 @@
 
                 </FrameLayout>
 
-
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="2dp"
@@ -209,27 +261,6 @@
                     android:layout_marginLeft="@dimen/drawer_divider_padding"
                     />
 
-
-
-                <!--&lt;!&ndash;第四个按钮&ndash;&gt;-->
-                <!--<FrameLayout-->
-                    <!--android:id="@+id/navigation_drawer_items_list_linearLayout_about"-->
-                    <!--style="@style/NavDrawerRowLayout.Secondary"-->
-                    <!--android:paddingLeft="50dp">-->
-
-                    <!--<u.can.i.up.ui.customViews.TintOnStateImageView-->
-                        <!--android:id="@+id/navigation_drawer_items_list_icon_about"-->
-                        <!--style="@style/NavDrawerRowItemIcon"-->
-                        <!--android:src="@drawable/btn_about_true"-->
-                        <!--tools:ignore="ContentDescription" />-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/navigation_drawer_items_textView_about"-->
-                        <!--style="@style/NavDrawerRowItemText"-->
-                        <!--android:text="@string/nav_drawer_about"-->
-                        <!--tools:fontFamily="sans-serif-medium" />-->
-
-                <!--</FrameLayout>-->
             </LinearLayout>
 
         </ScrollView>

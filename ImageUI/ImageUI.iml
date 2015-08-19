@@ -92,7 +92,6 @@
     <orderEntry type="library" exported="" name="fastjson-1.2.6" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.1.1" level="project" />
-    <orderEntry type="module" module-name="android-gif-drawable-master" exported="" />
     <orderEntry type="module" module-name="ImageUtils" exported="" />
   </component>
 </module>
