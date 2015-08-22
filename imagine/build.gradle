@@ -6,7 +6,6 @@ android {
             keyAlias 'UCanIUpExpert.keystore'
             keyPassword 'lczgywzyy'
             storePassword 'lczgywzyy'
-            storeFile file('K:/UCanIUpExpert.keystore')
         }
     }
     compileSdkVersion 22
