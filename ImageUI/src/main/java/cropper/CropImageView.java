@@ -217,6 +217,22 @@ public class CropImageView extends FrameLayout {
     }
 
     /**
+     * Sets a Bitmap as the content of the mimageview.without overlap
+     *
+     * @param bitmap the Bitmap to set
+     */
+    public void setImageView(Bitmap bitmap) {
+        if(mBitmap == bitmap) {
+            return;
+        }
+        // if we allocated the bitmap, release it as fast as possible
+        if (mBitmap != null && (mImageResource > 0 || mLoadedImageUri != null)) {
+            mBitmap.recycle();
+        }
+        mBitmap = bitmap;
+        mImageView.setImageBitmap(mBitmap);
+    }
+    /**
      * Sets a Bitmap as the content of the CropImageView.
      *
      * @param bitmap the Bitmap to set
@@ -391,6 +407,32 @@ public class CropImageView extends FrameLayout {
             mDegreesRotated = mDegreesRotated % 360;
         }
     }
+
+    /**
+     * Flip image horizon or vertical .
+     *
+     * @param type true for horizon & false for vertical
+     */
+    public void flipImage(Boolean type) {
+        if (mBitmap != null) {
+            Matrix matrix = new Matrix();
+            // if vertical
+            if(type == false) {
+                matrix.preScale(1.0f, -1.0f);
+            }
+            // if horizonal
+            else if(type == true) {
+                matrix.preScale(-1.0f, 1.0f);
+            }
+            Bitmap bitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+            setImageBitmap(bitmap);
+        }
+    }
+
+    public Bitmap getImage() {
+        return mBitmap;
+    }
+
 
     /**
      * Gets the cropped image based on the current crop window.

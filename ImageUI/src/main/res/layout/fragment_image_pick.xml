@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/cutout_1_framelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="360"
+        android:background="@color/gray_80"
+        android:layout_alignParentTop="true"
+        >
+        <ImageButton
+            android:id="@+id/load_image"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:src="@drawable/load_image"
+            android:scaleType="fitCenter"/>
+        </LinearLayout>
+
+        <!--中间工具栏-->
+        <RelativeLayout
+            android:layout_gravity="bottom"
+            android:id="@+id/match_1_middlebar"
+            android:background="@drawable/bg_gradual_change"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/actionbar">
+            <ImageButton
+                android:id="@+id/match_1_close_btn"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:padding="@dimen/btn_padding"
+                android:layout_width="@dimen/btn_outter"
+                android:layout_height="@dimen/btn_outter"
+                android:src="@drawable/icon_wrong"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true" />
+            <ImageButton
+                android:id="@+id/match_1_continue"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:padding="@dimen/btn_padding"
+                android:layout_width="@dimen/btn_outter"
+                android:layout_height="@dimen/btn_outter"
+                android:src="@drawable/icon_right"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+
+    <!--下方工具栏-->
+    <!--下方工具栏-->
+    <FrameLayout
+        android:id="@+id/libirarylayout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="160"
+        android:background="@color/white">
+
+        <include
+            layout="@layout/navigator_imageset_selected"/>
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -23,7 +23,7 @@
             android:layout_height="fill_parent"
             android:text="@string/brightness"
             android:textColor="@color/gray_80"
-            android:textSize="@dimen/textsize_small"
+            android:textSize="@dimen/textsize_micro"
             android:gravity="center"/>
 
         <SeekBar
@@ -58,7 +58,7 @@
             android:layout_height="fill_parent"
             android:text="@string/contrast"
             android:textColor="@color/gray_80"
-            android:textSize="@dimen/textsize_small"
+            android:textSize="@dimen/textsize_micro"
             android:gravity="center"/>
 
         <SeekBar
@@ -93,7 +93,7 @@
             android:layout_height="fill_parent"
             android:text="@string/saturation"
             android:textColor="@color/gray_80"
-            android:textSize="@dimen/textsize_small"
+            android:textSize="@dimen/textsize_micro"
             android:gravity="center"/>
         <SeekBar
             android:id="@+id/seekbar_saturation"

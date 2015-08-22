@@ -52,7 +52,6 @@ public class LibiraryActivity extends Fragment {
 //        getSupportActionBar().setTitle(R.string.libirary);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         viewPager.setAdapter(new TabViewPagerAdapter(getFragmentManager(),
                 view.getContext()));

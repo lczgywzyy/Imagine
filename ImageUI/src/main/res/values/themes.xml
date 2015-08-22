@@ -6,7 +6,7 @@
         name="MainToolbar" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorPrimary">@color/brightgreen</item>
         <item name="colorPrimaryDark">@color/darkgreen</item>
-        <item name="android:textColorPrimary">@color/gray_90</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
     </style>
 
     <!-- custom toolbar-->

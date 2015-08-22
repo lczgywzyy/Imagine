@@ -47,16 +47,8 @@ public class BitmapCache {
         return mImageViewImpl_collocate;
     }
 
-    public static CropImageView getCropImageView() {
-        return mcropImageView;
-    }
-
     public static void setImageViewImpl_collocate(ImageViewImpl_collocate imageViewImpl_collocate) {
         mImageViewImpl_collocate = imageViewImpl_collocate;
-    }
-
-    public static void setCropImageView(CropImageView cropImageView) {
-        mcropImageView = cropImageView;
     }
 
 }
