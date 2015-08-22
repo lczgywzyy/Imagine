@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.Queue;
  * Created by lczgywzyy on 2015/5/11.
  */
 public class ImageAlgrithms {
+
+    private static final String TAG = "u.can.i.up.imagine." + ImageAlgrithms.class;
+
 
     /** @author by http://www.28im.com/android/a203290.html, Edited by lcz.
      *  @param image 位图
@@ -89,6 +93,14 @@ public class ImageAlgrithms {
         }
         float ret = (float) (  Math.toDegrees(Math.atan2(c.y - b.y, c.x - b.x)
                 - Math.atan2(a.y - b.y, a.x - b.x)));
+//        if(ret >= 180){
+//            ret = 360 - ret;
+//        }else if(ret <= -180){
+//            ret = 360 + ret;
+//        }
+        if(ret < 0){
+            ret = 360 + ret;
+        }
         return ret;
     }
     /** @author lcz.
@@ -97,7 +109,7 @@ public class ImageAlgrithms {
      *  @return 如果重叠，返回重叠的最小值。
      *  @since  得到指定珠子是否重叠
      * */
-    public static int isOverlayed(List<Pearl> pearlList, RectF rectMotion){
+    public static int isOverlayed(List<Pearl> pearlList, RectF rectMotion, PointF mBgCenterPoint){
         if(pearlList == null || pearlList.isEmpty()){
             return -1;
         }
@@ -122,6 +134,21 @@ public class ImageAlgrithms {
                 }
             }
         }
-        return minKey1;
+        int index = -1;
+        if(minKey1 >= 0){
+            float angle1 = ImageAlgrithms.getPointsDegree(targetPoint, mBgCenterPoint, pearlList.get(minKey1 % pearlList.size()).getCenter());
+            float angle2 = ImageAlgrithms.getPointsDegree(targetPoint, mBgCenterPoint, pearlList.get((minKey1 + 1) % pearlList.size()).getCenter());
+            Log.d(TAG, "angle1:" + angle1);
+            Log.d(TAG, "angle2:" + angle2);
+            if(angle1 * angle2 <= 0){
+                Log.d(TAG, "BETWEEN!");
+                index = (minKey1 + 1) % pearlList.size();
+            } else{
+                Log.d(TAG, "BEFORE!");
+                index = minKey1 % pearlList.size();
+            }
+            Log.d(TAG, "插入点:" + index);
+        }
+        return index;
     }
 }

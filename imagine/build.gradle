@@ -5,8 +5,10 @@ android {
         MyKeystore {
             keyAlias 'UCanIUpExpert.keystore'
             keyPassword 'lczgywzyy'
+            storeFile file(
+                    'E:/UCanIUpExpert.keystore')
             storePassword 'lczgywzyy'
-            storeFile file('K:/UCanIUpExpert.keystore')
+            storeFile file('E:/UCanIUpExpert.keystore')
         }
     }
     compileSdkVersion 22
