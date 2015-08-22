@@ -14,17 +14,15 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import cropper.CropImageView;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.fragments.AdjustImageSetFragment;
-import u.can.i.up.ui.fragments.CropImageSetFragment;
 import u.can.i.up.ui.fragments.RotateImageSetFragment;
 import u.can.i.up.ui.fragments.RulerImageSetFragment;
 import u.can.i.up.ui.utils.BitmapCache;
@@ -79,8 +77,6 @@ public class ImageSetActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_set);
-
-
 //         Initialize components of the app
         final  CropImageView cropImageView = (CropImageView) findViewById(R.id.CropImageView);
         ImageButton loadimage = (ImageButton)findViewById(R.id.match_1_close_btn);
@@ -88,14 +84,6 @@ public class ImageSetActivity extends FragmentActivity {
 
         Uri photoUri = getIntent().getParcelableExtra("photoUri");
         cropImageView.setImageUri(photoUri);
-
-//        rotateButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                cropImageView.rotateImage(ROTATE_NINETY_DEGREES);
-//            }
-//        });
 
         crop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,18 +109,7 @@ public class ImageSetActivity extends FragmentActivity {
             }
         });
         initView();
-
-
     }
-
-//
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.activity_image_set, container, false);
-//
-//        return view;
-//
-//    }
 
     /**
      * 初始化组件
