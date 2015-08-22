@@ -48,6 +48,7 @@ public class ImageViewImpl_collocate extends View {
     private Paint mBorderPaint;
     private Paint mainPaint = null;
 
+
     /**
      * Bitmap Back  底图
      * Bitmap Motion 素材图片
@@ -86,6 +87,22 @@ public class ImageViewImpl_collocate extends View {
     PointF curPoint = new PointF();
     PointF rotateCenterP = new PointF();
     PointF deleteCenterP = new PointF();
+
+    private  boolean isInitTranslate;
+
+    float canvas_width_pre;
+
+    float canvas_height_pre;
+
+    float bitmap_width_pre ;
+
+    float bitmap_height_pre;
+
+    float bitmap_translate_y;
+
+    float bitmap_translate_x;
+
+    float scale_factor=1f;
 
     //记录所有珠子布局的List
     List<Pearl> mPearlList = new ArrayList<Pearl>();
@@ -131,10 +148,10 @@ public class ImageViewImpl_collocate extends View {
         bmpBack = BitmapCache.getBitmapcache();
         RectF tmpRectBack = new RectF(0, 0, bmpBack.getWidth(), bmpBack.getHeight());
         rectBack = new RectF(tmpRectBack);
-//        //背景图片缩放比例
-//        matrixBack.postScale(BitmapCache.getBackBmpScale(), BitmapCache.getBackBmpScale(), 0, 0);
-//        matrixBack.postTranslate(BitmapCache.getBackBmpTranslateX(), BitmapCache.getBackBmpTranslateY());
-//        matrixBack.mapRect(rectBack, tmpRectBack);
+        //背景图片缩放比例
+        //matrixBack.postScale(BitmapCache.getBackBmpScale(), BitmapCache.getBackBmpScale(), 0, 0);
+        //matrixBack.postTranslate(BitmapCache.getBackBmpTranslateX(), BitmapCache.getBackBmpTranslateY());
+        matrixBack.mapRect(rectBack, tmpRectBack);
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
         bmpDelete = BitmapFactory.decodeResource(getResources(), R.drawable.delete_icon);
         //画布参数
@@ -152,9 +169,13 @@ public class ImageViewImpl_collocate extends View {
 
         canvas.setDrawFilter(paintFilter);
 
-        if(bmpBack != null) {
-            canvas.drawBitmap(bmpBack, matrixBack, mainPaint);
+        if(!isInitTranslate) {
+            initTranslate(canvas, bmpBack);
+            matrixBack.postScale(1/scale_factor,1/scale_factor);
         }
+        canvas.translate(bitmap_translate_x,bitmap_translate_y);
+        canvas.drawBitmap(bmpBack,matrixBack,mainPaint);
+        //canvas.drawBitmap(bmpBack, matrixBack, mainPaint);
         if(mPearlList != null && !mPearlList.isEmpty()){
             for (Pearl pearl: mPearlList){
                 canvas.drawBitmap(pearl.getBitmap(), pearl.getMatrix(), null);
@@ -169,6 +190,44 @@ public class ImageViewImpl_collocate extends View {
         }
 //		canvas.drawCircle(picMidPoint.x, picMidPoint.y, 5, mainPaint);
     }
+
+
+    private void initTranslate(Canvas canvas,Bitmap bitmap){
+        float bitmap_width_post=0f;
+
+        float bitmap_height_post=0f;
+
+        canvas_width_pre = canvas.getWidth();
+
+        canvas_height_pre = canvas.getHeight();
+
+        bitmap_width_pre = bitmap.getWidth();
+
+        bitmap_height_pre = bitmap.getHeight();
+
+
+        if (canvas_width_pre > bitmap_width_pre && canvas_height_pre > bitmap_height_pre) {
+
+            bitmap_translate_x=(canvas_width_pre - bitmap_width_pre) / 2;
+
+            bitmap_translate_y= (canvas_height_pre - bitmap_height_pre) / 2;
+
+        } else {
+            //背景位图矩阵缩放
+            scale_factor = bitmap_width_pre / canvas_height_pre > bitmap_height_pre / canvas_height_pre ? bitmap_width_pre / canvas_height_pre : bitmap_height_pre / canvas_height_pre;
+
+            //画布移动和缩放
+            bitmap_width_post=bitmap_width_pre/scale_factor;
+            bitmap_height_post=bitmap_height_pre/scale_factor;
+
+            bitmap_translate_x=(canvas_width_pre - bitmap_width_post) / 2;
+
+            bitmap_translate_y=(canvas_height_pre - bitmap_height_post) / 2;
+
+        }
+        isInitTranslate=true;
+    }
+
 
 //    @Override
 //    public boolean onTouchEvent(MotionEvent event) {
@@ -254,14 +313,14 @@ public class ImageViewImpl_collocate extends View {
         float y = event.getY();
 
         switch (event.getAction()) {
-            //手指按下的时候
-            case MotionEvent.ACTION_DOWN:
-                prePoint.x = x;
-                prePoint.y = y;
+                //手指按下的时候
+                case MotionEvent.ACTION_DOWN:
+                    prePoint.x = x;
+                    prePoint.y = y;
                 //按到了旋转图标上
                 if(ImageAlgrithms.isInRect(x, y, rectRotate)){
                     status = ViewStatus.STATUS_ROTATE;
-                }else if(ImageAlgrithms.isInRect(x, y, rectDelete)){
+                }else if(ImageAlgrithms.isInRect(x, y ,rectDelete)){
                     status = ViewStatus.STATUS_DELETE;
                 }else if(ImageAlgrithms.isInRect(x, y, rectMotion)){
                     status = ViewStatus.STATUS_MOVE;
@@ -276,6 +335,8 @@ public class ImageViewImpl_collocate extends View {
                         RectF rectF=new RectF(0,0,bitmap.getWidth(), bitmap.getHeight());
 
                         pearl.getMatrix().mapRect(rectF);
+
+                        rectF.offset(bitmap_translate_x,bitmap_translate_y);
 
                         if(rectF.contains(x,y)){
                             index=mPearlList.size()-1-i;
@@ -500,12 +561,12 @@ public class ImageViewImpl_collocate extends View {
         //创建canvas
         Canvas canvas = new Canvas(bmpSave);
         //将背景图和表情画在bitmap上
-        canvas.drawBitmap(bmpBack, matrixBack, null);
+        canvas.drawBitmap(bmpBack, new Matrix(), null);
         //将素材画在bitmap上
         if(mPearlList != null && !mPearlList.isEmpty()){
             for (Pearl pearl: mPearlList){
-                Matrix tmpMatrix = pearl.getMatrix();
-                //tmpMatrix.postScale(1 / BitmapCache.getBackBmpScale(), 1/BitmapCache.getBackBmpScale(), 0, 0);
+                Matrix tmpMatrix = new Matrix(pearl.getMatrix());
+
                 canvas.drawBitmap(pearl.getBitmap(), tmpMatrix, null);
             }
         }
