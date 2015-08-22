@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -74,6 +75,7 @@ public class PearlBuildActivity extends Activity {
                     ballnum.setHint("请输入素珠个数(10-120)：");
                     ballnum.setWidth(withs);
                 }
+                pearlBuild.setBmpMotion(BitmapFactory.decodeResource(getResources(), R.drawable.emoji_1));
             }
         });
 
