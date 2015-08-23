@@ -18,6 +18,16 @@ public class HttpStatus <T>{
         private List<T> httpObj;
 
         private Bitmap bitmap;
+
+        public String getRectCode() {
+        return rectCode;
+        }
+
+        public void setRectCode(String rectCode) {
+        this.rectCode = rectCode;
+        }
+
+        private String rectCode;
         public int getHttpStatus() {
             return httpStatus;
         }

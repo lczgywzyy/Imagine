@@ -105,4 +105,6 @@
         <item>方形</item>
     </string-array>
     <string name="title_activity_personal">PersonalActivityActivity</string>
+    <string name="title_activity_login_activity_t">LoginActivityT</string>
+    <string name="title_activity_register">RegisterActivity</string>
 </resources>

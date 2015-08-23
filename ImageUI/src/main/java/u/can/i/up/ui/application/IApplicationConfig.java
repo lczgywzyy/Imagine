@@ -17,6 +17,20 @@ public class IApplicationConfig {
 
     public static final String HTTP_URL_BASE="http://45.55.12.70";
 
+    public static final String HTTP_URL_LOGIN="";
+
+    public static final int HTTP_REGISTER_CODE_SUCCESS=0;
+
+    public static final int HTTP_REGISTER_CODE_CP_ERROR=102;
+
+    public static final int HTTP_REGISTER_CODE_EX_ERROR=101;
+
+    public static final int HTTP_LOGIN_CODE_SUCCESS=0;
+
+    public static final int HTTP_LOGIN_CODE_FIAL=-1;
+
+
+
 
 
 

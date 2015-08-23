@@ -23,6 +23,10 @@ public class IApplication extends Application {
 
     public ArrayList<TMaterial> arrayListTMaterial=new ArrayList<>();
 
+    public String SMSAPPKEY;
+
+    public String SMSAPPSECRET;
+
 
     public boolean isLogin(){
             return  false;
@@ -61,6 +65,10 @@ public class IApplication extends Application {
             return  false;
         }
 
+
+    }
+
+    private void getSMSAppKey(){
 
     }
 

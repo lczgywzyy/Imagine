@@ -3,6 +3,7 @@ package u.can.i.up.ui.net;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 
@@ -66,6 +67,39 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
         this.classT=classT;
     }
 
+    public HttpManager(String url,HttpType type){
+        super();
+        this.url = url;
+        this.type = type;
+    }
+
+    public HttpManager(){
+
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setType(HttpType type) {
+        this.type = type;
+    }
+
+    public void setHashParam(HashMap<String, String> hashParam) {
+        this.hashParam = hashParam;
+    }
+
+    public void setFiles(File[] files) {
+        this.files = files;
+    }
+
+    public void setImgs(HashMap<String, SoftReference<Bitmap>> imgs) {
+        this.imgs = imgs;
+    }
+
+    public void setClassT(Class<T> classT) {
+        this.classT = classT;
+    }
 
     @Override
     protected void onPreExecute() {
@@ -107,7 +141,9 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
                 default:
                     return null;
             }
-
+            if(TextUtils.isEmpty(url)){
+                return null;
+            }
             httpStatus.setHttpStatus(urlConnection.getResponseCode());
             switch (urlConnection.getResponseCode()) {
                 case HttpURLConnection.HTTP_OK:
@@ -118,23 +154,29 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
                         InputStream netInput = urlConnection.getInputStream();
                         if (mimeType.contains("image/")) {
                             Bitmap bitmap = BitmapFactory.decodeStream(netInput);
-                            int width = bitmap.getWidth();
                             httpStatus.setBitmap(bitmap);
-                        } else if (mimeType.contains("/json")||mimeType.contains("text/html")) {
+                        } else if (mimeType.contains("/json")) {
                             BufferedReader reader = new BufferedReader(new InputStreamReader(netInput));
                             StringBuilder sb = new StringBuilder();
                             String line = null;
                             while ((line = reader.readLine()) != null) {
                                 sb.append(line + "\n");
                             }
-                            String jsonStr =  sb.toString();
+                            String jsonStr = sb.toString();
                             /**转换为T**/
                             List<T> list = JSON.parseArray(jsonStr, classT);
                             httpStatus.setHttpObj(list);
                             netInput.close();
+                        } else if (mimeType.contains("text/html")) {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(netInput));
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            String str = sb.toString();
+                            httpStatus.setRectCode(str);
                         }
-                    } else {
-                        return null;
                     }
 
                     httpStatus.setHttpMsg("connection success");
