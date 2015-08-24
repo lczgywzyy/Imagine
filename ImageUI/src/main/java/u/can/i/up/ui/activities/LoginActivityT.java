@@ -67,7 +67,7 @@ public class LoginActivityT extends ActionBarActivity implements View.OnClickLis
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            Bundle bundle=new Bundle();
+            Bundle bundle=msg.getData();
 
             String msgstr=bundle.getString("msg");
 
@@ -75,6 +75,10 @@ public class LoginActivityT extends ActionBarActivity implements View.OnClickLis
                 case IApplicationConfig.HTTP_LOGIN_CODE_SUCCESS:
                     //登录成功
                     Toast.makeText(getApplicationContext(),msgstr,Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent();
+                    intent.setClass(LoginActivityT.this, MainActivity.class);
+                    startActivity(intent);
+                    LoginActivityT.this.finish();
                     break;
                 case IApplicationConfig.HTTP_LOGIN_CODE_FIAL:
                     //登录失败
@@ -109,7 +113,7 @@ public class LoginActivityT extends ActionBarActivity implements View.OnClickLis
         HashMap<String,String> hashMap=new HashMap<>();
 
         hashMap.put("tel",edtPhone.getText().toString());
-        hashMap.put("ps",edtPsd.getText().toString());
+        hashMap.put("password",edtPsd.getText().toString());
 
         HttpLoginManager loginManager=HttpLoginManager.getHttpLoginManager(hashMap,(IApplication)getApplication());
         loginManager.bundHandlers(handler);

@@ -72,6 +72,12 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
         this.url = url;
         this.type = type;
     }
+    public HttpManager(String url,HttpType type,Class<T> classT){
+        super();
+        this.url = url;
+        this.classT=classT;
+        this.type = type;
+    }
 
     public HttpManager(){
 
@@ -155,7 +161,8 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
                         if (mimeType.contains("image/")) {
                             Bitmap bitmap = BitmapFactory.decodeStream(netInput);
                             httpStatus.setBitmap(bitmap);
-                        } else if (mimeType.contains("/json")) {
+                            httpStatus.setHttpMsg("connection success");
+                        } else if (mimeType.contains("/json")||mimeType.contains("text/html")) {
                             BufferedReader reader = new BufferedReader(new InputStreamReader(netInput));
                             StringBuilder sb = new StringBuilder();
                             String line = null;
@@ -164,9 +171,17 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
                             }
                             String jsonStr = sb.toString();
                             /**转换为T**/
-                            List<T> list = JSON.parseArray(jsonStr, classT);
-                            httpStatus.setHttpObj(list);
-                            netInput.close();
+                            try {
+                                T t = JSON.parseObject(jsonStr, classT);
+                                httpStatus.setHttpObj(t);
+                                httpStatus.setHttpMsg("connection success");
+                            }catch (Exception e){
+                                httpStatus.setHttpStatus(-1);
+                                httpStatus.setHttpMsg("io error");
+                            }finally {
+                                netInput.close();
+                            }
+
                         } else if (mimeType.contains("text/html")) {
                             BufferedReader reader = new BufferedReader(new InputStreamReader(netInput));
                             StringBuilder sb = new StringBuilder();
@@ -176,10 +191,9 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
                             }
                             String str = sb.toString();
                             httpStatus.setRectCode(str);
+                            httpStatus.setHttpMsg("connection success");
                         }
                     }
-
-                    httpStatus.setHttpMsg("connection success");
                     break;
                 case HttpURLConnection.HTTP_CLIENT_TIMEOUT:
                     httpStatus.setHttpMsg("connection timeout");

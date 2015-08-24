@@ -26,6 +26,7 @@ import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.beans.HttpStatus;
+import u.can.i.up.ui.beans.RegisterBean;
 import u.can.i.up.ui.net.HttpManager;
 
 public class RegisterActivity extends ActionBarActivity implements View.OnClickListener {
@@ -175,12 +176,13 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
 
         hashMapParameter.put("pw",edtPcd.getText().toString());
 
-        HttpManager<Integer> httpRegister=new HttpManager<Integer>("http://45.55.12.70/AppRegister", HttpManager.HttpType.POST,hashMapParameter,Integer.class){
+        HttpManager<RegisterBean> httpRegister=new HttpManager<RegisterBean>("http://45.55.12.70/AppRegister", HttpManager.HttpType.POST,hashMapParameter,RegisterBean.class){
             @Override
             protected void onPostExecute(HttpStatus s) {
                 super.onPostExecute(s);
                 //验证是否注册成功
-                int rect=Integer.parseInt(s.getRectCode().replace("\n",""));
+                RegisterBean reStatus=(RegisterBean)s.getHttpObj();
+                int rect=Integer.parseInt(reStatus.getRetCode().replace("\n",""));
                 if(rect== IApplicationConfig.HTTP_REGISTER_CODE_SUCCESS){
                     //注册成功,执行登录入口
                     Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_LONG).show();

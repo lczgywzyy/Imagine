@@ -15,7 +15,7 @@ public class HttpStatus <T>{
 
         private String httpMsg;
 
-        private List<T> httpObj;
+        private T httpObj;
 
         private Bitmap bitmap;
 
@@ -44,11 +44,11 @@ public class HttpStatus <T>{
             this.httpMsg = httpMsg;
         }
 
-        public List<T> getHttpObj() {
+        public T getHttpObj() {
             return httpObj;
         }
 
-        public void setHttpObj(List<T> httpObj) {
+        public void setHttpObj(T httpObj) {
             this.httpObj = httpObj;
         }
 

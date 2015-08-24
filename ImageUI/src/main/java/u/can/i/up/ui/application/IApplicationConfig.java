@@ -17,7 +17,7 @@ public class IApplicationConfig {
 
     public static final String HTTP_URL_BASE="http://45.55.12.70";
 
-    public static final String HTTP_URL_LOGIN="";
+    public static final String HTTP_URL_LOGIN="http://45.55.12.70/AppLoginVerify";
 
     public static final int HTTP_REGISTER_CODE_SUCCESS=0;
 

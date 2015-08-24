@@ -12,6 +12,46 @@ public class User {
 
     private String userEmail;
 
+    private String userType;
+
+    private String portrait;
+
+    private String tString;
+
+    private String eString;
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
+    }
+
+    public String gettString() {
+        return tString;
+    }
+
+    public void settString(String tString) {
+        this.tString = tString;
+    }
+
+    public String geteString() {
+        return eString;
+    }
+
+    public void seteString(String eString) {
+        this.eString = eString;
+    }
+
     public String getUserName() {
         return userName;
     }

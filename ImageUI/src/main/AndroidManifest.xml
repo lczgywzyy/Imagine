@@ -93,7 +93,7 @@
 
         <meta-data
             android:name="smsAppkey"
-            android:value="97381ce74383" />
+            android:value="97376c1c874e" />
         <meta-data
             android:name="smsAppSecret"
             android:value="ff5d1480b908596e2f79099930a6bac2" />

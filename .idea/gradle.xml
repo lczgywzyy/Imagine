@@ -3,8 +3,9 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../Gradle/gradle-2.2.1" />
         <option name="gradleJvm" value="1.7" />
         <option name="modules">
           <set>
@@ -14,7 +15,6 @@
             <option value="$PROJECT_DIR$/ImageUI" />
             <option value="$PROJECT_DIR$/ImageUtils" />
             <option value="$PROJECT_DIR$/ZoomImageView" />
-            <option value="$PROJECT_DIR$/android-gif-drawable-master" />
             <option value="$PROJECT_DIR$/imagine" />
           </set>
         </option>
