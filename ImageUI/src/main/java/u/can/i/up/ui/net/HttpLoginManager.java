@@ -122,7 +122,9 @@ public class HttpLoginManager {
         editor.putString("tstring",user.gettString());
 
         editor.commit();
-        setLogin();
+        iApplication.setUerinfo(user);
+
+        iApplication.setIsLogin(true);
 
     }
 
@@ -132,15 +134,34 @@ public class HttpLoginManager {
 
     }
 
-    public synchronized boolean isLogin(){
-        return isLogin;
-    }
-    private void setLogin(){
-        isLogin=true;
-    }
 
     public synchronized void loginOut(){
-        isLogin=false;
+        SharedPreferences preferences=iApplication.getSharedPreferences("auth", Application.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor=preferences.edit();
+
+        editor.remove("tokens");
+
+        editor.remove("username");
+
+        editor.remove("userphone");
+
+        editor.remove("useremail");
+
+        editor.remove("estring");
+
+        editor.remove("portait");
+
+        editor.remove("usertype");
+        editor.remove("tstring");
+
+        editor.commit();
+        iApplication.setUerinfo(null);
+
+        iApplication.setIsLogin(false);
+
+
+
     }
 
 

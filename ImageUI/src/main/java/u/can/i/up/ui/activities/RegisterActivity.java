@@ -2,6 +2,7 @@ package u.can.i.up.ui.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -101,8 +102,6 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
     private void getAppKeys(){
         SMSAPPKEY=getMetaDataValue("smsAppkey",this);
         SMSAPPSECRET=getMetaDataValue("smsAppSecret",this);
-        SMSAPPKEY="5887b8134af8";
-        SMSAPPSECRET="9cd46d6cf9908a297fbafeb75b7b19d3";
         initSDK();
     }
     private String getMetaDataValue(String name,Context context) {
@@ -187,6 +186,10 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
                     //注册成功,执行登录入口
                     Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_LONG).show();
                     //跳转至登录界面
+                    Intent intent=new Intent(RegisterActivity.this,LoginActivityT.class);
+
+                    RegisterActivity.this.startActivity(intent);
+
                 }else if(rect==IApplicationConfig.HTTP_REGISTER_CODE_EX_ERROR){
                     //手机号已被注册
                     Toast.makeText(getApplicationContext(),"该手机号码已经被注册",Toast.LENGTH_LONG).show();

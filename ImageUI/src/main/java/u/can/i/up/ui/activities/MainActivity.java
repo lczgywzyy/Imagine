@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.fragments.HomeFragment;
 import u.can.i.up.ui.customViews.ScrimInsetsFrameLayout;
 import u.can.i.up.ui.R;
@@ -60,7 +62,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Toolbar
         final Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
-
+        IApplication iApplication=(IApplication)getApplication();
+        if(iApplication.getIsLogin()){
+            User user=iApplication.getUerinfo();
+        }
         // Layout resources
         mFrameLayout_AccountView = (FrameLayout) findViewById(R.id.navigation_drawer_account_view);
         mNavDrawerEntriesRootView = (LinearLayout)findViewById(R.id.navigation_drawer_linearLayout_entries_root_view);

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
+import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.utils.UtilsDevice;
 
@@ -26,6 +27,10 @@ public class IApplication extends Application {
     public String SMSAPPKEY;
 
     public String SMSAPPSECRET;
+
+    private User uerinfo;
+
+    private boolean isLogin;
 
 
     public boolean isLogin(){
@@ -68,8 +73,20 @@ public class IApplication extends Application {
 
     }
 
-    private void getSMSAppKey(){
 
+    public synchronized User getUerinfo() {
+        return uerinfo;
+    }
+
+    public synchronized void setUerinfo(User uerinfo) {
+        this.uerinfo = uerinfo;
+    }
+
+    public synchronized void setIsLogin(boolean isLogin) {
+        this.isLogin = isLogin;
+    }
+    public synchronized boolean getIsLogin() {
+        return  isLogin;
     }
 
 }
