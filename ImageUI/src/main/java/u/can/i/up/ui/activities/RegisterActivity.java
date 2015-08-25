@@ -173,7 +173,7 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
 
         hashMapParameter.put("uname",edtUserName.getText().toString());
 
-        hashMapParameter.put("pw",edtPcd.getText().toString());
+        hashMapParameter.put("pw",edtPsd.getText().toString());
 
         HttpManager<RegisterBean> httpRegister=new HttpManager<RegisterBean>("http://45.55.12.70/AppRegister", HttpManager.HttpType.POST,hashMapParameter,RegisterBean.class){
             @Override

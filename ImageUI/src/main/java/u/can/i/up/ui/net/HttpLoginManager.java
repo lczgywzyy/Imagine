@@ -75,12 +75,12 @@ public class HttpLoginManager {
                         setLoginStatus(LoginBean.getUserInfo());
                         message.what = IApplicationConfig.HTTP_LOGIN_CODE_SUCCESS;
                         Bundle bundle = new Bundle();
-                        bundle.putString("msg", "登录成功");
+                        bundle.putString("msg", LoginBean.getMessage());
                         message.setData(bundle);
                     }else{
                         message.what=IApplicationConfig.HTTP_LOGIN_CODE_FIAL;
                         Bundle bundle=new Bundle();
-                        bundle.putString("msg","登录失败");
+                        bundle.putString("msg",LoginBean.getMessage());
                         message.setData(bundle);
                     }
                 }else if(s!=null){

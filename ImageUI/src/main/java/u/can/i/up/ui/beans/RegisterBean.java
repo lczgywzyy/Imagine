@@ -14,4 +14,14 @@ public class RegisterBean {
     public void setRetCode(String retCode) {
         RetCode = retCode;
     }
+
+    private String message;
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

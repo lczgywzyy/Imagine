@@ -8,6 +8,8 @@ public class LoginBean {
 
     private User UserInfo;
 
+    private String message;
+
     public String getRetCode() {
         return RetCode;
     }
@@ -18,6 +20,14 @@ public class LoginBean {
 
     public User getUserInfo() {
         return UserInfo;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public void setUserInfo(User userInfo) {
