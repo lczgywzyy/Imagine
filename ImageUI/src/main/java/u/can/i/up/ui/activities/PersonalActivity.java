@@ -1,15 +1,28 @@
 package u.can.i.up.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import org.w3c.dom.Text;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.beans.User;
+import u.can.i.up.ui.net.HttpLoginManager;
 
 public class PersonalActivity extends AppCompatActivity {
+    Button btnName;
+    Button btnEmail;
+    Button btnPhone;
+    Button btnLoginOut;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -33,6 +46,57 @@ public class PersonalActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         getSupportActionBar().setTitle(R.string.personal_activity);
+        initViews();
+
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        initData();
+    }
+    private void initViews(){
+        btnEmail=(Button)findViewById(R.id.username);
+        btnPhone=(Button)findViewById(R.id.userphone);
+        btnName=(Button)findViewById(R.id.username);
+        btnLoginOut=(Button)findViewById(R.id.login_out);
+
+    }
+    private void initData(){
+        IApplication iApplication=(IApplication)getApplication();
+        if(iApplication.getIsLogin()){
+            User user=iApplication.getUerinfo();
+            if(TextUtils.isEmpty(user.getUserEmail())){
+                btnEmail.setText("未认证");
+            }else{
+                btnEmail.setText(user.getUserEmail());
+            }
+
+            if(TextUtils.isEmpty(user.getUserName())){
+                btnName.setText(user.getPhoneNumber());
+            }else{
+                btnName.setText(user.getUserName());
+            }
+
+            if(TextUtils.isEmpty(user.getPhoneNumber())){
+                btnPhone.setText("未认证");
+            }else{
+                btnPhone.setText(user.getPhoneNumber());
+            }
+            btnLoginOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HttpLoginManager httpLoginManager=HttpLoginManager.getHttpLoginManagerLoginOut((IApplication) getApplication());
+                    httpLoginManager.loginOut();
+                    Intent intent=new Intent(PersonalActivity.this,LoginActivityT.class);
+                    startActivity(intent);
+                    PersonalActivity.this.finish();
+                }
+            });
+        }else{
+            Intent intent=new Intent(PersonalActivity.this,LoginActivityT.class);
+            startActivity(intent);
+            PersonalActivity.this.finish();
+        }
 
     }
 

@@ -6,9 +6,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,6 +55,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initialise();
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        initDrawer();
+    }
 
     /**
      * Bind, create and set up the resources
@@ -62,10 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Toolbar
         final Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
-        IApplication iApplication=(IApplication)getApplication();
-        if(iApplication.getIsLogin()){
-            User user=iApplication.getUerinfo();
-        }
         // Layout resources
         mFrameLayout_AccountView = (FrameLayout) findViewById(R.id.navigation_drawer_account_view);
         mNavDrawerEntriesRootView = (LinearLayout)findViewById(R.id.navigation_drawer_linearLayout_entries_root_view);
@@ -146,6 +149,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .add(R.id.main_activity_content_frame, HomeFragment.newInstance(bundle))
                 .commit();
     }
+    private void initDrawer(){
+        IApplication iApplication=(IApplication)getApplication();
+        LinearLayout linLoginShow=(LinearLayout)findViewById(R.id.login_show);
+        TextView txtname=(TextView)findViewById(R.id.navigation_drawer_account_information_display_name);
+        Button btn=(Button)findViewById(R.id.btn_login);
+        if(iApplication.getIsLogin()){
+            User user=iApplication.getUerinfo();
+            linLoginShow.setVisibility(View.VISIBLE);
+            btn.setVisibility(View.GONE);
+            if(TextUtils.isEmpty(user.getUserName())) {
+                txtname.setText(user.getPhoneNumber());
+            }else{
+                txtname.setText(user.getUserName());
+            }
+        }else {
+            linLoginShow.setVisibility(View.GONE);
+            btn.setVisibility(View.VISIBLE);
+        }
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,LoginActivityT.class);
+                startActivity(intent);
+            }
+        });
+
+
+    }
+
 //select drawer
     @Override
     public void onClick(View view)

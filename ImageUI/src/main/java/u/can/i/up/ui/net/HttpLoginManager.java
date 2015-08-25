@@ -48,7 +48,15 @@ public class HttpLoginManager {
         httpLoginManager.setiApplication(iApplication);
         return httpLoginManager;
     }
+    public synchronized static HttpLoginManager getHttpLoginManagerLoginOut(IApplication iApplication){
+        if(httpLoginManager==null){
+            httpLoginManager=new HttpLoginManager();
 
+        }else {
+        }
+        httpLoginManager.setiApplication(iApplication);
+        return  httpLoginManager;
+    }
     public void setiApplication(IApplication iApplication){
         this.iApplication=iApplication;
     }
