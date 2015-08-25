@@ -87,7 +87,7 @@ public class PersonalActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     HttpLoginManager httpLoginManager=HttpLoginManager.getHttpLoginManagerLoginOut((IApplication) getApplication());
                     httpLoginManager.loginOut();
-                    Intent intent=new Intent(PersonalActivity.this,LoginActivityT.class);
+                    Intent intent=new Intent(PersonalActivity.this,MainActivity.class);
                     startActivity(intent);
                     PersonalActivity.this.finish();
                 }
