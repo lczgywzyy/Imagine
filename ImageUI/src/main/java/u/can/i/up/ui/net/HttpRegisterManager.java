@@ -29,17 +29,20 @@ public class HttpRegisterManager extends IHttpManager<IRegisterBean> {
             Bundle bundle=new Bundle();
             bundle.putSerializable(IApplicationConfig.HTTP_BEAN, IRegisterBean);
             bundle.putString(IApplicationConfig.MESSAGE, IRegisterBean.getMessage());
+            message.setData(bundle);
             handler.sendMessage(message);
 
         }else if(status.getHttpStatus()==-1){
             message.what=IApplicationConfig.HTTP_NET_ERROR;
             Bundle bundle=new Bundle();
             bundle.putString(IApplicationConfig.MESSAGE,IApplicationConfig.HTTP_NET_ERROR_MSG );
+            message.setData(bundle);
             handler.sendMessage(message);
         }else {
             message.what=IApplicationConfig.HTTP_NET_TIMEOUT;
             Bundle bundle=new Bundle();
             bundle.putString(IApplicationConfig.MESSAGE,IApplicationConfig.HTTP_NET_TIMEOUT_MSG );
+            message.setData(bundle);
             handler.sendMessage(message);
         }
         handler=null;
@@ -49,23 +52,22 @@ public class HttpRegisterManager extends IHttpManager<IRegisterBean> {
     public void Progress(Integer... values) {
 
     }
-    private  HttpRegisterManager(){
+    private  HttpRegisterManager() {
         super(IRegisterBean.class);
-        httpRegisterManager.boundUrl(IApplicationConfig.HTTP_URL_REGISTER);
-
     }
     public static HttpRegisterManager getRegisterHttpInstance(){
         if(httpRegisterManager==null){
             httpRegisterManager=new HttpRegisterManager();
         }
+        httpRegisterManager.initHttpManager(IRegisterBean.class);
+        httpRegisterManager.boundUrl(IApplicationConfig.HTTP_URL_REGISTER);
+        httpRegisterManager.boundType(HttpManager.HttpType.POST);
         return httpRegisterManager;
     }
     public void boundHandler(Handler handler){
         this.handler=handler;
     }
-    public void boundParameter(HashMap<String,String> hashMapParameter){
-        httpRegisterManager.boundParameter(hashMapParameter);
-    }
+
 
 
 }

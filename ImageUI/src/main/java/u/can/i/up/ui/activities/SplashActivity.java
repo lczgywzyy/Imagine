@@ -6,18 +6,24 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
+import u.can.i.up.ui.beans.ILoginBean;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
+import u.can.i.up.ui.net.HttpLoginManager;
 import u.can.i.up.ui.net.HttpManager;
 
 /**
@@ -57,65 +63,83 @@ public class SplashActivity extends Activity {
             ((IApplication) getApplication()).arrayListPearlBeans = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
             ((IApplication) getApplication()).arrayListTMaterial = ((IApplication) getApplication()).psqLiteOpenHelper.getTMaterials();
         }
-        new Handler().postDelayed(new Runnable() {
+        autologin();
+
+
+    }
+
+    private void autologin(){
+        SharedPreferences sharedPreferences=getSharedPreferences("auth",Activity.MODE_PRIVATE);
+
+        String tel=sharedPreferences.getString("userphone",null);
+        String eString=sharedPreferences.getString("estring",null);
+        String tString=sharedPreferences.getString("tstring",null);
+        String tokenString=sharedPreferences.getString("tokens",null);
+
+        if(!(TextUtils.isEmpty(tel)||TextUtils.isEmpty(eString)||TextUtils.isEmpty(tString)||TextUtils.isEmpty(tokenString))){
+            HashMap<String,String> hashMap=new HashMap<>();
+            hashMap.put("tel",tel);
+            hashMap.put("eString",eString);
+            hashMap.put("tString",tString);
+            hashMap.put("tokenString",tokenString);
+            WeakReference<Handler> handlerWeakReference=new WeakReference<Handler>(new Handler(){
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+
+                    Bundle bundle=msg.getData();
+
+
+                    switch (msg.what) {
+                        case IApplicationConfig.HTTP_NET_SUCCESS:
+                            //登录成功
+
+                            ILoginBean ILoginBean = (ILoginBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
+
+                            if (ILoginBean != null && Integer.parseInt(ILoginBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
+
+                                HttpLoginManager.setLoginStatus(ILoginBean.getData(), (IApplication) getApplication());
+                            }
+                            break;
+                        case IApplicationConfig.HTTP_NET_ERROR:
+                            //登录失败
+                            break;
+                        case IApplicationConfig.HTTP_NET_TIMEOUT:
+                            break;
+                    }
+                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(i);
+                }
+            });
+            HttpLoginManager httpLoginManager=HttpLoginManager.getHttpLoginManagerTInstance();
+            httpLoginManager.boundHandler(handlerWeakReference.get());
+            httpLoginManager.boundParameter(hashMap);
+            httpLoginManager.boundUrl(IApplicationConfig.HTTP_URL_Q_LOGIN);
+            httpLoginManager.execute();
+
+        }else{
+            new Handler().postDelayed(new Runnable() {
 
             /*
              * Showing splash screen with a timer. This will be useful when you
              * want to show case your app logo / company
              */
 
-            @Override
-            public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
-                Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(i);
+                @Override
+                public void run() {
+                    // This method will be executed once the timer is over
+                    // Start your app main activity
+                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(i);
 
-                // close this activity
-                finish();
-            }
-        }, SPLASH_TIME_OUT);
-
-
-    }
-
-    private void testUpload(){
-
-        HashMap<String,String> param=new HashMap<>();
-        param.put("name","Pengp");
-        param.put("password","password");
-
-        File[] files=new File[10];
-
-        for(int i=1;i<11;i++){
-            File file=new File(IApplicationConfig.DIRECTORY_SMATERIAL+File.separator+"emoji_"+String.valueOf(i)+".png");
-            files[i-1]=file;
-
+                    // close this activity
+                    finish();
+                }
+            }, SPLASH_TIME_OUT);
         }
 
-        HttpManager<PearlBeans> http=new HttpManager<>("http://192.168.106.1:39915/getPearls.ashx", HttpManager.HttpType.POST,param,PearlBeans.class,null,files);
-
-        http.execute();
-
 
     }
-
-    private void testGet(){
-        HashMap<String,String> param=new HashMap<>();
-        HttpManager<PearlBeans> http=new HttpManager<>("http://45.55.12.70/AppImageFetch?username=%E6%9D%8E%E6%89%BF%E6%B3%BD&email=xyq547133@163.com&tString=MjAxNS0wOC0wMSAyMjo1MToyMA==&eString=af1de97da311c37feaecde33ba87c6b0&tokenString=TWpBeE5TMHdPQzB3TVNBeU1qbzFNVG95TUE9PWFmMWRlOTdkYTMxMWMzN2ZlYWVjZGUzM2JhODdjNmIw&category=1&type=1", HttpManager.HttpType.GET,param,PearlBeans.class);
-        http.execute();
-    }
-
-
-
-    private void testPost(){
-        HashMap<String,String> param=new HashMap<>();
-        param.put("name","Pengp");
-        param.put("password","password");
-        HttpManager<PearlBeans> http=new HttpManager<>("http://192.168.106.1:39915/getPearls.ashx", HttpManager.HttpType.POST,param,PearlBeans.class);
-        http.execute();
-    }
-
 
     private  void copyAssetDirToFiles()
             throws IOException {

@@ -41,11 +41,13 @@ public class HttpLoginManager extends IHttpManager<ILoginBean>{
             message.what=IApplicationConfig.HTTP_NET_ERROR;
             Bundle bundle=new Bundle();
             bundle.putString(IApplicationConfig.MESSAGE,IApplicationConfig.HTTP_NET_ERROR_MSG );
+            message.setData(bundle);
             handler.sendMessage(message);
         }else {
             message.what=IApplicationConfig.HTTP_NET_TIMEOUT;
             Bundle bundle=new Bundle();
             bundle.putString(IApplicationConfig.MESSAGE,IApplicationConfig.HTTP_NET_TIMEOUT_MSG );
+            message.setData(bundle);
             handler.sendMessage(message);
         }
         handler=null;
@@ -57,25 +59,23 @@ public class HttpLoginManager extends IHttpManager<ILoginBean>{
     }
     private HttpLoginManager(){
         super(ILoginBean.class);
-        httpLoginManagerT.boundUrl(IApplicationConfig.HTTP_URL_LOGIN);
     }
 
     public static HttpLoginManager getHttpLoginManagerTInstance(){
         if(httpLoginManagerT==null){
             httpLoginManagerT=new HttpLoginManager();
         }
+        httpLoginManagerT.initHttpManager(ILoginBean.class);
+        httpLoginManagerT.boundUrl(IApplicationConfig.HTTP_URL_LOGIN);
+        httpLoginManagerT.boundType(HttpManager.HttpType.POST);
         return httpLoginManagerT;
     }
     public void boundHandler(Handler handler){
         this.handler=handler;
     }
-    public void boundParameter(HashMap<String,String> hashMapParameter){
-        httpLoginManagerT.boundParameter(hashMapParameter);
-    }
 
     public static synchronized void loginOut(IApplication iApplication){
         SharedPreferences preferences=iApplication.getSharedPreferences("auth", Application.MODE_PRIVATE);
-
         SharedPreferences.Editor editor=preferences.edit();
 
         editor.remove("tokens");
