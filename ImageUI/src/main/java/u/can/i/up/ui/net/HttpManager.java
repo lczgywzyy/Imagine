@@ -20,13 +20,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import u.can.i.up.ui.beans.HttpStatus;
+import u.can.i.up.ui.beans.IHttpStatus;
 import u.can.i.up.ui.utils.StringUtils;
 
-public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
+public class HttpManager<T> extends AsyncTask<Integer, Integer, IHttpStatus> {
 
 
     private String url;
@@ -113,7 +112,7 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
     }
 
     @Override
-    protected void onPostExecute(u.can.i.up.ui.beans.HttpStatus s) {
+    protected void onPostExecute(IHttpStatus s) {
 
         super.onPostExecute(s);
     }
@@ -124,7 +123,7 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
     }
 
     @Override
-    protected void onCancelled(u.can.i.up.ui.beans.HttpStatus s) {
+    protected void onCancelled(IHttpStatus s) {
         super.onCancelled(s);
     }
 
@@ -134,8 +133,8 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
     }
 
     @Override
-    protected u.can.i.up.ui.beans.HttpStatus<T> doInBackground(Integer... params) {
-        HttpStatus<T> httpStatus = new HttpStatus<>();
+    protected IHttpStatus<T> doInBackground(Integer... params) {
+        IHttpStatus<T> IHttpStatus = new IHttpStatus<>();
         try {
             switch (type) {
                 case POST:
@@ -150,7 +149,7 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
             if(TextUtils.isEmpty(url)){
                 return null;
             }
-            httpStatus.setHttpStatus(urlConnection.getResponseCode());
+            IHttpStatus.setHttpStatus(urlConnection.getResponseCode());
             switch (urlConnection.getResponseCode()) {
                 case HttpURLConnection.HTTP_OK:
 
@@ -160,8 +159,7 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
                         InputStream netInput = urlConnection.getInputStream();
                         if (mimeType.contains("image/")) {
                             Bitmap bitmap = BitmapFactory.decodeStream(netInput);
-                            httpStatus.setBitmap(bitmap);
-                            httpStatus.setHttpMsg("connection success");
+                            IHttpStatus.setBitmap(bitmap);
                         } else if (mimeType.contains("/json")||mimeType.contains("text/html")) {
                             BufferedReader reader = new BufferedReader(new InputStreamReader(netInput));
                             StringBuilder sb = new StringBuilder();
@@ -173,51 +171,28 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, HttpStatus> {
                             /**转换为T**/
                             try {
                                 T t = JSON.parseObject(jsonStr, classT);
-                                httpStatus.setHttpObj(t);
-                                httpStatus.setHttpMsg("connection success");
+                                IHttpStatus.setHttpObj(t);
                             }catch (Exception e){
-                                httpStatus.setHttpStatus(-1);
-                                httpStatus.setHttpMsg("io error");
+                                IHttpStatus.setHttpStatus(-1);
                             }finally {
                                 netInput.close();
                             }
 
-                        } else if (mimeType.contains("text/html")) {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(netInput));
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            String str = sb.toString();
-                            httpStatus.setRectCode(str);
-                            httpStatus.setHttpMsg("connection success");
                         }
                     }
                     break;
-                case HttpURLConnection.HTTP_CLIENT_TIMEOUT:
-                    httpStatus.setHttpMsg("connection timeout");
-                    break;
-                case HttpURLConnection.HTTP_FORBIDDEN:
 
-                    httpStatus.setHttpMsg("connection unauthorized");
-                    break;
-                case HttpURLConnection.HTTP_NOT_FOUND:
-                    httpStatus.setHttpMsg("connection not found");
-                    break;
                 default:
-                    httpStatus.setHttpMsg("others error");
                     break;
 
             }
 
         } catch (IOException e) {
-            httpStatus.setHttpStatus(-1);
-            httpStatus.setHttpMsg("io error");
+            IHttpStatus.setHttpStatus(-1);
         } finally {
             urlConnection.disconnect();
         }
-        return httpStatus;
+        return IHttpStatus;
     }
 
     private void initConnection() throws IOException {

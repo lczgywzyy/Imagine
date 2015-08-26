@@ -1,9 +1,7 @@
 package u.can.i.up.ui.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Message;
@@ -11,24 +9,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.os.Handler;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
 import u.can.i.up.ui.R;
-import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
-import u.can.i.up.ui.beans.HttpStatus;
-import u.can.i.up.ui.beans.RegisterBean;
-import u.can.i.up.ui.net.HttpManager;
+import u.can.i.up.ui.beans.IRegisterBean;
+import u.can.i.up.ui.net.HttpRegisterManager;
 
 public class RegisterActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -173,14 +169,14 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
 
         hashMapParameter.put("uname",edtUserName.getText().toString());
 
-        hashMapParameter.put("pw",edtPsd.getText().toString());
+        hashMapParameter.put("pw", edtPsd.getText().toString());
 
-        HttpManager<RegisterBean> httpRegister=new HttpManager<RegisterBean>("http://45.55.12.70/AppRegister", HttpManager.HttpType.POST,hashMapParameter,RegisterBean.class){
+    /*    HttpManager<IRegisterBean> httpRegister=new HttpManager<IRegisterBean>("http://45.55.12.70/AppRegister", HttpManager.HttpType.POST,hashMapParameter,IRegisterBean.class){
             @Override
-            protected void onPostExecute(HttpStatus s) {
+            protected void onPostExecute(IHttpStatus s) {
                 super.onPostExecute(s);
                 //验证是否注册成功
-                RegisterBean reStatus=(RegisterBean)s.getHttpObj();
+                IRegisterBean reStatus=(IRegisterBean)s.getHttpObj();
                 int rect=Integer.parseInt(reStatus.getRetCode().replace("\n",""));
                 if(rect== IApplicationConfig.HTTP_REGISTER_CODE_SUCCESS){
                     //注册成功,执行登录入口
@@ -199,9 +195,46 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
                 }
             }
         };
-        httpRegister.execute();
+        httpRegister.execute();*/
+
+        HttpRegisterManager httpRegisterManager=HttpRegisterManager.getRegisterHttpInstance();
+
+        httpRegisterManager.boundParameter(hashMapParameter);
+
+        WeakReference<Handler> handlerWeakReference=new WeakReference<Handler>(new Handler(){
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                Bundle bundle=msg.getData();
+                String messagestr=bundle.getString(IApplicationConfig.MESSAGE);
+                Toast.makeText(getApplicationContext(),messagestr,Toast.LENGTH_LONG).show();
+                switch (msg.what){
+                    case IApplicationConfig.HTTP_NET_SUCCESS:
+
+                        IRegisterBean IRegisterBean =(IRegisterBean)bundle.get(IApplicationConfig.HTTP_BEAN);
+                        //注册成功
+                        if(Integer.parseInt(IRegisterBean.getRetCode())==IApplicationConfig.HTTP_CODE_SUCCESS) {
+
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivityT.class);
+
+                            RegisterActivity.this.startActivity(intent);
+                        }
+                        break;
+                    case IApplicationConfig.HTTP_NET_ERROR:
+                        //网络未连接
+                        break;
+                    case IApplicationConfig.HTTP_NET_TIMEOUT:
+                        //网络连接超时、服务器错误、字符解析失败
+                        break;
+                }
+
+            }
+        });
+        httpRegisterManager.boundHandler(handlerWeakReference.get());
+
+        httpRegisterManager.execute();
 
     }
+
 
     private boolean vertifyInput(){
 

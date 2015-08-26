@@ -1,12 +1,14 @@
 package u.can.i.up.ui.beans;
 
+import java.io.Serializable;
+
 /**
  * Created by MZH on 2015/8/25.
  */
-public class LoginBean {
+public class ILoginBean implements Serializable{
     private String RetCode;
 
-    private User UserInfo;
+    private User data;
 
     private String message;
 
@@ -18,10 +20,6 @@ public class LoginBean {
         RetCode = retCode;
     }
 
-    public User getUserInfo() {
-        return UserInfo;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -30,7 +28,11 @@ public class LoginBean {
         this.message = message;
     }
 
-    public void setUserInfo(User userInfo) {
-        UserInfo = userInfo;
+    public User getData() {
+        return data;
+    }
+
+    public void setData(User data) {
+        this.data = data;
     }
 }

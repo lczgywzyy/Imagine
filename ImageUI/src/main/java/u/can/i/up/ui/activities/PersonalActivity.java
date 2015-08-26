@@ -1,17 +1,13 @@
 package u.can.i.up.ui.activities;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
-import org.w3c.dom.Text;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
@@ -85,8 +81,8 @@ public class PersonalActivity extends AppCompatActivity {
             btnLoginOut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HttpLoginManager httpLoginManager=HttpLoginManager.getHttpLoginManagerLoginOut((IApplication) getApplication());
-                    httpLoginManager.loginOut();
+                    HttpLoginManager httpLoginManager=HttpLoginManager.getHttpLoginManagerTInstance();
+                    httpLoginManager.loginOut((IApplication)getApplication());
                     Intent intent=new Intent(PersonalActivity.this,MainActivity.class);
                     startActivity(intent);
                     PersonalActivity.this.finish();

@@ -1,9 +1,11 @@
 package u.can.i.up.ui.beans;
 
+import java.io.Serializable;
+
 /**
  * Created by MZH on 2015/8/25.
  */
-public class RegisterBean {
+public class IRegisterBean implements Serializable{
 
     private String RetCode;
 

@@ -8,26 +8,16 @@ import java.util.List;
  * Created by Pengp on 2015/8/3.
  */
 
-public class HttpStatus <T>{
+public class IHttpStatus<T>{
 
 
         private int httpStatus;
 
-        private String httpMsg;
 
         private T httpObj;
 
         private Bitmap bitmap;
 
-        public String getRectCode() {
-        return rectCode;
-        }
-
-        public void setRectCode(String rectCode) {
-        this.rectCode = rectCode;
-        }
-
-        private String rectCode;
         public int getHttpStatus() {
             return httpStatus;
         }
@@ -36,13 +26,6 @@ public class HttpStatus <T>{
             this.httpStatus = httpStatus;
         }
 
-        public String getHttpMsg() {
-            return httpMsg;
-        }
-
-        public void setHttpMsg(String httpMsg) {
-            this.httpMsg = httpMsg;
-        }
 
         public T getHttpObj() {
             return httpObj;

@@ -19,7 +19,9 @@ public class IApplicationConfig {
 
     public static final String HTTP_URL_LOGIN="http://45.55.12.70/AppLoginVerify";
 
-    public static final int HTTP_REGISTER_CODE_SUCCESS=0;
+    public static final String HTTP_URL_REGISTER="http://45.55.12.70/AppRegister";
+
+    public static final int HTTP_CODE_SUCCESS=0;
 
     public static final int HTTP_REGISTER_CODE_CP_ERROR=102;
 
@@ -30,6 +32,21 @@ public class IApplicationConfig {
     public static final int HTTP_LOGIN_CODE_FIAL=-1;
 
 
+
+
+    public static final int HTTP_NET_TIMEOUT=0x10;
+
+    public static final int HTTP_NET_ERROR=0x11;
+
+    public static final int HTTP_NET_SUCCESS=0x12;
+
+    public static final String HTTP_BEAN="Bean";
+
+    public static final String HTTP_NET_ERROR_MSG="请检查网络连接..";
+
+    public static final String HTTP_NET_TIMEOUT_MSG="服务器连接超时,请稍候重试..";
+
+    public static final String MESSAGE="message";
 
 
 
