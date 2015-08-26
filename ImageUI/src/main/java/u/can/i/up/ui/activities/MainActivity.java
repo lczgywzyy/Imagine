@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FrameLayout mFrameLayout_AccountView;
     private LinearLayout mNavDrawerEntriesRootView;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-    private ScrimInsetsFrameLayout mScrimInsetsFrameLayout;
+    private FrameLayout mScrimInsetsFrameLayout;
     private FrameLayout mFrameLayout_Home, mFrameLayout_Libirary, mFrameLayout_Pearlbuild, mFrameLayout_MyAlbum, mFrameLayout_Setup;
     private TextView mTextView_AccountDisplayName, mTextView_AccountEmail;
     private TextView mTextView_Home, mTextView_Libirary, mTextView_Setup;
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Navigation Drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_DrawerLayout);
         mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.primaryDark));
-        mScrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.main_activity_navigation_drawer_rootLayout);
+        mScrimInsetsFrameLayout = (FrameLayout) findViewById(R.id.main_activity_navigation_drawer_rootLayout);
 
         mActionBarDrawerToggle = new ActionBarDrawerToggle
                 (
