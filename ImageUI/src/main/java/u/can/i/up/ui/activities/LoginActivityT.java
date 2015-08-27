@@ -104,7 +104,7 @@ public class LoginActivityT extends ActionBarActivity implements View.OnClickLis
                     case IApplicationConfig.HTTP_NET_SUCCESS:
                         //登录成功
 
-                        ILoginBean ILoginBean = (ILoginBean) bundle.get(IApplicationConfig.HTTP_BEAN);
+                        ILoginBean ILoginBean = (ILoginBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
                         Toast.makeText(getApplicationContext(), msgstr, Toast.LENGTH_LONG).show();
                         if (ILoginBean != null && Integer.parseInt(ILoginBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
 
@@ -128,6 +128,7 @@ public class LoginActivityT extends ActionBarActivity implements View.OnClickLis
         });
         HttpLoginManager httpLoginManager=HttpLoginManager.getHttpLoginManagerTInstance();
         httpLoginManager.boundHandler(handlerWeakReference.get());
+        httpLoginManager.boundParameter(hashMap);
         httpLoginManager.execute();
     }
 }

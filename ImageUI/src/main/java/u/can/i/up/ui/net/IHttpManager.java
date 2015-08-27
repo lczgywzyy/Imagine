@@ -14,9 +14,9 @@ import u.can.i.up.ui.beans.IHttpStatus;
 public  abstract  class IHttpManager<T> {
     private HttpManager<T> httpManager;
 
+    private Class<T> classT;
 
-
-    private synchronized void initHttpManager(Class<T> classT){
+    public synchronized void initHttpManager(Class<T> classT){
         if(httpManager!=null) {
             httpManager.cancel(true);
         }
@@ -37,15 +37,14 @@ public  abstract  class IHttpManager<T> {
         httpManager.setClassT(classT);
 
     }
-
-    public IHttpManager(Class<T> classT ){
-            initHttpManager(classT);
+    public IHttpManager(Class<T> classT){
+        this.classT=classT;
     }
 
     public synchronized void execute(){
-        if(!httpManager.isCancelled()){
+      /*  if(!httpManager.isCancelled()){
             httpManager.cancel(true);
-        }
+        }*/
         httpManager.execute();
     }
 
@@ -53,7 +52,7 @@ public  abstract  class IHttpManager<T> {
         this.httpManager.setType(httpType);
     }
 
-    public synchronized void boundParamrter(HashMap<String,String> hashMapParameter){
+    public synchronized void boundParameter(HashMap<String,String> hashMapParameter){
         this.httpManager.setHashParam(hashMapParameter);
     }
 

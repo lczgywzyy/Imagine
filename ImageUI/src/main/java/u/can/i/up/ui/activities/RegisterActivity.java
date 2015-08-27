@@ -22,8 +22,11 @@ import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
+import u.can.i.up.ui.beans.ILoginBean;
 import u.can.i.up.ui.beans.IRegisterBean;
+import u.can.i.up.ui.net.HttpLoginManager;
 import u.can.i.up.ui.net.HttpRegisterManager;
 
 public class RegisterActivity extends ActionBarActivity implements View.OnClickListener {
@@ -78,7 +81,7 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
     }
 
     private void initSDK(){
-        SMSSDK.initSDK(this,SMSAPPKEY,SMSAPPSECRET);
+        SMSSDK.initSDK(this, SMSAPPKEY, SMSAPPSECRET);
         EventHandler eh=new EventHandler(){
 
             @Override
@@ -210,14 +213,9 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
                 switch (msg.what){
                     case IApplicationConfig.HTTP_NET_SUCCESS:
 
-                        IRegisterBean IRegisterBean =(IRegisterBean)bundle.get(IApplicationConfig.HTTP_BEAN);
-                        //注册成功
-                        if(Integer.parseInt(IRegisterBean.getRetCode())==IApplicationConfig.HTTP_CODE_SUCCESS) {
-
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivityT.class);
-
-                            RegisterActivity.this.startActivity(intent);
-                        }
+                        IRegisterBean IRegisterBean =(IRegisterBean)bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
+                        //注册成功,调用登录接口
+                        login();
                         break;
                     case IApplicationConfig.HTTP_NET_ERROR:
                         //网络未连接
@@ -230,36 +228,78 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
             }
         });
         httpRegisterManager.boundHandler(handlerWeakReference.get());
-
         httpRegisterManager.execute();
 
     }
 
+    private void login(){
+        HashMap<String,String> hashMapParameter=new HashMap<>();
 
+        hashMapParameter.put("tel",edtPhone.getText().toString());
+
+
+        hashMapParameter.put("password", edtPsd.getText().toString());
+        WeakReference<Handler> handlerWeakReference=new WeakReference<Handler>(new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                Bundle bundle=msg.getData();
+
+                String msgstr=bundle.getString(IApplicationConfig.MESSAGE);
+
+                switch (msg.what) {
+                    case IApplicationConfig.HTTP_NET_SUCCESS:
+                        //登录成功
+
+                        ILoginBean ILoginBean = (ILoginBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
+                        if (ILoginBean != null && Integer.parseInt(ILoginBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
+
+                            HttpLoginManager.setLoginStatus(ILoginBean.getData(), (IApplication) getApplication());
+
+                            Intent intent = new Intent();
+                            intent.setClass(RegisterActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            RegisterActivity.this.finish();
+                        }
+                        break;
+                    case IApplicationConfig.HTTP_NET_ERROR:
+                        //登录失败
+                        break;
+                    case IApplicationConfig.HTTP_NET_TIMEOUT:
+                        break;
+                }
+            }
+        });
+        HttpLoginManager httpLoginManager=HttpLoginManager.getHttpLoginManagerTInstance();
+        httpLoginManager.boundHandler(handlerWeakReference.get());
+        httpLoginManager.boundParameter(hashMapParameter);
+        httpLoginManager.execute();
+    }
     private boolean vertifyInput(){
 
         if(TextUtils.isEmpty(edtPhone.getText().toString())){
-            Toast.makeText(this,"用户手机号码不能为空",Toast.LENGTH_LONG);
+            Toast.makeText(this,"用户手机号码不能为空",Toast.LENGTH_LONG).show();
             return false;
         }
         if(TextUtils.isEmpty(edtPcd.getText().toString())){
-            Toast.makeText(this,"用户短信验证码不能为空",Toast.LENGTH_LONG);
+            Toast.makeText(this,"用户短信验证码不能为空",Toast.LENGTH_LONG).show();
             return false;
         }
         if(TextUtils.isEmpty(edtUserName.getText().toString())){
-            Toast.makeText(this,"用户名不能为空",Toast.LENGTH_LONG);
+            Toast.makeText(this,"用户名不能为空",Toast.LENGTH_LONG).show();
             return false;
         }
         if(TextUtils.isEmpty(edtPsd.getText().toString())){
-            Toast.makeText(this,"用户密码不能为空",Toast.LENGTH_LONG);
+            Toast.makeText(this,"用户密码不能为空",Toast.LENGTH_LONG).show();
             return false;
         }
         if(TextUtils.isEmpty(edtPsdEn.getText().toString())){
-            Toast.makeText(this,"请确认用户密码",Toast.LENGTH_LONG);
+            Toast.makeText(this,"请确认用户密码",Toast.LENGTH_LONG).show();
             return false;
         }
         if(!TextUtils.equals(edtPsd.getText().toString(),edtPsdEn.getText().toString())){
-            Toast.makeText(this,"两次输入密码不一致,请重新确认",Toast.LENGTH_LONG);
+            Toast.makeText(this,"两次输入密码不一致,请重新确认",Toast.LENGTH_LONG).show();
             return false;
         }
 
