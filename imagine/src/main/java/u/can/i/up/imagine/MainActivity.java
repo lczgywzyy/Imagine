@@ -267,7 +267,7 @@ public class MainActivity extends ActionBarActivity {
 
         Button button14 = new Button(this);
         button14.setId(11400);
-        button14.setText("测试14：自由搭配(素珠/水滴型)");
+        button14.setText("测试14：自由搭配(圆链/初步完成)");
         RelativeLayout.LayoutParams lParams14 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
         lParams14.addRule(RelativeLayout.BELOW, 11200);
         mainLayout.addView(button14, lParams14);   //将按钮放入layout组件
@@ -277,6 +277,23 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(MainActivity.this, DrawPaintActivity.class);
                 Bundle bundleSimple = new Bundle();
                 bundleSimple.putInt("BUTTON", 14);
+                intent.putExtras(bundleSimple);
+                startActivity(intent);
+            }
+        });
+
+        Button button15 = new Button(this);
+        button15.setId(11500);
+        button15.setText("测试15：HoughCircles");
+        RelativeLayout.LayoutParams lParams15 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+        lParams15.addRule(RelativeLayout.BELOW, 11400);
+        mainLayout.addView(button15, lParams15);   //将按钮放入layout组件
+        button15.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DrawPaintActivity.class);
+                Bundle bundleSimple = new Bundle();
+                bundleSimple.putInt("BUTTON", 15);
                 intent.putExtras(bundleSimple);
                 startActivity(intent);
             }
