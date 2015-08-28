@@ -12,4 +12,11 @@
         <item>散珠,icon_sanzhu_1</item>
         <item>隔片,icon_gepian_1</item>
     </string-array>
+
+    <integer-array name="google_colors">
+        <item>@color/red</item>
+        <item>@color/blue</item>
+        <item>@color/yellow</item>
+        <item>@color/green</item>
+    </integer-array>
 </resources>

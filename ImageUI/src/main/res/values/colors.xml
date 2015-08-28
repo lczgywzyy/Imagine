@@ -37,6 +37,10 @@
     <color name="gray_20">#a9b7b7</color>
     <color name="gray_15">#eaeaea</color>
     <color name="gray_10">#f0f0f0</color>
+    <color name="red">#FFC93437</color>
+
+    <color name="yellow">#FFF7D23E</color>
+
     <!--透明颜色-->
     <color name="transparence_50_black">#5f000000</color>
     <color name="transparentbluegray">#3fa9b7b7</color>

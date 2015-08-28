@@ -14,11 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import u.can.i.up.ui.fragments.AdjustImageSetFragment;
-import u.can.i.up.ui.fragments.HomeFragment;
-import u.can.i.up.ui.customViews.ScrimInsetsFrameLayout;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.fragments.ImagePickFragment;
+import u.can.i.up.ui.fragments.MyPullRefreshFragment;
 import u.can.i.up.ui.utils.UtilsDevice;
 import u.can.i.up.ui.utils.UtilsMiscellaneous;
 
@@ -240,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // Insert the fragment by replacing any existing fragment
                         getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.main_activity_content_frame, HomeFragment.newInstance(bundle))
+                                .replace(R.id.main_activity_content_frame, MyPullRefreshFragment.newInstance(bundle))
                                 .commit();
                         break;
                     }
