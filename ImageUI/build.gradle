@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        MyKeystore {
+            keyAlias 'UCanIUpExpert.keystore'
+            keyPassword 'lczgywzyy'
+            storePassword 'lczgywzyy'
+            storeFile file('$projectDir/UCanIUpExpert.keystore')
+        }
+    }
     compileSdkVersion 22
     buildToolsVersion "21.1.2"
 
@@ -10,11 +18,16 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        signingConfig signingConfigs.MyKeystore
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.MyKeystore
+        }
+        debug {
+            signingConfig signingConfigs.MyKeystore
         }
     }
     task nativeLibsToJar(type: Zip, description: "create a jar archive of the native libs") {
