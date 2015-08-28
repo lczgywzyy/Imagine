@@ -3,6 +3,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         MyKeystore {
+            keyAlias 'UCanIUpExpert.keystore'
+            keyPassword 'lczgywzyy'
+            storePassword 'lczgywzyy'
+            storeFile file('K:/UCanIUpExpert.keystore')
         }
     }
     compileSdkVersion 22
@@ -29,8 +33,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile project(':ImageUtils')
     compile project(':ImageMagick')
+    compile project(':OpenCV')
 }

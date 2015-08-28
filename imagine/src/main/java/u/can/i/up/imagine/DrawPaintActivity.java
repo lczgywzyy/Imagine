@@ -613,6 +613,12 @@ public class DrawPaintActivity extends ActionBarActivity {
                     }
                 });
                 break;
+            case 15:
+                final ImageViewImpl_15 myView15 = new ImageViewImpl_15(this);
+                myView15.setId(11501);
+                RelativeLayout.LayoutParams lParams15 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
+                mainLayout.addView(myView15, lParams15);
+                break;
             default:
                 break;
         }
