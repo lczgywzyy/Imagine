@@ -107,4 +107,5 @@
     <string name="title_activity_personal">PersonalActivityActivity</string>
     <string name="title_activity_login_activity_t">LoginActivityT</string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_user_edit">UserEditActivity</string>
 </resources>

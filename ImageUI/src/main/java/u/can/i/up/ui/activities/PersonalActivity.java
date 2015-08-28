@@ -19,6 +19,7 @@ public class PersonalActivity extends AppCompatActivity {
     Button btnEmail;
     Button btnPhone;
     Button btnLoginOut;
+    Button btnEdit;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -55,6 +56,7 @@ public class PersonalActivity extends AppCompatActivity {
         btnPhone=(Button)findViewById(R.id.userphone);
         btnName=(Button)findViewById(R.id.username);
         btnLoginOut=(Button)findViewById(R.id.login_out);
+        btnEdit=(Button)findViewById(R.id.btn_edit);
 
     }
     private void initData(){
@@ -89,11 +91,17 @@ public class PersonalActivity extends AppCompatActivity {
                 }
             });
         }else{
-            Intent intent=new Intent(PersonalActivity.this,LoginActivityT.class);
+            Intent intent=new Intent(PersonalActivity.this,LoginActivity.class);
             startActivity(intent);
             PersonalActivity.this.finish();
         }
-
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(PersonalActivity.this,UserEditActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 //    @Override

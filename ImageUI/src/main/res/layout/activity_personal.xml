@@ -37,7 +37,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginRight="@dimen/margin"
-                android:background="@color/black"
+                android:background="@drawable/ic_account_circle_demo"
                 android:layout_gravity="right|center"
           />
         </FrameLayout>
@@ -181,26 +181,25 @@
 
     </LinearLayout>
 
+    <Button
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:text="退出当前账户"
+        android:id="@+id/login_out"
+        android:textSize="16sp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_brightgreen_green_rectangle"
+        android:layout_gravity="center_horizontal" />
 
-
-        <Button
-            android:layout_width="140dp"
-            android:layout_height="55dp"
-            android:text="退出当前账户"
-            android:gravity="center"
-            android:textSize="@dimen/textsize_medium"
-            android:id="@+id/login_out"
-            android:textColor="@color/white"
-            android:background="@drawable/btn_brightgreen_green_rectangle"
-            android:layout_gravity="center"
-            android:layout_marginTop="100dp"/>
-
-
-
-
-
-
-
+    <Button
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:text="编辑用户信息"
+        android:id="@+id/btn_edit"
+        android:textSize="16sp"
+        android:background="@drawable/btn_brightgreen_green_rectangle"
+        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>

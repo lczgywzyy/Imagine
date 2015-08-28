@@ -185,7 +185,7 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
                     //注册成功,执行登录入口
                     Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_LONG).show();
                     //跳转至登录界面
-                    Intent intent=new Intent(RegisterActivity.this,LoginActivityT.class);
+                    Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
 
                     RegisterActivity.this.startActivity(intent);
 

@@ -21,7 +21,7 @@ import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.beans.ILoginBean;
 import u.can.i.up.ui.net.HttpLoginManager;
 
-public class LoginActivityT extends ActionBarActivity implements View.OnClickListener {
+public class LoginActivity extends ActionBarActivity implements View.OnClickListener {
 
     private EditText edtPhone;
 
@@ -111,9 +111,9 @@ public class LoginActivityT extends ActionBarActivity implements View.OnClickLis
                             HttpLoginManager.setLoginStatus(ILoginBean.getData(),(IApplication)getApplication());
 
                             Intent intent = new Intent();
-                            intent.setClass(LoginActivityT.this, MainActivity.class);
+                            intent.setClass(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-                            LoginActivityT.this.finish();
+                            LoginActivity.this.finish();
                         }
                         break;
                     case IApplicationConfig.HTTP_NET_ERROR:
