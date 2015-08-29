@@ -15,6 +15,15 @@
     <string name="nav_drawer_setup">设置</string>
     <string name="nav_drawer_about">关于</string>
 
+    <!-- Pull to Refresh -->
+    <string name="pull_to_refresh_tap_label" translatable="false">点击刷新</string>
+    <string name="pull_to_refresh_pull_label" translatable="false">下拉刷新</string>
+    <string name="pull_to_refresh_release_label" translatable="false">松开可以刷新</string>
+    <string name="pull_to_refresh_refreshing_label" translatable="false">加载中&#8230;</string>
+    <string name="pull_to_refresh_update_time_label" translatable="false">上次更新时间 </string>
+    <string name="pull_to_refresh_load_label" translatable="false">上拉加载更多</string>
+    <string name="load_mode_label" translatable="false">加载更多</string>
+
 
     <string name="navigation_drawer_opened">The navigation drawer is opened</string>
     <string name="navigation_drawer_closed">The navigation drawer is closed</string>
@@ -110,4 +119,7 @@
     <string name="title_activity_login_activity_t">LoginActivityT</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_user_edit">UserEditActivity</string>
+
+
+
 </resources>

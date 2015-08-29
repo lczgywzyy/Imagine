@@ -21,6 +21,7 @@ import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.fragments.HomeFragment;
 import u.can.i.up.ui.customViews.ScrimInsetsFrameLayout;
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.fragments.MyAlbumFragment;
 import u.can.i.up.ui.utils.UtilsDevice;
 import u.can.i.up.ui.utils.UtilsMiscellaneous;
 
@@ -251,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // Insert the fragment by replacing any existing fragment
                         getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.main_activity_content_frame, HomeFragment.newInstance(bundle))
+                                .replace(R.id.main_activity_content_frame, MyAlbumFragment.newInstance(bundle))
                                 .commit();
                         break;
                     }

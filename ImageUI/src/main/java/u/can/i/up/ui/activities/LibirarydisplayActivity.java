@@ -84,7 +84,7 @@ public class LibirarydisplayActivity extends AppCompatActivity {
     }
 
     private void setGridView(){
-        gridView = (GridView) findViewById(R.id.gridView);
+        gridView = (GridView) findViewById(R.id.gridView_library);
         gridAdapter = new GridViewAdapter(this,pearlBeansArrayListSp);
         gridView.setAdapter(gridAdapter);
 
