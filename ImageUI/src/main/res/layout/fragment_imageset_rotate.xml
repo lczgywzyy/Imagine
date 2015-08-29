@@ -12,46 +12,45 @@
         android:background="@color/white"
         >
 
-            <ImageButton
-                android:id="@+id/crop_free"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/btn_imageset_leftturn"
-                android:background="@drawable/selector_common_pressed_50_back"
-                android:gravity="center"/>
-            <Space
-                android:layout_width="27dp"
-                android:layout_height="fill_parent" />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/btn_imageset_rightturn"
-                android:background="@drawable/selector_common_pressed_50_back"
-                android:gravity="center"/>
+        <ImageButton
+            android:id="@+id/rotate_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_imageset_leftturn"
+            android:background="@drawable/selector_common_pressed_50_back"
+            android:gravity="center"/>
+        <Space
+            android:layout_width="27dp"
+            android:layout_height="fill_parent" />
+        <ImageButton
+            android:id="@+id/rotate_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_imageset_rightturn"
+            android:background="@drawable/selector_common_pressed_50_back"
+            android:gravity="center"/>
 
-            <Space
-                android:layout_width="27dp"
-                android:layout_height="fill_parent" />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/btn_imageset_mirrorh"
-                android:background="@drawable/selector_common_pressed_50_back"
-                android:gravity="center"/>
-            <Space
-                android:layout_width="30dp"
-                android:layout_height="fill_parent" />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/btn_imageset_mirrorv"
-                android:background="@drawable/selector_common_pressed_50_back"
-                android:gravity="center"/>
-
-
+        <Space
+            android:layout_width="27dp"
+            android:layout_height="fill_parent" />
+        <ImageButton
+            android:id="@+id/flip_horizon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_imageset_mirrorh"
+            android:background="@drawable/selector_common_pressed_50_back"
+            android:gravity="center"/>
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="fill_parent" />
+        <ImageButton
+            android:id="@+id/flip_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_imageset_mirrorv"
+            android:background="@drawable/selector_common_pressed_50_back"
+            android:gravity="center"/>
 
     </LinearLayout>
-
-
 
 </FrameLayout>

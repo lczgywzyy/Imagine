@@ -50,9 +50,10 @@ public class ShareActivity extends Activity {
         back_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                exportImageByFinger(tempbitmap);
-                Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/OUTPUT_11.png", Toast.LENGTH_SHORT).show();
-                showImage();
+                startActivity(new Intent(ShareActivity.this, MainActivity.class));
+//                exportImageByFinger(tempbitmap);
+//                Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/OUTPUT_11.png", Toast.LENGTH_SHORT).show();
+//                showImage();
             }
         });
         cutout_1_close_btn.setOnClickListener(new View.OnClickListener() {

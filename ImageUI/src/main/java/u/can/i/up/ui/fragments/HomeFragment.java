@@ -55,15 +55,15 @@ public class HomeFragment extends Fragment {
         // The last two arguments ensure LayoutParams are inflated properly
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         Button collocation_start = (Button)view.findViewById(R.id.collocation_start);
-        Button libirary = (Button)view.findViewById(R.id.libirary);
+//        Button libirary = (Button)view.findViewById(R.id.libirary);
         Button pearlbuild = (Button)view.findViewById(R.id.pearlbuild);
 
-        libirary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), LibiraryActivity.class));
-            }
-        });
+//        libirary.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(view.getContext(), LibiraryActivity.class));
+//            }
+//        });
         collocation_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

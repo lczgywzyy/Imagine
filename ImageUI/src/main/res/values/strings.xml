@@ -5,11 +5,13 @@
     <!-- Toolbar titles -->
     <string name="toolbar_title_home">多宝串</string>
     <string name="toolbar_title_libirary">素材库</string>
+    <string name="toolbar_title_myalbum">我的相册</string>
     <string name="other_activity">设置</string>
 
     <!-- Navigation Drawer -->
     <string name="nav_drawer_item_home">首页</string>
-    <string name="nav_drawer_item_mylibirary">我的相册</string>
+    <string name="nav_drawer_item_libirary">素材库</string>
+    <string name="nav_drawer_item_myalbum">我的相册</string>
     <string name="nav_drawer_setup">设置</string>
     <string name="nav_drawer_about">关于</string>
 

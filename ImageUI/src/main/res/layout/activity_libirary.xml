@@ -5,9 +5,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <include
-        layout="@layout/toolbar"
-        />
+    <!--<include-->
+        <!--layout="@layout/toolbar"-->
+        <!--/>-->
 
     <!--added a elevation of 2dp for the shadow effect.-->
     <u.can.i.up.ui.customViews.SlidingTabLayout
