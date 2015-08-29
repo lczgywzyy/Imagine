@@ -5,6 +5,7 @@ import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,14 +30,14 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private Button btnLogin;
 
-    private TextView txtFgPsd;
+    private Button txtFgPsd;
 
-    private TextView txtRegister;
+    private Button txtRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_activity_t);
+        setContentView(R.layout.activity_login_new);
         initViews();
     }
 
@@ -44,8 +45,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         edtPhone=(EditText)findViewById(R.id.edtphone);
         edtPsd=(EditText)findViewById(R.id.edtpsd);
         btnLogin=(Button)findViewById(R.id.btnlogin);
-        txtFgPsd=(TextView)findViewById(R.id.txtfgpsd);
-        txtRegister=(TextView)findViewById(R.id.txtreg);
+        txtFgPsd=(Button)findViewById(R.id.txtfgpsd);
+        txtRegister=(Button)findViewById(R.id.txtreg);
         btnLogin.setOnClickListener(this);
         txtFgPsd.setOnClickListener(this);
         txtRegister.setOnClickListener(this);
@@ -131,4 +132,19 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         httpLoginManager.boundParameter(hashMap);
         httpLoginManager.execute();
     }
+
+        @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        }
+
 }
