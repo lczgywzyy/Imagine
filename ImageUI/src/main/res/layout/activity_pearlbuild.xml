@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/cutout_1_framelayout"
+        android:id="@+id/pearlbuild_framelayout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="360"
@@ -32,7 +32,7 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/actionbar">
             <ImageButton
-                android:id="@+id/match_1_close_btn"
+                android:id="@+id/pearlbuild_close_btn"
                 android:background="@drawable/selector_common_pressed_50_back"
                 android:padding="@dimen/btn_padding"
                 android:layout_width="@dimen/btn_outter"
@@ -41,7 +41,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true" />
             <ImageButton
-                android:id="@+id/match_1_continue"
+                android:id="@+id/pearlbuild_continue_btn"
                 android:background="@drawable/selector_common_pressed_50_back"
                 android:padding="@dimen/btn_padding"
                 android:layout_width="@dimen/btn_outter"

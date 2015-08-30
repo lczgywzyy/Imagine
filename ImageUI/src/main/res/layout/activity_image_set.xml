@@ -4,17 +4,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--<FrameLayout-->
-        <!--android:id="@+id/match_1_framelayout"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="816"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:background="@color/gray_80"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!-->-->
+
     <LinearLayout
-        android:id="@+id/cutout_1_framelayout"
+        android:id="@+id/imageset_framelayout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="360"
@@ -35,7 +27,7 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/actionbar">
             <ImageButton
-                android:id="@+id/match_1_close_btn"
+                android:id="@+id/imageset_close_btn"
                 android:background="@drawable/selector_common_pressed_50_back"
                 android:padding="@dimen/btn_padding"
                 android:layout_width="@dimen/btn_outter"
@@ -44,7 +36,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true" />
             <ImageButton
-                android:id="@+id/match_1_continue"
+                android:id="@+id/imageset_continue"
                 android:background="@drawable/selector_common_pressed_50_back"
                 android:padding="@dimen/btn_padding"
                 android:layout_width="@dimen/btn_outter"
@@ -54,11 +46,9 @@
                 android:layout_centerVertical="true" />
         </RelativeLayout>
 
-
-    <!--下方工具栏-->
     <!--下方工具栏-->
     <FrameLayout
-        android:id="@+id/libirarylayout"
+        android:id="@+id/imageset_libirarylayout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="160"

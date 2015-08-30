@@ -108,6 +108,7 @@ public class ImageViewImpl_PearlBuild extends View {
 
     public void setBmpSuzhu(Bitmap mbitmap){
         bmpSuzhu = mbitmap;
+        invalidate();
     }
 
     /** TODO 当且仅当构造函数中可以调用init()

@@ -13,9 +13,9 @@
         android:background="@color/gray_80"
         android:layout_alignParentTop="true"
         >
-        <u.can.i.up.ui.utils.ImageViewImpl_collocate
+        <u.can.i.up.ui.utils.ImageViewImpl_PearlBuild
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/ImageViewImpl_allocate"
+            android:id="@+id/ImageViewImpl_PearlBuild_allocate"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:adjustViewBounds="true"
@@ -31,7 +31,7 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/actionbar">
             <ImageButton
-                android:id="@+id/match_1_close_btn"
+                android:id="@+id/pearlbuild_collocate_close_btn"
                 android:background="@drawable/selector_common_pressed_50_back"
                 android:padding="@dimen/btn_padding"
                 android:layout_width="@dimen/btn_outter"
@@ -52,7 +52,7 @@
                 />
 
             <ImageButton
-                android:id="@+id/match_2_continue"
+                android:id="@+id/pearlbuild_collocate_continue_btn"
                 android:background="@drawable/selector_common_pressed_50_back"
                 android:padding="@dimen/btn_padding"
                 android:layout_width="@dimen/btn_outter"

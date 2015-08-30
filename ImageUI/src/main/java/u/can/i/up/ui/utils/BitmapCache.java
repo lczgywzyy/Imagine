@@ -13,7 +13,8 @@ public class BitmapCache {
     private static float backBmpTranslateX;
     private static float backBmpTranslateY;
     private static ImageViewImpl_collocate mImageViewImpl_collocate;
-    private static CropImageView mcropImageView;
+
+    private static ImageViewImpl_PearlBuild mImageViewImpl_PearlBuild;
 
     public static void setBitmapcache(Bitmap mbitmap){
         bitmapcache = mbitmap;
@@ -47,16 +48,16 @@ public class BitmapCache {
         return mImageViewImpl_collocate;
     }
 
-    public static CropImageView getCropImageView() {
-        return mcropImageView;
+    public static ImageViewImpl_PearlBuild getImageViewImpl_PearlBuild() {
+        return mImageViewImpl_PearlBuild;
     }
 
     public static void setImageViewImpl_collocate(ImageViewImpl_collocate imageViewImpl_collocate) {
         mImageViewImpl_collocate = imageViewImpl_collocate;
     }
 
-    public static void setCropImageView(CropImageView cropImageView) {
-        mcropImageView = cropImageView;
+    public static void setImageViewImpl_PearlBuild(ImageViewImpl_PearlBuild imageViewImpl_PearlBuild) {
+        mImageViewImpl_PearlBuild = imageViewImpl_PearlBuild;
     }
 
 }

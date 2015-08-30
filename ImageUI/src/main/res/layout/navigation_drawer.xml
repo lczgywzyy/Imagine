@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<u.can.i.up.ui.customViews.ScrimInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_activity_navigation_drawer_rootLayout"
     android:layout_width="fill_parent"
@@ -277,4 +277,4 @@
 
     </LinearLayout>
 
-</u.can.i.up.ui.customViews.ScrimInsetsFrameLayout>
+</LinearLayout>

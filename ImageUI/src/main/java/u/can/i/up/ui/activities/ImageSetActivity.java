@@ -32,15 +32,7 @@ import u.can.i.up.ui.utils.BitmapCache;
  * @data 2015.06.13
  * @sumary 底图照片修改页面：用户选择照片后，对照片进行裁剪，旋转，调整，比例尺
  */
-public class ImageSetActivity extends FragmentActivity {
-
-    // Static final constants
-    private static final int DEFAULT_ASPECT_RATIO_VALUES = 20;
-
-    private static final int ROTATE_NINETY_DEGREES = 90;
-    private static final Boolean IMAGE_LOADED = false;
-    // Instance variables
-    Bitmap croppedImage;
+public class ImageSetActivity extends FragmentActivity implements View.OnClickListener{
 
     /**
      * FragmentTabhost
@@ -71,50 +63,39 @@ public class ImageSetActivity extends FragmentActivity {
      *
      */
     private String mTextArray[] = { "旋转", "调整", "比例尺" };
-
+    // Instance variables
+    private Bitmap croppedImage;
+    private CropImageView cropImageView;
+    ImageButton closebtn;
+    ImageButton continuebtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_set);
-//         Initialize components of the app
-        final  CropImageView cropImageView = (CropImageView) findViewById(R.id.CropImageView);
-        ImageButton loadimage = (ImageButton)findViewById(R.id.match_1_close_btn);
-        ImageButton crop = (ImageButton)findViewById(R.id.match_1_continue);
-
-        Uri photoUri = getIntent().getParcelableExtra("photoUri");
-        cropImageView.setImageUri(photoUri);
-
-        crop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                croppedImage = cropImageView.getCroppedImage();
-                BitmapCache.setBitmapcache(croppedImage);
-                //设置缩放比例、背景图片移动距离
-                float tmpScaleX = ((float) cropImageView.getWidth()) / croppedImage.getWidth();
-                float tmpScaleY = ((float) cropImageView.getHeight()) / croppedImage.getHeight();
-                if (tmpScaleX <= tmpScaleY) {
-                    BitmapCache.setBackBmpScale(tmpScaleX);
-                    BitmapCache.setBackBmpTranslateX(0);
-                    BitmapCache.setBackBmpTranslateY(((float) cropImageView.getHeight() - (float) croppedImage.getHeight() * tmpScaleX) / 2);
-                } else {
-                    BitmapCache.setBackBmpScale(tmpScaleY);
-                    BitmapCache.setBackBmpTranslateX(((float) cropImageView.getWidth() - (float) croppedImage.getWidth() * tmpScaleY) / 2);
-                    BitmapCache.setBackBmpTranslateY(0);
-                }
-
-                Intent i = new Intent(view.getContext(), ImageCollocateActivity.class);
-                startActivity(i);
-
-            }
-        });
         initView();
+        initTabView();
     }
 
     /**
-     * 初始化组件
+     * 初始化界面
      */
     private void initView() {
+        //         Initialize components of the app
+        cropImageView = (CropImageView) findViewById(R.id.CropImageView);
+        closebtn = (ImageButton)findViewById(R.id.imageset_close_btn);
+        continuebtn = (ImageButton)findViewById(R.id.imageset_continue);
+        continuebtn.setOnClickListener(this);
+
+        Uri photoUri = getIntent().getParcelableExtra("photoUri");
+        cropImageView.setImageUri(photoUri);
+    }
+
+
+    /**
+     * 初始化Tab
+     */
+    private void initTabView() {
 
         mLayoutInflater = LayoutInflater.from(this);
         // 找到TabHost
@@ -149,4 +130,31 @@ public class ImageSetActivity extends FragmentActivity {
         return view;
     }
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imageset_continue:
+            {
+                croppedImage = cropImageView.getCroppedImage();
+                BitmapCache.setBitmapcache(croppedImage);
+                //设置缩放比例、背景图片移动距离
+                float tmpScaleX = ((float) cropImageView.getWidth()) / croppedImage.getWidth();
+                float tmpScaleY = ((float) cropImageView.getHeight()) / croppedImage.getHeight();
+                if (tmpScaleX <= tmpScaleY) {
+                    BitmapCache.setBackBmpScale(tmpScaleX);
+                    BitmapCache.setBackBmpTranslateX(0);
+                    BitmapCache.setBackBmpTranslateY(((float) cropImageView.getHeight() - (float) croppedImage.getHeight() * tmpScaleX) / 2);
+                } else {
+                    BitmapCache.setBackBmpScale(tmpScaleY);
+                    BitmapCache.setBackBmpTranslateX(((float) cropImageView.getWidth() - (float) croppedImage.getWidth() * tmpScaleY) / 2);
+                    BitmapCache.setBackBmpTranslateY(0);
+                }
+                Intent i = new Intent(ImageSetActivity.this, ImageCollocateActivity.class);
+                startActivity(i);
+                break;
+            }
+            default:
+        }
+    }
 }
