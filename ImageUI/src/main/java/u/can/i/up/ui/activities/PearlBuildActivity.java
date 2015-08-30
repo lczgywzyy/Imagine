@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,31 +32,22 @@ import u.can.i.up.ui.utils.ImageViewImpl_PearlBuild;
  */
 public class PearlBuildActivity extends Activity {
 
-    // Static final constants
-    private static final int DEFAULT_ASPECT_RATIO_VALUES = 20;
-
-    private static final int ROTATE_NINETY_DEGREES = 90;
-
-    private static final String ASPECT_RATIO_X = "ASPECT_RATIO_X";
-
-    private static final String ASPECT_RATIO_Y = "ASPECT_RATIO_Y";
-
-    private static final int ON_TOUCH = 1;
-
-    // Instance variables
-    private int mAspectRatioX = DEFAULT_ASPECT_RATIO_VALUES;
-
-    private int mAspectRatioY = DEFAULT_ASPECT_RATIO_VALUES;
-    int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    Bitmap croppedImage;
-    ProgressDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pearlbuild);
+        //init view
         final EditText ballnum = (EditText)findViewById(R.id.ballnumb);
         Button preview = (Button)findViewById(R.id.pearlbuildpreview);
+        ImageButton add_pearl = (ImageButton)findViewById(R.id.pearlbuild_add);
         final ImageViewImpl_PearlBuild pearlBuild = (ImageViewImpl_PearlBuild)findViewById(R.id.ImageViewImpl_PearlBuild);
+
+        add_pearl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         preview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,13 +58,13 @@ public class PearlBuildActivity extends Activity {
 
                 ballnum.setText(null);
                 if (inputNum >= 10 && inputNum <= 120) {
-                    ballnum.setHintTextColor(Color.GRAY);
-                    ballnum.setHint("请输入素珠个数(10-120)：");
+                    ballnum.setHintTextColor(Color.BLACK);
+                    ballnum.setHint(R.string.suzhu_num_hint);
                     pearlBuild.updateImage(inputNum);
                 } else {
                     int withs = ballnum.getWidth();
                     ballnum.setHintTextColor(Color.RED);
-                    ballnum.setHint("请输入素珠个数(10-120)：");
+                    ballnum.setHint(R.string.suzhu_num_hint);
                     ballnum.setWidth(withs);
                 }
                 pearlBuild.setBmpMotion(BitmapFactory.decodeResource(getResources(), R.drawable.emoji_1));

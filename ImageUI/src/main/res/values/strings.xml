@@ -14,6 +14,12 @@
     <string name="nav_drawer_item_myalbum">我的相册</string>
     <string name="nav_drawer_setup">设置</string>
     <string name="nav_drawer_about">关于</string>
+    <string name="navigation_drawer_opened">The navigation drawer is opened</string>
+    <string name="navigation_drawer_closed">The navigation drawer is closed</string>
+    <string name="tag_nav_drawer_main_entry">nav_drawer_main_entry</string>
+    <string name="tag_nav_drawer_special_entry">nav_drawer_special_entry</string>
+    <string name="tools_text_account_information_username">苍井优</string>
+    <string name="tools_text_account_information_email">cangjy@sina.com</string>
 
     <!-- Pull to Refresh -->
     <string name="pull_to_refresh_tap_label" translatable="false">点击刷新</string>
@@ -24,13 +30,15 @@
     <string name="pull_to_refresh_load_label" translatable="false">上拉加载更多</string>
     <string name="load_mode_label" translatable="false">加载更多</string>
 
+    <!-- Pearl Bulid -->
+    <string name="suzhu_num_hint" translatable="false">请输入个数(10-120)：</string>
+    <string name="suzhu_num" translatable="false">输入颗数：</string>
+    <string name="unit" translatable="false">颗</string>
+    <string name="diameter" translatable="false">输入素材直径</string>
+    <string name="shape" translatable="false">形状 </string>
+    <string name="preview_button">预览</string>
+    <string name="add_suzhu">添加素珠</string>
 
-    <string name="navigation_drawer_opened">The navigation drawer is opened</string>
-    <string name="navigation_drawer_closed">The navigation drawer is closed</string>
-    <string name="tag_nav_drawer_main_entry">nav_drawer_main_entry</string>
-    <string name="tag_nav_drawer_special_entry">nav_drawer_special_entry</string>
-    <string name="tools_text_account_information_username">苍井优</string>
-    <string name="tools_text_account_information_email">cangjy@sina.com</string>
     <!-- home fragment -->
     <string name="collocation_start">串珠搭配</string>
     <string name="libirary">素材中心</string>
@@ -42,8 +50,7 @@
     <string name="typeface_roboto_regular">Roboto-Regular</string>
     <string name="typeface_roboto_medium">Roboto-Medium</string>
 
-    <!-- pearlbuild -->
-    <string name="preview_button">预览</string>
+
     <!-- image set -->
     <string name="scale">比例</string>
     <string name="crop_button">确定剪裁</string>
@@ -57,7 +64,7 @@
     <string name="dialog_choose_camera">拍照</string>
     <string name="dialog_choose_picture">从相册导入</string>
     <string name="common_dialog_cancel_btn_text">取消</string>
-    <!-- jj -->
+    <!-- Login  -->
     <string name="login_phone">请输入手机号码</string>
     <string name="login_authcode">请输入验证码</string>
     <string name="login_underlogo">Sign in</string>
@@ -71,6 +78,19 @@
          多宝串<a href="http://www.amoluo.com">静下来，做真实的自己</a>.<br/>
         <a href=\'http://www.amoluo.com\'>http://www.amoluo.com/</a>
     ]]></string>
+
+    <!-- Register  -->
+    <string name="register_title">注册账户</string>
+    <string name="register_num">手机号</string>
+    <string name="register_securitynum">验证码</string>
+    <string name="register_get">获取</string>
+    <string name="register_reget">再次获取</string>
+    <string name="register_username">用户名</string>
+    <string name="register_psd">密码</string>
+    <string name="register_repsd">再次输入密码</string>
+    <string name="register_put">注  册</string>
+
+
 
     <string name="title_activity_image_set">ImageSetActivity</string>
     <string name="dummy_button">Dummy Button</string>

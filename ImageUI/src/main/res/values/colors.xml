@@ -42,4 +42,6 @@
     <color name="transparentbluegray">#3fa9b7b7</color>
     <color name="transparent">#00000000</color>
     <color name="transparent_white">#80ffffff</color>
+    <color name="transparent_white80">#80ffffff</color>
+    <color name="transparent_white30">#30ffffff</color>
 </resources>

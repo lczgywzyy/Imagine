@@ -9,9 +9,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.os.Handler;
 
@@ -49,12 +51,14 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
 
     private String SMSAPPSECRET;
 
+    private ImageButton register_back;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_register_new);
         initViews();
         getAppKeys();
     }
@@ -74,9 +78,10 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
         edtPsdEn=(EditText)findViewById(R.id.edt_psd_en);
         btnGetPcd=(Button)findViewById(R.id.btn_getsmspcd);
         btnRegister=(Button)findViewById(R.id.btn_register);
+        register_back = (ImageButton)findViewById(R.id.btn_register_back);
         btnGetPcd.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
-
+        register_back.setOnClickListener(this);
 
     }
 
@@ -148,7 +153,7 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
                 if(!TextUtils.isEmpty(edtPhone.getText().toString())){
                     SMSSDK.getVerificationCode("86",edtPhone.getText().toString());
                     btnGetPcd.setClickable(false);
-                    btnGetPcd.setText("请求短信验证码");
+                    btnGetPcd.setText("再次获取");
                 }else {
                    Toast.makeText(getApplicationContext(),"电话不能为空",Toast.LENGTH_LONG).show();
                 }
@@ -158,6 +163,9 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
                 if(vertifyInput()) {
                     registerUsers();
                 }
+                break;
+            case R.id.btn_register_back:
+                RegisterActivity.this.finish();
                 break;
             default:
 
@@ -322,11 +330,11 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
                     //textView2.setText("提交验证码成功");
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE){
                     Toast.makeText(getApplicationContext(), "验证码已经发送", Toast.LENGTH_SHORT).show();
-                    btnGetPcd.setText("验证码已发送");
+                    btnGetPcd.setText("已发送");
                     this.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            btnGetPcd.setText("重新获取验证码");
+                            btnGetPcd.setText("重新获取");
                             btnGetPcd.setClickable(true);
                         }
                     }, 60000);
@@ -352,4 +360,18 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
         super.onDestroy();
         SMSSDK.unregisterAllEventHandler();
     }
+
+//        @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                // app icon in action bar clicked; goto parent activity.
+//                this.finish();
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 }
