@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -119,8 +120,9 @@ public class ShareActivity extends Activity implements View.OnClickListener{
 
         int height=tempbitmap.getHeight();
         int width=tempbitmap.getWidth();
+        int x=THUMB_SIZE*height/width;
 
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(tempbitmap, THUMB_SIZE,THUMB_SIZE*height/width, true);
+        Bitmap thumbBmp = resizeImage(tempbitmap);
         msg.thumbData = ImageUtils.bmpToByteArray(thumbBmp, true);  // 设置缩略图
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -143,6 +145,25 @@ public class ShareActivity extends Activity implements View.OnClickListener{
 
     private String buildTransaction(final String type) {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+    public static Bitmap resizeImage(Bitmap bitmap)
+    {
+        Bitmap BitmapOrg = bitmap;
+        int width = BitmapOrg.getWidth();
+        int height = BitmapOrg.getHeight();
+        int newWidth = THUMB_SIZE;
+        int newHeight = THUMB_SIZE*height/width;
+
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        // if you want to rotate the Bitmap
+        // matrix.postRotate(45);
+        Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
+                height, matrix, true);
+        return resizedBitmap;
     }
 
 }
