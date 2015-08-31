@@ -200,8 +200,10 @@ public class ImageUtils {
      *  @since 重置图层
      * */
     public static void clearCanvas(Canvas canvas){
-        Paint clearPaint = new Paint();
-        clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        canvas.drawRect(0, 0, 0, 0, clearPaint);
+        if(canvas != null) {
+            Paint clearPaint = new Paint();
+            clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            canvas.drawRect(0, 0, 0, 0, clearPaint);
+        }
     }
 }

@@ -3,6 +3,7 @@ package u.can.i.up.ui.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -20,10 +21,11 @@ import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
 import u.can.i.up.ui.fragments.CollocateTabFragment;
+import u.can.i.up.ui.fragments.PearlBuildCollocateTabFragment;
 import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_PearlBuild;
-import u.can.i.up.ui.utils.ImageViewImpl_collocate;
+
 
 /**
  * @author dongfeng
@@ -54,12 +56,22 @@ public class PearlBuildCollocateActivity extends FragmentActivity implements Vie
     private ImageButton setover;
 
     private ImageButton closeBtm;
+
+    //上个个界面传递过来的东西
+    private String suzhu_path;
+    private int suzhu_num;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pearlbuild_image_collocate);
+        //赋值
+        suzhu_path = getIntent().getStringExtra("suzhu_path");
+        suzhu_num = getIntent().getIntExtra("suzhu_num", 0);
+//        suzhu_num = Integer.parseInt(getIntent().getStringExtra("suzhu_num"));
         initView();
         initTabView();
+        pearlbuild_collocate.setBmpSuzhu(BitmapFactory.decodeFile(suzhu_path));
+        pearlbuild_collocate.updateImage(suzhu_num);
     }
 
     /**
@@ -74,8 +86,9 @@ public class PearlBuildCollocateActivity extends FragmentActivity implements Vie
         closeBtm = (ImageButton)findViewById(R.id.pearlbuild_collocate_close_btn);
         setover.setOnClickListener(this);
         closeBtm.setOnClickListener(this);
+        //给出值
+        BitmapCache.setImageViewImpl_PearlBuild(pearlbuild_collocate);
 
-        pearlbuild_collocate = BitmapCache.getImageViewImpl_PearlBuild();
 
     }
 
@@ -83,7 +96,10 @@ public class PearlBuildCollocateActivity extends FragmentActivity implements Vie
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.pearlbuild_collocate_continue_btn:
+                Bitmap mypic = pearlbuild_collocate.saveBitmapAll();
+//                ShareActivity.exportImageByFinger(mypic);
 
+                BitmapCache.setBitmapcache(mypic);
                 startActivity(new Intent(PearlBuildCollocateActivity.this, ShareActivity.class));
                 break;
             case R.id.pearlbuild_collocate_close_btn:
@@ -110,7 +126,7 @@ public class PearlBuildCollocateActivity extends FragmentActivity implements Vie
                     .setIndicator(getTabItemView(i));
             // 将Tab按钮添加进Tab选项卡中
             Bundle bundle=new Bundle();
-            mTabHost.addTab(tabSpec, CollocateTabFragment.class, bundle);
+            mTabHost.addTab(tabSpec, PearlBuildCollocateTabFragment.class, bundle);
             // 设置Tab按钮的背景
             mTabHost.getTabWidget().getChildAt(i)
                     .setBackgroundResource(R.drawable.selector_tab_background);

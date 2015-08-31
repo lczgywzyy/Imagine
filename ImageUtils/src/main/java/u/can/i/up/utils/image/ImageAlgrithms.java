@@ -77,8 +77,8 @@ public class ImageAlgrithms {
     }
     //根据矩形获取中心点
     public static void getRectCenter(RectF rect, PointF p){
-        p.x = rect.left + (rect.right - rect.left) / 2;
-        p.y = rect.top + (rect.bottom - rect.top) / 2;
+        p.x = (rect.right + rect.left) / 2;
+        p.y = (rect.bottom + rect.top) / 2;
     }
     //求两点间距离
     public static float getPointsDistance(PointF p1, PointF p2) {
