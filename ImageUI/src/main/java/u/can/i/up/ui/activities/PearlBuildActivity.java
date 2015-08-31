@@ -44,6 +44,9 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
     public final static int REQUEST_CODE = 1;
     public ImageViewImpl_PearlBuild pearlBuild;
     ArrayList<String> selectedPhotos = new ArrayList<>();
+    //传递到下个界面的东西
+    private String suzhu_path;
+    private int suzhu_num;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,7 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
             }
             //加载temp
             pearlBuild.setBmpSuzhu(BitmapFactory.decodeFile(selectedPhotos.get(0)));
+            suzhu_path = selectedPhotos.get(0);
             String tag = "path: " + selectedPhotos.get(0);
             Log.e("path", tag);
         }
@@ -111,6 +115,7 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
                     ballnum.setHintTextColor(Color.BLACK);
                     ballnum.setHint(R.string.suzhu_num_hint);
                     pearlBuild.updateImage(inputNum);
+                    suzhu_num = inputNum;
                 } else {
                     int withs = ballnum.getWidth();
                     ballnum.setHintTextColor(Color.RED);
@@ -121,8 +126,9 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
             }
             case R.id.pearlbuild_continue_btn:
             {
-                BitmapCache.setImageViewImpl_PearlBuild(pearlBuild);
                 Intent i = new Intent(PearlBuildActivity.this, PearlBuildCollocateActivity.class);
+                i.putExtra("suzhu_path", suzhu_path);
+                i.putExtra("suzhu_num", suzhu_num);
                 startActivity(i);
                 break;
             }

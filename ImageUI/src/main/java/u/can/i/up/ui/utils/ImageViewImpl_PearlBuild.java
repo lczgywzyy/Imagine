@@ -108,6 +108,8 @@ public class ImageViewImpl_PearlBuild extends View {
 
     public void setBmpSuzhu(Bitmap mbitmap){
         bmpSuzhu = mbitmap;
+        mInitial();
+        mPearlList.add(new Pearl(bmpSuzhu, mFirstSuzhuCenterPoint, PointSuzhuMatrix, -1));
         invalidate();
     }
 
