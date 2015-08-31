@@ -52,4 +52,5 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.6'
     compile files('libs/SMSSDK-1.1.5.jar')
     compile project(':PhotoPicker')
+    compile files('libs/libammsdk.jar')
 }

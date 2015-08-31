@@ -30,6 +30,7 @@ import u.can.i.up.ui.beans.ILoginBean;
 import u.can.i.up.ui.beans.IRegisterBean;
 import u.can.i.up.ui.net.HttpLoginManager;
 import u.can.i.up.ui.net.HttpRegisterManager;
+import u.can.i.up.ui.utils.ShareUtils;
 
 public class RegisterActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -104,47 +105,11 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
     }
 
     private void getAppKeys(){
-        SMSAPPKEY=getMetaDataValue("smsAppkey",this);
-        SMSAPPSECRET=getMetaDataValue("smsAppSecret",this);
+        SMSAPPKEY= ShareUtils.getMetaDataValue("smsAppkey", this);
+        SMSAPPSECRET=ShareUtils.getMetaDataValue("smsAppSecret", this);
         initSDK();
     }
-    private String getMetaDataValue(String name,Context context) {
 
-        Object value = null;
-
-        PackageManager packageManager = context.getPackageManager();
-
-        ApplicationInfo applicationInfo;
-
-        try {
-
-            applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 128);
-
-            if (applicationInfo != null && applicationInfo.metaData != null) {
-
-                value = applicationInfo.metaData.get(name);
-
-            }
-
-        } catch (PackageManager.NameNotFoundException e) {
-
-            throw new RuntimeException(
-
-                    "Could not read the name in the manifest file.", e);
-
-        }
-
-        if (value == null) {
-
-            throw new RuntimeException("The name '" + name
-
-                    + "' is not defined in the manifest file's meta data.");
-
-        }
-
-        return value.toString();
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -255,6 +220,8 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
                 Bundle bundle=msg.getData();
 
                 String msgstr=bundle.getString(IApplicationConfig.MESSAGE);
+
+                Toast.makeText(RegisterActivity.this,msgstr,Toast.LENGTH_LONG).show();
 
                 switch (msg.what) {
                     case IApplicationConfig.HTTP_NET_SUCCESS:

@@ -23,18 +23,13 @@ public class IApplicationConfig {
 
     public static final String HTTP_URL_REGISTER="http://45.55.12.70/AppRegister";
 
+    public static final String HTTP_URL_CHECKSUM="http://45.55.12.70/AppChecksum";
+
+    public static final String HTTP_URL_PORTRAIT="http://45.55.12.70/AppPortraitEdit";
+
+    public static final String HTTP_URL_PARAMETERS="http://45.55.12.70/AppInforEdit";
+
     public static final int HTTP_CODE_SUCCESS=0;
-
-    public static final int HTTP_REGISTER_CODE_CP_ERROR=102;
-
-    public static final int HTTP_REGISTER_CODE_EX_ERROR=101;
-
-    public static final int HTTP_LOGIN_CODE_SUCCESS=0;
-
-    public static final int HTTP_LOGIN_CODE_FIAL=-1;
-
-
-
 
     public static final int HTTP_NET_TIMEOUT=0x10;
 

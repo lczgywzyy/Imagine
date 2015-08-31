@@ -144,6 +144,7 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, IHttpStatus> {
                     initConnectionGet();
                     break;
                 default:
+                    initConnectionPost();
                     return null;
             }
             if(TextUtils.isEmpty(url)){
@@ -312,7 +313,7 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, IHttpStatus> {
 
         /**文件**/
 
-        if (files.length != 0) {
+        if (files!=null&&files.length != 0) {
 
             for (int i = 0; i < files.length; i++) {
                 String contentType = "application/octet-stream";

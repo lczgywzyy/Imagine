@@ -84,6 +84,9 @@
         <meta-data
             android:name="smsAppSecret"
             android:value="ff5d1480b908596e2f79099930a6bac2" />
+        <meta-data
+            android:name="WXAPPID"
+            android:value="wx60493c533cc8dcc4"></meta-data>
 
         <activity
             android:name=".activities.LoginActivity"
@@ -102,6 +105,9 @@
             android:name=".activities.PearlBuildCollocateActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

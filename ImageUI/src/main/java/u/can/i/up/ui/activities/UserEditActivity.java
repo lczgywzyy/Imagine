@@ -1,16 +1,13 @@
 package u.can.i.up.ui.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,14 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
+import u.can.i.up.ui.beans.IHttpNormalBean;
 import u.can.i.up.ui.beans.User;
+import u.can.i.up.ui.net.HttpManager;
+import u.can.i.up.ui.net.HttpNormalManager;
 import u.can.i.up.ui.utils.IBitmapCache;
 
 public class UserEditActivity extends ActionBarActivity implements View.OnClickListener {
@@ -44,6 +44,13 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
     private ImageView imgIcon;
 
     private User user;
+
+    private boolean isPortraitChange;
+
+    enum UType {PORTRAIT,NAME,EMAIL,TEL}
+
+    private UType uptype;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +114,14 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_submit:
-                updateUserMsg();
+                if(isChanged(UType.PORTRAIT)) {
+                    uptype=UType.PORTRAIT;
+                }else if(isChanged(UType.NAME)){
+                    uptype=UType.NAME;
+                }else if(isChanged(UType.EMAIL)){
+                    uptype=UType.EMAIL;
+                }
+                update();
                 break;
             case R.id.btn_reset:
                 initData();
@@ -133,6 +147,7 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
             try
             {
                 imgIcon.setImageBitmap(IBitmapCache.getBitMapCache().loadBitmapLocal("headTemp"));
+                isPortraitChange=true;
 
             } catch (Exception e)
             {
@@ -158,19 +173,127 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", 5);
         intent.putExtra("aspectY", 5);
-        intent.putExtra("output", Uri.fromFile(new File(IApplicationConfig.DIRECTORY_SMATERIAL+File.separator+"headTemp.png")));
+        intent.putExtra("output", Uri.fromFile(new File(IApplicationConfig.DIRECTORY_SMATERIAL + File.separator + "headTemp.png")));
         intent.putExtra("outputFormat", "png");
         startActivityForResult(intent, 3);
     }
 
-    private void updateUserMsg(){
+    private HashMap<String,String> updateUserMsgBase(){
         HashMap<String,String> hashMap=new HashMap<>();
 
-        hashMap.put("tel",user.getPhoneNumber());
-        hashMap.put("eString",user.geteString());
-        hashMap.put("tString",user.gettString());
-        hashMap.put("tokenString",user.getUserLoginToken());
+        hashMap.put("tel", user.getPhoneNumber());
+        hashMap.put("eString", user.geteString());
+        hashMap.put("tString", user.gettString());
+        hashMap.put("tokenString", user.getUserLoginToken());
 
+        return hashMap;
+    }
+
+    private boolean isChanged(UType uptype){
+       if(uptype== UType.EMAIL){
+            if(!TextUtils.isEmpty(edtEmail.getText().toString())&&!(edtEmail.getText().toString().equals(user.getUserEmail()))){
+                return true;
+            }
+       }else if(uptype== UType.PORTRAIT){
+            return isPortraitChange;
+       }else if(uptype== UType.NAME){
+           if(!TextUtils.isEmpty(edtName.getText().toString())&&!(edtName.getText().toString().equals(user.getUserName()))){
+               return true;
+           }
+       }
+        return false;
 
     }
+    Handler handler=new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle bundle = msg.getData();
+            switch (msg.what) {
+                case IApplicationConfig.HTTP_NET_SUCCESS:
+                    IHttpNormalBean IHttpNormalBean = (IHttpNormalBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
+                    if (IHttpNormalBean != null && Integer.parseInt(IHttpNormalBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
+                        if(uptype== UType.PORTRAIT) {
+                            ((IApplication) getApplication()).getUerinfo().setPortrait(IHttpNormalBean.getData());
+                           uptype=UType.NAME;
+                            update();
+                        }else if(uptype== UType.NAME){
+                            ((IApplication) getApplication()).getUerinfo().setUserName(IHttpNormalBean.getData());
+                            uptype=UType.EMAIL;
+                            update();
+                        }else if(uptype== UType.EMAIL){
+                            ((IApplication) getApplication()).getUerinfo().setUserEmail(IHttpNormalBean.getData());
+                            uptype=UType.PORTRAIT;
+                        }
+                    }
+                    break;
+                case IApplicationConfig.HTTP_NET_ERROR:
+                    break;
+                case IApplicationConfig.HTTP_NET_TIMEOUT:
+
+
+            }
+
+        }
+    };
+
+    private  void update(){
+            if(isChanged(uptype)) {
+                WeakReference<Handler> weakReference = new WeakReference<Handler>(new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        Bundle bundle = msg.getData();
+
+                        switch (msg.what) {
+                            case IApplicationConfig.HTTP_NET_SUCCESS:
+
+                                IHttpNormalBean IHttpNormalBean = (IHttpNormalBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
+                                if (IHttpNormalBean != null && Integer.parseInt(IHttpNormalBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
+                                    //获取csc验证码
+                                    //开启更改头像线程
+                                    HashMap<String, String> hashMap = updateUserMsgBase();
+                                    hashMap.put("csc", IHttpNormalBean.getData());
+                                    HttpNormalManager httpNormalManager = HttpNormalManager.getHttpChecksumManagerInstance();
+                                    if(uptype== UType.PORTRAIT) {
+                                        hashMap.put("suffix", "png");
+                                        HashMap<String, SoftReference<Bitmap>> hashMapImg = new HashMap<>();
+                                        hashMapImg.put("image_file", new SoftReference<>(IBitmapCache.getBitMapCache().loadBitmapLocal("headTemp")));
+                                        httpNormalManager.boundImage(hashMapImg);
+                                        httpNormalManager.boundUrl(IApplicationConfig.HTTP_URL_PORTRAIT);
+                                    }else if(uptype== UType.EMAIL){
+                                        hashMap.put("target","EMAIL");
+                                        hashMap.put("data1", edtEmail.getText().toString());
+                                        httpNormalManager.boundUrl(IApplicationConfig.HTTP_URL_PARAMETERS);
+
+                                    }else if(uptype== UType.NAME){
+                                        hashMap.put("target","USERNAME");
+                                        hashMap.put("data1", edtName.getText().toString());
+                                        httpNormalManager.boundUrl(IApplicationConfig.HTTP_URL_PARAMETERS);
+                                    }
+
+                                    httpNormalManager.boundType(HttpManager.HttpType.POST);
+                                    httpNormalManager.boundParameter(hashMap);
+                                    httpNormalManager.boundHandler(handler);
+                                    httpNormalManager.execute();
+                                }
+                                break;
+                            case IApplicationConfig.HTTP_NET_ERROR:
+                                //登录失败
+                                break;
+                            case IApplicationConfig.HTTP_NET_TIMEOUT:
+                                break;
+                        }
+                    }
+                });
+
+                HttpNormalManager httpNormalManager = HttpNormalManager.getHttpChecksumManagerInstance();
+                httpNormalManager.boundParameter(updateUserMsgBase());
+                httpNormalManager.boundHandler(weakReference.get());
+                httpNormalManager.boundUrl(IApplicationConfig.HTTP_URL_CHECKSUM);
+                httpNormalManager.boundType(HttpManager.HttpType.POST);
+                httpNormalManager.execute();
+            }
+    }
+
 }

@@ -168,16 +168,13 @@ public class ImageViewImpl_collocate extends View {
         drawRuleOfThirdsGuidelines(canvas);
 
         canvas.setDrawFilter(paintFilter);
-        //吴朋朋新增代码，加上后珠子无法拖动
-//        if(!isInitTranslate) {
-//            initTranslate(canvas, bmpBack);
-//            matrixBack.postScale(1/scale_factor,1/scale_factor);
-//        }
-//        canvas.translate(bitmap_translate_x,bitmap_translate_y);
-//        canvas.drawBitmap(bmpBack,matrixBack,mainPaint);
-        if(bmpBack != null) {
-            canvas.drawBitmap(bmpBack, matrixBack, mainPaint);
+
+        if(!isInitTranslate) {
+            initTranslate(canvas, bmpBack);
+            matrixBack.postScale(1/scale_factor,1/scale_factor);
         }
+        canvas.translate(bitmap_translate_x,bitmap_translate_y);
+        canvas.drawBitmap(bmpBack,matrixBack,mainPaint);
         //canvas.drawBitmap(bmpBack, matrixBack, mainPaint);
         if(mPearlList != null && !mPearlList.isEmpty()){
             for (Pearl pearl: mPearlList){
@@ -231,6 +228,84 @@ public class ImageViewImpl_collocate extends View {
         isInitTranslate=true;
     }
 
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        // TODO Auto-generated method stub
+//        float x = event.getX();
+//        float y = event.getY();
+//
+//        switch (event.getAction()) {
+//            //手指按下的时候
+//            case MotionEvent.ACTION_DOWN:
+//                prePoint.x = x;
+//                prePoint.y = y;
+//                //按到了旋转图标上
+//                if(isInRect(x, y, rectRotate)){
+//                    status = ViewStatus.STATUS_ROTATE;
+//                }else if(isInRect(x, y, rectDelete)){
+//                    status = ViewStatus.STATUS_DELETE;
+//                }
+//                else{
+//                    status = ViewStatus.STATUS_MOVE;
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                if(status == ViewStatus.STATUS_ROTATE){
+////                    saveBitmap();
+//                } else if(status == ViewStatus.STATUS_DELETE){
+//                    deleteCurrentMotion();
+//                }
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                curPoint.x = x;
+//                curPoint.y = y;
+//                if(status == ViewStatus.STATUS_ROTATE){
+//                    rectRotateMark.set(x,
+//                            y,
+//                            x + bmpRotate.getWidth(),
+//                            y + bmpRotate.getHeight());
+//                    //获取旋转的角度
+//                    float de = getPointsDegree(prePoint, pointMotionMid, curPoint);
+//                    //获取缩放的比例
+//                    float re = getPointsDistance(pointMotionMid, curPoint) / getPointsDistance(pointMotionMid, prePoint);
+//                    if(re > 0.0001){
+//                        //对Matrix进行缩放
+//                        matrixPaint.postScale(re, re, pointMotionMid.x, pointMotionMid.y);
+//                    }
+//                    if(de > 0.0001 || de < -0.0001){
+//                        //对Matrix进行旋转
+//                        matrixPaint.postRotate(de, pointMotionMid.x, pointMotionMid.y);
+//                    }
+//                }else if(status == ViewStatus.STATUS_MOVE){
+//                    //对Matrix进行移位
+//                    matrixPaint.postTranslate(x - prePoint.x, y - prePoint.y);
+//                }
+//                prePoint.x = x;
+//                prePoint.y = y;
+//                //将矩阵map到表情矩形上
+//                matrixPaint.mapRect(rectMotion, rectMotionPre);
+//                matrixPaint.mapRect(rectRotateMark, rectRotatePre);
+//                matrixPaint.mapRect(rectDeleteMark, rectDeletePre);
+//                getRectCenter(rectRotateMark, rotateCenterP);
+//                getRectCenter(rectDeleteMark, deleteCenterP);
+//                getRectCenter(rectMotion, pointMotionMid);
+//                rectRotate.set(rectRotateMark.left,
+//                        rectRotateMark.top,
+//                        rectRotateMark.left + bmpRotate.getWidth(),
+//                        rectRotateMark.top + bmpRotate.getHeight());
+//                rectDelete.set(rectDeleteMark.left,
+//                        rectDeleteMark.top - bmpDelete.getHeight(),
+//                        rectDeleteMark.left + bmpDelete.getWidth(),
+//                        rectDeleteMark.top);
+//                postInvalidate();
+//                break;
+//            default:
+//                break;
+//        }
+//        return true;
+//    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
@@ -238,14 +313,20 @@ public class ImageViewImpl_collocate extends View {
         float y = event.getY();
 
         switch (event.getAction()) {
-            //手指按下的时候
-            case MotionEvent.ACTION_DOWN:
-                prePoint.x = x;
-                prePoint.y = y;
+                //手指按下的时候
+                case MotionEvent.ACTION_DOWN:
+                    prePoint.x = x;
+                    prePoint.y = y;
                 //按到了旋转图标上
-                if(ImageAlgrithms.isInRect(x, y, rectRotate)){
+
+
+                    RectF rectR=new RectF(rectRotate);
+                    rectR.offset(bitmap_translate_x,bitmap_translate_y);
+                    RectF rectD=new RectF(rectDelete);
+                    rectD.offset(bitmap_translate_x,bitmap_translate_y);
+                if(ImageAlgrithms.isInRect(x, y, rectR)){
                     status = ViewStatus.STATUS_ROTATE;
-                }else if(ImageAlgrithms.isInRect(x, y, rectDelete)){
+                }else if(ImageAlgrithms.isInRect(x, y ,rectD)){
                     status = ViewStatus.STATUS_DELETE;
                 }else if(ImageAlgrithms.isInRect(x, y, rectMotion)){
                     status = ViewStatus.STATUS_MOVE;
@@ -260,6 +341,8 @@ public class ImageViewImpl_collocate extends View {
                         RectF rectF=new RectF(0,0,bitmap.getWidth(), bitmap.getHeight());
 
                         pearl.getMatrix().mapRect(rectF);
+
+                        rectF.offset(bitmap_translate_x,bitmap_translate_y);
 
                         if(rectF.contains(x,y)){
                             index=mPearlList.size()-1-i;
@@ -339,6 +422,7 @@ public class ImageViewImpl_collocate extends View {
         }
         return true;
     }
+
 
     public void setBmpMotion(Bitmap mbitmap){
         if(bmpMotion != null){

@@ -98,22 +98,30 @@
 
             <ImageButton
                 style="@style/match_3_btn"
-                android:src="@drawable/icon_weixin" />
+                android:src="@drawable/icon_weixin"
+                android:id="@+id/img_wx"
+                />
             <Space
                 style="@style/match_3_space_between_btn" />
             <ImageButton
                 style="@style/match_3_btn"
-                android:src="@drawable/icon_pengyouquan" />
+                android:src="@drawable/icon_pengyouquan"
+                android:id="@+id/img_wxf"
+                />
             <Space
                 style="@style/match_3_space_between_btn" />
             <ImageButton
                 style="@style/match_3_btn"
-                android:src="@drawable/icon_qq" />
+                android:src="@drawable/icon_qq"
+                android:id="@+id/img_qq"
+                />
             <Space
                 style="@style/match_3_space_between_btn" />
             <ImageButton
                 style="@style/match_3_btn"
-                android:src="@drawable/icon_weibo" />
+                android:src="@drawable/icon_weibo"
+                android:id="@+id/img_weibo"
+                />
             <Space
                 style="@style/match_3_space_between_btn" />
 

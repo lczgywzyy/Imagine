@@ -17,6 +17,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.SendMessageToWX;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.sdk.openapi.WXImageObject;
+import com.tencent.mm.sdk.openapi.WXMediaMessage;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +30,7 @@ import java.io.IOException;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.ImageUtils;
+import u.can.i.up.ui.utils.ShareUtils;
 
 /**
  * @author dongfeng
@@ -31,7 +38,18 @@ import u.can.i.up.ui.utils.ImageUtils;
  * @sumary 分享界面：搭配完成后，分享图片
  */
 
-public class ShareActivity extends Activity {
+public class ShareActivity extends Activity implements View.OnClickListener{
+
+
+    private ImageButton imgWXShare,imgWXFShare,imgWeiboShare,imgQQShare;
+
+    private static final int THUMB_SIZE = 150;
+
+    private Bitmap tempbitmap;
+
+    private IWXAPI api;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +62,13 @@ public class ShareActivity extends Activity {
         ImageButton cutout_1_close_btn = (ImageButton)findViewById(R.id.cutout_1_close_btn);
         Button back_main = (Button)findViewById(R.id.back_main);
 
-        final Bitmap tempbitmap = BitmapCache.getBitmapcache();
+        tempbitmap = BitmapCache.getBitmapcache();
         share_image.setImageBitmap(tempbitmap);
 
         back_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ShareActivity.this, MainActivity.class));
-//                exportImageByFinger(tempbitmap);
-//                Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/OUTPUT_11.png", Toast.LENGTH_SHORT).show();
-//                showImage();
             }
         });
         cutout_1_close_btn.setOnClickListener(new View.OnClickListener() {
@@ -63,53 +78,71 @@ public class ShareActivity extends Activity {
             }
         });
 
+        api = WXAPIFactory.createWXAPI(this, ShareUtils.getMetaDataValue("WXAPPID", this));
+        initViews();
+
     }
 
-    public static void exportImageByFinger(Bitmap mBitmap){
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/saved_images");
-        myDir.mkdirs();
-        String fname = "123_test.jpg";
-        File file = new File (myDir, fname);
-        if (file.exists ()) file.delete ();
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
+    private void initViews(){
+        imgWXShare=(ImageButton)findViewById(R.id.img_wx);
+        imgWXFShare=(ImageButton)findViewById(R.id.img_wxf);
+        imgQQShare=(ImageButton)findViewById(R.id.img_qq);
+        imgWeiboShare=(ImageButton)findViewById(R.id.img_weibo);
+        imgWXFShare.setOnClickListener(this);
+        imgWXShare.setOnClickListener(this);
+        imgQQShare.setOnClickListener(this);
+        imgWeiboShare.setOnClickListener(this);
+    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.img_wx:
+                shareWX(SendMessageToWX.Req.WXSceneSession);
+                break;
+            case R.id.img_wxf:
+                shareWX(SendMessageToWX.Req.WXSceneTimeline);
+                break;
+            case R.id.img_qq:
+                break;
+            case R.id.img_weibo:
+                break;
         }
     }
 
-    public void showImage(){
-        File file = new File(Environment.getExternalStorageDirectory(), "/saved_images" + "/123_test.jpg");
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(file), "image/*");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplication().startActivity(intent);
+    private void shareWX(int flag){
+        WXImageObject imgObj = new WXImageObject(tempbitmap);
+
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.mediaObject = imgObj;
+
+        int height=tempbitmap.getHeight();
+        int width=tempbitmap.getWidth();
+
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(tempbitmap, THUMB_SIZE,THUMB_SIZE*height/width, true);
+        msg.thumbData = ImageUtils.bmpToByteArray(thumbBmp, true);  // 设置缩略图
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("img");
+        req.message = msg;
+        req.scene =  flag;
+        api.sendReq(req);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_share, menu);
-        return true;
+    private void shareWXF(){
+
+    }
+    private void shareQQ(){
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    private void shareWeiBo(){
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
+
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
 }
