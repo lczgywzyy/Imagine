@@ -48,20 +48,33 @@
                 android:src="@drawable/icon_back"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true" />
-            <ImageView
-                android:padding="@dimen/btn_padding"
-                android:layout_width="@dimen/btn_outter"
-                android:layout_height="@dimen/btn_outter"
-                android:src="@drawable/icon_done"
+            <!--<ImageView-->
+                <!-- -->
+                <!--android:padding="@dimen/btn_padding"-->
+                <!--android:layout_width="@dimen/btn_outter"-->
+                <!--android:layout_height="@dimen/btn_outter"-->
+                <!--android:src="@drawable/icon_done"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_centerVertical="true" />-->
+            <Button
+                android:id="@+id/save_to_album_btn"
+                android:layout_width="70dp"
+                android:layout_height="27dp"
+                android:background="@drawable/selector_common_pressed_whiteframe"
+                android:text="点击保存"
+                android:textSize="@dimen/textsize_small"
+                android:textColor="@color/white"
                 android:layout_centerInParent="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                />
 
         </RelativeLayout>
         <TextView
+            android:id="@+id/save_to_album_text"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="60"
-            android:text="已保存到你的相册中"
+            android:text="点击保存到我的相册"
             android:textColor="@color/white"
             android:textSize="@dimen/textsize_medium"
             android:gravity="center"/>

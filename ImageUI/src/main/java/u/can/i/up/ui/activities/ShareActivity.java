@@ -16,6 +16,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -50,6 +51,10 @@ public class ShareActivity extends Activity implements View.OnClickListener{
 
     private IWXAPI api;
 
+    private Button savetoalbum;
+
+    private TextView savetotext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +67,21 @@ public class ShareActivity extends Activity implements View.OnClickListener{
         final ImageView share_image = (ImageView) findViewById(R.id.share_image);
         ImageButton cutout_1_close_btn = (ImageButton)findViewById(R.id.cutout_1_close_btn);
         Button back_main = (Button)findViewById(R.id.back_main);
+        savetoalbum = (Button)findViewById(R.id.save_to_album_btn);
+        savetotext = (TextView)findViewById(R.id.save_to_album_text);
 
         tempbitmap = BitmapCache.getBitmapcache();
         share_image.setImageBitmap(tempbitmap);
+
+        savetoalbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                BitmapCache.getAlbumImageList().add(tempbitmap);
+                savetoalbum.setClickable(false);
+                savetotext.setText("已保存至我的相册");
+            }
+        });
 
         back_main.setOnClickListener(new View.OnClickListener() {
             @Override

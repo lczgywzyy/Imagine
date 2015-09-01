@@ -1,6 +1,7 @@
 package u.can.i.up.ui.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -126,10 +127,24 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
             }
             case R.id.pearlbuild_continue_btn:
             {
+                if (suzhu_path == null){
+                    new AlertDialog.Builder(this)
+                            .setTitle("素珠确认")
+                            .setMessage("请选择素珠")
+                            .setPositiveButton("确定", null)
+                            .show();
+                }else  if (suzhu_num == 0){
+                    new AlertDialog.Builder(this)
+                            .setTitle("素珠确认")
+                            .setMessage("请输入素珠个数")
+                            .setPositiveButton("确定", null)
+                            .show();
+                }else {
                 Intent i = new Intent(PearlBuildActivity.this, PearlBuildCollocateActivity.class);
                 i.putExtra("suzhu_path", suzhu_path);
                 i.putExtra("suzhu_num", suzhu_num);
                 startActivity(i);
+                }
                 break;
             }
 
