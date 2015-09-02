@@ -125,7 +125,7 @@ public class ImageAlgrithms {
         for (int i = 0; i < pearlList.size(); i++){
             Pearl p = pearlList.get(i);
             PointF tmpCenter = p.getCenter();
-            float tmpRadius = p.getBitmap().getWidth() / 2;
+            float tmpRadius = p.getRadius();
             float tmpDistance = getPointsDistance(targetPoint, tmpCenter);
             if(tmpDistance < (targetRadius + tmpRadius)){
                 if(tmpDistance < minRadius1){
