@@ -60,7 +60,7 @@ public class LibirarydisplayActivity extends AppCompatActivity {
     private void setBar(){
         final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle(R.string.libirary_display);
+        getSupportActionBar().setTitle(R.string.library_display);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

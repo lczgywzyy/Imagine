@@ -33,7 +33,7 @@
         <!-- 云纹素材-->
         <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="411dp"
+            android:layout_height="440dp"
             android:src="@drawable/yunwen"
             android:scaleType="fitXY"
             android:layout_marginTop="20dp"/>
@@ -48,18 +48,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="20dp" />
 
-            <!-- 串珠搭配和素材库-->
+            <!-- 串珠搭配和新组串珠-->
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="135dp"
                 android:gravity="center">
+                <!-- 串珠搭配 -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:orientation="vertical"
                     android:gravity="center">
                     <Button
-                        android:id="@+id/collocation_start"
+                        android:id="@+id/fast_start"
                         android:layout_width="@dimen/home_btnsize"
                         android:layout_height="93dp"
                         android:background="@drawable/chuanzhudapei" />
@@ -69,7 +70,7 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" 
-                        android:text="串珠搭配"
+                        android:text="@string/fast_start"
                         android:gravity="center"
                         android:textSize="@dimen/textsize_medium"
                         android:textColor="@color/gray_80"/>
@@ -77,34 +78,14 @@
                 <Space
                     android:layout_width="90dp"
                     android:layout_height="fill_parent" />
-                <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="fill_parent"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:gravity="center">-->
-                    <!--<Button-->
-                        <!--android:id="@+id/libirary"-->
-                        <!--android:layout_width="@dimen/home_btnsize"-->
-                        <!--android:layout_height="93dp"-->
-                        <!--android:background="@drawable/sucaiku" />-->
-                    <!--<Space-->
-                        <!--android:layout_width="fill_parent"-->
-                        <!--android:layout_height="13dp" />-->
-                    <!--<TextView-->
-                        <!--android:layout_width="fill_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="素材库"-->
-                        <!--android:gravity="center"-->
-                        <!--android:textSize="@dimen/textsize_medium"-->
-                        <!--android:textColor="@color/gray_80"/>-->
-                <!--</LinearLayout>-->
+                <!-- 新组串珠 -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:orientation="vertical"
                     android:gravity="center">
                     <Button
-                        android:id="@+id/pearlbuild"
+                        android:id="@+id/pearl_build"
                         android:layout_width="@dimen/home_btnsize"
                         android:layout_height="93dp"
                         android:background="@drawable/zizhuzuzhu" />
@@ -114,45 +95,104 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="自主组珠"
+                        android:text="@string/pearl_build"
                         android:gravity="center"
                         android:textSize="@dimen/textsize_medium"
                         android:textColor="@color/gray_80"/>
                 </LinearLayout>
             </LinearLayout>
 
-            <!--&lt;!&ndash;自主组珠&ndash;&gt;-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="135dp"-->
-                <!--android:gravity="center">-->
-                <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="fill_parent"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:gravity="center">-->
-                        <!--<Button-->
-                        <!--android:id="@+id/pearlbuild"-->
-                        <!--android:layout_width="@dimen/home_btnsize"-->
-                        <!--android:layout_height="93dp"-->
-                        <!--android:background="@drawable/zizhuzuzhu" />-->
-                    <!--<Space-->
-                        <!--android:layout_width="fill_parent"-->
-                        <!--android:layout_height="13dp" />-->
-                    <!--<TextView-->
-                        <!--android:layout_width="fill_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="自主组珠"-->
-                        <!--android:gravity="center"-->
-                        <!--android:textSize="@dimen/textsize_medium"-->
-                        <!--android:textColor="@color/gray_80"/>-->
-                <!--</LinearLayout>-->
-                <!--<Space-->
-                    <!--android:layout_width="175dp"-->
-                    <!--android:layout_height="fill_parent" />-->
+            <!--素材制作和素材库-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="135dp"
+                android:gravity="center">
+                <!-- 素材制作 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                        <Button
+                        android:id="@+id/material_build"
+                        android:layout_width="@dimen/home_btnsize"
+                        android:layout_height="93dp"
+                        android:background="@drawable/zizhuzuzhu" />
+                    <Space
+                        android:layout_width="fill_parent"
+                        android:layout_height="13dp" />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/material_build"
+                        android:gravity="center"
+                        android:textSize="@dimen/textsize_medium"
+                        android:textColor="@color/gray_80"/>
+                </LinearLayout>
 
-            <!--</LinearLayout>-->
+                <Space
+                    android:layout_width="90dp"
+                    android:layout_height="fill_parent" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/libirary"
+                        android:layout_width="@dimen/home_btnsize"
+                        android:layout_height="93dp"
+                        android:background="@drawable/sucaiku" />
+                    <Space
+                        android:layout_width="fill_parent"
+                        android:layout_height="13dp" />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/library"
+                        android:gravity="center"
+                        android:textSize="@dimen/textsize_medium"
+                        android:textColor="@color/gray_80"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <!--我的相册&社区-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="135dp"
+                android:gravity="center">
+                <!-- 我的相册 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/myalbum"
+                        android:layout_width="@dimen/home_btnsize"
+                        android:layout_height="93dp"
+                        android:background="@drawable/sucaiku" />
+                    <Space
+                        android:layout_width="fill_parent"
+                        android:layout_height="13dp" />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/myalbum"
+                        android:gravity="center"
+                        android:textSize="@dimen/textsize_medium"
+                        android:textColor="@color/gray_80"/>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="170dp"
+                    android:layout_height="fill_parent" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -40,15 +40,18 @@
     <string name="add_suzhu">添加素珠</string>
 
     <!-- home fragment -->
-    <string name="collocation_start">串珠搭配</string>
-    <string name="libirary">素材中心</string>
-    <string name="new_start">新组串珠</string>
-    <string name="libirary_display">素材展示</string>
-    <string name="libirary_detail">素材详情</string>
+    <string name="fast_start">串珠搭配</string>
+    <string name="library">素材中心</string>
+    <string name="pearl_build">新组串珠</string>
+    <string name="material_build">素材制作</string>
+    <string name="myalbum">我的相册</string>
     <string name="personal_activity">个人信息</string>
+
+    <string name="library_detail">素材详情</string>
+    <string name="library_display">素材展示</string>
     <!-- Typeface names -->
-    <string name="typeface_roboto_regular">Roboto-Regular</string>
-    <string name="typeface_roboto_medium">Roboto-Medium</string>
+    <!--<string name="typeface_roboto_regular">Roboto-Regular</string>-->
+    <!--<string name="typeface_roboto_medium">Roboto-Medium</string>-->
 
 
     <!-- image set -->
@@ -71,13 +74,14 @@
     <string name="action_settings">Settings</string>
     <string name="login_tip">点击即表示同意</string>
     <string name="login_tip_link">《多宝串用户协议》</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="hello_world">Hello world!</string>
     <string name="about">关于</string>
-    <string name="about_body"><![CDATA[
-         多宝串<a href="http://www.amoluo.com">静下来，做真实的自己</a>.<br/>
-        <a href=\'http://www.amoluo.com\'>http://www.amoluo.com/</a>
-    ]]></string>
+    <!--<string name="title_activity_home">HomeActivity</string>-->
+    <!--<string name="hello_world">Hello world!</string>-->
+
+    <!--<string name="about_body"><![CDATA[-->
+         <!--多宝串<a href="http://www.amoluo.com">静下来，做真实的自己</a>.<br/>-->
+        <!--<a href=\'http://www.amoluo.com\'>http://www.amoluo.com/</a>-->
+    <!--]]></string>-->
 
     <!-- Register  -->
     <string name="register_title">注册账户</string>

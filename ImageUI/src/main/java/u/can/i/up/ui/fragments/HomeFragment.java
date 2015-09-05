@@ -23,8 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.activities.CutoutSetActivity;
 import u.can.i.up.ui.activities.ImageSetActivity;
 import u.can.i.up.ui.activities.LibiraryActivity;
+import u.can.i.up.ui.activities.MyAlbumActivity;
 import u.can.i.up.ui.activities.PearlBuildActivity;
 
 
@@ -34,8 +36,17 @@ import u.can.i.up.ui.activities.PearlBuildActivity;
  * @sumary 主界面：用户进入的第一个界面
  */
 
-public class HomeFragment extends Fragment {
-//    int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+public class HomeFragment extends Fragment implements View.OnClickListener{
+
+    private Button fast_start;
+
+    private Button libirary;
+
+    private Button material_build;
+
+    private Button pearl_build;
+
+    private Button myalbum;
 
     public static HomeFragment newInstance(Bundle bundle)
     {
@@ -54,9 +65,17 @@ public class HomeFragment extends Fragment {
     {
         // The last two arguments ensure LayoutParams are inflated properly
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        Button collocation_start = (Button)view.findViewById(R.id.collocation_start);
-//        Button libirary = (Button)view.findViewById(R.id.libirary);
-        Button pearlbuild = (Button)view.findViewById(R.id.pearlbuild);
+        fast_start = (Button)view.findViewById(R.id.fast_start);
+        libirary = (Button)view.findViewById(R.id.libirary);
+        material_build= (Button)view.findViewById(R.id.material_build);
+        pearl_build = (Button)view.findViewById(R.id.pearl_build);
+        myalbum = (Button)view.findViewById(R.id.myalbum);
+
+        fast_start.setOnClickListener(this);
+        libirary.setOnClickListener(this);
+        material_build.setOnClickListener(this);
+        pearl_build.setOnClickListener(this);
+        myalbum.setOnClickListener(this);
 
 //        libirary.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -64,19 +83,19 @@ public class HomeFragment extends Fragment {
 //                startActivity(new Intent(view.getContext(), LibiraryActivity.class));
 //            }
 //        });
-        collocation_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(getPickImageChooserIntent(), 200);
-//                selectImage();
-            }
-        });
-        pearlbuild.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), PearlBuildActivity.class));
-            }
-        });
+//        collocation_start.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivityForResult(getPickImageChooserIntent(), 200);
+////                selectImage();
+//            }
+//        });
+//        pearlbuild.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getActivity(), PearlBuildActivity.class));
+//            }
+//        });
 
         return view;
     }
@@ -139,6 +158,30 @@ public class HomeFragment extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.fast_start:
+                startActivityForResult(getPickImageChooserIntent(), 200);
+                break;
+            case R.id.libirary:
+                startActivity(new Intent(getActivity(), LibiraryActivity.class));
+                break;
+            case R.id.material_build:
+                startActivity(new Intent(getActivity(), CutoutSetActivity.class));
+                break;
+            case R.id.pearl_build:
+                startActivity(new Intent(getActivity(), PearlBuildActivity.class));
+                break;
+            case R.id.myalbum:
+                startActivity(new Intent(getActivity(), MyAlbumActivity.class));
+                break;
+            default:
+                break;
+        }
+    }
+
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -150,81 +193,6 @@ public class HomeFragment extends Fragment {
 //        }
 //    }
 
-//    private void onCaptureImageResult(Intent data) {
-////        Uri photoUri = data.getData();
-//////        mImageView.setImageBitmap(null);
-////        mOriginalPhotoPath = MediaUtils.getPath(getActivity(), photoUri);
-////        loadPhoto(mOriginalPhotoPath);
-//////        mImageView.setImageBitmap(mBitmap);
-//
-//        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-////        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-////        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-////
-////        File destination = new File(Environment.getExternalStorageDirectory(),
-////                System.currentTimeMillis() + ".jpg");
-////
-////        FileOutputStream fo;
-////        try {
-////            destination.createNewFile();
-////            fo = new FileOutputStream(destination);
-////            fo.write(bytes.toByteArray());
-////            fo.close();
-////        } catch (FileNotFoundException e) {
-////            e.printStackTrace();
-////        } catch (IOException e) {
-////            e.printStackTrace();
-////        }
-////
-////
-////        byte[] bytepicture = bytes.toByteArray();
-//        BitmapCache.setBitmapcache(thumbnail);
-//        Intent newdata = new Intent(getActivity(), ImageSetActivity.class);
-////        newdata.putExtra("photoUri", photoUri);
-//        startActivity(newdata);
-//
-////        ivImage.setImageBitmap(thumbnail);
-//
-//    }
-////
-//    @SuppressWarnings("deprecation")
-//    private void onSelectFromGalleryResult(Intent data) {
-//        Uri selectedImageUri = data.getData();
-//        String[] projection = { MediaStore.MediaColumns.DATA };
-//        Cursor cursor = getActivity().getContentResolver().query(selectedImageUri, projection, null, null, null);
-////                managedQuery(selectedImageUri, projection, null, null,
-////                null);
-//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-//        cursor.moveToFirst();
-//
-//        String selectedImagePath = cursor.getString(column_index);
-//
-//        Bitmap bm;
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inJustDecodeBounds = true;
-//        BitmapFactory.decodeFile(selectedImagePath, options);
-//        final int REQUIRED_SIZE = 200;
-//        int scale = 1;
-//        while (options.outWidth / scale / 2 >= REQUIRED_SIZE
-//                && options.outHeight / scale / 2 >= REQUIRED_SIZE)
-//            scale *= 2;
-//        options.inSampleSize = scale;
-//        options.inJustDecodeBounds = false;
-//        bm = BitmapFactory.decodeFile(selectedImagePath, options);
-//////
-//////        ivImage.setImageBitmap(bm);
-////
-////        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-////        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-////        byte[] bytepicture = baos.toByteArray();
-//
-//        Intent newdata = new Intent(getActivity(), ImageSetActivity.class);
-//        BitmapCache.setBitmapcache(bm);
-////        newdata.putExtra("photoUri", selectedImageUri);
-//        startActivity(newdata);
-//
-//
-//    }
 
     /**
      * Create a chooser intent to select the source to get image from.<br/>

@@ -38,7 +38,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout mNavDrawerEntriesRootView;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private LinearLayout mScrimInsetsFrameLayout;
-    private FrameLayout mFrameLayout_Home, mFrameLayout_Libirary,mFrameLayout_MyAlbum, mFrameLayout_Setup;
+    private FrameLayout mFrameLayout_Home ;
+//    private FrameLayout mFrameLayout_Libirary;
+//    private FrameLayout mFrameLayout_MyAlbum;
+    private FrameLayout mFrameLayout_Setup;
     private TextView mTextView_AccountDisplayName, mTextView_AccountEmail;
     private TextView mTextView_Home, mTextView_Libirary, mTextView_Setup;
 
@@ -74,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNavDrawerEntriesRootView = (LinearLayout)findViewById(R.id.navigation_drawer_linearLayout_entries_root_view);
 
         mFrameLayout_Home = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_home);
-        mFrameLayout_Libirary = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_library);
-        mFrameLayout_MyAlbum = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_myalbum);
+//        mFrameLayout_Libirary = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_library);
+//        mFrameLayout_MyAlbum = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_myalbum);
         mFrameLayout_Setup = (FrameLayout) findViewById(R.id.navigation_drawer_items_list_linearLayout_setup);
 
 
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mTextView_AccountEmail = (TextView) findViewById(R.id.navigation_drawer_account_information_email);
 
         mTextView_Home = (TextView) findViewById(R.id.navigation_drawer_items_textView_home);
-        mTextView_Libirary = (TextView) findViewById(R.id.navigation_drawer_items_textView_libirary);
+//        mTextView_Libirary = (TextView) findViewById(R.id.navigation_drawer_items_textView_libirary);
         mTextView_Setup = (TextView) findViewById(R.id.navigation_drawer_items_textView_setup);
 
         // Navigation Drawer
@@ -133,8 +136,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //         Nav Drawer item click listener
         mFrameLayout_AccountView.setOnClickListener(this);
         mFrameLayout_Home.setOnClickListener(this);
-        mFrameLayout_Libirary.setOnClickListener(this);
-        mFrameLayout_MyAlbum.setOnClickListener(this);
+//        mFrameLayout_Libirary.setOnClickListener(this);
+//        mFrameLayout_MyAlbum.setOnClickListener(this);
         mFrameLayout_Setup.setOnClickListener(this);
 
         // Set the first item as selected for the first time
@@ -218,43 +221,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     }
 
-                    case R.id.navigation_drawer_items_list_linearLayout_library:
-                    {
-                        if (getSupportActionBar() != null)
-                        {
-                            getSupportActionBar().setTitle(getString(R.string.toolbar_title_libirary));
-                        }
+//                    case R.id.navigation_drawer_items_list_linearLayout_library:
+//                    {
+//                        if (getSupportActionBar() != null)
+//                        {
+//                            getSupportActionBar().setTitle(getString(R.string.toolbar_title_libirary));
+//                        }
+//
+//
+//                        view.setSelected(true);
+//
+//                        Bundle bundle = new Bundle();
+//
+//                        // Insert the fragment by replacing any existing fragment
+//                        getSupportFragmentManager()
+//                                .beginTransaction()
+//                                .replace(R.id.main_activity_content_frame, LibiraryActivity.newInstance(bundle))
+//                                .commit();
+//                        break;
+//                    }
 
-
-                        view.setSelected(true);
-
-                        Bundle bundle = new Bundle();
-
-                        // Insert the fragment by replacing any existing fragment
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_activity_content_frame, LibiraryActivity.newInstance(bundle))
-                                .commit();
-                        break;
-                    }
-
-                    case R.id.navigation_drawer_items_list_linearLayout_myalbum:
-                    {
-                        if (getSupportActionBar() != null)
-                        {
-                            getSupportActionBar().setTitle(getString(R.string.toolbar_title_myalbum));
-                        }
-                        view.setSelected(true);
-
-                        Bundle bundle = new Bundle();
-
-                        // Insert the fragment by replacing any existing fragment
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_activity_content_frame, MyAlbumFragment.newInstance(bundle))
-                                .commit();
-                        break;
-                    }
+//                    case R.id.navigation_drawer_items_list_linearLayout_myalbum:
+//                    {
+//                        if (getSupportActionBar() != null)
+//                        {
+//                            getSupportActionBar().setTitle(getString(R.string.toolbar_title_myalbum));
+//                        }
+//                        view.setSelected(true);
+//
+//                        Bundle bundle = new Bundle();
+//
+//                        // Insert the fragment by replacing any existing fragment
+//                        getSupportFragmentManager()
+//                                .beginTransaction()
+//                                .replace(R.id.main_activity_content_frame, MyAlbumFragment.newInstance(bundle))
+//                                .commit();
+//                        break;
+//                    }
                     case R.id.navigation_drawer_items_list_linearLayout_setup:
                         // Start intent to send an email
                         startActivity(new Intent(view.getContext(), SettingActivity.class));

@@ -158,64 +158,64 @@
                />
 
 
-                <!-- 第二个按钮-->
-                <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_library"
-                    style="@style/NavDrawerRowLayout.Main"
-                    android:paddingLeft="50dp">
+                <!--&lt;!&ndash; 第二个按钮&ndash;&gt;-->
+                <!--<FrameLayout-->
+                    <!--android:id="@+id/navigation_drawer_items_list_linearLayout_library"-->
+                    <!--style="@style/NavDrawerRowLayout.Main"-->
+                    <!--android:paddingLeft="50dp">-->
 
-                    <u.can.i.up.ui.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_library"
-                        style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/btn_lib_ture"
-                        tools:ignore="ContentDescription"
-                        tools:tint="@color/brightgreen" />
+                    <!--<u.can.i.up.ui.customViews.TintOnStateImageView-->
+                        <!--android:id="@+id/navigation_drawer_items_list_icon_library"-->
+                        <!--style="@style/NavDrawerRowItemIcon"-->
+                        <!--android:src="@drawable/btn_lib_ture"-->
+                        <!--tools:ignore="ContentDescription"-->
+                        <!--tools:tint="@color/brightgreen" />-->
 
-                    <TextView
-                        android:id="@+id/navigation_drawer_items_textView_libirary"
-                        style="@style/NavDrawerRowItemText"
-                        android:text="@string/nav_drawer_item_libirary"
-                        tools:fontFamily="sans-serif-medium"
-                        tools:textColor="@color/white"/>
+                    <!--<TextView-->
+                        <!--android:id="@+id/navigation_drawer_items_textView_libirary"-->
+                        <!--style="@style/NavDrawerRowItemText"-->
+                        <!--android:text="@string/nav_drawer_item_libirary"-->
+                        <!--tools:fontFamily="sans-serif-medium"-->
+                        <!--tools:textColor="@color/white"/>-->
 
-                </FrameLayout>
+                <!--</FrameLayout>-->
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/gray_70"
-                    android:layout_marginRight="@dimen/drawer_divider_padding"
-                    android:layout_marginLeft="@dimen/drawer_divider_padding"
-                    />
+                <!--<View-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="2dp"-->
+                    <!--android:background="@color/gray_70"-->
+                    <!--android:layout_marginRight="@dimen/drawer_divider_padding"-->
+                    <!--android:layout_marginLeft="@dimen/drawer_divider_padding"-->
+                    <!--/>-->
 
 
-                <!--第二个按钮-->
-                <FrameLayout
-                    android:id="@+id/navigation_drawer_items_list_linearLayout_myalbum"
-                    style="@style/NavDrawerRowLayout.Main"
-                    android:paddingLeft="50dp">
+                <!--&lt;!&ndash;第二个按钮&ndash;&gt;-->
+                <!--<FrameLayout-->
+                    <!--android:id="@+id/navigation_drawer_items_list_linearLayout_myalbum"-->
+                    <!--style="@style/NavDrawerRowLayout.Main"-->
+                    <!--android:paddingLeft="50dp">-->
 
-                    <u.can.i.up.ui.customViews.TintOnStateImageView
-                        android:id="@+id/navigation_drawer_items_list_icon_myalbum"
-                        style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/btn_lux_true"
-                        tools:ignore="ContentDescription" />
+                    <!--<u.can.i.up.ui.customViews.TintOnStateImageView-->
+                        <!--android:id="@+id/navigation_drawer_items_list_icon_myalbum"-->
+                        <!--style="@style/NavDrawerRowItemIcon"-->
+                        <!--android:src="@drawable/btn_lux_true"-->
+                        <!--tools:ignore="ContentDescription" />-->
 
-                    <TextView
-                        android:id="@+id/navigation_drawer_items_textView_myalbum"
-                        style="@style/NavDrawerRowItemText"
-                        android:text="@string/nav_drawer_item_myalbum"
-                        tools:fontFamily="sans-serif-medium"/>
+                    <!--<TextView-->
+                        <!--android:id="@+id/navigation_drawer_items_textView_myalbum"-->
+                        <!--style="@style/NavDrawerRowItemText"-->
+                        <!--android:text="@string/nav_drawer_item_myalbum"-->
+                        <!--tools:fontFamily="sans-serif-medium"/>-->
 
-                </FrameLayout>
+                <!--</FrameLayout>-->
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/gray_70"
-                    android:layout_marginRight="@dimen/drawer_divider_padding"
-                    android:layout_marginLeft="@dimen/drawer_divider_padding"
-                    />
+                <!--<View-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="2dp"-->
+                    <!--android:background="@color/gray_70"-->
+                    <!--android:layout_marginRight="@dimen/drawer_divider_padding"-->
+                    <!--android:layout_marginLeft="@dimen/drawer_divider_padding"-->
+                    <!--/>-->
 
 
                 <include

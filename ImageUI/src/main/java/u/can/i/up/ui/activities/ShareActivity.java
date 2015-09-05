@@ -77,7 +77,7 @@ public class ShareActivity extends Activity implements View.OnClickListener{
             @Override
             public void onClick(View view) {
 
-                BitmapCache.getAlbumImageList().add(tempbitmap);
+//                BitmapCache.getAlbumImageList().add(tempbitmap);
                 savetoalbum.setClickable(false);
                 savetotext.setText("已保存至我的相册");
             }
