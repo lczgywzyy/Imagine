@@ -4,17 +4,24 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import pulltoRefresh.OnLoadListener;
 import pulltoRefresh.OnRefreshListener;
@@ -24,12 +31,15 @@ import u.can.i.up.ui.customViews.MyAlbumGridViewAdapter;
 import u.can.i.up.ui.utils.BitmapCache;
 
 
-public class MyAlbumActivity extends AppCompatActivity {
+public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
 	private MyAlbumGridViewAdapter myAlBumGridAdapter;
-	private RefreshGridView refreshGridView;
+//	private RefreshGridView refreshGridView;
 	private ArrayList<Bitmap> imageList = new ArrayList<Bitmap>();;
 	private Toolbar mToolbar;
+
+	private SwipeRefreshLayout mSwipeLayout;
+	private GridView mGridView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,64 +53,78 @@ public class MyAlbumActivity extends AppCompatActivity {
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setTitle(R.string.myalbum);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		refreshGridView = (RefreshGridView) findViewById(R.id.myalbum_refreshgridview);
+
+		mSwipeLayout = (SwipeRefreshLayout)findViewById(R.id.id_swipe_ly);
+		mGridView = (GridView)findViewById(R.id.myalbum_gridview);
+//		refreshGridView = (RefreshGridView) findViewById(R.id.myalbum_refreshgridview);
 //		refreshGridView = new RefreshGridView(this);
 		//准备数据
 //		BitmapCache.getAlbumImageList().add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
-//		BitmapCache.getAlbumImageList().add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
-//		BitmapCache.getAlbumImageList().add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_3));
-//		imageList = BitmapCache.getAlbumImageList();
-//		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
-//		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
 //		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_3));
 		//设置适配器
 		myAlBumGridAdapter = new MyAlbumGridViewAdapter(this, imageList);
-		refreshGridView.setAdapter(myAlBumGridAdapter);
+		mGridView.setAdapter(myAlBumGridAdapter);
+		mSwipeLayout.setOnRefreshListener(this);
+		mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+				android.R.color.holo_green_light, android.R.color.holo_orange_light,
+				android.R.color.holo_red_light);
 //		setContentView(refreshGridView);
 
-		refreshGridView.setOnRefreshListener(new OnRefreshListener() {
+//		refreshGridView.setOnRefreshListener(new OnRefreshListener() {
+//
+//			@Override
+//			public void onRefresh() {
+//				Toast.makeText(getApplicationContext(), "refreshing", Toast.LENGTH_SHORT)
+//						.show();
+//
+//				refreshGridView.postDelayed(new Runnable() {
+//
+//					@Override
+//					public void run() {
+//						// 更新数据
+//						myAlBumGridAdapter.notifyDataSetChanged();
+////                        getPearlBeans();
+////                        gridAdapter.notifyDataSetChanged();
+//						refreshGridView.refreshComplete();
+//					}
+//				}, 1500);
+//			}
+//		});
+//
+//		// 不设置的话到底部不会自动加载
+//		refreshGridView.setOnLoadListener(new OnLoadListener() {
+//
+//			@Override
+//			public void onLoadMore() {
+//				Toast.makeText(getApplicationContext(), "loading", Toast.LENGTH_SHORT)
+//						.show();
+//
+//				refreshGridView.postDelayed(new Runnable() {
+//
+//					@Override
+//					public void run() {
+//						myAlBumGridAdapter.notifyDataSetChanged();
+////                        datas.add(new Date().toGMTString());
+////                        adapter.notifyDataSetChanged();
+//						// 加载完后调用该方法
+//						refreshGridView.loadCompelte();
+//					}
+//				}, 1500);
+//			}
+//		});
 
+	}
+
+	public void onRefresh() {
+		new Handler().postDelayed(new Runnable() {
 			@Override
-			public void onRefresh() {
-				Toast.makeText(getApplicationContext(), "refreshing", Toast.LENGTH_SHORT)
-						.show();
-
-				refreshGridView.postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						// 更新数据
-						myAlBumGridAdapter.notifyDataSetChanged();
-//                        getPearlBeans();
-//                        gridAdapter.notifyDataSetChanged();
-						refreshGridView.refreshComplete();
-					}
-				}, 1500);
+			public void run() {
+				imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
+				imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
+				myAlBumGridAdapter.notifyDataSetChanged();
+				mSwipeLayout.setRefreshing(false);
 			}
-		});
-
-		// 不设置的话到底部不会自动加载
-		refreshGridView.setOnLoadListener(new OnLoadListener() {
-
-			@Override
-			public void onLoadMore() {
-				Toast.makeText(getApplicationContext(), "loading", Toast.LENGTH_SHORT)
-						.show();
-
-				refreshGridView.postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						myAlBumGridAdapter.notifyDataSetChanged();
-//                        datas.add(new Date().toGMTString());
-//                        adapter.notifyDataSetChanged();
-						// 加载完后调用该方法
-						refreshGridView.loadCompelte();
-					}
-				}, 1500);
-			}
-		});
-
+		}, 1500);
 	}
 
 	@Override

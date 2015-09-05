@@ -45,14 +45,16 @@ public class CutoutActivity extends Activity {
 
         final ImageViewImpl_cutout imageViewImpl_cutout = (ImageViewImpl_cutout) findViewById(R.id.ImageViewImpl_cutout);
 
-        Bitmap mBitmap1 = null;
-        Uri photoUri = getIntent().getParcelableExtra("photoUri");
-        try {
-             mBitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        imageViewImpl_cutout.setmBitmap(mBitmap1);
+        String photo_path = getIntent().getStringExtra("photo_path");
+
+//        Bitmap mBitmap1 = null;
+//        Uri photoUri = getIntent().getParcelableExtra("photoUri");
+//        try {
+//             mBitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+        imageViewImpl_cutout.setmBitmap(BitmapFactory.decodeFile(photo_path));
 
 //        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.cutout_2_framelayout);
 //        final ImageViewImpl_cutout myView_cutout = new ImageViewImpl_cutout(this);

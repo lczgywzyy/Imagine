@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -86,8 +87,9 @@ public class ImageSetActivity extends FragmentActivity implements View.OnClickLi
         closebtn = (ImageButton)findViewById(R.id.imageset_close_btn);
         continuebtn = (ImageButton)findViewById(R.id.imageset_continue);
         continuebtn.setOnClickListener(this);
-
         Uri photoUri = getIntent().getParcelableExtra("photoUri");
+//        String photoUri = getIntent().getStringExtra("photoUri");
+//        cropImageView.setImageBitmap(BitmapFactory.decodeFile(photoUri));
         cropImageView.setImageUri(photoUri);
     }
 

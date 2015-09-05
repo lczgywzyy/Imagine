@@ -22,6 +22,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -41,6 +42,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.iwf.photopicker.PhotoPickerActivity;
+import me.iwf.photopicker.utils.PhotoPickerIntent;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.beans.TMaterial;
@@ -62,6 +65,10 @@ public class CutoutSetActivity extends AppCompatActivity {
 
     private ArrayList<TMaterial> tMaterials;
 
+    public final static int REQUEST_CODE = 1;
+
+    ArrayList<String> selectedPhotos = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +86,12 @@ public class CutoutSetActivity extends AppCompatActivity {
         testcutout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(getPickImageChooserIntent(), 200);
+//                startActivityForResult(getPickImageChooserIntent(), 200);
 //                startActivity(new Intent(view.getContext(), CutoutActivity.class));
+                PhotoPickerIntent intent = new PhotoPickerIntent(CutoutSetActivity.this);
+                intent.setPhotoCount(1);
+                intent.setShowCamera(true);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
         gridView=(GridView)findViewById(R.id.gridView);
@@ -102,15 +113,37 @@ public class CutoutSetActivity extends AppCompatActivity {
         }
     }
 
-        @Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            Uri imageUri = getPickImageResultUri(data);
-            Intent newdata = new Intent(this, CutoutActivity.class);
-            newdata.putExtra("photoUri", imageUri);
+        super.onActivityResult(requestCode, resultCode, data);
+        List<String> photos = null;
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            if (data != null) {
+                photos = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
+            }
+            selectedPhotos.clear();
+
+            if (photos != null) {
+
+                selectedPhotos.addAll(photos);
+            }
+//            Uri imageUri = Uri.fromFile(new File(selectedPhotos.get(0)));
+            String path = selectedPhotos.get(0);
+            Intent newdata = new Intent(CutoutSetActivity.this, CutoutActivity.class);
+            newdata.putExtra("photo_path", path);
             startActivity(newdata);
         }
     }
+
+//        @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode == Activity.RESULT_OK) {
+//            Uri imageUri = getPickImageResultUri(data);
+//            Intent newdata = new Intent(this, CutoutActivity.class);
+//            newdata.putExtra("photoUri", imageUri);
+//            startActivity(newdata);
+//        }
+//    }
 
     private void setGridView(){
         tMaterials= ((IApplication)getApplication()).arrayListTMaterial;
@@ -128,88 +161,90 @@ public class CutoutSetActivity extends AppCompatActivity {
 
     }
 
-        /**
-     * Create a chooser intent to select the source to get image from.<br/>
-     * The source can be camera's (ACTION_IMAGE_CAPTURE) or gallery's (ACTION_GET_CONTENT).<br/>
-     * All possible sources are added to the intent chooser.
-     */
-    public Intent getPickImageChooserIntent() {
+//        /**
+//     * Create a chooser intent to select the source to get image from.<br/>
+//     * The source can be camera's (ACTION_IMAGE_CAPTURE) or gallery's (ACTION_GET_CONTENT).<br/>
+//     * All possible sources are added to the intent chooser.
+//     */
+//    public Intent getPickImageChooserIntent() {
+//
+//        // Determine Uri of camera image to save.
+//        Uri outputFileUri = getCaptureImageOutputUri();
+//
+//        List<Intent> allIntents = new ArrayList<>();
+//        PackageManager packageManager = getApplication().getPackageManager();
+//
+//        // collect all camera intents
+//        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+//        for (ResolveInfo res : listCam) {
+//            Intent intent = new Intent(captureIntent);
+//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+//            intent.setPackage(res.activityInfo.packageName);
+//            if (outputFileUri != null) {
+//                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+//            }
+//            allIntents.add(intent);
+//        }
+//
+//        // collect all gallery intents
+//        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//        galleryIntent.setType("image/*");
+//        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
+//        for (ResolveInfo res : listGallery) {
+//            Intent intent = new Intent(galleryIntent);
+//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+//            intent.setPackage(res.activityInfo.packageName);
+//            allIntents.add(intent);
+//        }
+//
+//        // the main intent is the last in the list (fucking android) so pickup the useless one
+//        Intent mainIntent = allIntents.get(allIntents.size() - 1);
+//        for (Intent intent : allIntents) {
+//            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
+//                mainIntent = intent;
+//                break;
+//            }
+//        }
+//        allIntents.remove(mainIntent);
+//
+//        // Create a chooser from the main intent
+//        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
+//
+//        // Add all other intents
+//        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
+//
+//        return chooserIntent;
+//    }
+//
+//    /**
+//     * Get URI to image received from capture by camera.
+//     */
+//    private Uri getCaptureImageOutputUri() {
+//        Uri outputFileUri = null;
+//        File getImage = getExternalCacheDir();
+//        if (getImage != null) {
+//            outputFileUri = Uri.fromFile(new File(getImage.getPath(), "pickImageResult.jpeg"));
+//        }
+//        return outputFileUri;
+//    }
+//
+//    /**
+//     * Get the URI of the selected image from {@link #getPickImageChooserIntent()}.<br/>
+//     * Will return the correct URI for camera and gallery image.
+//     *
+//     * @param data the returned data of the activity result
+//     */
+//    public Uri getPickImageResultUri(Intent data) {
+//        boolean isCamera = true;
+//        if (data != null) {
+//            String action = data.getAction();
+//            isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
+//        }
+//        return isCamera ? getCaptureImageOutputUri() : data.getData();
+//    }
 
-        // Determine Uri of camera image to save.
-        Uri outputFileUri = getCaptureImageOutputUri();
 
-        List<Intent> allIntents = new ArrayList<>();
-        PackageManager packageManager = getApplication().getPackageManager();
-
-        // collect all camera intents
-        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for (ResolveInfo res : listCam) {
-            Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(res.activityInfo.packageName);
-            if (outputFileUri != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            }
-            allIntents.add(intent);
-        }
-
-        // collect all gallery intents
-        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        galleryIntent.setType("image/*");
-        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
-        for (ResolveInfo res : listGallery) {
-            Intent intent = new Intent(galleryIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(res.activityInfo.packageName);
-            allIntents.add(intent);
-        }
-
-        // the main intent is the last in the list (fucking android) so pickup the useless one
-        Intent mainIntent = allIntents.get(allIntents.size() - 1);
-        for (Intent intent : allIntents) {
-            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
-                mainIntent = intent;
-                break;
-            }
-        }
-        allIntents.remove(mainIntent);
-
-        // Create a chooser from the main intent
-        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
-
-        // Add all other intents
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
-
-        return chooserIntent;
-    }
-
-    /**
-     * Get URI to image received from capture by camera.
-     */
-    private Uri getCaptureImageOutputUri() {
-        Uri outputFileUri = null;
-        File getImage = getExternalCacheDir();
-        if (getImage != null) {
-            outputFileUri = Uri.fromFile(new File(getImage.getPath(), "pickImageResult.jpeg"));
-        }
-        return outputFileUri;
-    }
-
-    /**
-     * Get the URI of the selected image from {@link #getPickImageChooserIntent()}.<br/>
-     * Will return the correct URI for camera and gallery image.
-     *
-     * @param data the returned data of the activity result
-     */
-    public Uri getPickImageResultUri(Intent data) {
-        boolean isCamera = true;
-        if (data != null) {
-            String action = data.getAction();
-            isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
-        }
-        return isCamera ? getCaptureImageOutputUri() : data.getData();
-    }
     class GridViewAdapters extends  BaseAdapter{
 
 

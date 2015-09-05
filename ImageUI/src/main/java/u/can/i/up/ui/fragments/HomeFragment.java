@@ -22,6 +22,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.iwf.photopicker.PhotoPickerActivity;
+import me.iwf.photopicker.utils.PhotoPickerIntent;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.CutoutSetActivity;
 import u.can.i.up.ui.activities.ImageSetActivity;
@@ -47,6 +49,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private Button pearl_build;
 
     private Button myalbum;
+
+    public final static int REQUEST_FAST_CODE = 1;
+    public final static int REQUEST_PEARL_CODE = 2;
+    ArrayList<String> selectedPhotos = new ArrayList<>();
+
 
     public static HomeFragment newInstance(Bundle bundle)
     {
@@ -76,27 +83,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         material_build.setOnClickListener(this);
         pearl_build.setOnClickListener(this);
         myalbum.setOnClickListener(this);
-
-//        libirary.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(view.getContext(), LibiraryActivity.class));
-//            }
-//        });
-//        collocation_start.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivityForResult(getPickImageChooserIntent(), 200);
-////                selectImage();
-//            }
-//        });
-//        pearlbuild.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(getActivity(), PearlBuildActivity.class));
-//            }
-//        });
-
         return view;
     }
 
@@ -149,8 +135,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            Uri imageUri = getPickImageResultUri(data);
+        List<String> photos = null;
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_FAST_CODE) {
+            if (data != null) {
+                photos = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
+            }
+            selectedPhotos.clear();
+            if (photos != null) {
+                selectedPhotos.addAll(photos);
+            }
+            Uri imageUri = Uri.fromFile(new File(selectedPhotos.get(0)));
+//            String path = selectedPhotos.get(0);
             Intent newdata = new Intent(getActivity(), ImageSetActivity.class);
             newdata.putExtra("photoUri", imageUri);
             startActivity(newdata);
@@ -160,10 +155,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-
+        PhotoPickerIntent intent = new PhotoPickerIntent(getActivity());
         switch (v.getId()){
             case R.id.fast_start:
-                startActivityForResult(getPickImageChooserIntent(), 200);
+                intent.setPhotoCount(1);
+                intent.setShowCamera(true);
+                startActivityForResult(intent, REQUEST_FAST_CODE);
+//                startActivityForResult(getPickImageChooserIntent(), 200);
                 break;
             case R.id.libirary:
                 startActivity(new Intent(getActivity(), LibiraryActivity.class));
@@ -172,6 +170,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), CutoutSetActivity.class));
                 break;
             case R.id.pearl_build:
+                intent.setPhotoCount(1);
+                intent.setShowCamera(true);
+                startActivityForResult(intent, REQUEST_PEARL_CODE);
                 startActivity(new Intent(getActivity(), PearlBuildActivity.class));
                 break;
             case R.id.myalbum:
@@ -182,16 +183,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == Activity.RESULT_OK) {
-//            if (requestCode == SELECT_FILE)
-//                onSelectFromGalleryResult(data);
-//            else if (requestCode == REQUEST_CAMERA)
-//                onCaptureImageResult(data);
-//        }
-//    }
+
 
 
     /**
