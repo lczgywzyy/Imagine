@@ -117,7 +117,7 @@
                         android:id="@+id/material_build"
                         android:layout_width="@dimen/home_btnsize"
                         android:layout_height="93dp"
-                        android:background="@drawable/zizhuzuzhu" />
+                        android:background="@drawable/material_build" />
                     <Space
                         android:layout_width="fill_parent"
                         android:layout_height="13dp" />
@@ -175,7 +175,7 @@
                         android:id="@+id/myalbum"
                         android:layout_width="@dimen/home_btnsize"
                         android:layout_height="93dp"
-                        android:background="@drawable/sucaiku" />
+                        android:background="@drawable/myalbum" />
                     <Space
                         android:layout_width="fill_parent"
                         android:layout_height="13dp" />
