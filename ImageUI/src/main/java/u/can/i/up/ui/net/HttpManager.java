@@ -287,7 +287,7 @@ public class HttpManager<T> extends AsyncTask<Integer, Integer, IHttpStatus> {
 
             Iterator<Map.Entry<String, SoftReference<Bitmap>>> iteratorBitmap = imgs.entrySet().iterator();
 
-            while (iterator.hasNext()) {
+            while (iteratorBitmap.hasNext()) {
                 Map.Entry<String, SoftReference<Bitmap>> entry = iteratorBitmap.next();
                 String key = String.valueOf(entry.getKey());
                 Bitmap value = entry.getValue().get();
