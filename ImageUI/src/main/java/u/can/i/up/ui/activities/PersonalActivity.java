@@ -9,10 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.net.HttpLoginManager;
+import u.can.i.up.ui.utils.IBitmapCache;
 
 public class PersonalActivity extends AppCompatActivity {
     Button btnName;
@@ -20,6 +22,7 @@ public class PersonalActivity extends AppCompatActivity {
     Button btnPhone;
     Button btnLoginOut;
     Button btnEdit;
+    CircleImageView headIcon;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -52,11 +55,12 @@ public class PersonalActivity extends AppCompatActivity {
         initData();
     }
     private void initViews(){
-        btnEmail=(Button)findViewById(R.id.username);
+        btnEmail=(Button)findViewById(R.id.useremail);
         btnPhone=(Button)findViewById(R.id.userphone);
         btnName=(Button)findViewById(R.id.username);
         btnLoginOut=(Button)findViewById(R.id.login_out);
         btnEdit=(Button)findViewById(R.id.btn_edit);
+        headIcon=(CircleImageView)findViewById(R.id.imgicon);
 
     }
     private void initData(){
@@ -79,6 +83,16 @@ public class PersonalActivity extends AppCompatActivity {
                 btnPhone.setText("未认证");
             }else{
                 btnPhone.setText(user.getPhoneNumber());
+            }
+            if(!TextUtils.isEmpty(user.getPortrait())){
+                String imguri=user.getPortrait();
+                String[] uriArray=imguri.split("/");
+                if(uriArray.length>1) {
+                    String md5 = uriArray[uriArray.length - 1].replaceAll(".png", "");
+                    IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(headIcon);
+
+                    bitmapAsync.execute(imguri, md5,"img");
+                }
             }
             btnLoginOut.setOnClickListener(new View.OnClickListener() {
                 @Override

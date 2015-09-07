@@ -16,11 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.fragments.HomeFragment;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.fragments.MyAlbumFragment;
+import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.UtilsDevice;
 import u.can.i.up.ui.utils.UtilsMiscellaneous;
 
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FrameLayout mFrameLayout_Setup;
     private TextView mTextView_AccountDisplayName, mTextView_AccountEmail;
     private TextView mTextView_Home, mTextView_Libirary, mTextView_Setup;
+
+    private CircleImageView headIcon;
 
     private long mExitTime;
 
@@ -158,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         IApplication iApplication=(IApplication)getApplication();
         LinearLayout linLoginShow=(LinearLayout)findViewById(R.id.login_show);
         TextView txtname=(TextView)findViewById(R.id.navigation_drawer_account_information_display_name);
+        headIcon=(CircleImageView)findViewById(R.id.navigation_drawer_user_account_picture_profile);
         Button btn=(Button)findViewById(R.id.btn_login);
         if(iApplication.getIsLogin()){
             User user=iApplication.getUerinfo();
@@ -168,6 +173,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }else{
                 txtname.setText(user.getUserName());
             }
+
+            //设置用户头像
+            if(!TextUtils.isEmpty(user.getPortrait())){
+                String imguri=user.getPortrait();
+                String[] uriArray=imguri.split("/");
+                if(uriArray.length>1) {
+                    String md5 = uriArray[uriArray.length - 1].replaceAll(".png", "");
+                    IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(headIcon);
+
+                    bitmapAsync.execute(imguri, md5,"img");
+                }
+            }
+
+
         }else {
             linLoginShow.setVisibility(View.GONE);
             btn.setVisibility(View.VISIBLE);

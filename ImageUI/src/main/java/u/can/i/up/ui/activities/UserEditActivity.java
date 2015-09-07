@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.lang.ref.SoftReference;
@@ -224,6 +225,7 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
                         }else if(uptype== UType.EMAIL){
                             ((IApplication) getApplication()).getUerinfo().setUserEmail(IHttpNormalBean.getData());
                             uptype=UType.PORTRAIT;
+                            Toast.makeText(UserEditActivity.this,"更新成功",Toast.LENGTH_LONG).show();
                         }
                     }
                     break;
@@ -293,6 +295,10 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
                 httpNormalManager.boundUrl(IApplicationConfig.HTTP_URL_CHECKSUM);
                 httpNormalManager.boundType(HttpManager.HttpType.POST);
                 httpNormalManager.execute();
+            }else{
+                if(uptype==UType.EMAIL){
+                    Toast.makeText(UserEditActivity.this,"更新成功",Toast.LENGTH_LONG).show();
+                }
             }
     }
 
