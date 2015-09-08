@@ -12,14 +12,16 @@
         android:layout_weight="360"
         android:background="@color/gray_80"
         android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:gravity="center"
         >
         <u.can.i.up.ui.utils.ImageViewImpl_collocate
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ImageViewImpl_allocate"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
+            android:scaleType="matrix"
             />
     </LinearLayout>
 

@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import u.can.i.up.utils.image.ViewStatus;
  * @sumary 搭配界面中，搭配部分的画图工具
  *
  */
-public class ImageViewImpl_collocate extends View {
+public class ImageViewImpl_collocate extends ImageView {
 
     private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_collocate.class;
     private static final ImageView.ScaleType[] VALID_SCALE_TYPES = new ImageView.ScaleType[]{ImageView.ScaleType.FIT_CENTER, ImageView.ScaleType.CENTER_INSIDE, ImageView.ScaleType.FIT_CENTER};
@@ -64,11 +65,11 @@ public class ImageViewImpl_collocate extends View {
     Context context = null;
 
     //图片变换矩阵
-    Matrix matrixBack = new Matrix();
     Matrix matrixPaint = null;
 
+    Matrix matrixBack=null;
+
     //图片变换点阵集合
-    RectF rectBack = new RectF();
     RectF rectMotionPre = new RectF();
     RectF rectMotion = new RectF();
     RectF rectRotateMark = new RectF();
@@ -88,7 +89,7 @@ public class ImageViewImpl_collocate extends View {
     PointF rotateCenterP = new PointF();
     PointF deleteCenterP = new PointF();
 
-    private  boolean isInitTranslate;
+
 
     float canvas_width_pre;
 
@@ -98,9 +99,6 @@ public class ImageViewImpl_collocate extends View {
 
     float bitmap_height_pre;
 
-    float bitmap_translate_y;
-
-    float bitmap_translate_x;
 
     float scale_factor=1f;
 
@@ -147,15 +145,13 @@ public class ImageViewImpl_collocate extends View {
         //加载相应的图片资源
         bmpBack = BitmapCache.getBitmapcache();
         RectF tmpRectBack = new RectF(0, 0, bmpBack.getWidth(), bmpBack.getHeight());
-        rectBack = new RectF(tmpRectBack);
-        //背景图片缩放比例
-        //matrixBack.postScale(BitmapCache.getBackBmpScale(), BitmapCache.getBackBmpScale(), 0, 0);
-        //matrixBack.postTranslate(BitmapCache.getBackBmpTranslateX(), BitmapCache.getBackBmpTranslateY());
-        matrixBack.mapRect(rectBack, tmpRectBack);
+
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
         bmpDelete = BitmapFactory.decodeResource(getResources(), R.drawable.delete_icon);
         //画布参数
         paintFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
+        this.context=context;
+        initTranslate();
     }
 
     @Override
@@ -168,13 +164,13 @@ public class ImageViewImpl_collocate extends View {
         drawRuleOfThirdsGuidelines(canvas);
 
         canvas.setDrawFilter(paintFilter);
-
+/*
         if(!isInitTranslate) {
             initTranslate(canvas, bmpBack);
             matrixBack.postScale(1/scale_factor,1/scale_factor);
-        }
-        canvas.translate(bitmap_translate_x,bitmap_translate_y);
-        canvas.drawBitmap(bmpBack,matrixBack,mainPaint);
+        }*/
+       // canvas.translate(bitmap_translate_x,bitmap_translate_y);
+        //canvas.drawBitmap(bmpBack,matrixBack,mainPaint);
         //canvas.drawBitmap(bmpBack, matrixBack, mainPaint);
         if(mPearlList != null && !mPearlList.isEmpty()){
             for (Pearl pearl: mPearlList){
@@ -190,121 +186,49 @@ public class ImageViewImpl_collocate extends View {
         }
 //		canvas.drawCircle(picMidPoint.x, picMidPoint.y, 5, mainPaint);
     }
+    public int getMaxWidth(){
+        return UtilsDevice.getScreenWidth(context);
+    }
+
+    public int getMaxHeight(){
+
+      return UtilsDevice.dip2px(context,360);
 
 
-    private void initTranslate(Canvas canvas,Bitmap bitmap){
+    }
+
+    private void initTranslate(){
         float bitmap_width_post=0f;
 
         float bitmap_height_post=0f;
 
-        canvas_width_pre = canvas.getWidth();
+        canvas_width_pre = getMaxWidth();
 
-        canvas_height_pre = canvas.getHeight();
+        canvas_height_pre = getMaxHeight();
 
-        bitmap_width_pre = bitmap.getWidth();
+        bitmap_width_pre = bmpBack.getWidth();
 
-        bitmap_height_pre = bitmap.getHeight();
+        bitmap_height_pre = bmpBack.getHeight();
 
 
         if (canvas_width_pre > bitmap_width_pre && canvas_height_pre > bitmap_height_pre) {
 
-            bitmap_translate_x=(canvas_width_pre - bitmap_width_pre) / 2;
-
-            bitmap_translate_y= (canvas_height_pre - bitmap_height_pre) / 2;
 
         } else {
             //背景位图矩阵缩放
             scale_factor = bitmap_width_pre / canvas_height_pre > bitmap_height_pre / canvas_height_pre ? bitmap_width_pre / canvas_height_pre : bitmap_height_pre / canvas_height_pre;
 
-            //画布移动和缩放
-            bitmap_width_post=bitmap_width_pre/scale_factor;
-            bitmap_height_post=bitmap_height_pre/scale_factor;
-
-            bitmap_translate_x=(canvas_width_pre - bitmap_width_post) / 2;
-
-            bitmap_translate_y=(canvas_height_pre - bitmap_height_post) / 2;
-
         }
-        isInitTranslate=true;
+
+        matrixBack =new Matrix();
+
+        matrixBack.postScale(1/scale_factor, 1/scale_factor);
+
+        bmpBack = Bitmap.createBitmap(bmpBack,0,0,bmpBack.getWidth(),bmpBack.getHeight(),matrixBack,true);
+        this.setImageBitmap(bmpBack);
+
     }
 
-
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        // TODO Auto-generated method stub
-//        float x = event.getX();
-//        float y = event.getY();
-//
-//        switch (event.getAction()) {
-//            //手指按下的时候
-//            case MotionEvent.ACTION_DOWN:
-//                prePoint.x = x;
-//                prePoint.y = y;
-//                //按到了旋转图标上
-//                if(isInRect(x, y, rectRotate)){
-//                    status = ViewStatus.STATUS_ROTATE;
-//                }else if(isInRect(x, y, rectDelete)){
-//                    status = ViewStatus.STATUS_DELETE;
-//                }
-//                else{
-//                    status = ViewStatus.STATUS_MOVE;
-//                }
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                if(status == ViewStatus.STATUS_ROTATE){
-////                    saveBitmap();
-//                } else if(status == ViewStatus.STATUS_DELETE){
-//                    deleteCurrentMotion();
-//                }
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                curPoint.x = x;
-//                curPoint.y = y;
-//                if(status == ViewStatus.STATUS_ROTATE){
-//                    rectRotateMark.set(x,
-//                            y,
-//                            x + bmpRotate.getWidth(),
-//                            y + bmpRotate.getHeight());
-//                    //获取旋转的角度
-//                    float de = getPointsDegree(prePoint, pointMotionMid, curPoint);
-//                    //获取缩放的比例
-//                    float re = getPointsDistance(pointMotionMid, curPoint) / getPointsDistance(pointMotionMid, prePoint);
-//                    if(re > 0.0001){
-//                        //对Matrix进行缩放
-//                        matrixPaint.postScale(re, re, pointMotionMid.x, pointMotionMid.y);
-//                    }
-//                    if(de > 0.0001 || de < -0.0001){
-//                        //对Matrix进行旋转
-//                        matrixPaint.postRotate(de, pointMotionMid.x, pointMotionMid.y);
-//                    }
-//                }else if(status == ViewStatus.STATUS_MOVE){
-//                    //对Matrix进行移位
-//                    matrixPaint.postTranslate(x - prePoint.x, y - prePoint.y);
-//                }
-//                prePoint.x = x;
-//                prePoint.y = y;
-//                //将矩阵map到表情矩形上
-//                matrixPaint.mapRect(rectMotion, rectMotionPre);
-//                matrixPaint.mapRect(rectRotateMark, rectRotatePre);
-//                matrixPaint.mapRect(rectDeleteMark, rectDeletePre);
-//                getRectCenter(rectRotateMark, rotateCenterP);
-//                getRectCenter(rectDeleteMark, deleteCenterP);
-//                getRectCenter(rectMotion, pointMotionMid);
-//                rectRotate.set(rectRotateMark.left,
-//                        rectRotateMark.top,
-//                        rectRotateMark.left + bmpRotate.getWidth(),
-//                        rectRotateMark.top + bmpRotate.getHeight());
-//                rectDelete.set(rectDeleteMark.left,
-//                        rectDeleteMark.top - bmpDelete.getHeight(),
-//                        rectDeleteMark.left + bmpDelete.getWidth(),
-//                        rectDeleteMark.top);
-//                postInvalidate();
-//                break;
-//            default:
-//                break;
-//        }
-//        return true;
-//    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -321,9 +245,9 @@ public class ImageViewImpl_collocate extends View {
 
 
                     RectF rectR=new RectF(rectRotate);
-                    rectR.offset(bitmap_translate_x,bitmap_translate_y);
+                    //rectR.offset(bitmap_translate_x,bitmap_translate_y);
                     RectF rectD=new RectF(rectDelete);
-                    rectD.offset(bitmap_translate_x,bitmap_translate_y);
+                   // rectD.offset(bitmap_translate_x,bitmap_translate_y);
                 if(ImageAlgrithms.isInRect(x, y, rectR)){
                     status = ViewStatus.STATUS_ROTATE;
                 }else if(ImageAlgrithms.isInRect(x, y ,rectD)){
@@ -342,7 +266,7 @@ public class ImageViewImpl_collocate extends View {
 
                         pearl.getMatrix().mapRect(rectF);
 
-                        rectF.offset(bitmap_translate_x,bitmap_translate_y);
+                       // rectF.offset(bitmap_translate_x,bitmap_translate_y);
 
                         if(rectF.contains(x,y)){
                             index=mPearlList.size()-1-i;
@@ -603,28 +527,5 @@ public class ImageViewImpl_collocate extends View {
 //        rectRotate.set(rectRotatePre);
     }
 
-//    /**
-//     * 将当前表情合并到背景并保存
-//     */
-//    public void saveBitmapCovered() {
-//        File f = new File(savePathCovered);
-//        //使用背景图的宽高创建一张bitmap
-//        Bitmap bmpSave = Bitmap.createBitmap(bmpBack.getWidth(), bmpBack.getHeight(), Bitmap.Config.ARGB_8888);
-//        //创建canvas
-//        Canvas canvas = new Canvas(bmpSave);
-//        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-//
-//        //将背景图和表情画在bitmap上
-//        canvas.drawBitmap(bmpMotion, matrixPaint, null);
-//        canvas.drawBitmap(bmpBack, 0, 0, paint);
-//
-//        paint.setXfermode(null);
-//
-//        int[] pixels = new int[bmpSave.getHeight() * bmpSave.getWidth()];
-//        bmpSave.getPixels(pixels, 0, bmpSave.getWidth(), 0, 0, bmpSave.getWidth(), bmpSave.getHeight());
-//
-//        ImageUtils.extractImageFromBitmapPixels(bmpSave, pixels, savePathCovered, false);
-//        bmpBack.recycle();
-//    }
+
 }

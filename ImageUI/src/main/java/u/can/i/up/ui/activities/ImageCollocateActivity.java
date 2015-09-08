@@ -23,6 +23,7 @@ import u.can.i.up.ui.fragments.*;
 import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_collocate;
+import u.can.i.up.ui.utils.UtilsDevice;
 
 /**
  * @author dongfeng
@@ -124,42 +125,14 @@ public class ImageCollocateActivity extends FragmentActivity {
     private View getTabItemView(int index) {
         View view = mLayoutInflater.inflate(R.layout.item_navigator_material_selected, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
-        imageView.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(null,tMaterialArrayList.get(index).getTMaterialMd()));
+        imageView.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(null, tMaterialArrayList.get(index).getTMaterialMd()));
         TextView textView = (TextView) view.findViewById(R.id.textview);
         textView.setText(tMaterialArrayList.get(index).getTMaterialName());
 
         return view;
     }
 
-//异步任务加载图片
-//    private  class Loadimage extends AsyncTask<String, Void, String> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            pDialog = new ProgressDialog(ImageCollocateActivity.this);
-//            pDialog.setMessage("图片加载中...");
-//            pDialog.show();
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... file) {
-//            try {
-//                FileInputStream is = getApplication().openFileInput(file[0]);
-//                mbitmap = BitmapFactory.decodeStream(is);
-//                is.close();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
-//            pDialog.dismiss();
-//            logoview.setImageBitmap(mbitmap);
-//        }
-//    }
+
 
 
 
