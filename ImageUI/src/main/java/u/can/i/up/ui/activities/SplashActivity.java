@@ -41,7 +41,7 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         settings = getSharedPreferences("setting", 0);
         setContentView(R.layout.activity_splash);
-
+        setParams();
 
         if(this.getSharedPreferences("setting",0).getInt("START", 0)==0) {
             try {
@@ -66,6 +66,14 @@ public class SplashActivity extends Activity {
         autologin();
 
 
+    }
+
+    private void setParams(){
+        IApplicationConfig.Scale=this.getResources().getDisplayMetrics().density;
+
+        IApplicationConfig.DeviceHeight=this.getResources().getDisplayMetrics().heightPixels;
+
+        IApplicationConfig.DeviceWidth=this.getResources().getDisplayMetrics().widthPixels;
     }
 
     private void autologin(){

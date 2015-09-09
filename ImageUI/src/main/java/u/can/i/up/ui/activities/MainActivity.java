@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.fragments.HomeFragment;
 import u.can.i.up.ui.R;
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mActionBarDrawerToggle.syncState();
 
         // Navigation Drawer layout width
-        int possibleMinDrawerWidth = UtilsDevice.getScreenWidth(this) -
+        int possibleMinDrawerWidth = IApplicationConfig.DeviceWidth -
                 UtilsMiscellaneous.getThemeAttributeDimensionSize(this, android.R.attr.actionBarSize);
         int maxDrawerWidth = getResources().getDimensionPixelSize(R.dimen.navigation_drawer_max_width);
 

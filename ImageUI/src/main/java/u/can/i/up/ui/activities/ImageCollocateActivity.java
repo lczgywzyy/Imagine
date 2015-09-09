@@ -125,7 +125,14 @@ public class ImageCollocateActivity extends FragmentActivity {
     private View getTabItemView(int index) {
         View view = mLayoutInflater.inflate(R.layout.item_navigator_material_selected, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
-        imageView.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(null, tMaterialArrayList.get(index).getTMaterialMd()));
+
+        //
+
+        IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(imageView);
+
+        bitmapAsync.execute(null, tMaterialArrayList.get(index).getTMaterialMd(),"img");
+
+       // imageView.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(null, tMaterialArrayList.get(index).getTMaterialMd()));
         TextView textView = (TextView) view.findViewById(R.id.textview);
         textView.setText(tMaterialArrayList.get(index).getTMaterialName());
 

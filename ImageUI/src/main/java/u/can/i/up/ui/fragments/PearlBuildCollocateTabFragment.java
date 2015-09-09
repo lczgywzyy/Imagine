@@ -191,6 +191,10 @@ public class PearlBuildCollocateTabFragment extends Fragment implements AdapterV
             }
             viewHolder.iv_face.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(pearlBeansArrayList.get(position).getPath(), pearlBeansArrayList.get(position).getMD5()));
 
+            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync( viewHolder.iv_face);
+
+            bitmapAsync.execute(pearlBeansArrayList.get(position).getPath(), pearlBeansArrayList.get(position).getMD5(),"img");
+
             viewHolder.iv_face.setTag(pearlBeansArrayList.get(position));
 
 

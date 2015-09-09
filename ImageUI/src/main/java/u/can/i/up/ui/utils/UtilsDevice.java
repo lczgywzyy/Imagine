@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 
+import u.can.i.up.ui.application.IApplicationConfig;
+
 /**
  * This utility class is for device related stuff.
  *
@@ -12,39 +14,17 @@ import android.util.DisplayMetrics;
 public class UtilsDevice
 {
     /**
-     * Returns the screen width in pixels
-     *
-     * @param context is the context to get the resources
-     *
-     * @return the screen width in pixels
-     */
-    public static int getScreenWidth(Context context)
-    {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-
-        return metrics.widthPixels;
-    }
-
-    public static int getScreentHeight(Context context){
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-
-        return metrics.heightPixels;
-    }
-
-    /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+    public static int dip2px(float dpValue) {
+        return (int) (dpValue * IApplicationConfig.Scale + 0.5f);
     }
 
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */
-    public static int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
+    public static int px2dip(float pxValue) {
+        return (int) (pxValue / IApplicationConfig.Scale + 0.5f);
     }
 
 

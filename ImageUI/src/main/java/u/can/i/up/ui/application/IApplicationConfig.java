@@ -45,6 +45,12 @@ public class IApplicationConfig {
 
     public static final String MESSAGE="message";
 
+    public static float Scale=0f;
+
+    public static int DeviceWidth=0;
+
+    public static int DeviceHeight=0;
+
 
 
 

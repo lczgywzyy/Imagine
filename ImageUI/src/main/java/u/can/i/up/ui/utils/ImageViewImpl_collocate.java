@@ -23,6 +23,7 @@ import java.util.List;
 import cropper.cropwindow.edge.Edge;
 import cropper.util.PaintUtil;
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.utils.image.ImageAlgrithms;
 import u.can.i.up.utils.image.Pearl;
 import u.can.i.up.utils.image.ViewStatus;
@@ -187,20 +188,17 @@ public class ImageViewImpl_collocate extends ImageView {
 //		canvas.drawCircle(picMidPoint.x, picMidPoint.y, 5, mainPaint);
     }
     public int getMaxWidth(){
-        return UtilsDevice.getScreenWidth(context);
+        return IApplicationConfig.DeviceWidth;
     }
 
     public int getMaxHeight(){
 
-      return UtilsDevice.dip2px(context,360);
+      return UtilsDevice.dip2px(360);
 
 
     }
 
     private void initTranslate(){
-        float bitmap_width_post=0f;
-
-        float bitmap_height_post=0f;
 
         canvas_width_pre = getMaxWidth();
 
@@ -216,7 +214,7 @@ public class ImageViewImpl_collocate extends ImageView {
 
         } else {
             //背景位图矩阵缩放
-            scale_factor = bitmap_width_pre / canvas_height_pre > bitmap_height_pre / canvas_height_pre ? bitmap_width_pre / canvas_height_pre : bitmap_height_pre / canvas_height_pre;
+            scale_factor = bitmap_width_pre / canvas_width_pre > bitmap_height_pre / canvas_height_pre ? bitmap_width_pre / canvas_width_pre : bitmap_height_pre / canvas_height_pre;
 
         }
 

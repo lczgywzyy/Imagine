@@ -2,7 +2,9 @@ package u.can.i.up.ui.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
@@ -185,14 +187,16 @@ public class IBitmapCache {
         @Override
         protected void onPostExecute(Bitmap s) {
             super.onPostExecute(s);
+            //匹配不同分辨率的手机,进行一下bitmap的缩放
+            Bitmap bitmap=BitmapScale(s,UtilsDevice.dip2px(48),UtilsDevice.dip2px(48));
             if(view instanceof ImageView) {
-                ((ImageView) view).setImageBitmap(s);
+                ((ImageView) view).setImageBitmap(bitmap);
             }else if(view instanceof TextView){
-
+                int width=bitmap.getWidth();
                 if("bottom".equals(position)){
-                    ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(null, new BitmapDrawable(s), null, null);
+                    ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(null, new BitmapDrawable(bitmap), null, null);
                 }else if("left".equals(position)){
-                    ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(new BitmapDrawable(s), null, null, null);
+                    ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(new BitmapDrawable(bitmap), null, null, null);
                 }
             }
         }
@@ -201,6 +205,25 @@ public class IBitmapCache {
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
         }
+    }
+
+
+
+    public static Bitmap BitmapScale(Bitmap bitmap,int scaleMaxWidth,int scaleMaxHeight){
+
+
+
+        int bitmap_width_pre = bitmap.getWidth();
+        int bitmap_height_pre = bitmap.getHeight();
+        Matrix matrixBack =new Matrix();
+        float scale_factor=1f;
+        //背景位图矩阵缩放
+        scale_factor = (float)bitmap_width_pre / (float)scaleMaxWidth > (float)bitmap_height_pre / (float)scaleMaxHeight ? (float)bitmap_width_pre / (float)scaleMaxWidth : (float)bitmap_height_pre / (float)scaleMaxHeight;
+
+        matrixBack.postScale(1 / scale_factor, 1 / scale_factor);
+
+        return Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrixBack,true);
+
     }
 
 
