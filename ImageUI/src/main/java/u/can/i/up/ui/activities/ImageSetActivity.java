@@ -139,6 +139,7 @@ public class ImageSetActivity extends FragmentActivity implements View.OnClickLi
             case R.id.imageset_continue:
             {
                 croppedImage = cropImageView.getCroppedImage();
+                BitmapCache.bitmapCycle();
                 BitmapCache.setBitmapcache(croppedImage);
                 //设置缩放比例、背景图片移动距离
                 float tmpScaleX = ((float) cropImageView.getWidth()) / croppedImage.getWidth();

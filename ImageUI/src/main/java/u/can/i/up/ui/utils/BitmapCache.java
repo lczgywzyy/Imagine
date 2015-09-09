@@ -69,4 +69,10 @@ public class BitmapCache {
         mImageViewImpl_PearlBuild = imageViewImpl_PearlBuild;
     }
 
+    public static void bitmapCycle(){
+        if(bitmapcache!=null) {
+            bitmapcache.recycle();
+            bitmapcache=null;
+        }
+    }
 }

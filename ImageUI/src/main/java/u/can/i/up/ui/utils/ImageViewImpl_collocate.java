@@ -15,7 +15,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -222,7 +222,9 @@ public class ImageViewImpl_collocate extends ImageView {
 
         matrixBack.postScale(1/scale_factor, 1/scale_factor);
 
+        Log.e("MAP",String.valueOf(bmpBack)+"XXX"+String.valueOf(bmpBack.getWidth()));
         bmpBack = Bitmap.createBitmap(bmpBack,0,0,bmpBack.getWidth(),bmpBack.getHeight(),matrixBack,true);
+
         this.setImageBitmap(bmpBack);
 
     }
