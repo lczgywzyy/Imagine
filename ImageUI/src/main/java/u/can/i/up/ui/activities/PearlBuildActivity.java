@@ -39,15 +39,16 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
 
     private EditText ballnum;
     private Button preview;
-    ImageButton add_pearl;
-    ImageButton setover;
-    ImageButton closeBtm;
+    private ImageButton add_pearl;
+    private ImageButton setover;
+    private ImageButton closeBtm;
     public final static int REQUEST_CODE = 1;
     public ImageViewImpl_PearlBuild pearlBuild;
-    ArrayList<String> selectedPhotos = new ArrayList<>();
+    private ArrayList<String> selectedPhotos = new ArrayList<>();
     //传递到下个界面的东西
     private String suzhu_path;
     private int suzhu_num;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,10 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
         pearlBuild = (ImageViewImpl_PearlBuild)findViewById(R.id.ImageViewImpl_PearlBuild);
         setover = (ImageButton)findViewById(R.id.pearlbuild_continue_btn);
         closeBtm = (ImageButton)findViewById(R.id.pearlbuild_close_btn);
+
+        String photoPath = getIntent().getStringExtra("photoUri");
+        pearlBuild.setBmpSuzhu(BitmapFactory.decodeFile(photoPath));
+        suzhu_path = photoPath;
 
         preview.setOnClickListener(this);
         add_pearl.setOnClickListener(this);
@@ -108,15 +113,15 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
                 break;
             }
             case R.id.pearlbuildpreview: {
-                int inputNum = Integer.parseInt(ballnum.getText().toString());
+                suzhu_num = Integer.parseInt(ballnum.getText().toString());
 //                String a = ballnum.getText().toString();
 //                int inputNum = Integer.parseInt(a);
                 ballnum.setText(null);
-                if (inputNum >= 10 && inputNum <= 120) {
+                if (suzhu_num >= 10 && suzhu_num <= 120) {
                     ballnum.setHintTextColor(Color.BLACK);
                     ballnum.setHint(R.string.suzhu_num_hint);
-                    pearlBuild.updateImage(inputNum);
-                    suzhu_num = inputNum;
+                    pearlBuild.updateImage(suzhu_num);
+
                 } else {
                     int withs = ballnum.getWidth();
                     ballnum.setHintTextColor(Color.RED);
@@ -127,23 +132,30 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
             }
             case R.id.pearlbuild_continue_btn:
             {
-                if (suzhu_path == null){
-                    new AlertDialog.Builder(this)
-                            .setTitle("素珠确认")
-                            .setMessage("请选择素珠")
-                            .setPositiveButton("确定", null)
-                            .show();
-                }else  if (suzhu_num == 0){
+                suzhu_num = Integer.parseInt(ballnum.getText().toString());
+                ballnum.setText(null);
+                if (suzhu_num == 0){
                     new AlertDialog.Builder(this)
                             .setTitle("素珠确认")
                             .setMessage("请输入素珠个数")
                             .setPositiveButton("确定", null)
                             .show();
                 }else {
-                Intent i = new Intent(PearlBuildActivity.this, PearlBuildCollocateActivity.class);
-                i.putExtra("suzhu_path", suzhu_path);
-                i.putExtra("suzhu_num", suzhu_num);
-                startActivity(i);
+                    if (suzhu_num >= 10 && suzhu_num <= 120) {
+                        ballnum.setHintTextColor(Color.BLACK);
+                        ballnum.setHint(R.string.suzhu_num_hint);
+
+                        Intent i = new Intent(PearlBuildActivity.this, PearlBuildCollocateActivity.class);
+                        i.putExtra("suzhu_path", suzhu_path);
+                        i.putExtra("suzhu_num", suzhu_num);
+                        startActivity(i);
+                    } else {
+                        int withs = ballnum.getWidth();
+                        ballnum.setHintTextColor(Color.RED);
+                        ballnum.setHint(R.string.suzhu_num_hint);
+                        ballnum.setWidth(withs);
+                    }
+
                 }
                 break;
             }
