@@ -166,6 +166,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             newdata.putExtra("photoUri", imageUri);
             startActivity(newdata);
         }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PEARL_CODE) {
+            if (data != null) {
+                photos = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
+            }
+            selectedPhotos.clear();
+            if (photos != null) {
+                selectedPhotos.addAll(photos);
+            }
+
+            String path = selectedPhotos.get(0);
+            Intent newdata = new Intent(getActivity(), PearlBuildActivity.class);
+            newdata.putExtra("photoUri", path);
+            startActivity(newdata);
+        }
+
     }
 
 
@@ -189,7 +204,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 intent.setPhotoCount(1);
                 intent.setShowCamera(true);
                 startActivityForResult(intent, REQUEST_PEARL_CODE);
-                startActivity(new Intent(getActivity(), PearlBuildActivity.class));
+//                startActivity(new Intent(getActivity(), PearlBuildActivity.class));
                 break;
             case R.id.myalbum:
                 startActivity(new Intent(getActivity(), MyAlbumActivity.class));

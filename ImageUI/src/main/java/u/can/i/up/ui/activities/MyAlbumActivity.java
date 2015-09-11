@@ -62,6 +62,8 @@ public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLa
 //		BitmapCache.getAlbumImageList().add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
 //		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_3));
 		//设置适配器
+		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
+		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
 		myAlBumGridAdapter = new MyAlbumGridViewAdapter(this, imageList);
 		mGridView.setAdapter(myAlBumGridAdapter);
 		mSwipeLayout.setOnRefreshListener(this);
