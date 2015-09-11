@@ -2,9 +2,18 @@ package u.can.i.up.ui.fragments;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,10 +21,14 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 
 
 import java.io.File;
@@ -30,6 +43,8 @@ import u.can.i.up.ui.activities.ImageSetActivity;
 import u.can.i.up.ui.activities.LibiraryActivity;
 import u.can.i.up.ui.activities.MyAlbumActivity;
 import u.can.i.up.ui.activities.PearlBuildActivity;
+import u.can.i.up.ui.application.IApplicationConfig;
+import u.can.i.up.ui.utils.UtilsDevice;
 
 
 /**
@@ -83,6 +98,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         material_build.setOnClickListener(this);
         pearl_build.setOnClickListener(this);
         myalbum.setOnClickListener(this);
+        //initApplicationPrompt(fast_start);
         return view;
     }
 
@@ -181,6 +197,82 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             default:
                 break;
         }
+    }
+
+
+    private void initApplicationPrompt( final View view){
+
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // TODO Auto-generated method stub
+
+                int[] location=new int[3];
+                view.getLocationOnScreen(location);
+                view.getLocationInWindow(location);
+                viewFloat(location, view);
+            }
+        });
+
+    }
+
+    private void viewFloat(int[] location,View view){
+
+
+
+        WindowManager mWindowManager = (WindowManager) getActivity()
+                .getSystemService(Context.WINDOW_SERVICE);
+
+
+        Rect frame = new Rect();
+        getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+
+        int bitmapHeight=frame.height();
+        int bitmapWidth=frame.width();
+
+        int frameHeight=frame.top;
+
+
+        Bitmap bgBitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight,
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bgBitmap);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+
+        paint.setAntiAlias(true);
+        canvas.drawBitmap(bgBitmap, new Matrix(), paint);
+
+        Rect rectFull=new Rect(0, 0,bitmapWidth, bitmapHeight);
+
+        canvas.drawRect(rectFull, paint);
+        Paint paintT = new Paint();
+        paintT.setColor(Color.BLACK);
+
+        paintT.setAntiAlias(true);
+
+        canvas.drawRect(location[0], location[1]-frameHeight, view.getWidth(), view.getHeight(),paintT);
+
+
+
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+
+
+        params.width =bitmapWidth;
+        params.height = bitmapHeight;
+
+
+        params.alpha=0x40;
+
+        params.gravity = Gravity.CENTER;
+
+        ImageView img=new ImageView(getActivity());
+
+        img.setAlpha(0x40);
+        img.setImageBitmap(bgBitmap);
+
+        mWindowManager.addView(img, params);
+
     }
 
 

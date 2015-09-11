@@ -28,6 +28,7 @@ public class IApplicationConfig {
     public static final String HTTP_URL_PORTRAIT="http://128.199.241.194/AppPortraitEdit";
 
     public static final String HTTP_URL_PARAMETERS="http://128.199.241.194/AppInforEdit";
+    public static final String HTTP_URL_SMATRIAL_UPDATE="http://128.199.241.194/AppImageFetch";
 
     public static final int HTTP_CODE_SUCCESS=0;
 
