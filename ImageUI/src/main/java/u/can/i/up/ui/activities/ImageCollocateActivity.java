@@ -106,7 +106,7 @@ public class ImageCollocateActivity extends FragmentActivity {
         int count = tMaterialArrayList.size();
         for (int i = 0; i < count; i++) {
             // 给每个Tab按钮设置图标、文字和内容
-            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(tMaterialArrayList.get(i).getTMaterialName())
+            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(String.valueOf(tMaterialArrayList.get(i).getTMaterialId()))
                     .setIndicator(getTabItemView(i));
             // 将Tab按钮添加进Tab选项卡中
 

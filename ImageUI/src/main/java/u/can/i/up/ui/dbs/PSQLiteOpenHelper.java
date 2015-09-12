@@ -100,10 +100,11 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         values.put("MerchantCode", pearlBeans.getMerchantCode());
         values.put("path", pearlBeans.getPath());
         values.put("category", pearlBeans.getCategory());
-        values.put("Type", pearlBeans.getType());
+        values.put("type", pearlBeans.getType());
         values.put("price", pearlBeans.getPrice());;
         values.put("size", pearlBeans.getSize());
         values.put("weight", pearlBeans.getWeight());
+        values.put("name", pearlBeans.getWeight());
         long status=db.insert("SMaterial",null,values);
 
         if(status==-1){

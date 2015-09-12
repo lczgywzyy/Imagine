@@ -81,7 +81,7 @@ public class CollocateTabFragment extends Fragment implements AdapterView.OnItem
             PearlBeans pearlBeans =iterator.next();
 
 
-            if(tag!=null&&tag.equals(pearlBeans.gettMaterialName())) {
+            if(tag!=null&&tag.equals(String.valueOf(pearlBeans.getCategory()))) {
                 arrayListTPearlBeanses.add(pearlBeans);
             }
 		}
@@ -187,8 +187,11 @@ public class CollocateTabFragment extends Fragment implements AdapterView.OnItem
             } else {
                 viewHolder=(ViewHolder)convertView.getTag();
             }
-            viewHolder.iv_face.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(pearlBeansArrayList.get(position).getPath(), pearlBeansArrayList.get(position).getMD5()));
+            //viewHolder.iv_face.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(pearlBeansArrayList.get(position).getPath(), pearlBeansArrayList.get(position).getMD5()));
 
+            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.iv_face);
+
+            bitmapAsync.execute(pearlBeansArrayList.get(position).getPath(), pearlBeansArrayList.get(position).getMD5(), "img");
             viewHolder.iv_face.setTag(pearlBeansArrayList.get(position));
 
 

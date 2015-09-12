@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.beans.ILoginBean;
+import u.can.i.up.ui.beans.IPearlBeans;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
@@ -78,6 +80,45 @@ public class SplashActivity extends Activity {
         IApplicationConfig.DeviceHeight=this.getResources().getDisplayMetrics().heightPixels;
 
         IApplicationConfig.DeviceWidth=this.getResources().getDisplayMetrics().widthPixels;
+         handlerWeakReference= new SoftReference<Handler>(new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                Bundle bundle=msg.getData();
+
+
+                switch (msg.what) {
+                    case IApplicationConfig.HTTP_NET_SUCCESS:
+                        //登录成功
+                        try {
+                            ILoginBean ILoginBean = (ILoginBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
+
+                            if (ILoginBean != null && Integer.parseInt(ILoginBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
+
+                                HttpLoginManager.setLoginStatus(ILoginBean.getData(), (IApplication) getApplication());
+                                getMaterial();
+                            }else{
+                                Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                                startActivity(i);
+                            }
+
+                        }catch (Exception e){
+                            ArrayList<PearlBeans> pearlBeansList=(ArrayList) (((IPearlBeans)bundle.getSerializable(IApplicationConfig.HTTP_BEAN)).getData());
+                            refreshLocalSMaterial(pearlBeansList);
+                            Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                            startActivity(i);
+                        }
+                        break;
+                    default:
+                        //登陆失败
+                        Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                        startActivity(i);
+                        break;
+                }
+
+            }
+        });
     }
 
     private void autoLogin(){
@@ -123,45 +164,7 @@ public class SplashActivity extends Activity {
 
 
     }
-    WeakReference<Handler> handlerWeakReference=new WeakReference<Handler>(new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            Bundle bundle=msg.getData();
-
-
-            switch (msg.what) {
-                case IApplicationConfig.HTTP_NET_SUCCESS:
-                    //登录成功
-                    try {
-                        ILoginBean ILoginBean = (ILoginBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
-
-                        if (ILoginBean != null && Integer.parseInt(ILoginBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
-
-                            HttpLoginManager.setLoginStatus(ILoginBean.getData(), (IApplication) getApplication());
-                            getMaterial();
-                        }else{
-                            Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                            startActivity(i);
-                        }
-
-                    }catch (Exception e){
-                        ArrayList<PearlBeans> pearlBeansList=(ArrayList) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
-                        refreshLocalSMaterial(pearlBeansList);
-                        Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                        startActivity(i);
-                    }
-                    break;
-                default:
-                  //登陆失败
-                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(i);
-                    break;
-            }
-
-        }
-    });
+    private SoftReference<Handler> handlerWeakReference;
 
     private void getMaterial(){
 
@@ -190,18 +193,9 @@ public class SplashActivity extends Activity {
         Iterator<PearlBeans> iterator=pearlBeansArrayList.iterator();
         while (iterator.hasNext()){
             PearlBeans pearlBeans=iterator.next();
-
-            for(int i=0;i<((IApplication) getApplication()).arrayListPearlBeans.size();i++){
-
-                PearlBeans pearlBeansExist=((IApplication) getApplication()).arrayListPearlBeans.get(i);
-
-
-               if(!pearlBeansExist.getName().equals(pearlBeans.getName())){
-                   //新增素材
-                   ((IApplication) getApplication()).psqLiteOpenHelper.addPearl(pearlBeans);
-                   ((IApplication) getApplication()).arrayListPearlBeans.add(pearlBeans);
-                }
-
+            if(!((IApplication) getApplication()).arrayListPearlBeans.contains(pearlBeans)) {
+                ((IApplication) getApplication()).psqLiteOpenHelper.addPearl(pearlBeans);
+                ((IApplication) getApplication()).arrayListPearlBeans.add(pearlBeans);
             }
 
         }

@@ -2,6 +2,7 @@ package u.can.i.up.ui.beans;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 /**
  * Created by Pengp on 2015/7/29.
@@ -165,6 +166,20 @@ public class PearlBeans implements Parcelable {
         dest.writeInt(category);
         dest.writeInt(MerchantCode);
         dest.writeInt(type);
+    }
+    @Override
+    public boolean equals(Object obj) {
+
+        if(obj instanceof PearlBeans) {
+            if (TextUtils.isEmpty(((PearlBeans)obj).getMD5())) {
+                return false;
+            } else {
+                return ((PearlBeans)obj).getMD5().equals(this.getMD5());
+            }
+
+        }else{
+            return false;
+        }
     }
 
     @Override

@@ -71,7 +71,7 @@ public class HttpLoginManager extends IHttpManager<ILoginBean>{
         return httpLoginManagerT;
     }
     public void boundHandler(Handler handler){
-        this.handler=handler;
+        httpLoginManagerT.handler=handler;
     }
 
     public static synchronized void loginOut(IApplication iApplication){

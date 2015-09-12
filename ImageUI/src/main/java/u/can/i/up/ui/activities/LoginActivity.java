@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import  android.os.Handler;
 
+import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.beans.ILoginBean;
+import u.can.i.up.ui.beans.IPearlBeans;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.net.HttpLoginManager;
@@ -43,6 +45,50 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_new);
+        handlerWeakReference=new SoftReference<Handler>(new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                Bundle bundle=msg.getData();
+
+                String msgstr=bundle.getString(IApplicationConfig.MESSAGE);
+
+                switch (msg.what) {
+                    case IApplicationConfig.HTTP_NET_SUCCESS:
+                        //登录成功
+
+                        try {
+                            ILoginBean ILoginBean = (ILoginBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
+                            Toast.makeText(getApplicationContext(), msgstr, Toast.LENGTH_LONG).show();
+                            if (ILoginBean != null && Integer.parseInt(ILoginBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
+
+                                HttpLoginManager.setLoginStatus(ILoginBean.getData(), (IApplication) getApplication());
+                                getMaterial();
+                            }else{
+                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(i);
+                                LoginActivity.this.finish();
+                            }
+                        }catch(Exception e){
+                            ArrayList<PearlBeans> pearlBeansList=(ArrayList) (((IPearlBeans)bundle.getSerializable(IApplicationConfig.HTTP_BEAN)).getData());
+                            refreshLocalSMaterial(pearlBeansList);
+                            Intent intent = new Intent();
+                            intent.setClass(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            LoginActivity.this.finish();
+                        }
+                        break;
+                    case IApplicationConfig.HTTP_NET_ERROR:
+                        //登录失败
+                        Toast.makeText(getApplicationContext(),msgstr,Toast.LENGTH_LONG).show();
+                        break;
+                    case IApplicationConfig.HTTP_NET_TIMEOUT:
+                        Toast.makeText(getApplicationContext(),msgstr,Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        });
         initViews();
     }
 
@@ -91,6 +137,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     }
 
+
+   private SoftReference<Handler> handlerWeakReference;
+
     private void loginUser(){
         HashMap<String,String> hashMap=new HashMap<>();
 
@@ -99,54 +148,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
 
         HttpLoginManager httpLoginManager=HttpLoginManager.getHttpLoginManagerTInstance();
+        Handler handler=handlerWeakReference.get();
         httpLoginManager.boundHandler(handlerWeakReference.get());
         httpLoginManager.boundParameter(hashMap);
         httpLoginManager.execute();
     }
-    WeakReference<Handler> handlerWeakReference=new WeakReference<Handler>(new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            Bundle bundle=msg.getData();
-
-            String msgstr=bundle.getString(IApplicationConfig.MESSAGE);
-
-            switch (msg.what) {
-                case IApplicationConfig.HTTP_NET_SUCCESS:
-                    //登录成功
-
-                    try {
-                        ILoginBean ILoginBean = (ILoginBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
-                        Toast.makeText(getApplicationContext(), msgstr, Toast.LENGTH_LONG).show();
-                        if (ILoginBean != null && Integer.parseInt(ILoginBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
-
-                            HttpLoginManager.setLoginStatus(ILoginBean.getData(), (IApplication) getApplication());
-                            getMaterial();
-                        }else{
-                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(i);
-                            LoginActivity.this.finish();
-                        }
-                    }catch(Exception e){
-                        ArrayList<PearlBeans> pearlBeansList=(ArrayList) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
-                        refreshLocalSMaterial(pearlBeansList);
-                        Intent intent = new Intent();
-                        intent.setClass(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        LoginActivity.this.finish();
-                    }
-                    break;
-                case IApplicationConfig.HTTP_NET_ERROR:
-                    //登录失败
-                    Toast.makeText(getApplicationContext(),msgstr,Toast.LENGTH_LONG).show();
-                    break;
-                case IApplicationConfig.HTTP_NET_TIMEOUT:
-                    Toast.makeText(getApplicationContext(),msgstr,Toast.LENGTH_LONG).show();
-                    break;
-            }
-        }
-    });
     private void getMaterial(){
 
         HttpSMaterialUpdateManager httpSMaterialUpdateManager=HttpSMaterialUpdateManager.getSMaterialUpdateHttpInstance();
@@ -174,18 +180,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         Iterator<PearlBeans> iterator=pearlBeansArrayList.iterator();
         while (iterator.hasNext()){
             PearlBeans pearlBeans=iterator.next();
-
-            for(int i=0;i<((IApplication) getApplication()).arrayListPearlBeans.size();i++){
-
-                PearlBeans pearlBeansExist=((IApplication) getApplication()).arrayListPearlBeans.get(i);
-
-
-                if(!pearlBeansExist.getName().equals(pearlBeans.getName())){
-                    //新增素材
-                    ((IApplication) getApplication()).psqLiteOpenHelper.addPearl(pearlBeans);
-                    ((IApplication) getApplication()).arrayListPearlBeans.add(pearlBeans);
-                }
-
+            if(!((IApplication) getApplication()).arrayListPearlBeans.contains(pearlBeans)) {
+                ((IApplication) getApplication()).psqLiteOpenHelper.addPearl(pearlBeans);
+                ((IApplication) getApplication()).arrayListPearlBeans.add(pearlBeans);
             }
 
         }
