@@ -15,16 +15,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.beans.ILoginBean;
 import u.can.i.up.ui.beans.PearlBeans;
+import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.net.HttpLoginManager;
 import u.can.i.up.ui.net.HttpManager;
+import u.can.i.up.ui.net.HttpSMaterialUpdateManager;
+import u.can.i.up.utils.image.Pearl;
 
 /**
  * @author dongfeng
@@ -42,7 +47,7 @@ public class SplashActivity extends Activity {
         settings = getSharedPreferences("setting", 0);
         setContentView(R.layout.activity_splash);
         setParams();
-
+        ((IApplication) getApplication()).psqLiteOpenHelper = new PSQLiteOpenHelper(this);
         if(this.getSharedPreferences("setting",0).getInt("START", 0)==0) {
             try {
                 copyAssetDirToFiles();
@@ -51,7 +56,6 @@ public class SplashActivity extends Activity {
                 SharedPreferences.Editor editor=sharedPreferences.edit();
                 editor.putInt("START", 1);
                 editor.commit();
-                ((IApplication) getApplication()).psqLiteOpenHelper = new PSQLiteOpenHelper(this);
                 ((IApplication) getApplication()).arrayListPearlBeans = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
                 ((IApplication) getApplication()).arrayListTMaterial = ((IApplication) getApplication()).psqLiteOpenHelper.getTMaterials();
 
@@ -63,7 +67,7 @@ public class SplashActivity extends Activity {
             ((IApplication) getApplication()).arrayListPearlBeans = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
             ((IApplication) getApplication()).arrayListTMaterial = ((IApplication) getApplication()).psqLiteOpenHelper.getTMaterials();
         }
-        autologin();
+        autoLogin();
 
 
     }
@@ -76,7 +80,7 @@ public class SplashActivity extends Activity {
         IApplicationConfig.DeviceWidth=this.getResources().getDisplayMetrics().widthPixels;
     }
 
-    private void autologin(){
+    private void autoLogin(){
         SharedPreferences sharedPreferences=getSharedPreferences("auth",Activity.MODE_PRIVATE);
 
         String tel=sharedPreferences.getString("userphone",null);
@@ -90,35 +94,6 @@ public class SplashActivity extends Activity {
             hashMap.put("eString",eString);
             hashMap.put("tString",tString);
             hashMap.put("tokenString",tokenString);
-            WeakReference<Handler> handlerWeakReference=new WeakReference<Handler>(new Handler(){
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-
-                    Bundle bundle=msg.getData();
-
-
-                    switch (msg.what) {
-                        case IApplicationConfig.HTTP_NET_SUCCESS:
-                            //登录成功
-
-                            ILoginBean ILoginBean = (ILoginBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
-
-                            if (ILoginBean != null && Integer.parseInt(ILoginBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
-
-                                HttpLoginManager.setLoginStatus(ILoginBean.getData(), (IApplication) getApplication());
-                            }
-                            break;
-                        case IApplicationConfig.HTTP_NET_ERROR:
-                            //登录失败
-                            break;
-                        case IApplicationConfig.HTTP_NET_TIMEOUT:
-                            break;
-                    }
-                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(i);
-                }
-            });
             HttpLoginManager httpLoginManager=HttpLoginManager.getHttpLoginManagerTInstance();
             httpLoginManager.boundHandler(handlerWeakReference.get());
             httpLoginManager.boundParameter(hashMap);
@@ -148,6 +123,92 @@ public class SplashActivity extends Activity {
 
 
     }
+    WeakReference<Handler> handlerWeakReference=new WeakReference<Handler>(new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            Bundle bundle=msg.getData();
+
+
+            switch (msg.what) {
+                case IApplicationConfig.HTTP_NET_SUCCESS:
+                    //登录成功
+                    try {
+                        ILoginBean ILoginBean = (ILoginBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
+
+                        if (ILoginBean != null && Integer.parseInt(ILoginBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
+
+                            HttpLoginManager.setLoginStatus(ILoginBean.getData(), (IApplication) getApplication());
+                            getMaterial();
+                        }else{
+                            Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                            startActivity(i);
+                        }
+
+                    }catch (Exception e){
+                        ArrayList<PearlBeans> pearlBeansList=(ArrayList) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
+                        refreshLocalSMaterial(pearlBeansList);
+                        Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                        startActivity(i);
+                    }
+                    break;
+                default:
+                  //登陆失败
+                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(i);
+                    break;
+            }
+
+        }
+    });
+
+    private void getMaterial(){
+
+        HttpSMaterialUpdateManager httpSMaterialUpdateManager=HttpSMaterialUpdateManager.getSMaterialUpdateHttpInstance();
+
+        HashMap<String,String> hashMap=new HashMap<>();
+
+        User user=((IApplication)getApplication()).getUerinfo();
+
+        hashMap.put("tel", user.getPhoneNumber());
+        hashMap.put("eString", user.geteString());
+        hashMap.put("tString", user.gettString());
+        hashMap.put("tokenString", user.getUserLoginToken());
+        hashMap.put("type","1");
+        hashMap.put("category","0");
+        httpSMaterialUpdateManager.boundHandler(handlerWeakReference.get());
+        httpSMaterialUpdateManager.boundParameter(hashMap);
+        httpSMaterialUpdateManager.boundUrl(IApplicationConfig.HTTP_URL_SMATRIAL_UPDATE);
+        httpSMaterialUpdateManager.execute();
+
+
+    }
+
+    private void refreshLocalSMaterial(ArrayList<PearlBeans> pearlBeansArrayList){
+
+        Iterator<PearlBeans> iterator=pearlBeansArrayList.iterator();
+        while (iterator.hasNext()){
+            PearlBeans pearlBeans=iterator.next();
+
+            for(int i=0;i<((IApplication) getApplication()).arrayListPearlBeans.size();i++){
+
+                PearlBeans pearlBeansExist=((IApplication) getApplication()).arrayListPearlBeans.get(i);
+
+
+               if(!pearlBeansExist.getName().equals(pearlBeans.getName())){
+                   //新增素材
+                   ((IApplication) getApplication()).psqLiteOpenHelper.addPearl(pearlBeans);
+                   ((IApplication) getApplication()).arrayListPearlBeans.add(pearlBeans);
+                }
+
+            }
+
+        }
+
+
+    }
+
 
     private  void copyAssetDirToFiles()
             throws IOException {
