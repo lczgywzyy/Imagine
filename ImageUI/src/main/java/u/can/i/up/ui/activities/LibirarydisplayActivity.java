@@ -143,7 +143,7 @@ public class LibirarydisplayActivity extends AppCompatActivity {
                 viewHolder.iv_face=(ImageView)convertView.findViewById(R.id.grid_image);
                 viewHolder.title=(TextView)convertView.findViewById(R.id.grid_text);
 
-                IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.iv_face);
+                IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.iv_face,this.context);
 
                 bitmapAsync.execute(pearlBeansArrayListSp.get(position).getPath(), pearlBeansArrayListSp.get(position).getMD5(),"img");
 

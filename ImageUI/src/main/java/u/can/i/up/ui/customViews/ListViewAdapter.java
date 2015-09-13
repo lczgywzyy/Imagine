@@ -54,7 +54,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         String name = tMaterialArrayList.get(position).getTMaterialName();
         viewHolder.mTextView.setText(name);
-        IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.mTextView);
+        IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.mTextView,mContext);
 
         bitmapAsync.execute(null,tMaterialArrayList.get(position).getTMaterialMd(),"left");
         return convertView;

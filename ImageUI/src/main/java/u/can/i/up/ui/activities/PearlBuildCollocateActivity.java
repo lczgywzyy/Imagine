@@ -140,7 +140,7 @@ public class PearlBuildCollocateActivity extends FragmentActivity implements Vie
     private View getTabItemView(int index) {
         View view = mLayoutInflater.inflate(R.layout.item_navigator_material_selected, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
-        imageView.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(null,tMaterialArrayList.get(index).getTMaterialMd()));
+        imageView.setImageBitmap(IBitmapCache.getBitMapCache(this.getApplicationContext()).getBitmap(null,tMaterialArrayList.get(index).getTMaterialMd()));
         TextView textView = (TextView) view.findViewById(R.id.textview);
         textView.setText(tMaterialArrayList.get(index).getTMaterialName());
 

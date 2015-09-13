@@ -1,10 +1,12 @@
 package u.can.i.up.ui.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -50,6 +52,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         setParams();
         ((IApplication) getApplication()).psqLiteOpenHelper = new PSQLiteOpenHelper(this);
+
         if(this.getSharedPreferences("setting",0).getInt("START", 0)==0) {
             try {
                 copyAssetDirToFiles();
@@ -219,10 +222,8 @@ public class SplashActivity extends Activity {
         byte[] buffer = new byte[is.available()];
         is.read(buffer);
         is.close();
-
-        File of = new File(IApplicationConfig.DIRECTORY_SMATERIAL +File.separator + filename);
-        of.createNewFile();
-        FileOutputStream os = new FileOutputStream(of);
+        FileOutputStream os = this.openFileOutput(filename,
+                Context.MODE_PRIVATE);
         os.write(buffer);
         os.close();
     }

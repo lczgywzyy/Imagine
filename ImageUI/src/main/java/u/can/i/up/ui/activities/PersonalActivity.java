@@ -89,7 +89,7 @@ public class PersonalActivity extends AppCompatActivity {
                 String[] uriArray=imguri.split("/");
                 if(uriArray.length>1) {
                     String md5 = uriArray[uriArray.length - 1].replaceAll(".png", "");
-                    IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(headIcon);
+                    IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(headIcon,PersonalActivity.this.getApplicationContext());
 
                     bitmapAsync.execute(imguri, md5,"img");
                 }

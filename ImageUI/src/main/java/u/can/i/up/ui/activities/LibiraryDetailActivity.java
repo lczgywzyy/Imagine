@@ -63,7 +63,7 @@ public class LibiraryDetailActivity extends AppCompatActivity {
         textName=(TextView)findViewById(R.id.name);
         Image=(ImageView)findViewById(R.id.detail_image);
         textName.setText(pearlBeans.getName());
-        IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(Image);
+        IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(Image,LibiraryDetailActivity.this);
         bitmapAsync.execute(pearlBeans.getPath(),pearlBeans.getMD5(),"img");
     }
 

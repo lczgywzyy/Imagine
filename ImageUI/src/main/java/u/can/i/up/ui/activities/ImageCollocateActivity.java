@@ -129,7 +129,7 @@ public class ImageCollocateActivity extends FragmentActivity {
 
         //
 
-        IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(imageView);
+        IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(imageView,ImageCollocateActivity.this);
 
         bitmapAsync.execute(null, tMaterialArrayList.get(index).getTMaterialMd(),"img");
 

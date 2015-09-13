@@ -10,9 +10,9 @@ import java.io.File;
 public class IApplicationConfig {
 
 
-    public static final String DIRECTORY_ROOT=Environment.getExternalStorageDirectory()+ File.separator+"PearlString";
+   public static final String DIRECTORY_ROOT=Environment.getExternalStorageDirectory()+ File.separator+"PearlString";
 
-    public static  final String DIRECTORY_SMATERIAL=DIRECTORY_ROOT+File.separator+"SMaterial";
+    public static  final String DIRECTORY_SMATERIAL=Environment.getDataDirectory()+File.separator+"SMaterial";
 
 
     public static final String HTTP_URL_BASE="http://128.199.241.194";

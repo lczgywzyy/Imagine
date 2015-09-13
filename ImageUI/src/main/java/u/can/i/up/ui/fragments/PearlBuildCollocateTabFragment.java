@@ -155,7 +155,7 @@ public class PearlBuildCollocateTabFragment extends Fragment implements AdapterV
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ImageViewImpl_PearlBuild imageViewImpl_pearlBuild = BitmapCache.getImageViewImpl_PearlBuild();
-        imageViewImpl_pearlBuild.setBmpMotion(IBitmapCache.getBitMapCache().getBitmap(((PearlBeans) parent.getAdapter().getItem(position)).getPath(), ((PearlBeans) parent.getAdapter().getItem(position)).getMD5()));
+        imageViewImpl_pearlBuild.setBmpMotion(IBitmapCache.getBitMapCache(getActivity()).getBitmap(((PearlBeans) parent.getAdapter().getItem(position)).getPath(), ((PearlBeans) parent.getAdapter().getItem(position)).getMD5()));
 
     }
 
@@ -189,9 +189,8 @@ public class PearlBuildCollocateTabFragment extends Fragment implements AdapterV
             } else {
                 viewHolder=(ViewHolder)convertView.getTag();
             }
-            viewHolder.iv_face.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(pearlBeansArrayList.get(position).getPath(), pearlBeansArrayList.get(position).getMD5()));
 
-            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync( viewHolder.iv_face);
+            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync( viewHolder.iv_face,this.context);
 
             bitmapAsync.execute(pearlBeansArrayList.get(position).getPath(), pearlBeansArrayList.get(position).getMD5(),"img");
 

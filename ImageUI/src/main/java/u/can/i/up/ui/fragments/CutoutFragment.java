@@ -353,7 +353,7 @@ public class CutoutFragment extends Fragment {
             }
             String name = tmaterialArrayList.get(position).getTMaterialName();
             viewHolder.mTextView.setText(name);
-            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.mTextView);
+            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.mTextView,this.context);
 
             bitmapAsync.execute(null, tmaterialArrayList.get(position).getTMaterialMd(),"bottom");
             return convertView;

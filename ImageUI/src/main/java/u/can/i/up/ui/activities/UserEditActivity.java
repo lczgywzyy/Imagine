@@ -1,10 +1,12 @@
 package u.can.i.up.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,7 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -103,7 +108,7 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
             String[] uriArray=imguri.split("/");
             if(uriArray.length>1) {
                 String md5 = uriArray[uriArray.length - 1].replaceAll(".png", "");
-                IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(imgIcon);
+                IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(imgIcon,UserEditActivity.this.getApplicationContext());
 
                 bitmapAsync.execute(imguri, md5,"img");
             }
@@ -141,13 +146,25 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
 
         if (requestCode == 2)//调用系统裁剪
         {
+            try {
+                startPhotoZoom(data.getData());
+            }catch (Exception e){
 
-            startPhotoZoom(data.getData());
+            }
         } else if (requestCode == 3)//得到裁剪后的图片
         {
             try
             {
-                imgIcon.setImageBitmap(IBitmapCache.getBitMapCache().loadBitmapLocal("headTemp"));
+                Bitmap bmap = data.getParcelableExtra("data");
+
+                imgIcon.setImageBitmap(bmap);
+                FileOutputStream os = this.openFileOutput("headTemp",
+                        Context.MODE_PRIVATE);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] bytes=baos.toByteArray();
+                os.write(bytes);
+                os.close();
                 isPortraitChange=true;
 
             } catch (Exception e)
@@ -168,13 +185,13 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
 
 
     }
-    public void startPhotoZoom(Uri uri) {
+    public void startPhotoZoom(Uri uri) throws IOException {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", 5);
         intent.putExtra("aspectY", 5);
-        intent.putExtra("output", Uri.fromFile(new File(IApplicationConfig.DIRECTORY_SMATERIAL + File.separator + "headTemp.png")));
+        intent.putExtra("return-data", true);
         intent.putExtra("outputFormat", "png");
         startActivityForResult(intent, 3);
     }
@@ -260,7 +277,7 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
                                     if(uptype== UType.PORTRAIT) {
                                         hashMap.put("suffix", "png");
                                         HashMap<String, SoftReference<Bitmap>> hashMapImg = new HashMap<>();
-                                        hashMapImg.put("image_file", new SoftReference<>(IBitmapCache.getBitMapCache().loadBitmapLocal("headTemp")));
+                                        hashMapImg.put("image_file", new SoftReference<>(IBitmapCache.getBitMapCache(UserEditActivity.this.getApplicationContext()).loadBitmapLocal("headTemp")));
                                         httpNormalManager.boundImage(hashMapImg);
                                         httpNormalManager.boundUrl(IApplicationConfig.HTTP_URL_PORTRAIT);
                                     }else if(uptype== UType.EMAIL){

@@ -275,7 +275,7 @@ public class CutoutSetActivity extends AppCompatActivity {
             }
             String name = tmaterialArrayList.get(position).getTMaterialName();
             viewHolder.mTextView.setText(name);
-            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.mTextView);
+            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.mTextView,CutoutSetActivity.this);
 
             bitmapAsync.execute(null, tmaterialArrayList.get(position).getTMaterialMd(),"bottom");
             return convertView;

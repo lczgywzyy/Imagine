@@ -153,7 +153,7 @@ public class CollocateTabFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ImageViewImpl_collocate imageViewImpl_collocate = BitmapCache.getImageViewImpl_collocate();
-        imageViewImpl_collocate.setBmpMotion(IBitmapCache.getBitMapCache().getBitmap(((PearlBeans) parent.getAdapter().getItem(position)).getPath(), ((PearlBeans) parent.getAdapter().getItem(position)).getMD5()));
+        imageViewImpl_collocate.setBmpMotion(IBitmapCache.getBitMapCache(this.getActivity().getApplicationContext()).getBitmap(((PearlBeans) parent.getAdapter().getItem(position)).getPath(), ((PearlBeans) parent.getAdapter().getItem(position)).getMD5()));
 
     }
 
@@ -189,7 +189,7 @@ public class CollocateTabFragment extends Fragment implements AdapterView.OnItem
             }
             //viewHolder.iv_face.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(pearlBeansArrayList.get(position).getPath(), pearlBeansArrayList.get(position).getMD5()));
 
-            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.iv_face);
+            IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.iv_face,this.context);
 
             bitmapAsync.execute(pearlBeansArrayList.get(position).getPath(), pearlBeansArrayList.get(position).getMD5(), "img");
             viewHolder.iv_face.setTag(pearlBeansArrayList.get(position));

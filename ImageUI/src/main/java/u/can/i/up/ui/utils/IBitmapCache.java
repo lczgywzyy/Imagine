@@ -1,5 +1,6 @@
 package u.can.i.up.ui.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -30,20 +31,29 @@ public class IBitmapCache {
 
     public static IBitmapCache BitmapCache=null;
 
+    private Context context;
+
 
     private HashMap<String,SoftReference<Bitmap>> cache=new HashMap<>();
 
     private ReferenceQueue<Bitmap> queue=new ReferenceQueue<>();
 
+    public Context getContext() {
+        return context;
+    }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     private IBitmapCache(){
 
     }
-    public static synchronized IBitmapCache getBitMapCache(){
+    public static synchronized IBitmapCache getBitMapCache(Context context){
 
         if(BitmapCache==null){
             BitmapCache=new IBitmapCache();
+            BitmapCache.setContext(context);
         }
         return  BitmapCache;
 
@@ -101,13 +111,8 @@ public class IBitmapCache {
 
     private void saveBitmapLocal(String Md5,byte[] bytes) throws IOException{
 
-        File file=new File(IApplicationConfig.DIRECTORY_SMATERIAL+File.separator+Md5+".png");
-
-        if(!file.exists()){
-            file.createNewFile();
-        }
-
-        FileOutputStream fileOutputStream=new FileOutputStream(file);
+        FileOutputStream fileOutputStream= context.openFileOutput(Md5,
+                Context.MODE_PRIVATE);
 
         fileOutputStream.write(bytes);
 
@@ -117,22 +122,21 @@ public class IBitmapCache {
 
     }
 
-    public Bitmap loadBitmapLocal(String md5){
-
-        String path= IApplicationConfig.DIRECTORY_SMATERIAL+File.separator+md5+".png";
-        File file=new File(path);
-
-        if(file.exists()){
+    public Bitmap loadBitmapLocal(String md5) {
 
 
-            SoftReference<Bitmap> softReference=new SoftReference<>(BitmapFactory.decodeFile(path),queue);
+
+    try{
+            SoftReference<Bitmap> softReference=new SoftReference<>(BitmapFactory.decodeStream(context.openFileInput(md5)),queue);
 
           //  String md5key=MD5Utils.getMD5String(Bitmap2Bytes(softReference.get()));
 
             cache.put(md5, softReference);
 
             return  softReference.get();
-        }
+        }catch(Exception e){
+
+    }
         return  null;
     }
 
@@ -172,16 +176,19 @@ public class IBitmapCache {
 
         private View view;
 
+        private Context context;
+
         String position;
-        public BitmapAsync(View img) {
+        public BitmapAsync(View img,Context context) {
             super();
             this.view=img;
+            this.context=context;
         }
 
         @Override
         protected Bitmap doInBackground(String... params) {
             position=params[2];
-            return  IBitmapCache.getBitMapCache().getBitmap(params[0], params[1]);
+            return  IBitmapCache.getBitMapCache(context).getBitmap(params[0], params[1]);
         }
 
         @Override
