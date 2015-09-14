@@ -14,10 +14,10 @@
      */
     public class TabViewPagerAdapter extends FragmentPagerAdapter {
 
-        private final int PAGE_COUNT = 3;
+        private final int PAGE_COUNT = 4;
 
 
-        private String mTabTitle[] = new String[]{"基础素材","在线图库","我的收藏"};
+        private String mTabTitle[] = new String[]{"基础素材","在线图库","我的收藏","我的制作"};
         private Context mContext;
 
         public TabViewPagerAdapter(FragmentManager fm, Context context) {
@@ -46,11 +46,11 @@
                 }
                 default:
                     break;
-//                case 3:
-//                {
-//                    tmpfragment =  new CutoutFragment();
-//                    break;
-//                }
+                case 3:
+                {
+                    tmpfragment =  new BaseMaterialFragment();
+                    break;
+                }
             }
             return tmpfragment;
 

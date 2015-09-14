@@ -53,14 +53,21 @@ public class SplashActivity extends Activity {
         setParams();
         ((IApplication) getApplication()).psqLiteOpenHelper = new PSQLiteOpenHelper(this);
 
-        if(this.getSharedPreferences("setting",0).getInt("START", 0)==0) {
+        if(settings.getInt("START", 0)==0) {
             try {
                 copyAssetDirToFiles();
                 copyAssetDb();
-                SharedPreferences sharedPreferences=getSharedPreferences("setting",Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor=sharedPreferences.edit();
+                SharedPreferences.Editor editor=settings.edit();
                 editor.putInt("START", 1);
                 editor.commit();
+
+//            try {
+//                copyAssetDirToFiles();
+//                copyAssetDb();
+//                SharedPreferences sharedPreferences=getSharedPreferences("setting",Activity.MODE_PRIVATE);
+//                SharedPreferences.Editor editor=sharedPreferences.edit();
+//                editor.putInt("START", 1);
+//                editor.commit();
                 ((IApplication) getApplication()).arrayListPearlBeans = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
                 ((IApplication) getApplication()).arrayListTMaterial = ((IApplication) getApplication()).psqLiteOpenHelper.getTMaterials();
 
