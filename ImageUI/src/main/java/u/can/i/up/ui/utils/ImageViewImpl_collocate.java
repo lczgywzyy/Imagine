@@ -323,9 +323,8 @@ public class ImageViewImpl_collocate extends ImageView {
                     }
                 }else if(status == ViewStatus.STATUS_MOVE) {
                     //对Matrix进行移位
-                    if (!isOutOfBounds()) {
                     matrixPaint.postTranslate(x - prePoint.x, y - prePoint.y);
-                     }
+
                 }
                 prePoint.x = x;
                 prePoint.y = y;
