@@ -14,11 +14,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -69,6 +72,9 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
         setover = (ImageButton)findViewById(R.id.pearlbuild_continue_btn);
         closeBtm = (ImageButton)findViewById(R.id.pearlbuild_close_btn);
 
+        this.setRegion(ballnum);
+
+
         String photoPath = getIntent().getStringExtra("photoUri");
         pearlBuild.setBmpSuzhu(BitmapFactory.decodeFile(photoPath));
         suzhu_path = photoPath;
@@ -103,6 +109,8 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        //s为颗数输入字符，用于判定输入
+        String s = ballnum.getText().toString();
         switch (v.getId()) {
             case R.id.pearlbuild_add:
             {
@@ -113,49 +121,63 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
                 break;
             }
             case R.id.pearlbuildpreview: {
-                suzhu_num = Integer.parseInt(ballnum.getText().toString());
-//                String a = ballnum.getText().toString();
-//                int inputNum = Integer.parseInt(a);
-                ballnum.setText(null);
-                if (suzhu_num >= 10 && suzhu_num <= 120) {
-                    ballnum.setHintTextColor(Color.BLACK);
-                    ballnum.setHint(R.string.suzhu_num_hint);
-                    pearlBuild.updateImage(suzhu_num);
-
-                } else {
-                    int withs = ballnum.getWidth();
+                if (s != null && !s.equals("")){
+                    suzhu_num = Integer.parseInt(s);
+                    if (suzhu_num < 10 ) {
+                        Toast.makeText(getBaseContext(), "颗数不能低于10", Toast.LENGTH_SHORT).show();
                     ballnum.setHintTextColor(Color.RED);
                     ballnum.setHint(R.string.suzhu_num_hint);
-                    ballnum.setWidth(withs);
-                }
-                break;
-            }
-            case R.id.pearlbuild_continue_btn:
-            {
-                suzhu_num = Integer.parseInt(ballnum.getText().toString());
-                ballnum.setText(null);
-                if (suzhu_num == 0){
+
+                    }else {
+                        pearlBuild.updateImage(suzhu_num);
+                    }
+                } else {
                     new AlertDialog.Builder(this)
                             .setTitle("素珠确认")
                             .setMessage("请输入素珠个数")
                             .setPositiveButton("确定", null)
                             .show();
-                }else {
-                    if (suzhu_num >= 10 && suzhu_num <= 120) {
-                        ballnum.setHintTextColor(Color.BLACK);
+                }
+//                suzhu_num = Integer.parseInt(ballnum.getText().toString());
+////                String a = ballnum.getText().toString();
+////                int inputNum = Integer.parseInt(a);
+//                ballnum.setText(null);
+//                if (suzhu_num >= 10 && suzhu_num <= 120) {
+//                    ballnum.setHintTextColor(Color.BLACK);
+//                    ballnum.setHint(R.string.suzhu_num_hint);
+//                    pearlBuild.updateImage(suzhu_num);
+//
+//                } else {
+//                    int withs = ballnum.getWidth();
+//                    ballnum.setHintTextColor(Color.RED);
+//                    ballnum.setHint(R.string.suzhu_num_hint);
+//                    ballnum.setWidth(withs);
+//                }
+                break;
+            }
+            case R.id.pearlbuild_continue_btn:
+            {
+//                suzhu_num = Integer.parseInt(ballnum.getText().toString());
+//                ballnum.setText(null);
+                if (s != null && !s.equals("")){
+                    suzhu_num = Integer.parseInt(s);
+                    if (suzhu_num < 10 ) {
+                        Toast.makeText(getBaseContext(), "颗数不能低于10", Toast.LENGTH_SHORT).show();
+                        ballnum.setHintTextColor(Color.RED);
                         ballnum.setHint(R.string.suzhu_num_hint);
 
+                    }else {
                         Intent i = new Intent(PearlBuildActivity.this, PearlBuildCollocateActivity.class);
                         i.putExtra("suzhu_path", suzhu_path);
                         i.putExtra("suzhu_num", suzhu_num);
                         startActivity(i);
-                    } else {
-                        int withs = ballnum.getWidth();
-                        ballnum.setHintTextColor(Color.RED);
-                        ballnum.setHint(R.string.suzhu_num_hint);
-                        ballnum.setWidth(withs);
                     }
-
+                }else {
+                    new AlertDialog.Builder(this)
+                            .setTitle("素珠确认")
+                            .setMessage("请输入素珠个数")
+                            .setPositiveButton("确定", null)
+                            .show();
                 }
                 break;
             }
@@ -164,4 +186,71 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
         }
 
     }
+
+
+    //设置颗数范围
+    private int MIN_MARK = 10;
+    private int MAX_MARK = 120;
+    //private void setRegion(EditText et)
+    private void setRegion( final EditText et)
+    {
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (start > 1)
+                {
+                    if (MIN_MARK != -1 && MAX_MARK != -1)
+                    {
+                        int num = Integer.parseInt(s.toString());
+                        if (num > MAX_MARK)
+                        {
+                            s = String.valueOf(MAX_MARK);
+                            et.setText(s);
+                        }
+                        else if(num < MIN_MARK)
+                            s = String.valueOf(MIN_MARK);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                if (s != null && !s.equals(""))
+                {
+                    if (MIN_MARK != -1 && MAX_MARK != -1)
+                    {
+                        int markVal = 0;
+                        try
+                        {
+                            markVal = Integer.parseInt(s.toString());
+                        }
+                        catch (NumberFormatException e)
+                        {
+                            markVal = 0;
+                        }
+//                        if (markVal < MIN_MARK)
+//                        {
+//                            Toast.makeText(getBaseContext(), "颗数不能低于10", Toast.LENGTH_SHORT).show();
+//                            et.setText(String.valueOf(MIN_MARK));
+//                        }
+                        if (markVal > MAX_MARK)
+                        {
+                            Toast.makeText(getBaseContext(), "颗数不能超过120", Toast.LENGTH_SHORT).show();
+                            et.setText(String.valueOf(MAX_MARK));
+                        }
+                        return;
+                    }
+                }
+            }
+        });
+    }
+
+
 }

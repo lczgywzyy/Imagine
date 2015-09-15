@@ -125,6 +125,7 @@
                     android:inputType="number"
                     android:gravity="center"
                     android:textSize="@dimen/textsize_small"
+                    android:numeric="integer"
                     />
                 <TextView
                     android:layout_width="wrap_content"

@@ -1,11 +1,13 @@
 package u.can.i.up.ui.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -18,9 +20,11 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_collocate;
 import u.can.i.up.ui.utils.ImageViewImpl_cutout;
 
@@ -33,6 +37,7 @@ import u.can.i.up.ui.utils.ImageViewImpl_cutout;
 public class CutoutActivity extends Activity {
     private static final String TAG = "u.can.i.up.imagine." + CutoutActivity.class;
 
+    private static final String ToPath = ".2ToPath";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +125,11 @@ public class CutoutActivity extends Activity {
                 imageViewImpl_cutout.exportImageByFinger();
                 Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/OUTPUT_11.png", Toast.LENGTH_SHORT).show();
                 imageViewImpl_cutout.showImage();
+
+//                Bitmap mypic = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + ToPath + "/OUTPUT_11.png");
+//                Bitmap mypic = imageViewImpl_cutout.CreatNewPhoto();
+//                BitmapCache.setBitmapcache(mypic);
+//                startActivity(new Intent(CutoutActivity.this, ShareActivity.class));
             }
         });
 

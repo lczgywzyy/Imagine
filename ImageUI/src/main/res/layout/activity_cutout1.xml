@@ -35,7 +35,7 @@
             android:padding="@dimen/btn_padding"
             android:layout_width="@dimen/btn_outter"
             android:layout_height="@dimen/btn_outter"
-            android:src="@drawable/icon_wrong"
+            android:src="@drawable/icon_back"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true" />
         <ImageButton
@@ -53,7 +53,7 @@
             android:padding="@dimen/btn_padding"
             android:layout_width="@dimen/btn_outter"
             android:layout_height="@dimen/btn_outter"
-            android:src="@drawable/icon_right"
+            android:src="@drawable/icon_forward"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />
     </RelativeLayout>
