@@ -127,6 +127,7 @@
             android:layout_gravity="left"
             android:gravity="left|center"
             android:paddingLeft="10dp"
+            android:visibility="gone"
             android:textColorHint="@color/gray_10"
             android:background="@null"
             android:textColor="@color/white"
@@ -150,7 +151,7 @@
             android:background="@null"
             android:textColor="@color/white"
             android:textSize="@dimen/textsize_medium"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             />
         <View
             android:layout_width="fill_parent"
@@ -170,7 +171,7 @@
             android:background="@null"
             android:textColor="@color/white"
             android:textSize="@dimen/textsize_medium"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             />
 
     </LinearLayout>

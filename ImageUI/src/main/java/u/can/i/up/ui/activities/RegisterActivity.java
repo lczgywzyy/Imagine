@@ -118,7 +118,7 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
                 if(!TextUtils.isEmpty(edtPhone.getText().toString())){
                     SMSSDK.getVerificationCode("86",edtPhone.getText().toString());
                     btnGetPcd.setClickable(false);
-                    btnGetPcd.setText("再次获取");
+                    btnGetPcd.setText("请求发送验证码..");
                 }else {
                    Toast.makeText(getApplicationContext(),"电话不能为空",Toast.LENGTH_LONG).show();
                 }

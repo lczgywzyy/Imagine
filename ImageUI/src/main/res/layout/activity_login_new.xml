@@ -98,7 +98,7 @@
                     android:textSize="@dimen/textsize_small"
                     android:hint="密码"
                     android:textColorHint="@color/gray_30"
-                    android:inputType="numberPassword"
+                    android:inputType="textPassword"
                     android:textColor="@color/gray_80"/>
             </LinearLayout>
 

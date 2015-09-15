@@ -14,14 +14,15 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="center"
         android:gravity="center"
+        android:layout_margin="0dp"
         >
         <u.can.i.up.ui.utils.ImageViewImpl_collocate
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ImageViewImpl_allocate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="0dp"
             android:adjustViewBounds="true"
-            android:scaleType="matrix"
             />
     </LinearLayout>
 

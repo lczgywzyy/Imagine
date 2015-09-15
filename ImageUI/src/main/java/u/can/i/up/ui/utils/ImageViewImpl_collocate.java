@@ -162,7 +162,7 @@ public class ImageViewImpl_collocate extends ImageView {
 //        Paint tmpPaint = new Paint();
 //        tmpPaint.setAlpha(70);
         //paint guideline
-        drawRuleOfThirdsGuidelines(canvas);
+      //  drawRuleOfThirdsGuidelines(canvas);
 
         canvas.setDrawFilter(paintFilter);
 /*
@@ -220,10 +220,13 @@ public class ImageViewImpl_collocate extends ImageView {
 
         matrixBack =new Matrix();
 
-        matrixBack.postScale(1/scale_factor, 1/scale_factor);
+        matrixBack.postScale(1 / scale_factor, 1 / scale_factor);
 
-        Log.e("MAP",String.valueOf(bmpBack)+"XXX"+String.valueOf(bmpBack.getWidth()));
-        bmpBack = Bitmap.createBitmap(bmpBack,0,0,bmpBack.getWidth(),bmpBack.getHeight(),matrixBack,true);
+        Bitmap bitmapNew = Bitmap.createBitmap(bmpBack, 0, 0, bmpBack.getWidth(), bmpBack.getHeight(), matrixBack, true);
+
+        bmpBack.recycle();
+
+        bmpBack=bitmapNew;
 
         this.setImageBitmap(bmpBack);
 
@@ -318,14 +321,18 @@ public class ImageViewImpl_collocate extends ImageView {
                         //对Matrix进行旋转
                         matrixPaint.postRotate(de, pointMotionMid.x, pointMotionMid.y);
                     }
-                }else if(status == ViewStatus.STATUS_MOVE){
+                }else if(status == ViewStatus.STATUS_MOVE) {
                     //对Matrix进行移位
+                    if (!isOutOfBounds()) {
                     matrixPaint.postTranslate(x - prePoint.x, y - prePoint.y);
+                     }
                 }
                 prePoint.x = x;
                 prePoint.y = y;
                 //将矩阵map到表情矩形上
-                matrixPaint.mapRect(rectMotion, rectMotionPre);
+                if (!isOutOfBounds()) {
+                    matrixPaint.mapRect(rectMotion, rectMotionPre);
+                }
                 matrixPaint.mapRect(rectRotateMark, rectRotatePre);
                 matrixPaint.mapRect(rectDeleteMark, rectDeletePre);
                 ImageAlgrithms.getRectCenter(rectRotateMark, rotateCenterP);
@@ -347,6 +354,38 @@ public class ImageViewImpl_collocate extends ImageView {
         return true;
     }
 
+    private Boolean isOutOfBounds(){
+
+        float left= rectMotion.left;
+        float right= rectMotion.right;
+
+        float top=rectMotion.top;
+
+        float bottom=rectMotion.bottom;
+
+        Log.e("top",String.valueOf(top));
+
+        if(0>left){
+            rectMotion.left=0;
+            return true;
+        }
+        if(getWidth()<right){
+            rectMotion.right=getWidth();
+            return true;
+        }
+        if(0>top){
+            rectMotion.top=0;
+            return true;
+        }
+        if(getHeight()<bottom){
+            rectMotion.bottom=getHeight();
+            return true;
+        }
+
+
+        return false;
+
+    }
 
     public void setBmpMotion(Bitmap mbitmap){
         if(bmpMotion != null){

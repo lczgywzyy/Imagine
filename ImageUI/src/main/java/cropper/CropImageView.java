@@ -13,6 +13,7 @@
 
 package cropper;
 
+import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -41,6 +42,7 @@ import cropper.cropwindow.CropOverlayView;
 import cropper.cropwindow.edge.Edge;
 import cropper.util.ImageViewUtil;
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplicationConfig;
 
 /**
  * Custom view that provides cropping capabilities to an image.
@@ -458,7 +460,7 @@ public class CropImageView extends FrameLayout {
                 ImageViewUtil.DecodeBitmapResult result =
                         ImageViewUtil.decodeSampledBitmapRegion(getContext(), mLoadedImageUri, rect, reqWidth, reqHeight);
 
-                Bitmap bitmap = result.bitmap;
+                Bitmap bitmap = compressBitmapDevice(result.bitmap);
                 if (mDegreesRotated > 0) {
                     bitmap = ImageViewUtil.rotateBitmap(bitmap, mDegreesRotated);
                 }
@@ -472,6 +474,38 @@ public class CropImageView extends FrameLayout {
             return null;
         }
     }
+//
+     Bitmap compressBitmapDevice( Bitmap bitmap){
+
+        int bitmapHeightPre=bitmap.getHeight();
+
+        int bitmapWidthPre=bitmap.getWidth();
+
+        float scale_factor=1f;
+
+
+
+        if (IApplicationConfig.DeviceHeight > bitmapHeightPre &&  IApplicationConfig.DeviceWidth > bitmapWidthPre) {
+           // scale_factor = bitmap_width_pre / canvas_width_pre > bitmap_height_pre / canvas_height_pre ? bitmap_width_pre / canvas_width_pre : bitmap_height_pre / canvas_height_pre;
+
+        } else {
+            //背景位图矩阵缩放
+            scale_factor = bitmapWidthPre / IApplicationConfig.DeviceWidth >bitmapHeightPre / IApplicationConfig.DeviceHeight ? bitmapWidthPre / IApplicationConfig.DeviceWidth  : bitmapHeightPre / IApplicationConfig.DeviceHeight;
+
+        }
+
+        float bitmapScaleWidth=((float)bitmapWidthPre)/scale_factor;
+
+        float bitmapScaleHeight=((float)bitmapHeightPre)/scale_factor;
+
+       Bitmap bitmapCompress= Bitmap.createScaledBitmap(bitmap,  (int)bitmapScaleWidth,(int)bitmapScaleHeight, false);
+
+        if (bitmapCompress != bitmap) { // 如果没有缩放，那么不回收
+            bitmap.recycle(); // 释放Bitmap的native像素数组
+        }
+        return bitmapCompress;
+    }
+
 
     /**
      * Gets the cropped circle image based on the current crop selection.
