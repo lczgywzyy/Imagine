@@ -28,7 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.iwf.photopicker.PhotoPickerActivity;
+import me.iwf.photopicker.PhotoSinglePickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
+import me.iwf.photopicker.utils.PhotoSinglePickerIntent;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_PearlBuild;
@@ -91,7 +93,7 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
         List<String> photos = null;
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             if (data != null) {
-                photos = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
+                photos = data.getStringArrayListExtra(PhotoSinglePickerActivity.KEY_SELECTED_PHOTOS);
             }
             selectedPhotos.clear();
 
@@ -114,9 +116,11 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
         switch (v.getId()) {
             case R.id.pearlbuild_add:
             {
-                PhotoPickerIntent intent = new PhotoPickerIntent(PearlBuildActivity.this);
+//                PhotoPickerIntent intent = new PhotoPickerIntent(PearlBuildActivity.this);
+                PhotoSinglePickerIntent intent = new PhotoSinglePickerIntent(PearlBuildActivity.this);
                 intent.setPhotoCount(1);
                 intent.setShowCamera(false);
+                intent.setShowGif(false);
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             }

@@ -36,7 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.iwf.photopicker.PhotoPickerActivity;
+import me.iwf.photopicker.PhotoSinglePickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
+import me.iwf.photopicker.utils.PhotoSinglePickerIntent;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.CutoutSetActivity;
 import u.can.i.up.ui.activities.ImageSetActivity;
@@ -168,7 +170,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PEARL_CODE) {
             if (data != null) {
-                photos = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
+                photos = data.getStringArrayListExtra(PhotoSinglePickerActivity.KEY_SELECTED_PHOTOS);
             }
             selectedPhotos.clear();
             if (photos != null) {
@@ -186,9 +188,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        PhotoPickerIntent intent = new PhotoPickerIntent(getActivity());
+
         switch (v.getId()){
             case R.id.fast_start:
+                PhotoPickerIntent intent = new PhotoPickerIntent(getActivity());
                 intent.setPhotoCount(1);
                 intent.setShowCamera(true);
                 startActivityForResult(intent, REQUEST_FAST_CODE);
@@ -201,9 +204,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), CutoutSetActivity.class));
                 break;
             case R.id.pearl_build:
-                intent.setPhotoCount(1);
-                intent.setShowCamera(true);
-                startActivityForResult(intent, REQUEST_PEARL_CODE);
+                PhotoSinglePickerIntent intentsingle = new PhotoSinglePickerIntent(getActivity());
+                intentsingle.setPhotoCount(1);
+                intentsingle.setShowCamera(false);
+                intentsingle.setShowGif(false);
+                startActivityForResult(intentsingle, REQUEST_PEARL_CODE);
 //                startActivity(new Intent(getActivity(), PearlBuildActivity.class));
                 break;
             case R.id.myalbum:

@@ -46,6 +46,10 @@
             android:label="@string/title_activity_libirary" >
         </activity>
         <activity
+            android:name="me.iwf.photopicker.PhotoSinglePickerActivity"
+            android:label="@string/title_activity_libirary" >
+        </activity>
+        <activity
             android:name=".activities.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
