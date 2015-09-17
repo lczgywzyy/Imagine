@@ -34,7 +34,7 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/actionbar">
             <ImageButton
-                android:id="@+id/match_1_close_btn"
+                android:id="@+id/image_collocate_close_btn"
                 android:background="@drawable/selector_common_pressed_50_back"
                 android:padding="@dimen/btn_padding"
                 android:layout_width="@dimen/btn_outter"
@@ -55,7 +55,7 @@
                 />
 
             <ImageButton
-                android:id="@+id/match_2_continue"
+                android:id="@+id/image_collocate_continue"
                 android:background="@drawable/selector_common_pressed_50_back"
                 android:padding="@dimen/btn_padding"
                 android:layout_width="@dimen/btn_outter"

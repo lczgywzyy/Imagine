@@ -32,7 +32,7 @@ import u.can.i.up.ui.utils.UtilsDevice;
  * @sumary 搭配界面：底图选择完毕，往底图贴素材
  */
 
-public class ImageCollocateActivity extends FragmentActivity {
+public class ImageCollocateActivity extends FragmentActivity implements View.OnClickListener  {
 
     private final String TAG = this.getClass().getName();
 
@@ -54,51 +54,40 @@ public class ImageCollocateActivity extends FragmentActivity {
 
     private ArrayList<TMaterial> tMaterialArrayList = new ArrayList<>();
 
+    private ImageViewImpl_collocate imageViewImpl_collocate;
+    private ImageButton closebtn;
+    private ImageButton continuebtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_collocate);
-        pearlBeansArrayList =((IApplication)getApplication()).arrayListPearlBeans;
-
-        tMaterialArrayList=((IApplication)getApplication()).arrayListTMaterial;
-
-        final ImageViewImpl_collocate imageViewImpl_collocate = (ImageViewImpl_collocate) findViewById(R.id.ImageViewImpl_allocate);
-        BitmapCache.setImageViewImpl_collocate(imageViewImpl_collocate);
-
-        ImageButton setover = (ImageButton)findViewById(R.id.match_2_continue);
-        ImageButton closeBtm = (ImageButton)findViewById(R.id.match_1_close_btn);
-
-        closeBtm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                BitmapCache.getImageViewImpl_collocate().turnLastAction();
-            }
-        });
-        setover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap mypic = imageViewImpl_collocate.saveBitmapAll();
-//                ShareActivity.exportImageByFinger(mypic);
-
-                BitmapCache.setBitmapcache(mypic);
-                startActivity(new Intent(view.getContext(), ShareActivity.class));
-            }
-        });
-
         initView();
-
-        //异步任务加载图片
-//        Loadimage loadimage = new Loadimage();
-//        loadimage.execute(filename);
+        initTabView();
     }
 
     /**
      * 初始化组件
      */
     private void initView() {
-        mLayoutInflater = LayoutInflater.from(this);
 
+        pearlBeansArrayList =((IApplication)getApplication()).arrayListPearlBeans;
+        tMaterialArrayList=((IApplication)getApplication()).arrayListTMaterial;
+        imageViewImpl_collocate = (ImageViewImpl_collocate) findViewById(R.id.ImageViewImpl_allocate);
+        BitmapCache.setImageViewImpl_collocate(imageViewImpl_collocate);
+
+        continuebtn = (ImageButton)findViewById(R.id.image_collocate_continue);
+        closebtn = (ImageButton)findViewById(R.id.image_collocate_close_btn);
+        continuebtn.setOnClickListener(this);
+        closebtn.setOnClickListener(this);
+    }
+
+    /**
+     * 初始化组件
+     */
+    private void initTabView(){
+        mLayoutInflater = LayoutInflater.from(this);
         // 找到TabHost
         mTabHost = (FragmentTabHost) findViewById(R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
@@ -109,9 +98,7 @@ public class ImageCollocateActivity extends FragmentActivity {
             TabHost.TabSpec tabSpec = mTabHost.newTabSpec(String.valueOf(tMaterialArrayList.get(i).getTMaterialId()))
                     .setIndicator(getTabItemView(i));
             // 将Tab按钮添加进Tab选项卡中
-
             Bundle bundle=new Bundle();
-
             mTabHost.addTab(tabSpec, CollocateTabFragment.class, bundle);
             // 设置Tab按钮的背景
             mTabHost.getTabWidget().getChildAt(i)
@@ -126,22 +113,36 @@ public class ImageCollocateActivity extends FragmentActivity {
     private View getTabItemView(int index) {
         View view = mLayoutInflater.inflate(R.layout.item_navigator_material_selected, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
-
         //
-
         IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(imageView,ImageCollocateActivity.this);
-
-        bitmapAsync.execute(null, tMaterialArrayList.get(index).getTMaterialMd(),"img");
-
+        bitmapAsync.execute(null, tMaterialArrayList.get(index).getTMaterialMd(), "img");
        // imageView.setImageBitmap(IBitmapCache.getBitMapCache().getBitmap(null, tMaterialArrayList.get(index).getTMaterialMd()));
         TextView textView = (TextView) view.findViewById(R.id.textview);
         textView.setText(tMaterialArrayList.get(index).getTMaterialName());
-
         return view;
     }
 
 
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.image_collocate_continue:
+            {
+                Bitmap mypic = imageViewImpl_collocate.saveBitmapAll();
+                BitmapCache.setBitmapcache(mypic);
+                startActivity(new Intent(ImageCollocateActivity.this, ShareActivity.class));
+                break;
+            }
+            case R.id.image_collocate_close_btn:
+            {
+//                BitmapCache.getImageViewImpl_collocate().turnLastAction();
+                finish();
+                break;
+            }
+            default:
+                break;
+        }
+    }
 
 
 }

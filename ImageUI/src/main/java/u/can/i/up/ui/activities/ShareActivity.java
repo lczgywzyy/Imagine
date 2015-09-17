@@ -52,56 +52,34 @@ public class ShareActivity extends Activity implements View.OnClickListener{
     private IWXAPI api;
 
     private Button savetoalbum;
-
     private TextView savetotext;
+    private ImageButton share_close_btn;
+    private Button back_main;
+    private ImageView share_image;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
-        init();
+        initView();
     }
 
-    private void init(){
-        final ImageView share_image = (ImageView) findViewById(R.id.share_image);
-        ImageButton cutout_1_close_btn = (ImageButton)findViewById(R.id.cutout_1_close_btn);
-        Button back_main = (Button)findViewById(R.id.back_main);
+    private void initView(){
+        share_image = (ImageView) findViewById(R.id.share_image);
+        share_close_btn = (ImageButton)findViewById(R.id.cutout_1_close_btn);
+        back_main = (Button)findViewById(R.id.back_main);
         savetoalbum = (Button)findViewById(R.id.save_to_album_btn);
         savetotext = (TextView)findViewById(R.id.save_to_album_text);
 
         tempbitmap = BitmapCache.getBitmapcache();
         share_image.setImageBitmap(tempbitmap);
 
-        savetoalbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-//                BitmapCache.getAlbumImageList().add(tempbitmap);
-                savetoalbum.setClickable(false);
-                savetotext.setText("已保存至我的相册");
-            }
-        });
-
-        back_main.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ShareActivity.this, MainActivity.class));
-            }
-        });
-        cutout_1_close_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
+        savetoalbum.setOnClickListener(this);
+        back_main.setOnClickListener(this);
+        share_close_btn.setOnClickListener(this);
+        //分享功能
         api = WXAPIFactory.createWXAPI(this, ShareUtils.getMetaDataValue("WXAPPID", this));
-        initViews();
-
-    }
-
-    private void initViews(){
         imgWXShare=(ImageButton)findViewById(R.id.img_wx);
         imgWXFShare=(ImageButton)findViewById(R.id.img_wxf);
         imgQQShare=(ImageButton)findViewById(R.id.img_qq);
@@ -125,6 +103,20 @@ public class ShareActivity extends Activity implements View.OnClickListener{
             case R.id.img_qq:
                 break;
             case R.id.img_weibo:
+                break;
+            case R.id.cutout_1_close_btn:
+                finish();
+                break;
+            case R.id.back_main:
+                startActivity(new Intent(ShareActivity.this, MainActivity.class));
+                break;
+            case R.id.save_to_album_btn:
+            {
+                savetoalbum.setClickable(false);
+                savetotext.setText("已保存至我的相册");
+                break;
+            }
+            default:
                 break;
         }
     }

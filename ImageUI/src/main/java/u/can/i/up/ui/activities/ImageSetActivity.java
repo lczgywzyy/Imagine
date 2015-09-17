@@ -1,16 +1,13 @@
 package u.can.i.up.ui.activities;
 
 
-import android.app.Activity;
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.net.Uri;
 import android.os.Bundle;
 
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
@@ -19,7 +16,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.avast.android.dialogs.fragment.SimpleDialogFragment;
+import com.avast.android.dialogs.iface.ISimpleDialogCancelListener;
+import com.avast.android.dialogs.iface.ISimpleDialogListener;
 
 import cropper.CropImageView;
 import u.can.i.up.ui.R;
@@ -33,7 +35,8 @@ import u.can.i.up.ui.utils.BitmapCache;
  * @data 2015.06.13
  * @sumary 底图照片修改页面：用户选择照片后，对照片进行裁剪，旋转，调整，比例尺
  */
-public class ImageSetActivity extends FragmentActivity implements View.OnClickListener{
+public class ImageSetActivity extends FragmentActivity implements View.OnClickListener
+        ,ISimpleDialogListener, ISimpleDialogCancelListener{
 
     /**
      * FragmentTabhost
@@ -67,8 +70,9 @@ public class ImageSetActivity extends FragmentActivity implements View.OnClickLi
     // Instance variables
     private Bitmap croppedImage;
     private CropImageView cropImageView;
-    ImageButton closebtn;
-    ImageButton continuebtn;
+    private ImageButton closebtn;
+    private ImageButton continuebtn;
+    private static final int REQUEST_SIMPLE_DIALOG = 42;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,7 @@ public class ImageSetActivity extends FragmentActivity implements View.OnClickLi
         closebtn = (ImageButton)findViewById(R.id.imageset_close_btn);
         continuebtn = (ImageButton)findViewById(R.id.imageset_continue);
         continuebtn.setOnClickListener(this);
+        closebtn.setOnClickListener(this);
         Uri photoUri = getIntent().getParcelableExtra("photoUri");
 //        String photoUri = getIntent().getStringExtra("photoUri");
 //        cropImageView.setImageBitmap(BitmapFactory.decodeFile(photoUri));
@@ -157,7 +162,53 @@ public class ImageSetActivity extends FragmentActivity implements View.OnClickLi
                 startActivity(i);
                 break;
             }
+            case R.id.imageset_close_btn:
+            {
+                SimpleDialogFragment.createBuilder(this, getSupportFragmentManager())
+                        .setTitle("注意")
+                        .setMessage("放弃本次操作，你的编辑将丢失")
+                        .setPositiveButtonText("确定")
+                        .setNegativeButtonText("取消")
+                        .setRequestCode(REQUEST_SIMPLE_DIALOG)
+                        .show();
+            }
             default:
+                break;
         }
     }
+
+    // ISimpleDialogCancelListener
+
+    @Override
+    public void onCancelled(int requestCode) {
+        switch (requestCode) {
+            case REQUEST_SIMPLE_DIALOG:
+                Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    // ISimpleDialogListener
+
+    @Override
+    public void onPositiveButtonClicked(int requestCode) {
+        if (requestCode == REQUEST_SIMPLE_DIALOG) {
+            finish();
+        }
+    }
+
+    @Override
+    public void onNegativeButtonClicked(int requestCode) {
+        if (requestCode == REQUEST_SIMPLE_DIALOG) {
+            Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onNeutralButtonClicked(int requestCode) {
+        if (requestCode == REQUEST_SIMPLE_DIALOG) {
+            Toast.makeText(this, "no selected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

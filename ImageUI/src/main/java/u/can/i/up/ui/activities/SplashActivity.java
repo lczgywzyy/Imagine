@@ -111,6 +111,7 @@ public class SplashActivity extends Activity {
                             }else{
                                 Intent i = new Intent(SplashActivity.this, MainActivity.class);
                                 startActivity(i);
+                                finish();
                             }
 
                         }catch (Exception e){
@@ -118,12 +119,14 @@ public class SplashActivity extends Activity {
                             refreshLocalSMaterial(pearlBeansList);
                             Intent i = new Intent(SplashActivity.this, MainActivity.class);
                             startActivity(i);
+                            finish();
                         }
                         break;
                     default:
                         //登陆失败
                         Intent i = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(i);
+                        finish();
                         break;
                 }
 
