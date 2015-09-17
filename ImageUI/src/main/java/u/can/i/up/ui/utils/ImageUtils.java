@@ -113,7 +113,7 @@ public class ImageUtils {
      *  @param WithTransparent 是否需要透明区域
      *  @since 从FromPath中提取图片，并以ToPath保存
      * */
-    public static void extractImageFromBitmapPixels(Bitmap FromBitmap, int[] pixels, String ToPath, boolean WithTransparent){
+    public static Bitmap extractImageFromBitmapPixels(Bitmap FromBitmap, int[] pixels, boolean WithTransparent){
         Bitmap bmp = Bitmap.createBitmap(FromBitmap.getWidth(), FromBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         int minX = FromBitmap.getWidth();
         int minY = FromBitmap.getHeight();
@@ -135,24 +135,7 @@ public class ImageUtils {
         }
         bmp.setPixels(pixels, 0, FromBitmap.getWidth(), 0, 0, FromBitmap.getWidth(), FromBitmap.getHeight());
 
-        // Bitmap is entirely transparent
-        if((maxX < minX) || (maxY < minY)){
-            return;
-        }
-        File fImage = new File(ToPath);
-        try {
-            fImage.createNewFile();
-            FileOutputStream iStream = new FileOutputStream(fImage);
-            if(WithTransparent){
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, iStream);
-            } else{
-                Bitmap tmpBmp = Bitmap.createBitmap(bmp, minX, minY, (maxX - minX) + 1, (maxY - minY) + 1);
-                tmpBmp.compress(Bitmap.CompressFormat.PNG, 100, iStream);
-            }
-            iStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return bmp;
     }
 
     /** @author 李承泽

@@ -1,6 +1,7 @@
 package u.can.i.up.ui.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,11 +23,19 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.beans.PearlBeans;
+import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.utils.BitmapCache;
+import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_collocate;
 import u.can.i.up.ui.utils.ImageViewImpl_cutout;
+import u.can.i.up.ui.utils.MD5Utils;
+import u.can.i.up.utils.image.Pearl;
 
 /**
  * @author dongfeng
@@ -38,6 +47,10 @@ public class CutoutActivity extends Activity {
     private static final String TAG = "u.can.i.up.imagine." + CutoutActivity.class;
 
     private static final String ToPath = ".2ToPath";
+
+    private PearlBeans pearlBeans;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +64,8 @@ public class CutoutActivity extends Activity {
         final ImageViewImpl_cutout imageViewImpl_cutout = (ImageViewImpl_cutout) findViewById(R.id.ImageViewImpl_cutout);
 
         String photo_path = getIntent().getStringExtra("photo_path");
+
+        pearlBeans=getIntent().getParcelableExtra("pearl_beans");
 
 //        Bitmap mBitmap1 = null;
 //        Uri photoUri = getIntent().getParcelableExtra("photoUri");
@@ -121,15 +136,10 @@ public class CutoutActivity extends Activity {
         setover.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "114：加载/sdcard/.2ToPath/OUTPUT_11.png");
-                imageViewImpl_cutout.exportImageByFinger();
-                Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/OUTPUT_11.png", Toast.LENGTH_SHORT).show();
-                imageViewImpl_cutout.showImage();
-
-//                Bitmap mypic = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + ToPath + "/OUTPUT_11.png");
-//                Bitmap mypic = imageViewImpl_cutout.CreatNewPhoto();
-//                BitmapCache.setBitmapcache(mypic);
-//                startActivity(new Intent(CutoutActivity.this, ShareActivity.class));
+                try {
+                    savePearlBeans(imageViewImpl_cutout.exportImageByFinger());
+                }catch(Exception e){}
+                //imageViewImpl_cutout.showImage();
             }
         });
 
@@ -157,4 +167,21 @@ public class CutoutActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void savePearlBeans(Bitmap bitmap) throws IOException{
+
+        byte[] bytes=IBitmapCache.Bitmap2Bytes(bitmap);
+        String md5= MD5Utils.getMD5String(bytes);
+        FileOutputStream os = this.openFileOutput(md5,
+                Context.MODE_PRIVATE);
+        os.write(bytes);
+        os.close();
+        pearlBeans.setMD5(md5);
+        pearlBeans.setPath("/static/img/png/" + md5);
+        PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
+        psqLiteOpenHelper.addPearl(pearlBeans);
+        ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
+        Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
+    }
+
 }

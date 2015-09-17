@@ -164,7 +164,7 @@ public class IBitmapCache {
     }
 
 
-    private byte[] Bitmap2Bytes(Bitmap bm){
+    public static byte[] Bitmap2Bytes(Bitmap bm){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();

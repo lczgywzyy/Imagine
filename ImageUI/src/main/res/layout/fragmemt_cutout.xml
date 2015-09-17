@@ -47,7 +47,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_margin="5dp"
-                android:layout_weight="400"
+                android:layout_weight="500"
                 android:columnWidth="100dp"
                 android:drawSelectorOnTop="true"
                 android:gravity="center"
@@ -100,6 +100,7 @@
                 android:layout_height="25dp"
                 android:textColor="@color/gray_80"
                 android:textSize="@dimen/textsize_small"
+                android:id="@+id/p_name"
                 android:background="@color/transparentbluegray"
                 android:paddingLeft="@dimen/margin"/>
 
@@ -124,6 +125,7 @@
                 android:background="@color/transparentbluegray"
                 android:gravity="center"
                 android:inputType="number"
+                android:id="@+id/p_size"
                 android:numeric="integer"
                 android:maxLength="3"
                 />

@@ -164,6 +164,7 @@ public class PearlBeans implements Parcelable {
         dest.writeString(description);
         dest.writeInt(SMaterialId);
         dest.writeInt(category);
+        dest.writeString(material);
         dest.writeInt(MerchantCode);
         dest.writeInt(type);
     }
@@ -203,8 +204,11 @@ public class PearlBeans implements Parcelable {
             pearlBeans.setDescription(source.readString());
             pearlBeans.setSMaterialId(source.readInt());
             pearlBeans.setCategory(source.readInt());
+            pearlBeans.setMaterial(source.readString());
             pearlBeans.setMerchantCode(source.readInt());
+
             pearlBeans.setType(source.readInt());
+
             return pearlBeans;
         }
 

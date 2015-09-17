@@ -378,7 +378,7 @@ public class ImageViewImpl_cutout extends View {
         return bitmap;
     }
 
-    public void exportImageByFinger(){
+    public Bitmap  exportImageByFinger(){
 //        Paint paint = new Paint();
 //        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 //        mCanvas.drawPaint(paint);
@@ -396,7 +396,7 @@ public class ImageViewImpl_cutout extends View {
                 pixels3[i] = pixels1[i];
             }
         }
-        ImageUtils.extractImageFromBitmapPixels(mBitmap, pixels3, (new File(Environment.getExternalStorageDirectory(), ToPath + "/OUTPUT_11.png").getAbsolutePath()), false);
+       return  ImageUtils.extractImageFromBitmapPixels(mBitmap, pixels3, false);
     }
 
     public void showImage(){
