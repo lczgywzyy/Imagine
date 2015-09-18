@@ -8,9 +8,11 @@
       <module fileurl="file://$PROJECT_DIR$/ImageUtils/ImageUtils.iml" filepath="$PROJECT_DIR$/ImageUtils/ImageUtils.iml" />
       <module fileurl="file://$PROJECT_DIR$/Imagine.iml" filepath="$PROJECT_DIR$/Imagine.iml" />
       <module fileurl="file://$PROJECT_DIR$/OpenCV/OpenCV.iml" filepath="$PROJECT_DIR$/OpenCV/OpenCV.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" filepath="$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/ZoomImageView/ZoomImageView.iml" filepath="$PROJECT_DIR$/ZoomImageView/ZoomImageView.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-gif-drawable-master/android-gif-drawable-master.iml" filepath="$PROJECT_DIR$/android-gif-drawable-master/android-gif-drawable-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/imagine/imagine.iml" filepath="$PROJECT_DIR$/imagine/imagine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/opencvtests/opencvtests.iml" filepath="$PROJECT_DIR$/opencvtests/opencvtests.iml" />
     </modules>
   </component>
 </project>

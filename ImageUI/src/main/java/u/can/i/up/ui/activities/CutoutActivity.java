@@ -1,14 +1,11 @@
 package u.can.i.up.ui.activities;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -21,21 +18,12 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import u.can.i.up.ui.R;
-import u.can.i.up.ui.application.IApplication;
-import u.can.i.up.ui.beans.PearlBeans;
-import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
-import u.can.i.up.ui.utils.BitmapCache;
-import u.can.i.up.ui.utils.IBitmapCache;
+import u.can.i.up.ui.utils.BitmapUtils;
 import u.can.i.up.ui.utils.ImageViewImpl_collocate;
 import u.can.i.up.ui.utils.ImageViewImpl_cutout;
-import u.can.i.up.ui.utils.MD5Utils;
-import u.can.i.up.utils.image.Pearl;
 
 /**
  * @author dongfeng
@@ -45,11 +33,6 @@ import u.can.i.up.utils.image.Pearl;
 
 public class CutoutActivity extends Activity {
     private static final String TAG = "u.can.i.up.imagine." + CutoutActivity.class;
-
-    private static final String ToPath = ".2ToPath";
-
-    private PearlBeans pearlBeans;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +44,10 @@ public class CutoutActivity extends Activity {
 //        final ImageButton square_eraze = (ImageButton)findViewById(R.id.square_eraze);
         final RadioButton circle_eraze = (RadioButton)findViewById(R.id.circle_eraze);
 
+        final RadioButton circle_restore = (RadioButton)findViewById(R.id.restore);
         final ImageViewImpl_cutout imageViewImpl_cutout = (ImageViewImpl_cutout) findViewById(R.id.ImageViewImpl_cutout);
 
         String photo_path = getIntent().getStringExtra("photo_path");
-
-        pearlBeans=getIntent().getParcelableExtra("pearl_beans");
 
 //        Bitmap mBitmap1 = null;
 //        Uri photoUri = getIntent().getParcelableExtra("photoUri");
@@ -74,7 +56,8 @@ public class CutoutActivity extends Activity {
 //        }catch (Exception e){
 //            e.printStackTrace();
 //        }
-        imageViewImpl_cutout.setmBitmap(BitmapFactory.decodeFile(photo_path));
+        Log.d("imageView", "Imageview width: " + imageViewImpl_cutout.getWidth() + imageViewImpl_cutout.getHeight());
+        imageViewImpl_cutout.setmBitmap(BitmapUtils.decodeSampledBitmapFromFile(photo_path, 1000, 1000));
 
 //        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.cutout_2_framelayout);
 //        final ImageViewImpl_cutout myView_cutout = new ImageViewImpl_cutout(this);
@@ -88,7 +71,9 @@ public class CutoutActivity extends Activity {
         circle_paint.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imageViewImpl_cutout.isDrawing) {
+                imageViewImpl_cutout.isDrawing = true;
+                imageViewImpl_cutout.paintType = 0;
+                /*if (imageViewImpl_cutout.isDrawing) {
                     imageViewImpl_cutout.isDrawing = false;
                     imageViewImpl_cutout.paintType = 0;
 
@@ -105,7 +90,7 @@ public class CutoutActivity extends Activity {
 //                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
                     circle_eraze.setBackgroundColor(Color.TRANSPARENT);
                     imageViewImpl_cutout.paintShape = 0;
-                }
+                }*/
             }
         });
 //
@@ -113,33 +98,39 @@ public class CutoutActivity extends Activity {
         circle_eraze.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "112");
-//                        button111.setText("描点");
-                if (imageViewImpl_cutout.paintType == 0) {
+                imageViewImpl_cutout.paintType = 1;
+                imageViewImpl_cutout.paintShape = 1;
+            }
+                /*if (imageViewImpl_cutout.paintType == 0) {
                     imageViewImpl_cutout.paintType = 1;
-//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
                     circle_paint.setBackgroundColor(Color.TRANSPARENT);
                     circle_eraze.setBackgroundColor(Color.TRANSPARENT);
 
                 } else {
                     imageViewImpl_cutout.paintType = 0;
-//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
                     circle_paint.setBackgroundColor(Color.TRANSPARENT);
                     circle_eraze.setBackgroundColor(Color.TRANSPARENT);
                 }
-            }
+            }*/
         });
 
+        circle_restore.setBackgroundColor(Color.TRANSPARENT);
+        circle_restore.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                imageViewImpl_cutout.paintType = 2;
+                imageViewImpl_cutout.paintShape = 1;
+            }
+        });
 
         setover.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    savePearlBeans(imageViewImpl_cutout.exportImageByFinger());
-                }catch(Exception e){}
-                //imageViewImpl_cutout.showImage();
+                Log.i(TAG, "114：加载/sdcard/.2ToPath/OUTPUT_11.png");
+                imageViewImpl_cutout.exportImageByFinger();
+                Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/OUTPUT_11.png", Toast.LENGTH_SHORT).show();
+                imageViewImpl_cutout.showImage();
             }
         });
 
@@ -167,21 +158,4 @@ public class CutoutActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    private void savePearlBeans(Bitmap bitmap) throws IOException{
-
-        byte[] bytes=IBitmapCache.Bitmap2Bytes(bitmap);
-        String md5= MD5Utils.getMD5String(bytes);
-        FileOutputStream os = this.openFileOutput(md5,
-                Context.MODE_PRIVATE);
-        os.write(bytes);
-        os.close();
-        pearlBeans.setMD5(md5);
-        pearlBeans.setPath("/static/img/png/" + md5);
-        PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
-        psqLiteOpenHelper.addPearl(pearlBeans);
-        ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
-        Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
-    }
-
 }
