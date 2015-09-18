@@ -23,11 +23,6 @@ android {
     }
     sourceSets.main.jni.srcDirs = []
 
-    task ndkBuild(type:Exec, description: 'compile jni source via ndk') {
-        workingDir file('src/main')
-        commandLine getNdkBuildCmd()
-
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -47,7 +42,7 @@ android {
     }
 
     tasks.withType(JavaCompile) {
-        compileTask -> compileTask.dependsOn(nativeLibsToJar, ndkBuild)
+        compileTask -> compileTask.dependsOn(nativeLibsToJar)
     }
 
 }
@@ -62,22 +57,5 @@ dependencies {
     compile project(':PhotoPicker')
     compile files('libs/libammsdk.jar')
     compile project(':OpenCV')
-}
-def getNdkDir() {
-    if (System.env.ANDROID_NDK_ROOT != null)
-               return System.env.ANDROID_NDK_ROOT
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    def ndkdir = properties.getProperty('ndk.dir', null)
-     if (ndkdir == null)
-          throw new GradleException("NDK location not found. Define location with ndk.dir in the local.properties file or with an ANDROID_NDK_ROOT environment variable.")
-
-    return ndkdir
-}
-
-def getNdkBuildCmd() {
-    def ndkbuild = getNdkDir() + "/ndk-build"
-    if (Os.isFamily(Os.FAMILY_WINDOWS))
-        ndkbuild += ".cmd"
-    return ndkbuild
+    compile project(':dialoglibrary')
 }

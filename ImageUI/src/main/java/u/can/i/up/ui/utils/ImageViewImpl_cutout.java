@@ -108,6 +108,9 @@ public class ImageViewImpl_cutout extends View {
     private float tmpCircleRadius = 10L;
     private float tmpCircleRadiusRatio = 1L;
 
+    // 设置不同模式下的画笔
+    private int alpha = 0;
+
 
     public void setmBitmap(Bitmap bitmap){
 
@@ -162,16 +165,6 @@ public class ImageViewImpl_cutout extends View {
 
     }
 
-//    public void setmBitmap(){
-//
-//    }
-//
-//    /** TODO 当且仅当构造函数中可以调用init()
-//     * */
-//    private void init(Context context) {
-//
-//    }
-//
     @Override
     protected void onDraw(Canvas canvas) {
         this.mCanvas = canvas;
@@ -187,8 +180,6 @@ public class ImageViewImpl_cutout extends View {
         } else if (paintType == ERASER) {
             canvas.drawPath(path, eraserPaint);
         }
-//        cacheCanvas.clipPath(cachePath, Region.Op.UNION);
-//        cachePath.reset();
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -206,6 +197,9 @@ public class ImageViewImpl_cutout extends View {
                     path.moveTo(x_down, y_down);
                     preX = x_down;
                     preY = y_down;
+                    if (paintType == RESTORE) {
+
+                    }
                 }
 
                 savedMatrix.set(matrix);
@@ -228,7 +222,7 @@ public class ImageViewImpl_cutout extends View {
             * */
             case MotionEvent.ACTION_UP:
                 Log.i(TAG, "ACTION_UP " + mode);
-                if (isDrawing) {
+                if (isDrawing && paintType != RESTORE) {
                     if (matrix.invert(invertMatrix)) {
                         path.transform(invertMatrix);
                     }
@@ -236,7 +230,6 @@ public class ImageViewImpl_cutout extends View {
                         cacheCanvas.drawPath(path, mPaint);
                         cacheCanvas.save();
                         cacheCanvas.clipPath(path, Region.Op.XOR);
-//                        cacheCanvas.clipRect(10, 80, 180, 120);
                         cacheCanvas.drawColor(Color.YELLOW);
                         cacheCanvas.restore();
                     } else if (mode == DRAWPATH && paintType == ERASER) {
@@ -244,6 +237,8 @@ public class ImageViewImpl_cutout extends View {
                     }
                     path.reset();
                     invalidate();
+                } else if (isDrawing && paintType == RESTORE) {
+
                 }
 
                 /*if(mode == DRAG && x_down == event.getX() && y_down == event.getY()){
@@ -286,8 +281,6 @@ public class ImageViewImpl_cutout extends View {
                         /*  使用rectMotion记录现在图片的位置、缩放程度等等；
                         * */
                         matrix.mapRect(rectMotion, rectMotionPre);
-//                        Log.i(TAG, "rectMotion_LEFT:" + rectMotion.left);
-//                        Log.i(TAG, "rectMotion_TOP:" + rectMotion.top);
                         invalidate();
                     }
                 }
@@ -299,11 +292,7 @@ public class ImageViewImpl_cutout extends View {
                     matrixCheck = matrixCheck();
                     if (matrixCheck == false) {
                         matrix.set(matrix1);
-                        /*  使用rectMotion记录现在图片的位置、缩放程度等等；
-                        * */
                         matrix.mapRect(rectMotion, rectMotionPre);
-//                        Log.i(TAG, "rectMotion_LEFT:" + rectMotion.left);
-//                        Log.i(TAG, "rectMotion_TOP:" + rectMotion.top);
                         invalidate();
                     }
                 }
@@ -317,72 +306,6 @@ public class ImageViewImpl_cutout extends View {
                     preX = event.getX();
                     preY = event.getY();
 
-/*
-
-                    */
-/*  使用画笔进行涂抹
-                    * *//*
-
-                    if (paintType == PAINTING) {
-                        */
-/*  圆形
-                        * *//*
-
-                        if (paintShape == CIRCLE) {
-
-                            for (int i = 0 - (int) (SideLenth / totalScale); i < (int) (SideLenth / totalScale); i++) {
-                                for (int j = 0 - (int) (SideLenth / totalScale); j < (int) (SideLenth / totalScale); j++) {
-                                    if (FloatMath.sqrt(i * i + j * j) < SideLenth / totalScale) {
-//                                        SectionPixels[(tureY + j) * mBitmap.getWidth() + (tureX + i)] = Color.RED;
-                                    }
-                                }
-                            }
-                        }
-                        */
-/*  方形
-                        * *//*
-
-                        else if (paintShape == SQUARE) {
-                            for (int i = 0 - (int) (SideLenth / totalScale); i < (int) (SideLenth / totalScale); i++) {
-                                for (int j = 0 - (int) (SideLenth / totalScale); j < (int) (SideLenth / totalScale); j++) {
-//                                    SectionPixels[(tureY + j) * mBitmap.getWidth() + (tureX + i)] = Color.RED;
-                                }
-                            }
-                        }
-                        */
-/*  将描的区域上色
-                        * *//*
-
-//                        mLayer.setPixels(SectionPixels, 0, mBitmap.getWidth(), 0, 0, mBitmap.getWidth(), mBitmap.getHeight());
-                    }
-                    */
-/*  使用橡皮进行涂抹
-                    * *//*
-
-                    else if (paintType == ERASER){
-                        if (paintShape == CIRCLE) {
-                            for (int i = 0 - (int) (SideLenth / totalScale); i < (int) (SideLenth / totalScale); i++) {
-                                for (int j = 0 - (int) (SideLenth / totalScale); j < (int) (SideLenth / totalScale); j++) {
-                                    if (FloatMath.sqrt(i * i + j * j) < SideLenth / totalScale) {
-//                                        SectionPixels[(tureY + j) * mBitmap.getWidth() + (tureX + i)] = 0;
-                                    }
-                                }
-                            }
-                        } else if (paintShape == SQUARE) {
-                            for (int i = 0 - (int) (SideLenth / totalScale); i < (int) (SideLenth / totalScale); i++) {
-                                for (int j = 0 - (int) (SideLenth / totalScale); j < (int) (SideLenth / totalScale); j++) {
-//                                    SectionPixels[(tureY + j) * mBitmap.getWidth() + (tureX + i)] = 0;
-                                }
-                            }
-                        }
-                        */
-/*  将描的区域设置为空
-                        * *//*
-
-//                        mLayer.setPixels(SectionPixels, 0, mBitmap.getWidth(), 0, 0, mBitmap.getWidth(), mBitmap.getHeight());
-*/
-
-//                    }
                     invalidate();
                 }
                 break;

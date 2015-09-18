@@ -49,20 +49,9 @@ public class CutoutActivity extends Activity {
 
         String photo_path = getIntent().getStringExtra("photo_path");
 
-//        Bitmap mBitmap1 = null;
-//        Uri photoUri = getIntent().getParcelableExtra("photoUri");
-//        try {
-//             mBitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
         Log.d("imageView", "Imageview width: " + imageViewImpl_cutout.getWidth() + imageViewImpl_cutout.getHeight());
         imageViewImpl_cutout.setmBitmap(BitmapUtils.decodeSampledBitmapFromFile(photo_path, 1000, 1000));
 
-//        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.cutout_2_framelayout);
-//        final ImageViewImpl_cutout myView_cutout = new ImageViewImpl_cutout(this);
-//        RelativeLayout.LayoutParams lParams52 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);//这个属性是设置空间的长宽，其实还可以设置其他的控件的其他属性；
-//        mainLayout.addView(myView_cutout,lParams52);
         imageViewImpl_cutout.isDrawing = false;
         imageViewImpl_cutout.paintShape = 0;//0 圆形画笔
         imageViewImpl_cutout.paintType = 0;//0 画笔 1 橡皮
@@ -73,24 +62,6 @@ public class CutoutActivity extends Activity {
             public void onClick(View v) {
                 imageViewImpl_cutout.isDrawing = true;
                 imageViewImpl_cutout.paintType = 0;
-                /*if (imageViewImpl_cutout.isDrawing) {
-                    imageViewImpl_cutout.isDrawing = false;
-                    imageViewImpl_cutout.paintType = 0;
-
-//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
-                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
-                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
-                    imageViewImpl_cutout.paintShape = 0;
-                } else {
-                    imageViewImpl_cutout.isDrawing = true;
-                    imageViewImpl_cutout.paintType = 0;
-//                    square_paint.setBackgroundColor(Color.TRANSPARENT);
-                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
-//                    square_eraze.setBackgroundColor(Color.TRANSPARENT);
-                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
-                    imageViewImpl_cutout.paintShape = 0;
-                }*/
             }
         });
 //
@@ -101,17 +72,6 @@ public class CutoutActivity extends Activity {
                 imageViewImpl_cutout.paintType = 1;
                 imageViewImpl_cutout.paintShape = 1;
             }
-                /*if (imageViewImpl_cutout.paintType == 0) {
-                    imageViewImpl_cutout.paintType = 1;
-                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
-                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
-
-                } else {
-                    imageViewImpl_cutout.paintType = 0;
-                    circle_paint.setBackgroundColor(Color.TRANSPARENT);
-                    circle_eraze.setBackgroundColor(Color.TRANSPARENT);
-                }
-            }*/
         });
 
         circle_restore.setBackgroundColor(Color.TRANSPARENT);

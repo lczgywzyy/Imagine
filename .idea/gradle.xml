@@ -18,8 +18,8 @@
             <option value="$PROJECT_DIR$/PhotoPicker" />
             <option value="$PROJECT_DIR$/ZoomImageView" />
             <option value="$PROJECT_DIR$/android-gif-drawable-master" />
+            <option value="$PROJECT_DIR$/dialoglibrary" />
             <option value="$PROJECT_DIR$/imagine" />
-            <option value="$PROJECT_DIR$/opencvtests" />
           </set>
         </option>
       </GradleProjectSettings>

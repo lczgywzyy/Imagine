@@ -101,6 +101,7 @@
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.1" level="project" />
     <orderEntry type="module" module-name="PhotoPicker" exported="" />
     <orderEntry type="module" module-name="OpenCV" exported="" />
+    <orderEntry type="module" module-name="dialoglibrary" exported="" />
     <orderEntry type="module" module-name="ImageUtils" exported="" />
   </component>
 </module>
