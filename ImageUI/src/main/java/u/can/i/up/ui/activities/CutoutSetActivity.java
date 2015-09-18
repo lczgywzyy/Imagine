@@ -36,6 +36,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avast.android.dialogs.fragment.SimpleDialogFragment;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -77,7 +79,7 @@ public class CutoutSetActivity extends AppCompatActivity {
     private EditText edtSize;
     private EditText edtMaterial;
 
-    ArrayList<String> selectedPhotos = new ArrayList<>();
+    private ArrayList<String> selectedPhotos = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,10 +98,18 @@ public class CutoutSetActivity extends AppCompatActivity {
         testcutout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PhotoPickerIntent intent = new PhotoPickerIntent(CutoutSetActivity.this);
-                intent.setPhotoCount(1);
-                intent.setShowCamera(true);
-                startActivityForResult(intent, REQUEST_CODE);
+                if (positionSelect != -1 ){
+                    PhotoPickerIntent intent = new PhotoPickerIntent(CutoutSetActivity.this);
+                    intent.setPhotoCount(1);
+                    intent.setShowCamera(true);
+                    startActivityForResult(intent, REQUEST_CODE);
+                }else {
+                    SimpleDialogFragment.createBuilder(getBaseContext(), getSupportFragmentManager())
+                            .setTitle("注意").setMessage("请选择素材分类")
+                            .setNegativeButtonText("确认")
+                            .show();
+                }
+
             }
         });
         gridView=(GridView)findViewById(R.id.gridView);
@@ -109,16 +119,6 @@ public class CutoutSetActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -228,4 +228,16 @@ public class CutoutSetActivity extends AppCompatActivity {
             private TextView mTextView;
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
