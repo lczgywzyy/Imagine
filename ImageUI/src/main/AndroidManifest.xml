@@ -31,6 +31,7 @@
         <activity
             android:name=".activities.SettingActivity"
             android:label="@string/other_activity"
+            android:exported="true"
             android:parentActivityName=".activities.MainActivity" >
         </activity>
         <activity

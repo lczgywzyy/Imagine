@@ -78,18 +78,7 @@
             <Space
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="35"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="抠图工具"
-                android:textSize="@dimen/textsize_small"
-                android:textColor="@color/gray_80"/>
-            <Space
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="14"/>
-
+                android:layout_weight="20"/>
 
 
             <LinearLayout
@@ -120,6 +109,18 @@
                         android:text="橡皮"
                         android:textColor="@color/gray_80"
                         android:gravity="center|left"/>
+
+                    <Space
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="5"
+                        android:text="还原"
+                        android:textColor="@color/gray_80"
+                        android:gravity="center|left"/>
                 </LinearLayout>
 
                 <RadioGroup
@@ -143,6 +144,17 @@
                         android:layout_weight="5"
                         android:button="@drawable/icon_circle_radio"/>
 
+                    <Space
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"/>
+                    <RadioButton
+                        android:id="@+id/restore"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="5"
+                        android:button="@drawable/icon_circle_radio"/>
+
                 </RadioGroup>
 
         </LinearLayout>
@@ -151,13 +163,13 @@
             <Space
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="4"/>
+                android:layout_weight="2"/>
 
 
             <Space
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="35"/>
+                android:layout_weight="20"/>
 
         </LinearLayout>
         <Space
