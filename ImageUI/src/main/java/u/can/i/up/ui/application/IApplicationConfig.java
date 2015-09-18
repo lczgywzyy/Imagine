@@ -12,7 +12,7 @@ public class IApplicationConfig {
 
    public static final String DIRECTORY_ROOT=Environment.getExternalStorageDirectory()+ File.separator+"PearlString";
 
-    public static  final String DIRECTORY_SMATERIAL=Environment.getDataDirectory()+File.separator+"SMaterial";
+    public static  final String DIRECTORY_BG=DIRECTORY_ROOT+File.separator+"BGS";
 
 
     public static final String HTTP_URL_BASE="http://128.199.241.194";

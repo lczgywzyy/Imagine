@@ -224,11 +224,15 @@ public class SplashActivity extends Activity {
         for (String child : children) {
             copyAssetFileToFiles(child);
         }
+        String[] bgs = assetManager.list("BgFiles");
+        for (String child : bgs) {
+            copyAssetFileToBgFiles(child);
+        }
     }
 
     private  void copyAssetFileToFiles(String filename)
             throws IOException {
-        InputStream is = getResources().getAssets().open("Material"+File.separator+filename);
+        InputStream is = getResources().getAssets().open("Material" + File.separator + filename);
         byte[] buffer = new byte[is.available()];
         is.read(buffer);
         is.close();
@@ -236,6 +240,20 @@ public class SplashActivity extends Activity {
                 Context.MODE_PRIVATE);
         os.write(buffer);
         os.close();
+    }
+    private void copyAssetFileToBgFiles (String filename)throws IOException {
+
+        InputStream is = getResources().getAssets().open("BgFiles"+File.separator+filename);
+        byte[] buffer = new byte[is.available()];
+        is.read(buffer);
+        File file=new File(IApplicationConfig.DIRECTORY_BG+File.separator+filename);
+        FileOutputStream fileOutputStream=new FileOutputStream(file);
+        fileOutputStream.write(buffer);
+        is.close();
+        fileOutputStream.close();
+
+
+
     }
 
     private  void copyAssetDb()throws IOException{

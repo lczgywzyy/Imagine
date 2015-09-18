@@ -55,13 +55,13 @@ public class IApplication extends Application {
             File directoryRoot=new File(IApplicationConfig.DIRECTORY_ROOT);
 
 
-            File dirctorySMaterial=new File(IApplicationConfig.DIRECTORY_SMATERIAL);
+            File dirctoryBG=new File(IApplicationConfig.DIRECTORY_BG);
 
             if(!directoryRoot.exists()){
                 directoryRoot.mkdir();
             }
-            if(!dirctorySMaterial.exists()){
-                dirctorySMaterial.mkdir();
+            if(!dirctoryBG.exists()){
+                dirctoryBG.mkdir();
             }
             return true;
 
