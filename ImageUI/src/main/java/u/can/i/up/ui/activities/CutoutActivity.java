@@ -51,6 +51,7 @@ public class CutoutActivity extends Activity {
     private PearlBeans pearlBeans;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
