@@ -171,6 +171,7 @@ public class ImageSetActivity extends FragmentActivity implements View.OnClickLi
                         .setNegativeButtonText("取消")
                         .setRequestCode(REQUEST_SIMPLE_DIALOG)
                         .show();
+                break;
             }
             default:
                 break;
