@@ -209,14 +209,10 @@ public class ImageViewImpl_collocate extends ImageView {
         bitmap_height_pre = bmpBack.getHeight();
 
 
-        if (canvas_width_pre > bitmap_width_pre && canvas_height_pre > bitmap_height_pre) {
 
-
-        } else {
             //背景位图矩阵缩放
-            scale_factor = bitmap_width_pre / canvas_width_pre > bitmap_height_pre / canvas_height_pre ? bitmap_width_pre / canvas_width_pre : bitmap_height_pre / canvas_height_pre;
+        scale_factor = bitmap_width_pre / canvas_width_pre > bitmap_height_pre / canvas_height_pre ? bitmap_width_pre / canvas_width_pre : bitmap_height_pre / canvas_height_pre;
 
-        }
 
         matrixBack =new Matrix();
 

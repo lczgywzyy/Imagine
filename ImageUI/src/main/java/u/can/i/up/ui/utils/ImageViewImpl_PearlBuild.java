@@ -443,11 +443,11 @@ public class ImageViewImpl_PearlBuild extends ImageView {
     public Bitmap saveBitmapAll() {
 //        File f = new File(savePathAll);
         //使用背景图的宽高创建一张bitmap
-        Bitmap bmpSave = Bitmap.createBitmap(bmpBack.getWidth(), bmpBack.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bmpSave = Bitmap.createBitmap(IApplicationConfig.DeviceWidth,UtilsDevice.dip2px(360), Bitmap.Config.ARGB_8888);
         //创建canvas
         Canvas canvas = new Canvas(bmpSave);
         //将背景图和表情画在bitmap上
-        canvas.drawBitmap(bmpBack, new Matrix(), null);
+        canvas.drawBitmap(Bitmap.createScaledBitmap(bmpBack, IApplicationConfig.DeviceWidth,UtilsDevice.dip2px(360), true), new Matrix(), null);
         //将素材画在bitmap上
         if(mPearlList != null && !mPearlList.isEmpty()){
             for (Pearl pearl: mPearlList){
@@ -461,6 +461,7 @@ public class ImageViewImpl_PearlBuild extends ImageView {
         }
         return bmpSave;
     }
+
 
 
 }

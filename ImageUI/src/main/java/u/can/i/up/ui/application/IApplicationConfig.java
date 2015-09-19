@@ -15,20 +15,20 @@ public class IApplicationConfig {
     public static  final String DIRECTORY_BG=DIRECTORY_ROOT+File.separator+"BGS";
 
 
-    public static final String HTTP_URL_BASE="http://128.199.241.194";
+    public static final String HTTP_URL_BASE="http://123.57.33.13";
 
-    public static final String HTTP_URL_LOGIN="http://128.199.241.194/AppLoginVerify";
+    public static final String HTTP_URL_LOGIN="http://123.57.33.13/AppLoginVerify";
 
-    public static final String HTTP_URL_Q_LOGIN="http://128.199.241.194/AppQLoginVerify";
+    public static final String HTTP_URL_Q_LOGIN="http://123.57.33.13/AppQLoginVerify";
 
-    public static final String HTTP_URL_REGISTER="http://128.199.241.194/AppRegister";
+    public static final String HTTP_URL_REGISTER="http://123.57.33.13/AppRegister";
 
-    public static final String HTTP_URL_CHECKSUM="http://128.199.241.194/AppChecksum";
+    public static final String HTTP_URL_CHECKSUM="http://123.57.33.13/AppChecksum";
 
-    public static final String HTTP_URL_PORTRAIT="http://128.199.241.194/AppPortraitEdit";
+    public static final String HTTP_URL_PORTRAIT="http://123.57.33.13/AppPortraitEdit";
 
-    public static final String HTTP_URL_PARAMETERS="http://128.199.241.194/AppInforEdit";
-    public static final String HTTP_URL_SMATRIAL_UPDATE="http://128.199.241.194/AppImageFetch";
+    public static final String HTTP_URL_PARAMETERS="http://123.57.33.13/AppInforEdit";
+    public static final String HTTP_URL_SMATRIAL_UPDATE="http://123.57.33.13/AppImageFetch";
 
     public static final int HTTP_CODE_SUCCESS=0;
 

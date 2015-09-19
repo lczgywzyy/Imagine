@@ -146,6 +146,7 @@ public class CutoutSetActivity extends AppCompatActivity {
             pearlBeans.setDescription("");
             pearlBeans.setMaterial("玉石");
             pearlBeans.setAperture("");
+            pearlBeans.setPrice("1000");
 
 
             Intent newdata = new Intent(CutoutSetActivity.this, CutoutActivity.class);

@@ -47,7 +47,7 @@ public class BitmapUtils {
      * @param dstHeight
      * @return
      */
-    private static Bitmap createScaleBitmap(Bitmap src, int dstWidth, int dstHeight, int inSampleSize) {
+    public static Bitmap createScaleBitmap(Bitmap src, int dstWidth, int dstHeight, int inSampleSize) {
         // 如果是放大图片，filter决定是否平滑，如果是缩小图片，filter无影响，我们这里是缩小图片，所以直接设置为false
         Bitmap dst = Bitmap.createScaledBitmap(src, dstWidth, dstHeight, false);
         if (src != dst) { // 如果没有缩放，那么不回收
