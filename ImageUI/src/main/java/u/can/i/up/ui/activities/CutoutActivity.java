@@ -1,6 +1,7 @@
 package u.can.i.up.ui.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -19,11 +20,18 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.beans.PearlBeans;
+import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.utils.BitmapUtils;
+import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_collocate;
 import u.can.i.up.ui.utils.ImageViewImpl_cutout;
+import u.can.i.up.ui.utils.MD5Utils;
 
 /**
  * @author dongfeng
@@ -33,6 +41,7 @@ import u.can.i.up.ui.utils.ImageViewImpl_cutout;
 
 public class CutoutActivity extends Activity {
     private static final String TAG = "u.can.i.up.imagine." + CutoutActivity.class;
+    private PearlBeans pearlBeans;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +58,8 @@ public class CutoutActivity extends Activity {
 
         String photo_path = getIntent().getStringExtra("photo_path");
 
-        Log.d("imageView", "Imageview width: " + imageViewImpl_cutout.getWidth() + imageViewImpl_cutout.getHeight());
+        pearlBeans=getIntent().getParcelableExtra("pearl_beans");
+
         imageViewImpl_cutout.setmBitmap(BitmapUtils.decodeSampledBitmapFromFile(photo_path, 1000, 1000));
 
         imageViewImpl_cutout.isDrawing = false;
@@ -117,5 +127,21 @@ public class CutoutActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void savePearlBeans(Bitmap bitmap) throws IOException {
+
+        byte[] bytes= IBitmapCache.Bitmap2Bytes(bitmap);
+        String md5= MD5Utils.getMD5String(bytes);
+        FileOutputStream os = this.openFileOutput(md5,
+                Context.MODE_PRIVATE);
+        os.write(bytes);
+        os.close();
+        pearlBeans.setMD5(md5);
+        pearlBeans.setPath("/static/img/png/" + md5);
+        PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
+        psqLiteOpenHelper.addPearl(pearlBeans);
+        ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
+        Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
     }
 }

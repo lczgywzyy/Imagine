@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.R;
@@ -27,6 +28,7 @@ import me.iwf.photopicker.entity.PhotoDirectory;
 import me.iwf.photopicker.event.OnPhotoClickListener;
 import me.iwf.photopicker.utils.ImageCaptureManager;
 import me.iwf.photopicker.utils.MediaStoreHelper;
+import me.iwf.photopicker.utils.PhotoPickerIntent;
 
 import static android.app.Activity.RESULT_OK;
 import static me.iwf.photopicker.PhotoPickerActivity.EXTRA_SHOW_GIF;
@@ -54,17 +56,26 @@ public class PhotoPickerFragment extends Fragment {
     Bundle mediaStoreArgs = new Bundle();
     if (getActivity() instanceof PhotoPickerActivity) {
       mediaStoreArgs.putBoolean(EXTRA_SHOW_GIF, ((PhotoPickerActivity) getActivity()).isShowGif());
+      mediaStoreArgs.putInt("typeP", ((PhotoPickerActivity) getActivity()).typeP);
     }
 
-    MediaStoreHelper.getPhotoDirs(getActivity(), mediaStoreArgs,
-        new MediaStoreHelper.PhotosResultCallback() {
-          @Override public void onResultCallback(List<PhotoDirectory> dirs) {
-            directories.clear();
-            directories.addAll(dirs);
-            photoGridAdapter.notifyDataSetChanged();
-            listAdapter.notifyDataSetChanged();
-          }
-        });
+    if (((PhotoPickerActivity) getActivity()).typeP == PhotoPickerIntent.TYPE_PICKER_PEARLS) {
+
+      directories.add(((PhotoPickerActivity) getActivity()).photoDirectory);
+
+
+    } else {
+      MediaStoreHelper.getPhotoDirs(getActivity(), mediaStoreArgs,
+              new MediaStoreHelper.PhotosResultCallback() {
+                @Override
+                public void onResultCallback(List<PhotoDirectory> dirs) {
+                  directories.clear();
+                  directories.addAll(dirs);
+                  photoGridAdapter.notifyDataSetChanged();
+                  listAdapter.notifyDataSetChanged();
+                }
+              });
+    }
   }
 
 

@@ -11,6 +11,19 @@ import me.iwf.photopicker.PhotoPickerActivity;
  */
 public class PhotoPickerIntent extends Intent {
 
+  public static final int TYPE_PICKER_PEARLS=0;//串珠选择
+
+  public static final int TYPE_PICKER_CUT=1;//相册
+
+  public static final int TYPE_PICKER_BG=2;//自带背景
+
+  public static final int TYPE_PICKER_ALL=3;//相册+自带背景
+
+
+  public static int getTypePickerPearls() {
+    return TYPE_PICKER_PEARLS;
+  }
+
   private PhotoPickerIntent() {
   }
 

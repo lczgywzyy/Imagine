@@ -10,24 +10,27 @@ import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.media.Image;
 import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.utils.image.*;
 
 
 /**
  * Created by lczgywzyy on 2015/5/31.
  */
-public class ImageViewImpl_PearlBuild extends View {
+public class ImageViewImpl_PearlBuild extends ImageView {
 
     private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_PearlBuild.class;
     private static final String FromPath = ".1FromPath/ImageView13";
@@ -104,6 +107,10 @@ public class ImageViewImpl_PearlBuild extends View {
 
     public void setBmpBack(Bitmap mbitmap){
         bmpBack = mbitmap;
+        this.setImageBitmap(mbitmap);
+        int height= UtilsDevice.dip2px(360);
+        int width= IApplicationConfig.DeviceWidth;
+        mBgCenterPoint = new PointF(width/ 2, height / 2);
     }
 
     public void setBmpSuzhu(Bitmap mbitmap){
@@ -131,20 +138,20 @@ public class ImageViewImpl_PearlBuild extends View {
         matrixPaint = new Matrix();
 
         //加载相应的图片资源
-        bmpSuzhu = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/suzhu.png").getAbsolutePath());
-        bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/bg.png").getAbsolutePath());
+       // bmpSuzhu = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/suzhu.png").getAbsolutePath());
+       // bmpBack = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory(), ToPath + "/bg.png").getAbsolutePath());
 
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
         bmpDelete = BitmapFactory.decodeResource(getResources(), R.drawable.delete_icon);
 
         //记录表情矩形的中点
-        mBgCenterPoint = new PointF(bmpBack.getWidth() / 2, bmpBack.getHeight() / 2);
+
 
         //默认素珠个数为1
-        mSuzhuNum = 1;
+        //mSuzhuNum = 1;
         //初始化函数，在第一次初始化之后将第一个素珠显示出来，作为展示。
-        mInitial();
-        mPearlList.add(new Pearl(bmpSuzhu, mFirstSuzhuCenterPoint, PointSuzhuMatrix, -1));
+        //mInitial();
+        //mPearlList.add(new Pearl(bmpSuzhu, mFirstSuzhuCenterPoint, PointSuzhuMatrix, -1));
 
     }
 
@@ -153,12 +160,11 @@ public class ImageViewImpl_PearlBuild extends View {
         // TODO Auto-generated method stub
         super.onDraw(canvas);
         mCanvas = canvas;
-
         canvas.setDrawFilter(paintFilter);
 
         /* 绘制背景
         * */
-        canvas.drawBitmap(bmpBack, 0, 0, paint);
+      //  canvas.drawBitmap(bmpBack, 0, 0, paint);
         /* 绘制素珠点
         * */
         for(Pearl p: mPearlList){
@@ -380,7 +386,7 @@ public class ImageViewImpl_PearlBuild extends View {
         mFirstSuzhuCenterPoint = new PointF(mFirstSuzhuRec.left + bmpSuzhu.getWidth()/2, mFirstSuzhuRec.top + bmpSuzhu.getHeight()/2);
 
         //计算整串珠子的半径
-        mCircleRadius = bmpBack.getHeight()/2 - mFirstSuzhuRec.top - bmpSuzhu.getHeight()/2;
+        mCircleRadius = UtilsDevice.dip2px(190) - mFirstSuzhuRec.top - bmpSuzhu.getHeight()/2;
         //计算素珠的缩放比例
         mSuzhuScale = (float) ((mCircleRadius * Math.sin(Math.toRadians(360f/mSuzhuNum/2))) / (bmpSuzhu.getHeight()/2));
     }

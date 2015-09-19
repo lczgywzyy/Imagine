@@ -1,9 +1,11 @@
 package me.iwf.photopicker.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by donglua on 15/6/30.
  */
-public class Photo {
+public class Photo implements Serializable {
 
   private int id;
   private String path;

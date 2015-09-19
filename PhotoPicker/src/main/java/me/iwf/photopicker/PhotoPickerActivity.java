@@ -12,9 +12,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import me.iwf.photopicker.entity.Photo;
+import me.iwf.photopicker.entity.PhotoDirectory;
 import me.iwf.photopicker.event.OnItemCheckListener;
 import me.iwf.photopicker.fragment.ImagePagerFragment;
 import me.iwf.photopicker.fragment.PhotoPickerFragment;
+import me.iwf.photopicker.utils.PhotoPickerIntent;
 
 import static android.widget.Toast.LENGTH_LONG;
 
@@ -39,12 +41,22 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
   private boolean showGif = false;
 
+  public int typeP=3;
+
+  public PhotoDirectory photoDirectory=new PhotoDirectory();
+
+
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     boolean showCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, true);
     boolean showGif    = getIntent().getBooleanExtra(EXTRA_SHOW_GIF, false);
+    typeP=getIntent().getIntExtra("typeP", 3);
+    if(typeP==PhotoPickerIntent.TYPE_PICKER_PEARLS){
+      photoDirectory=(PhotoDirectory)getIntent().getSerializableExtra("photoDirectory");
+    }
+
     setShowGif(showGif);
 
     setContentView(R.layout.activity_photo_picker);
@@ -63,6 +75,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     }
 
     maxCount = getIntent().getIntExtra(EXTRA_MAX_COUNT, DEFAULT_MAX_COUNT);
+
 
     pickerFragment = (PhotoPickerFragment) getSupportFragmentManager().findFragmentById(R.id.photoPickerFragment);
 

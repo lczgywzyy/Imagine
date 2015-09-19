@@ -37,12 +37,15 @@ public class MediaStoreHelper {
     private Context context;
     private PhotosResultCallback resultCallback;
 
+    private int typeP=3;
+
     public PhotoDirLoaderCallbacks(Context context, PhotosResultCallback resultCallback) {
       this.context = context;
       this.resultCallback = resultCallback;
     }
 
     @Override public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+      typeP=args.getInt("typeP");
       return new PhotoDirectoryLoader(context, args.getBoolean(EXTRA_SHOW_GIF, false));
     }
 
@@ -60,21 +63,23 @@ public class MediaStoreHelper {
         String bucketId = data.getString(data.getColumnIndexOrThrow(BUCKET_ID));
         String name = data.getString(data.getColumnIndexOrThrow(BUCKET_DISPLAY_NAME));
         String path = data.getString(data.getColumnIndexOrThrow(DATA));
+        if((typeP==PhotoPickerIntent.TYPE_PICKER_ALL&&("Camera".equals(name)||"BGS".equals(name)))||(typeP==PhotoPickerIntent.TYPE_PICKER_BG&&("BGS".equals(name)))||(typeP==PhotoPickerIntent.TYPE_PICKER_CUT&&("Camera".equals(name)))) {
+          PhotoDirectory photoDirectory = new PhotoDirectory();
+          photoDirectory.setId(bucketId);
+          photoDirectory.setName(name);
 
-        PhotoDirectory photoDirectory = new PhotoDirectory();
-        photoDirectory.setId(bucketId);
-        photoDirectory.setName(name);
 
-        if (!directories.contains(photoDirectory)) {
-          photoDirectory.setCoverPath(path);
-          photoDirectory.addPhoto(imageId, path);
-          photoDirectory.setDateAdded(data.getLong(data.getColumnIndexOrThrow(DATE_ADDED)));
-          directories.add(photoDirectory);
-        } else {
-          directories.get(directories.indexOf(photoDirectory)).addPhoto(imageId, path);
+          if (!directories.contains(photoDirectory)) {
+            photoDirectory.setCoverPath(path);
+            photoDirectory.addPhoto(imageId, path);
+            photoDirectory.setDateAdded(data.getLong(data.getColumnIndexOrThrow(DATE_ADDED)));
+            directories.add(photoDirectory);
+          } else {
+            directories.get(directories.indexOf(photoDirectory)).addPhoto(imageId, path);
+          }
+
+          photoDirectoryAll.addPhoto(imageId, path);
         }
-
-        photoDirectoryAll.addPhoto(imageId, path);
       }
       if (photoDirectoryAll.getPhotoPaths().size() > 0) {
         photoDirectoryAll.setCoverPath(photoDirectoryAll.getPhotoPaths().get(0));
@@ -88,6 +93,10 @@ public class MediaStoreHelper {
     @Override public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+  }
+
+  private void setPearls(){
+
   }
 
 

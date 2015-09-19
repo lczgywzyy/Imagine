@@ -82,6 +82,7 @@ public class PearlBuildCollocateActivity extends FragmentActivity implements Vie
         tMaterialArrayList=((IApplication)getApplication()).arrayListTMaterial;
         //init view
         pearlbuild_collocate = (ImageViewImpl_PearlBuild) findViewById(R.id.ImageViewImpl_PearlBuild_allocate);
+        pearlbuild_collocate.setBmpBack(BitmapFactory.decodeFile(getIntent().getStringExtra("bmp")));
         setover = (ImageButton)findViewById(R.id.pearlbuild_collocate_continue_btn);
         closeBtm = (ImageButton)findViewById(R.id.pearlbuild_collocate_close_btn);
         setover.setOnClickListener(this);

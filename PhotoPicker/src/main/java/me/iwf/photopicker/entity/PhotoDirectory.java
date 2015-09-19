@@ -1,6 +1,8 @@
 package me.iwf.photopicker.entity;
 
 import android.util.SparseBooleanArray;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
 /**
  * Created by donglua on 15/6/28.
  */
-public class PhotoDirectory {
+public class PhotoDirectory implements Serializable{
 
   private String id;
   private String coverPath;

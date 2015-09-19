@@ -24,14 +24,20 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.PhotoSinglePickerActivity;
+import me.iwf.photopicker.entity.Photo;
+import me.iwf.photopicker.entity.PhotoDirectory;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
 import me.iwf.photopicker.utils.PhotoSinglePickerIntent;
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_PearlBuild;
 
@@ -53,6 +59,7 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
     //传递到下个界面的东西
     private String suzhu_path;
     private int suzhu_num;
+    String photoPath;
 
 
     @Override
@@ -77,9 +84,8 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
         this.setRegion(ballnum);
 
 
-        String photoPath = getIntent().getStringExtra("photoUri");
-        pearlBuild.setBmpSuzhu(BitmapFactory.decodeFile(photoPath));
-        suzhu_path = photoPath;
+        photoPath = getIntent().getStringExtra("photoUri");
+        pearlBuild.setBmpBack(BitmapFactory.decodeFile(photoPath));
 
         preview.setOnClickListener(this);
         add_pearl.setOnClickListener(this);
@@ -117,10 +123,15 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
             case R.id.pearlbuild_add:
             {
 //                PhotoPickerIntent intent = new PhotoPickerIntent(PearlBuildActivity.this);
-                PhotoSinglePickerIntent intent = new PhotoSinglePickerIntent(PearlBuildActivity.this);
+                PhotoPickerIntent intent = new PhotoPickerIntent(PearlBuildActivity.this);
                 intent.setPhotoCount(1);
                 intent.setShowCamera(false);
-                intent.setShowGif(false);
+                intent.putExtra("typeP", PhotoPickerIntent.TYPE_PICKER_PEARLS);
+                try {
+                    setPhotoDirectory(intent);
+                }catch (Exception e){
+                    int a=1;
+                }
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             }
@@ -174,6 +185,7 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
                         Intent i = new Intent(PearlBuildActivity.this, PearlBuildCollocateActivity.class);
                         i.putExtra("suzhu_path", suzhu_path);
                         i.putExtra("suzhu_num", suzhu_num);
+                        i.putExtra("bmp",photoPath);
                         startActivity(i);
                     }
                 }else {
@@ -254,6 +266,21 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
                 }
             }
         });
+    }
+
+
+    private void setPhotoDirectory(Intent intent) throws IOException{
+        PhotoDirectory photoDirectory=new PhotoDirectory();
+        photoDirectory.setCoverPath("/data/data/u.can.i.up.ui/files");
+        photoDirectory.setName("Pearls");
+        photoDirectory.setId("Pearls");
+        Iterator<PearlBeans> iterator=((IApplication)getApplication()).arrayListPearlBeans.iterator();
+        int indexId=Integer.MAX_VALUE;
+        while (iterator.hasNext()){
+            photoDirectory.addPhoto(--indexId,"/data/data/u.can.i.up.ui/files/" + iterator.next().getMD5());
+        }
+        intent.putExtra("photoDirectory",photoDirectory);
+
     }
 
 

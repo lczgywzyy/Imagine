@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PEARL_CODE) {
             if (data != null) {
-                photos = data.getStringArrayListExtra(PhotoSinglePickerActivity.KEY_SELECTED_PHOTOS);
+                photos = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
             }
             selectedPhotos.clear();
             if (photos != null) {
@@ -194,6 +194,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 PhotoPickerIntent intent = new PhotoPickerIntent(getActivity());
                 intent.setPhotoCount(1);
                 intent.setShowCamera(true);
+                intent.putExtra("typeP", PhotoPickerIntent.TYPE_PICKER_ALL);
                 startActivityForResult(intent, REQUEST_FAST_CODE);
 //                startActivityForResult(getPickImageChooserIntent(), 200);
                 break;
@@ -204,11 +205,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), CutoutSetActivity.class));
                 break;
             case R.id.pearl_build:
-                PhotoSinglePickerIntent intentsingle = new PhotoSinglePickerIntent(getActivity());
-                intentsingle.setPhotoCount(1);
-                intentsingle.setShowCamera(false);
-                intentsingle.setShowGif(false);
-                startActivityForResult(intentsingle, REQUEST_PEARL_CODE);
+                PhotoPickerIntent intentb = new PhotoPickerIntent(getActivity());
+                intentb.setPhotoCount(1);
+                intentb.setShowCamera(false);
+                intentb.putExtra("typeP", PhotoPickerIntent.TYPE_PICKER_BG);
+                startActivityForResult(intentb, REQUEST_PEARL_CODE);
+               // startActivityForResult(intentsingle, REQUEST_PEARL_CODE);
 //                startActivity(new Intent(getActivity(), PearlBuildActivity.class));
                 break;
             case R.id.myalbum:

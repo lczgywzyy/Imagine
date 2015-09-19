@@ -58,7 +58,7 @@ public class PhotoSinglePickerFragment extends Fragment {
       mediaStoreArgs.putBoolean(EXTRA_SHOW_GIF, ((PhotoSinglePickerActivity) getActivity()).isShowGif());
     }
 
-    MediaStoreHelper.getPhotoDirs(getActivity(), mediaStoreArgs,
+  /*  MediaStoreHelper.getPhotoDirs(getActivity(), mediaStoreArgs,
             new MediaStoreHelper.PhotosResultCallback() {
               @Override public void onResultCallback(List<PhotoDirectory> dirs) {
                 //增加素珠文件夹
@@ -76,7 +76,7 @@ public class PhotoSinglePickerFragment extends Fragment {
 //            photoGridAdapter.notifyDataSetChanged();
 //            listAdapter.notifyDataSetChanged();
               }
-            });
+            });*/
 
 
 

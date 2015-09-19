@@ -17,7 +17,7 @@ public class PhotoDirectoryLoader extends CursorLoader {
       Media.DATA,
       Media.BUCKET_ID,
       Media.BUCKET_DISPLAY_NAME,
-      Media.DATE_ADDED
+      Media.DATE_ADDED,
   };
 
   public PhotoDirectoryLoader(Context context, boolean showGif) {
@@ -27,14 +27,8 @@ public class PhotoDirectoryLoader extends CursorLoader {
     setUri(Media.EXTERNAL_CONTENT_URI);
     setSortOrder(Media.DATE_ADDED + " DESC");
 
-    setSelection(
-        MIME_TYPE + "=? or " + MIME_TYPE + "=? " + (showGif ? ("or " + MIME_TYPE + "=?") : ""));
-    String[] selectionArgs;
-    if (showGif) {
-      selectionArgs = new String[] { "image/jpeg", "image/png", "image/gif" };
-    } else {
-      selectionArgs = new String[] { "image/jpeg", "image/png" };
-    }
+    setSelection(Media.BUCKET_DISPLAY_NAME + "=? or " + Media.BUCKET_DISPLAY_NAME + "=?");
+    String[] selectionArgs= new String[] { "Camera", "BGS" };
     setSelectionArgs(selectionArgs);
   }
 
