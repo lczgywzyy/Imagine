@@ -87,10 +87,14 @@ public class CutoutActivity extends Activity {
         setover.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "114：加载/sdcard/.2ToPath/OUTPUT_11.png");
-                imageViewImpl_cutout.exportImageByFinger();
-                Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/OUTPUT_11.png", Toast.LENGTH_SHORT).show();
-                imageViewImpl_cutout.showImage();
+//                Log.i(TAG, "114：加载/sdcard/.2ToPath/OUTPUT_11.png");
+//                Bitmap temp = imageViewImpl_cutout.exportImageByFinger();
+//                Toast.makeText(getApplicationContext(), "导出图片到/sdcard/.2ToPath/OUTPUT_11.png", Toast.LENGTH_SHORT).show();
+                try {
+                    imageViewImpl_cutout.exportImageByFinger();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

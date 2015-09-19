@@ -10,6 +10,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.net.Uri;
@@ -22,6 +24,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.sql.Time;
+import java.util.Date;
+import java.util.Timer;
 
 /**
  * Created by lczgywzyy on 2015/5/11.
@@ -89,7 +96,7 @@ public class ImageViewImpl_cutout extends View {
     // 橡皮擦模式时用的画笔
     private Paint eraserPaint = new Paint();
 
-    private Bitmap mBitmap;
+    private Bitmap mBitmap, tmp;
 
     private Matrix matrix = new Matrix();
     private Matrix matrix1 = new Matrix();
@@ -110,7 +117,6 @@ public class ImageViewImpl_cutout extends View {
 
     // 设置不同模式下的画笔
     private int alpha = 0;
-
 
     public void setmBitmap(Bitmap bitmap){
 
@@ -180,6 +186,9 @@ public class ImageViewImpl_cutout extends View {
         } else if (paintType == ERASER) {
             canvas.drawPath(path, eraserPaint);
         }
+
+
+
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -384,32 +393,40 @@ public class ImageViewImpl_cutout extends View {
         return bitmap;
     }
 
-    public void exportImageByFinger(){
-//        Paint paint = new Paint();
-//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-//        mCanvas.drawPaint(paint);
-//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST));
-//        mCanvas.drawBitmap(mBitmap, matrix, mPaint);
-//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST));
-//        mCanvas.drawBitmap(mLayer, matrix, mPaint);
-       /* int[] pixels1 = new int[mBitmap.getHeight() * mBitmap.getWidth()];
-        mBitmap.getPixels(pixels1, 0, mBitmap.getWidth(), 0, 0, mBitmap.getWidth(), mBitmap.getHeight());
-        int[] pixels2 = new int[mLayer.getHeight() * mLayer.getWidth()];
-        mLayer.getPixels(pixels2, 0, mLayer.getWidth(), 0, 0, mLayer.getWidth(), mLayer.getHeight());
-        int[] pixels3 = new int[mLayer.getHeight() * mLayer.getWidth()];
-        for (int i = 0; i < pixels2.length; i ++){
-            if (pixels2[i] != 0){
-                pixels3[i] = pixels1[i];
+    public Bitmap exportImageByFinger() throws InterruptedException {
+        Log.d(TAG, "Test Join " + new Date().getTime());
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                tmp = BitmapUtils.cropImage(mBitmap, mBitmap.getWidth(), mBitmap.getHeight());
+//                invalidate();
+                /*String fileName = "/mnt/sdcard/tmp/debug01.png";
+                File bitmapFile = new File(fileName);
+                FileOutputStream bitmapWtriter = null;
+                try {
+                    bitmapWtriter = new FileOutputStream(bitmapFile);
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                tmp.compress(Bitmap.CompressFormat.PNG, 90, bitmapWtriter);*/
             }
-        }*/
-//        ImageUtils.extractImageFromBitmapPixels(mBitmap, pixels3, (new File(Environment.getExternalStorageDirectory(), ToPath + "/OUTPUT_11.png").getAbsolutePath()), false);
+        });
+        thread.start();
+        thread.join();
+        Log.d(TAG, "Test Join() " + new  Date().getTime());
+        return tmp;
     }
 
     public void showImage(){
-        File file = new File(Environment.getExternalStorageDirectory(), ToPath + "/OUTPUT_11.png");
+        /*File file = new File(Environment.getExternalStorageDirectory(), ToPath + "/OUTPUT_11.png");
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(file), "image/*");
-        mContext.startActivity(intent);
+        intent.setDataAndType(Uri.fromFile(file), "image*//*");
+        mContext.startActivity(intent);*/
+
+
+//        invalidate();
+//        mCanvas.drawBitmap(exportImageByFinger(), 0f, 0f, null);
     }
 
     public void clear() {
@@ -417,7 +434,5 @@ public class ImageViewImpl_cutout extends View {
 //        invalidate();
     }
 
-//    public int getCurrentPaintColor() {
-//        return paint.getColor();
-//    }
+
 }
