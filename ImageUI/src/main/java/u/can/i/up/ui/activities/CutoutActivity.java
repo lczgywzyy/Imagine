@@ -21,6 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
+import com.avast.android.dialogs.iface.ISimpleDialogCancelListener;
+import com.avast.android.dialogs.iface.ISimpleDialogListener;
 
 import java.io.FileNotFoundException;
 
@@ -36,7 +38,8 @@ import u.can.i.up.ui.utils.ImageViewImpl_cutout;
  * @sumary 抠图界面：素材抠取
  */
 
-public class CutoutActivity extends FragmentActivity implements View.OnClickListener{
+public class CutoutActivity extends FragmentActivity implements View.OnClickListener,
+        ISimpleDialogListener, ISimpleDialogCancelListener {
     private static final String TAG = "u.can.i.up.imagine." + CutoutActivity.class;
     private static final int REQUEST_SIMPLE_DIALOG = 42;
     private ImageButton setover;
@@ -155,5 +158,39 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // ISimpleDialogCancelListener
+
+    @Override
+    public void onCancelled(int requestCode) {
+        switch (requestCode) {
+            case REQUEST_SIMPLE_DIALOG:
+                Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    // ISimpleDialogListener
+
+    @Override
+    public void onPositiveButtonClicked(int requestCode) {
+        if (requestCode == REQUEST_SIMPLE_DIALOG) {
+            finish();
+        }
+    }
+
+    @Override
+    public void onNegativeButtonClicked(int requestCode) {
+        if (requestCode == REQUEST_SIMPLE_DIALOG) {
+            Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onNeutralButtonClicked(int requestCode) {
+        if (requestCode == REQUEST_SIMPLE_DIALOG) {
+            Toast.makeText(this, "no selected", Toast.LENGTH_SHORT).show();
+        }
     }
 }

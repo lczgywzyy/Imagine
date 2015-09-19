@@ -230,7 +230,9 @@ public class BitmapUtils {
         }
 
         // Get rid of images that we finished with to save memory.
-        img.recycle();
+        //2015.09.19:dongfeng:回收之后，回退会出错，无法修改抠图的内容
+//        img.recycle();
+
 //        bm.recycle();
         return finalBm;
     }
