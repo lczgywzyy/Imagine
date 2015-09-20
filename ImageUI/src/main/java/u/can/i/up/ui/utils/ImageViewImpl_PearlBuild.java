@@ -389,7 +389,7 @@ public class ImageViewImpl_PearlBuild extends ImageView {
         mFirstSuzhuCenterPoint = new PointF(mFirstSuzhuRec.left + bmpSuzhu.getWidth()/2, mFirstSuzhuRec.top + bmpSuzhu.getHeight()/2);
 
         //计算整串珠子的半径
-        mCircleRadius =(int)((float)IApplicationConfig.DeviceWidth*0.95)/2 - mFirstSuzhuRec.top - bmpSuzhu.getHeight()/2;
+        mCircleRadius =(int)((float)IApplicationConfig.DeviceWidth)/2-bmpSuzhu.getHeight();
         //计算素珠的缩放比例
         mSuzhuScale = (float) ((mCircleRadius * Math.sin(Math.toRadians(360f/mSuzhuNum/2))) / (bmpSuzhu.getHeight()/2));
     }
