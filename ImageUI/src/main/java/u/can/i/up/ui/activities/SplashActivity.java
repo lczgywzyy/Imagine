@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -228,6 +229,7 @@ public class SplashActivity extends Activity {
         for (String child : bgs) {
             copyAssetFileToBgFiles(child);
         }
+
     }
 
     private  void copyAssetFileToFiles(String filename)
@@ -251,6 +253,10 @@ public class SplashActivity extends Activity {
         fileOutputStream.write(buffer);
         is.close();
         fileOutputStream.close();
+
+        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        scanIntent.setData(Uri.fromFile(file));
+        sendBroadcast(scanIntent);
 
 
 

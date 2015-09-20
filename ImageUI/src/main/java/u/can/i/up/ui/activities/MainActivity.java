@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private long mExitTime;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
