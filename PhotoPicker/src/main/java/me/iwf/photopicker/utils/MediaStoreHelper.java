@@ -63,7 +63,7 @@ public class MediaStoreHelper {
         String bucketId = data.getString(data.getColumnIndexOrThrow(BUCKET_ID));
         String name = data.getString(data.getColumnIndexOrThrow(BUCKET_DISPLAY_NAME));
         String path = data.getString(data.getColumnIndexOrThrow(DATA));
-        if((typeP==PhotoPickerIntent.TYPE_PICKER_ALL&&("Camera".equals(name)||"BGS".equals(name)))||(typeP==PhotoPickerIntent.TYPE_PICKER_BG&&("BGS".equals(name)))||(typeP==PhotoPickerIntent.TYPE_PICKER_CUT&&("Camera".equals(name)))) {
+        if((typeP==PhotoPickerIntent.TYPE_PICKER_ALL&&("Camera".equals(name)||"BGS".equals(name)||"Pictures".equals(name)||"Screenshots".equals(name)||"Photo".equals(name)))||(typeP==PhotoPickerIntent.TYPE_PICKER_BG&&("BGS".equals(name)))||(typeP==PhotoPickerIntent.TYPE_PICKER_CUT&&("Camera".equals(name)||"Pictures".equals(name)||"Screenshots".equals(name)||"Photo".equals(name)))) {
           PhotoDirectory photoDirectory = new PhotoDirectory();
           photoDirectory.setId(bucketId);
           photoDirectory.setName(name);

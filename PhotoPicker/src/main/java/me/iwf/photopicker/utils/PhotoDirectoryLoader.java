@@ -27,8 +27,8 @@ public class PhotoDirectoryLoader extends CursorLoader {
     setUri(Media.EXTERNAL_CONTENT_URI);
     setSortOrder(Media.DATE_ADDED + " DESC");
 
-    setSelection(Media.BUCKET_DISPLAY_NAME + "=? or " + Media.BUCKET_DISPLAY_NAME + "=?");
-    String[] selectionArgs= new String[] { "Camera", "BGS" };
+    setSelection(Media.BUCKET_DISPLAY_NAME + "=? or " + Media.BUCKET_DISPLAY_NAME + "=? or "+Media.BUCKET_DISPLAY_NAME+"=? or "+Media.BUCKET_DISPLAY_NAME+"=? or "+Media.BUCKET_DISPLAY_NAME+"=?");
+    String[] selectionArgs= new String[] { "Camera", "BGS","Photo","Pictures","Screenshots" };
     setSelectionArgs(selectionArgs);
   }
 
