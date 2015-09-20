@@ -106,10 +106,13 @@ public class ImageViewImpl_PearlBuild extends ImageView {
     }
 
     public void setBmpBack(Bitmap mbitmap){
-        bmpBack = mbitmap;
-        this.setImageBitmap(mbitmap);
-        int height= UtilsDevice.dip2px(360);
-        int width= IApplicationConfig.DeviceWidth;
+        Bitmap dst = Bitmap.createScaledBitmap(mbitmap, IApplicationConfig.DeviceWidth, (int)((float)IApplicationConfig.DeviceWidth*0.9), true);
+        mbitmap.recycle();
+        bmpBack=dst;
+        //缩放
+        this.setImageBitmap(bmpBack);
+        int height=  IApplicationConfig.DeviceWidth;
+        int width= (int)((float)IApplicationConfig.DeviceWidth*0.9);
         mBgCenterPoint = new PointF(width/ 2, height / 2);
     }
 
@@ -381,12 +384,12 @@ public class ImageViewImpl_PearlBuild extends ImageView {
         mFirstSuzhuRecPre = new RectF(mFirstSuzhuRec);
 
         //第一颗素珠位置
-        PointSuzhuMatrix.postTranslate((bmpBack.getWidth() - bmpSuzhu.getWidth()) / 2, (bmpBack.getHeight() - bmpSuzhu.getHeight()) / 6);
+        PointSuzhuMatrix.postTranslate((bmpBack.getWidth()) / 2, (bmpBack.getHeight()) / 6);
         PointSuzhuMatrix.mapRect(mFirstSuzhuRec, mFirstSuzhuRecPre);
         mFirstSuzhuCenterPoint = new PointF(mFirstSuzhuRec.left + bmpSuzhu.getWidth()/2, mFirstSuzhuRec.top + bmpSuzhu.getHeight()/2);
 
         //计算整串珠子的半径
-        mCircleRadius = UtilsDevice.dip2px(190) - mFirstSuzhuRec.top - bmpSuzhu.getHeight()/2;
+        mCircleRadius =(int)((float)IApplicationConfig.DeviceWidth*0.95)/2 - mFirstSuzhuRec.top - bmpSuzhu.getHeight()/2;
         //计算素珠的缩放比例
         mSuzhuScale = (float) ((mCircleRadius * Math.sin(Math.toRadians(360f/mSuzhuNum/2))) / (bmpSuzhu.getHeight()/2));
     }
@@ -443,11 +446,11 @@ public class ImageViewImpl_PearlBuild extends ImageView {
     public Bitmap saveBitmapAll() {
 //        File f = new File(savePathAll);
         //使用背景图的宽高创建一张bitmap
-        Bitmap bmpSave = Bitmap.createBitmap(IApplicationConfig.DeviceWidth,UtilsDevice.dip2px(360), Bitmap.Config.ARGB_8888);
+        Bitmap bmpSave = Bitmap.createBitmap(IApplicationConfig.DeviceWidth,(int)((float)IApplicationConfig.DeviceWidth*0.9), Bitmap.Config.ARGB_8888);
         //创建canvas
         Canvas canvas = new Canvas(bmpSave);
         //将背景图和表情画在bitmap上
-        canvas.drawBitmap(Bitmap.createScaledBitmap(bmpBack, IApplicationConfig.DeviceWidth,UtilsDevice.dip2px(360), true), new Matrix(), null);
+        canvas.drawBitmap(Bitmap.createScaledBitmap(bmpBack, IApplicationConfig.DeviceWidth,(int)((float)IApplicationConfig.DeviceWidth*0.9), true), new Matrix(), null);
         //将素材画在bitmap上
         if(mPearlList != null && !mPearlList.isEmpty()){
             for (Pearl pearl: mPearlList){
