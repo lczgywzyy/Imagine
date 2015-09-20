@@ -108,7 +108,11 @@ public class ShareActivity extends Activity implements View.OnClickListener{
                 finish();
                 break;
             case R.id.back_main:
-                startActivity(new Intent(ShareActivity.this, MainActivity.class));
+                Intent intent= new Intent(this, MainActivity.class);
+//                startActivity(new Intent(ShareActivity.this, MainActivity.class));
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+//                finish();
                 break;
             case R.id.save_to_album_btn:
             {
