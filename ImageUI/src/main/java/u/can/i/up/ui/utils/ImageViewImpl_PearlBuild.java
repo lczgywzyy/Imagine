@@ -121,8 +121,8 @@ public class ImageViewImpl_PearlBuild extends ImageView {
     public void setBmpSuzhu(Bitmap mbitmap){
         bmpSuzhu = mbitmap;
         mInitial();
-        mPearlList.add(new Pearl(bmpSuzhu, mFirstSuzhuCenterPoint, PointSuzhuMatrix, -1));
-        invalidate();
+//        mPearlList.add(new Pearl(bmpSuzhu, mFirstSuzhuCenterPoint, PointSuzhuMatrix, -1));
+//        invalidate();
     }
 
     /** TODO 当且仅当构造函数中可以调用init()
@@ -373,7 +373,7 @@ public class ImageViewImpl_PearlBuild extends ImageView {
             mPearlList.add(new Pearl(bmpSuzhu,tmpCenterPF, PointSuzhuMatrix, tmpRudis));
         }
         //清空画布
-        u.can.i.up.utils.image.ImageUtils.clearCanvas(mCanvas);
+        ImageUtils.clearCanvas(mCanvas);
         //更新界面
         invalidate();
     }
@@ -393,10 +393,6 @@ public class ImageViewImpl_PearlBuild extends ImageView {
 
         //计算整串珠子的半径
 //        mCircleRadius =(int)((float)IApplicationConfig.DeviceWidth)/2-bmpSuzhu.getWidth()-UtilsDevice.dip2px(10);
-        Log.i(TAG, "IApplicationConfig.DeviceWidth----" + IApplicationConfig.DeviceWidth);
-        Log.i(TAG, "bmpBack.getWidth()----" + bmpBack.getWidth());
-        Log.i(TAG, "IApplicationConfig.DeviceHeight----" + IApplicationConfig.DeviceHeight);
-        Log.i(TAG, "bmpBack.getHeight()----" + bmpBack.getHeight());
         mCircleRadius = bmpBack.getHeight()/2 - mFirstSuzhuCenterPoint.y;
         //计算素珠的缩放比例
         mSuzhuScale = (float) ((mCircleRadius * Math.sin(Math.toRadians(360f/mSuzhuNum/2))) / (bmpSuzhu.getHeight()/2));

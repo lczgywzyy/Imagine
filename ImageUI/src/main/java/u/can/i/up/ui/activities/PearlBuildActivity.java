@@ -109,6 +109,7 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
             }
             //加载temp
             pearlBuild.setBmpSuzhu(BitmapFactory.decodeFile(selectedPhotos.get(0)));
+            add_pearl.setImageBitmap(BitmapFactory.decodeFile(selectedPhotos.get(0)));
             suzhu_path = selectedPhotos.get(0);
             String tag = "path: " + selectedPhotos.get(0);
             Log.e("path", tag);
