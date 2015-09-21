@@ -11,9 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -36,17 +34,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.iwf.photopicker.PhotoPickerActivity;
-import me.iwf.photopicker.PhotoSinglePickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
-import me.iwf.photopicker.utils.PhotoSinglePickerIntent;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.CutoutSetActivity;
 import u.can.i.up.ui.activities.ImageSetActivity;
 import u.can.i.up.ui.activities.LibiraryActivity;
 import u.can.i.up.ui.activities.MyAlbumActivity;
 import u.can.i.up.ui.activities.PearlBuildActivity;
-import u.can.i.up.ui.application.IApplicationConfig;
-import u.can.i.up.ui.utils.UtilsDevice;
 
 
 /**

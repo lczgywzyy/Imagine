@@ -22,9 +22,7 @@ import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.fragments.HomeFragment;
 import u.can.i.up.ui.R;
-import u.can.i.up.ui.fragments.MyAlbumFragment;
 import u.can.i.up.ui.utils.IBitmapCache;
-import u.can.i.up.ui.utils.UtilsDevice;
 import u.can.i.up.ui.utils.UtilsMiscellaneous;
 
 /**

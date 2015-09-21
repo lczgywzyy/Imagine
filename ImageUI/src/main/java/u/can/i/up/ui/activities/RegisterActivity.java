@@ -1,15 +1,11 @@
 package u.can.i.up.ui.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +26,7 @@ import u.can.i.up.ui.beans.ILoginBean;
 import u.can.i.up.ui.beans.IRegisterBean;
 import u.can.i.up.ui.net.HttpLoginManager;
 import u.can.i.up.ui.net.HttpRegisterManager;
-import u.can.i.up.ui.utils.ShareUtils;
+import u.can.i.up.utils.image.ShareUtils;
 
 public class RegisterActivity extends ActionBarActivity implements View.OnClickListener {
 

@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import u.can.i.up.ui.beans.IHttpStatus;
-import u.can.i.up.ui.utils.StringUtils;
+import u.can.i.up.utils.image.StringUtils;
 
 public class HttpManager<T> extends AsyncTask<Integer, Integer, IHttpStatus> {
 

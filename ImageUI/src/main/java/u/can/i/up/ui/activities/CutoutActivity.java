@@ -26,10 +26,10 @@ import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.utils.BitmapCache;
-import u.can.i.up.ui.utils.BitmapUtils;
+import u.can.i.up.utils.image.BitmapUtils;
 import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_cutout;
-import u.can.i.up.ui.utils.MD5Utils;
+import u.can.i.up.utils.image.MD5Utils;
 
 /**
  * @author dongfeng

@@ -5,14 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +21,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 import u.can.i.up.ui.application.IApplicationConfig;
+import u.can.i.up.utils.image.MD5Utils;
 
 /**
  * Created by MZH on 2015/8/1.
@@ -89,7 +88,7 @@ public class IBitmapCache {
 
                     SoftReference<Bitmap> softReference=new SoftReference<Bitmap>(BitmapFactory.decodeByteArray(bytesBit,0,bytesBit.length),queue);
 
-                   String md5key=MD5Utils.getMD5String(bytesBit);
+                   String md5key= MD5Utils.getMD5String(bytesBit);
 
                     saveBitmapLocal(md5key,bytesBit);
                     is.close();
@@ -195,7 +194,7 @@ public class IBitmapCache {
         protected void onPostExecute(Bitmap s) {
             super.onPostExecute(s);
             //匹配不同分辨率的手机,进行一下bitmap的缩放
-            Bitmap bitmap=BitmapScale(s,UtilsDevice.dip2px(48),UtilsDevice.dip2px(48));
+            Bitmap bitmap=BitmapScale(s, UtilsDevice.dip2px(48),UtilsDevice.dip2px(48));
             if(view instanceof ImageView) {
                 ((ImageView) view).setImageBitmap(bitmap);
             }else if(view instanceof TextView){

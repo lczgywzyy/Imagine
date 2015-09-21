@@ -2,7 +2,6 @@ package u.can.i.up.ui.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,12 +9,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Region;
-import android.net.Uri;
-import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
@@ -23,12 +18,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.sql.Time;
 import java.util.Date;
-import java.util.Timer;
+
+import u.can.i.up.utils.image.BitmapUtils;
 
 /**
  * Created by lczgywzyy on 2015/5/11.

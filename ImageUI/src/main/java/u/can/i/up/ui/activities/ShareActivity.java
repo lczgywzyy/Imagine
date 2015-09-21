@@ -3,21 +3,13 @@ package u.can.i.up.ui.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.net.Uri;
-import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
@@ -25,14 +17,10 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.utils.BitmapCache;
-import u.can.i.up.ui.utils.ImageUtils;
-import u.can.i.up.ui.utils.ShareUtils;
+import u.can.i.up.utils.image.ImageUtils;
+import u.can.i.up.utils.image.ShareUtils;
 
 /**
  * @author dongfeng

@@ -1,4 +1,4 @@
-package u.can.i.up.ui.utils;
+package u.can.i.up.utils.image;
 
 /**
  * Created by Pengp on 2015/8/5.

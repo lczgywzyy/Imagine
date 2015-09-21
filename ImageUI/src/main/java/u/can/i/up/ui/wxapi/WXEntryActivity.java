@@ -12,7 +12,7 @@ import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import u.can.i.up.ui.R;
-import u.can.i.up.ui.utils.ShareUtils;
+import u.can.i.up.utils.image.ShareUtils;
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	private static long dataShareId;

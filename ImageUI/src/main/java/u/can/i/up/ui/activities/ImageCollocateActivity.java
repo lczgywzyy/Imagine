@@ -24,7 +24,6 @@ import u.can.i.up.ui.fragments.*;
 import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_collocate;
-import u.can.i.up.ui.utils.UtilsDevice;
 
 /**
  * @author dongfeng

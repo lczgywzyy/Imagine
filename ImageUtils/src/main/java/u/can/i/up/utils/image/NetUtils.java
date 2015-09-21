@@ -1,4 +1,4 @@
-package u.can.i.up.ui.utils;
+package u.can.i.up.utils.image;
 
 
 import android.content.Context;

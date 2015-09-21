@@ -1,9 +1,8 @@
-package u.can.i.up.ui.utils;
+package u.can.i.up.utils.image;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
 

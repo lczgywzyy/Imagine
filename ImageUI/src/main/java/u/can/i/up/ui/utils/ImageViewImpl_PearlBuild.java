@@ -111,8 +111,10 @@ public class ImageViewImpl_PearlBuild extends ImageView {
         bmpBack=dst;
         //缩放
         this.setImageBitmap(bmpBack);
-        int height=  IApplicationConfig.DeviceWidth;
-        int width= (int)((float)IApplicationConfig.DeviceWidth*0.9);
+//        int height=  IApplicationConfig.DeviceWidth;
+//        int width= (int)((float)IApplicationConfig.DeviceWidth*0.9);
+        int height=  bmpBack.getHeight();
+        int width= bmpBack.getWidth();
         mBgCenterPoint = new PointF(width/ 2, height / 2);
     }
 
@@ -384,12 +386,18 @@ public class ImageViewImpl_PearlBuild extends ImageView {
         mFirstSuzhuRecPre = new RectF(mFirstSuzhuRec);
 
         //第一颗素珠位置
-        PointSuzhuMatrix.postTranslate((bmpBack.getWidth()) / 2, (bmpBack.getHeight()) / 6);
+        PointSuzhuMatrix.postTranslate((bmpBack.getWidth() - bmpSuzhu.getWidth()) / 2, (bmpBack.getHeight() - bmpSuzhu.getHeight()) / 6);
         PointSuzhuMatrix.mapRect(mFirstSuzhuRec, mFirstSuzhuRecPre);
-        mFirstSuzhuCenterPoint = new PointF(mFirstSuzhuRec.left + bmpSuzhu.getWidth()/2, mFirstSuzhuRec.top + bmpSuzhu.getHeight()/2);
+        mFirstSuzhuCenterPoint = new PointF((mFirstSuzhuRec.left + mFirstSuzhuRec.right) / 2, (mFirstSuzhuRec.top + mFirstSuzhuRec.bottom)/2);
+//        mFirstSuzhuCenterPoint = new PointF(mFirstSuzhuRec.left + bmpSuzhu.getWidth()/2, mFirstSuzhuRec.top + bmpSuzhu.getHeight()/2);
 
         //计算整串珠子的半径
-        mCircleRadius =(int)((float)IApplicationConfig.DeviceWidth)/2-bmpSuzhu.getWidth()-UtilsDevice.dip2px(10);
+//        mCircleRadius =(int)((float)IApplicationConfig.DeviceWidth)/2-bmpSuzhu.getWidth()-UtilsDevice.dip2px(10);
+        Log.i(TAG, "IApplicationConfig.DeviceWidth----" + IApplicationConfig.DeviceWidth);
+        Log.i(TAG, "bmpBack.getWidth()----" + bmpBack.getWidth());
+        Log.i(TAG, "IApplicationConfig.DeviceHeight----" + IApplicationConfig.DeviceHeight);
+        Log.i(TAG, "bmpBack.getHeight()----" + bmpBack.getHeight());
+        mCircleRadius = bmpBack.getHeight()/2 - mFirstSuzhuCenterPoint.y;
         //计算素珠的缩放比例
         mSuzhuScale = (float) ((mCircleRadius * Math.sin(Math.toRadians(360f/mSuzhuNum/2))) / (bmpSuzhu.getHeight()/2));
     }
