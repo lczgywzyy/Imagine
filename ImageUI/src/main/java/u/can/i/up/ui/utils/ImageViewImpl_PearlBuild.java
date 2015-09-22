@@ -207,14 +207,17 @@ public class ImageViewImpl_PearlBuild extends ImageView {
 //                PointF tmpPoint =  new PointF((rectMotion.left + rectMotion.right) / 2, (rectMotion.top + rectMotion.bottom) / 2);
                 int index = ImageAlgrithms.isOverlayed(mPearlList, rectMotion, mBgCenterPoint);
                 if(index >= 0){
-                    float halfCircleLenth = 0;
+                    float halfCircleLenth = 0f;
+                    float halfAngle = 0f;
                     for(int i = 0; i < mPearlList.size(); i ++) {
                         halfCircleLenth += mPearlList.get(i).getRadius();
+                        halfAngle += Math.asin(mPearlList.get(i).getRadius() / mCircleRadius);
                     }
                     Log.d(TAG, "" + halfCircleLenth);
                     Log.d(TAG, "" + mCurrentRadius);
 
-                    float tmpRe = halfCircleLenth / (halfCircleLenth + mCurrentRadius);
+//                    float tmpRe = halfCircleLenth / (halfCircleLenth + mCurrentRadius);
+                    float tmpRe = halfAngle / (halfAngle + (float)Math.asin(mCurrentRadius / mCircleRadius));
 
                     List<Pearl> tmpPearlList = new ArrayList<Pearl>();
                     Matrix tmpMatrix = null;
@@ -286,9 +289,11 @@ public class ImageViewImpl_PearlBuild extends ImageView {
                         Pearl cPearl = mPearlList.get(i);
                         tmpMatrix = cPearl.getMatrix();
                         tmpMatrix.postScale(tmpRe, tmpRe, cPearl.getCenter().x, cPearl.getCenter().y);
-                        float deltaAngle = Math.abs(ImageAlgrithms.getPointsDegree(pearlZero.getCenter(), mBgCenterPoint, cPearl.getCenter())) * (1 - tmpRe)
-                                - (float)Math.toDegrees(Math.asin(mCurrentRadius * tmpRe / mCircleRadius)) * 2;;
-                        tmpMatrix.postRotate(0 - deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
+                        float deltaAngle = Math.abs(360 - ImageAlgrithms.getPointsDegree(pearlZero.getCenter(), mBgCenterPoint, cPearl.getCenter())) * (1 - tmpRe);
+                        tmpMatrix.postRotate(deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
+//                        float deltaAngle = Math.abs(ImageAlgrithms.getPointsDegree(pearlZero.getCenter(), mBgCenterPoint, cPearl.getCenter())) * (1 - tmpRe)
+//                                - (float)Math.toDegrees(Math.asin(mCurrentRadius / mCircleRadius)) * 2 * tmpRe;
+//                        tmpMatrix.postRotate(0 - deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
                         RectF targetRect = new RectF(0, 0, mPearlList.get(i).getBitmap().getWidth(), mPearlList.get(i).getBitmap().getHeight());
                         RectF targetRectPre = new RectF(targetRect);
                         tmpMatrix.mapRect(targetRect, targetRectPre);
@@ -296,11 +301,13 @@ public class ImageViewImpl_PearlBuild extends ImageView {
                         tmpPearlList.add(new Pearl(cPearl.getBitmap(), tmpCenterPF, tmpMatrix, cPearl.getRadius()));
                     }
                     for(int i = 0; i < tmpPearlList.size(); i++){
-                        tmpPearlList.get(i).setRadius(tmpPearlList.get(i).getRadius() * tmpRe);
+//                        tmpPearlList.get(i).setRadius(tmpPearlList.get(i).getRadius() * tmpRe);
+                        float tmpR = (float) (mCircleRadius * Math.sin(Math.asin(tmpPearlList.get(i).getRadius() / mCircleRadius) * tmpRe));
+                        tmpPearlList.get(i).setRadius(tmpR);
                     }
                     mPearlList = tmpPearlList;
                     //清空画布
-                    u.can.i.up.utils.image.ImageUtils.clearCanvas(mCanvas);
+                    ImageUtils.clearCanvas(mCanvas);
                     bmpMotion = null;
                     //更新界面
                     invalidate();
