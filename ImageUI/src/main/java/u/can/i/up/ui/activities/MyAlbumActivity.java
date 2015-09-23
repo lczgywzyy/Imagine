@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,6 +29,7 @@ import pulltoRefresh.OnLoadListener;
 import pulltoRefresh.OnRefreshListener;
 import pulltoRefresh.RefreshGridView;
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.customViews.MyAlbumGridViewAdapter;
 import u.can.i.up.ui.utils.BitmapCache;
 
@@ -35,7 +38,7 @@ public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLa
 
 	private MyAlbumGridViewAdapter myAlBumGridAdapter;
 //	private RefreshGridView refreshGridView;
-	private ArrayList<String> imageList = new ArrayList<String>();;
+	public static ArrayList<String> imageList = new ArrayList<String>();;
 	private Toolbar mToolbar;
 
 	private SwipeRefreshLayout mSwipeLayout;
@@ -57,13 +60,12 @@ public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLa
 		mSwipeLayout = (SwipeRefreshLayout)findViewById(R.id.id_swipe_ly);
 		mGridView = (GridView)findViewById(R.id.myalbum_gridview);
 //		refreshGridView = (RefreshGridView) findViewById(R.id.myalbum_refreshgridview);
-//		refreshGridView = new RefreshGridView(this);
-		//准备数据
-//		BitmapCache.getAlbumImageList().add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
-//		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_3));
+//		refreshGridView = new RefreshGridView(this)
+
 		//设置适配器
-		String imageUri = "drawable://" + R.drawable.myalbum_demo_1;
-		imageList.add(imageUri);
+
+//		String imageUri = IApplicationConfig.DIRECTORY_BG + File.separator +"bg2.jpg";
+//		imageList.add(imageUri);
 //		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
 //		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
 		myAlBumGridAdapter = new MyAlbumGridViewAdapter(this, imageList);
@@ -123,9 +125,6 @@ public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLa
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				imageList.add("drawable://" + R.drawable.myalbum_demo_2);
-//				imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
-//				imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
 				myAlBumGridAdapter.notifyDataSetChanged();
 				mSwipeLayout.setRefreshing(false);
 			}

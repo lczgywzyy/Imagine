@@ -17,7 +17,10 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
 
+import java.io.File;
+
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.utils.image.ImageUtils;
 import u.can.i.up.utils.image.ShareUtils;
@@ -97,14 +100,14 @@ public class ShareActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.back_main:
                 Intent intent= new Intent(this, MainActivity.class);
-//                startActivity(new Intent(ShareActivity.this, MainActivity.class));
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-//                finish();
                 break;
             case R.id.save_to_album_btn:
             {
                 savetoalbum.setClickable(false);
+                String imageUri = IApplicationConfig.DIRECTORY_BG + File.separator +"bg2.jpg";
+                MyAlbumActivity.imageList.add(imageUri);
                 savetotext.setText("已保存至我的相册");
                 break;
             }
