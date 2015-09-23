@@ -23,12 +23,17 @@
             android:id="@+id/myalbum_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="auto_fit"
-            android:gravity="center"
-            android:horizontalSpacing="8dp"
-            android:verticalSpacing="8dp"
-            android:focusable="true"
-            android:clickable="true"
+            android:background="@color/white"
+            android:fadingEdge="none"
+            android:focusable="false"
+            android:horizontalSpacing="10dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="2"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
             >
         </GridView>
     </android.support.v4.widget.SwipeRefreshLayout>

@@ -60,6 +60,7 @@ public class MyAlbumGridViewAdapter extends BaseAdapter {
                 itemViewTag = (ItemViewTag) convertView.getTag();
             }
             // set icon
+
             itemViewTag.iv_face.setImageBitmap(BitmapFactory.decodeFile(imageList.get(position)));
 //			itemViewTag.iv_face.setLayoutParams(params);
             return convertView;

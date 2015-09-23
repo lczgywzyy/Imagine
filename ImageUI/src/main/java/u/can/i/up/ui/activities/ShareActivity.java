@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
@@ -18,6 +19,9 @@ import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplicationConfig;
@@ -105,10 +109,16 @@ public class ShareActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.save_to_album_btn:
             {
+                String image_path;
+                long time=System.currentTimeMillis();
+                image_path = IApplicationConfig.DIRECTORY_IMAGE_COLLOCATE + File.separator + time + ".jpg";
                 savetoalbum.setClickable(false);
-                String imageUri = IApplicationConfig.DIRECTORY_BG + File.separator +"bg2.jpg";
-                MyAlbumActivity.imageList.add(imageUri);
+                //保存到sd卡
+                saveBitmap(image_path, tempbitmap);
+                //保存到我的相册
+                MyAlbumActivity.imageList.add(image_path);
                 savetotext.setText("已保存至我的相册");
+                Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT);
                 break;
             }
             default:
@@ -168,6 +178,24 @@ public class ShareActivity extends Activity implements View.OnClickListener{
         Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
                 height, matrix, true);
         return resizedBitmap;
+    }
+
+    /** 保存方法 */
+    public void saveBitmap(String path, Bitmap tem){
+        String file_path = IApplicationConfig.DIRECTORY_IMAGE_COLLOCATE;
+        File dir = new File(file_path);
+        if(!dir.exists())
+            dir.mkdirs();
+        File file = new File(path);
+        try {
+            FileOutputStream fOut = new FileOutputStream(file);
+            tem.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

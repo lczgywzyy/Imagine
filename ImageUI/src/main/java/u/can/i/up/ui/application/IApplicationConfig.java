@@ -10,10 +10,13 @@ import java.io.File;
 public class IApplicationConfig {
 
 
-   public static final String DIRECTORY_ROOT=Environment.getExternalStorageDirectory()+ File.separator+"PearlString";
+    public static final String DIRECTORY_ROOT = Environment.getExternalStorageDirectory() +  File.separator + "PearlString";
 
-    public static  final String DIRECTORY_BG=DIRECTORY_ROOT+File.separator+"BGS";
+    public static  final String DIRECTORY_BG = DIRECTORY_ROOT + File.separator + "BGS";
 
+    public static  final String DIRECTORY_IMAGE_COLLOCATE = DIRECTORY_ROOT + File.separator + "IMAGE_COLLOCATE";
+
+    public static  final String DIRECTORY_PEARLBUILD = DIRECTORY_ROOT + File.separator + "PEARLBUILD";
 
     public static final String HTTP_URL_BASE="http://123.57.33.13";
 
