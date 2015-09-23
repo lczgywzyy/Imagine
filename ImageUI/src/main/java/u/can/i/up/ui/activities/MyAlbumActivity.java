@@ -35,7 +35,7 @@ public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLa
 
 	private MyAlbumGridViewAdapter myAlBumGridAdapter;
 //	private RefreshGridView refreshGridView;
-	private ArrayList<Bitmap> imageList = new ArrayList<Bitmap>();;
+	private ArrayList<String> imageList = new ArrayList<String>();;
 	private Toolbar mToolbar;
 
 	private SwipeRefreshLayout mSwipeLayout;
@@ -62,8 +62,10 @@ public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLa
 //		BitmapCache.getAlbumImageList().add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
 //		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_3));
 		//设置适配器
-		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
-		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
+		String imageUri = "drawable://" + R.drawable.myalbum_demo_1;
+		imageList.add(imageUri);
+//		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
+//		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
 		myAlBumGridAdapter = new MyAlbumGridViewAdapter(this, imageList);
 		mGridView.setAdapter(myAlBumGridAdapter);
 		mSwipeLayout.setOnRefreshListener(this);
@@ -121,8 +123,9 @@ public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLa
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
-				imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
+				imageList.add("drawable://" + R.drawable.myalbum_demo_2);
+//				imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
+//				imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
 				myAlBumGridAdapter.notifyDataSetChanged();
 				mSwipeLayout.setRefreshing(false);
 			}

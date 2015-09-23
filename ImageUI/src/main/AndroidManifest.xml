@@ -96,7 +96,10 @@
             android:name=".activities.MyAlbumActivity"
             android:label="@string/app_name" >
         </activity>
-
+        <activity
+            android:name=".activities.MyAlbumPTRActivity"
+            android:label="@string/app_name" >
+        </activity>
         <meta-data
             android:name="smsAppkey"
             android:value="97376c1c874e" />

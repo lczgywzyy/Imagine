@@ -58,4 +58,8 @@ dependencies {
     compile files('libs/libammsdk.jar')
     compile project(':OpenCV')
     compile project(':dialoglibrary')
+    compile ('in.srain.cube:cube-sdk:1.0.44.38'){
+        exclude module: 'support-v4'
+    }
+    compile project(':ptr-lib')
 }

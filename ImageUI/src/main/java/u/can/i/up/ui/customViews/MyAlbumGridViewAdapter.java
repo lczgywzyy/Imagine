@@ -3,6 +3,7 @@ package u.can.i.up.ui.customViews;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,13 @@ public class MyAlbumGridViewAdapter extends BaseAdapter {
 
         private Context context;
 
-        private ArrayList<Bitmap> imageList = new ArrayList<Bitmap>();
+        private ArrayList<String> imageList = new ArrayList<String>();
 
         private LayoutInflater inflate;
 
 //		LinearLayout.LayoutParams params;
 
-        public MyAlbumGridViewAdapter(Context context,ArrayList<Bitmap> ImageList){
+        public MyAlbumGridViewAdapter(Context context,ArrayList<String> ImageList){
 
             this.context=context;
             this.imageList = ImageList;
@@ -58,7 +59,7 @@ public class MyAlbumGridViewAdapter extends BaseAdapter {
                 itemViewTag = (ItemViewTag) convertView.getTag();
             }
             // set icon
-            itemViewTag.iv_face.setImageBitmap(imageList.get(position));
+            itemViewTag.iv_face.setImageBitmap(BitmapFactory.decodeFile(imageList.get(position)));
 //			itemViewTag.iv_face.setLayoutParams(params);
             return convertView;
         }

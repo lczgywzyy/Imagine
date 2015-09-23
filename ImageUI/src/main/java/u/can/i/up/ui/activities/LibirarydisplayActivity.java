@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import in.srain.cube.util.LocalDisplay;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.beans.PearlBeans;
@@ -39,6 +41,7 @@ import u.can.i.up.utils.image.Pearl;
  */
 
 public class LibirarydisplayActivity extends AppCompatActivity {
+    private static final int sGirdImageSize = (LocalDisplay.SCREEN_WIDTH_PIXELS - LocalDisplay.dp2px(12 + 12 + 10)) / 3;
     private GridView gridView;
     private GridViewAdapter gridAdapter;
 
@@ -142,6 +145,10 @@ public class LibirarydisplayActivity extends AppCompatActivity {
                 convertView=inflate.inflate(R.layout.grid_item_layout, null);
                 viewHolder.iv_face=(ImageView)convertView.findViewById(R.id.grid_image);
                 viewHolder.title=(TextView)convertView.findViewById(R.id.grid_text);
+
+//                LinearLayout.LayoutParams lyp = new LinearLayout.LayoutParams(sGirdImageSize, sGirdImageSize);
+//                viewHolder.iv_face.setLayoutParams(lyp);
+//                viewHolder.iv_face.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
                 IBitmapCache.BitmapAsync bitmapAsync=new IBitmapCache.BitmapAsync(viewHolder.iv_face,this.context);
 

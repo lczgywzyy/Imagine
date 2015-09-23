@@ -33,7 +33,7 @@ public class MyAlbumFragment extends Fragment {
 
 	private MyAlbumGridViewAdapter myAlBumGridAdapter;
 	private RefreshGridView refreshGridView;
-	private ArrayList<Bitmap> imageList = new ArrayList<Bitmap>();;
+	private ArrayList<String> imageList = new ArrayList<String>();;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

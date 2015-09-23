@@ -40,6 +40,7 @@ import u.can.i.up.ui.activities.CutoutSetActivity;
 import u.can.i.up.ui.activities.ImageSetActivity;
 import u.can.i.up.ui.activities.LibiraryActivity;
 import u.can.i.up.ui.activities.MyAlbumActivity;
+import u.can.i.up.ui.activities.MyAlbumPTRActivity;
 import u.can.i.up.ui.activities.PearlBuildActivity;
 
 

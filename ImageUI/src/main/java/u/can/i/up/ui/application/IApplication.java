@@ -6,10 +6,15 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
+import in.srain.cube.Cube;
+import in.srain.cube.image.ImageLoaderFactory;
+import in.srain.cube.request.RequestCacheManager;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
 import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
+import u.can.i.up.ui.image.DemoDuiTangImageReSizer;
+import u.can.i.up.ui.image.PtrImageLoadHandler;
 import u.can.i.up.ui.utils.UtilsDevice;
 
 /**
@@ -42,6 +47,13 @@ public class IApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ImageLoaderFactory.setDefaultImageReSizer(DemoDuiTangImageReSizer.getInstance());
+        ImageLoaderFactory.setDefaultImageLoadHandler(new PtrImageLoadHandler());
+
+        String dir = "request-cache";
+        // ImageLoaderFactory.init(this);
+        RequestCacheManager.init(this, dir, 1024 * 10, 1024 * 10);
+        Cube.onCreate(this);
     }
 
     public IApplication() {
