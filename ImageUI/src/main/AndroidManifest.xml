@@ -98,6 +98,10 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name=".activities.MyAlbumDisplayActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".activities.MyAlbumPTRActivity"
             android:label="@string/app_name" >
         </activity>

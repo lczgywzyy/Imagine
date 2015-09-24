@@ -1,7 +1,14 @@
 package u.can.i.up.ui.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.widget.Toast;
+
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,6 +16,7 @@ import java.util.ArrayList;
 import in.srain.cube.Cube;
 import in.srain.cube.image.ImageLoaderFactory;
 import in.srain.cube.request.RequestCacheManager;
+import u.can.i.up.ui.BuildConfig;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
 import u.can.i.up.ui.beans.User;
@@ -47,13 +55,17 @@ public class IApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ImageLoaderFactory.setDefaultImageReSizer(DemoDuiTangImageReSizer.getInstance());
-        ImageLoaderFactory.setDefaultImageLoadHandler(new PtrImageLoadHandler());
+        //PTR 照片墙下拉刷新框架初始化
+//        ImageLoaderFactory.setDefaultImageReSizer(DemoDuiTangImageReSizer.getInstance());
+//        ImageLoaderFactory.setDefaultImageLoadHandler(new PtrImageLoadHandler());
+//
+//        String dir = "request-cache";
+//        // ImageLoaderFactory.init(this);
+//        RequestCacheManager.init(this, dir, 1024 * 10, 1024 * 10);
+//        Cube.onCreate(this);
+        //初始化我的相册浏览页
+        initImageLoader(getApplicationContext());
 
-        String dir = "request-cache";
-        // ImageLoaderFactory.init(this);
-        RequestCacheManager.init(this, dir, 1024 * 10, 1024 * 10);
-        Cube.onCreate(this);
     }
 
     public IApplication() {
@@ -101,6 +113,22 @@ public class IApplication extends Application {
     }
     public synchronized boolean getIsLogin() {
         return  isLogin;
+    }
+
+    /**
+     * 初始化ImageLoader
+     *
+     * @param context
+     */
+    public static void initImageLoader(Context context) {
+        ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(context)
+                .threadPriority(Thread.NORM_PRIORITY - 2).denyCacheImageMultipleSizesInMemory()
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .memoryCache(new WeakMemoryCache()).discCacheSize(8 * 1024 * 1024)
+                .tasksProcessingOrder(QueueProcessingType.LIFO);
+
+        // Initialize ImageLoader with configuration.
+        ImageLoader.getInstance().init(builder.build());
     }
 
 }

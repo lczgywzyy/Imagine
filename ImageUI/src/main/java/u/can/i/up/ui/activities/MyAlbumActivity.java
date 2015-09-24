@@ -1,6 +1,7 @@
 package u.can.i.up.ui.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -63,13 +65,21 @@ public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLa
 //		refreshGridView = new RefreshGridView(this)
 
 		//设置适配器
-
 //		String imageUri = IApplicationConfig.DIRECTORY_BG + File.separator +"bg2.jpg";
 //		imageList.add(imageUri);
-//		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_1));
-//		imageList.add(BitmapFactory.decodeResource(getResources(), R.drawable.myalbum_demo_2));
+//		imageUri = IApplicationConfig.DIRECTORY_BG + File.separator +"bg3.jpg";
+//		imageList.add(imageUri);
 		myAlBumGridAdapter = new MyAlbumGridViewAdapter(this, imageList);
 		mGridView.setAdapter(myAlBumGridAdapter);
+		mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent i = new Intent(MyAlbumActivity.this, MyAlbumDisplayActivity.class);
+				i.putExtra(MyAlbumDisplayActivity.EXTRA_IMAGES, imageList);
+				i.putExtra(MyAlbumDisplayActivity.EXTRA_INDEX, position);
+				startActivity(i);
+			}
+		});
 		mSwipeLayout.setOnRefreshListener(this);
 		mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
 				android.R.color.holo_green_light, android.R.color.holo_orange_light,
