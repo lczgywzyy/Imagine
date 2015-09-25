@@ -7,5 +7,6 @@ public enum ViewStatus {
     STATUS_ROTATE,
     STATUS_DELETE,
     STATUS_MOVE,
+    STATUS_OK,
     STATUS_SWITCH
 }

@@ -49,6 +49,7 @@ public class ImageViewImpl_PearlBuild extends ImageView {
     private Bitmap bmpMotion = null;
     private Bitmap bmpRotate = null;
     private Bitmap bmpDelete = null;
+    private Bitmap bmpOk = null;
 
     ViewStatus status = ViewStatus.STATUS_MOVE;
 
@@ -62,6 +63,9 @@ public class ImageViewImpl_PearlBuild extends ImageView {
     RectF rectDeleteMark = new RectF();
     RectF rectDeletePre = new RectF();
     RectF rectDelete = new RectF();
+    RectF rectOkMark = new RectF();
+    RectF rectOkPre = new RectF();
+    RectF rectOk = new RectF();
 
     // 记录图片中心点
     PointF pointMotionMid = new PointF();
@@ -69,6 +73,7 @@ public class ImageViewImpl_PearlBuild extends ImageView {
     PointF curPoint = new PointF();
     PointF rotateCenterP = new PointF();
     PointF deleteCenterP = new PointF();
+    PointF okCenterP = new PointF();
 
     //背景中心
     PointF mBgCenterPoint = null;
@@ -148,6 +153,7 @@ public class ImageViewImpl_PearlBuild extends ImageView {
 
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
         bmpDelete = BitmapFactory.decodeResource(getResources(), R.drawable.delete_icon);
+        bmpOk = BitmapFactory.decodeResource(getResources(), R.drawable.icon_ok);
 
         //记录表情矩形的中点
 
@@ -179,6 +185,7 @@ public class ImageViewImpl_PearlBuild extends ImageView {
             canvas.drawBitmap(bmpMotion, matrixPaint, null);
             canvas.drawBitmap(bmpRotate, null, rectRotate, null);
             canvas.drawBitmap(bmpDelete, null, rectDelete, null);
+            canvas.drawBitmap(bmpOk, null, rectOk, null);
         }
     }
 
@@ -196,6 +203,8 @@ public class ImageViewImpl_PearlBuild extends ImageView {
                     status = ViewStatus.STATUS_ROTATE;
                 }else if(ImageAlgrithms.isInRect(x, y, rectDelete)){
                     status = ViewStatus.STATUS_DELETE;
+                }else if(ImageAlgrithms.isInRect(x, y, rectOk)){
+                    status = ViewStatus.STATUS_OK;
                 }else{
                     status = ViewStatus.STATUS_MOVE;
                 }
@@ -204,7 +213,6 @@ public class ImageViewImpl_PearlBuild extends ImageView {
                 if(bmpMotion == null){
                     break;
                 }
-//                PointF tmpPoint =  new PointF((rectMotion.left + rectMotion.right) / 2, (rectMotion.top + rectMotion.bottom) / 2);
                 int index = ImageAlgrithms.isOverlayed(mPearlList, rectMotion, mBgCenterPoint);
                 if(index >= 0){
                     float halfCircleLenth = 0f;
@@ -216,7 +224,6 @@ public class ImageViewImpl_PearlBuild extends ImageView {
                     Log.d(TAG, "" + halfCircleLenth);
                     Log.d(TAG, "" + mCurrentRadius);
 
-//                    float tmpRe = halfCircleLenth / (halfCircleLenth + mCurrentRadius);
                     float tmpRe = halfAngle / (halfAngle + (float)Math.asin(mCurrentRadius / mCircleRadius));
 
                     List<Pearl> tmpPearlList = new ArrayList<Pearl>();
@@ -291,9 +298,6 @@ public class ImageViewImpl_PearlBuild extends ImageView {
                         tmpMatrix.postScale(tmpRe, tmpRe, cPearl.getCenter().x, cPearl.getCenter().y);
                         float deltaAngle = Math.abs(360 - ImageAlgrithms.getPointsDegree(pearlZero.getCenter(), mBgCenterPoint, cPearl.getCenter())) * (1 - tmpRe);
                         tmpMatrix.postRotate(deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
-//                        float deltaAngle = Math.abs(ImageAlgrithms.getPointsDegree(pearlZero.getCenter(), mBgCenterPoint, cPearl.getCenter())) * (1 - tmpRe)
-//                                - (float)Math.toDegrees(Math.asin(mCurrentRadius / mCircleRadius)) * 2 * tmpRe;
-//                        tmpMatrix.postRotate(0 - deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
                         RectF targetRect = new RectF(0, 0, mPearlList.get(i).getBitmap().getWidth(), mPearlList.get(i).getBitmap().getHeight());
                         RectF targetRectPre = new RectF(targetRect);
                         tmpMatrix.mapRect(targetRect, targetRectPre);
@@ -301,7 +305,6 @@ public class ImageViewImpl_PearlBuild extends ImageView {
                         tmpPearlList.add(new Pearl(cPearl.getBitmap(), tmpCenterPF, tmpMatrix, cPearl.getRadius()));
                     }
                     for(int i = 0; i < tmpPearlList.size(); i++){
-//                        tmpPearlList.get(i).setRadius(tmpPearlList.get(i).getRadius() * tmpRe);
                         float tmpR = (float) (mCircleRadius * Math.sin(Math.asin(tmpPearlList.get(i).getRadius() / mCircleRadius) * tmpRe));
                         tmpPearlList.get(i).setRadius(tmpR);
                     }
@@ -317,10 +320,10 @@ public class ImageViewImpl_PearlBuild extends ImageView {
                 curPoint.x = x;
                 curPoint.y = y;
                 if(status == ViewStatus.STATUS_ROTATE){
-                    rectRotateMark.set(x,
-                            y,
-                            x + bmpRotate.getWidth(),
-                            y + bmpRotate.getHeight());
+                    rectRotateMark.set(x - bmpRotate.getWidth() / 2,
+                            y - bmpRotate.getHeight() / 2,
+                            x + bmpRotate.getWidth() / 2,
+                            y + bmpRotate.getHeight() / 2);
                     //获取旋转的角度
                     float de = ImageAlgrithms.getPointsDegree(prePoint, pointMotionMid, curPoint);
                     //获取缩放的比例
@@ -344,17 +347,23 @@ public class ImageViewImpl_PearlBuild extends ImageView {
                 matrixPaint.mapRect(rectMotion, rectMotionPre);
                 matrixPaint.mapRect(rectRotateMark, rectRotatePre);
                 matrixPaint.mapRect(rectDeleteMark, rectDeletePre);
+                matrixPaint.mapRect(rectOkMark, rectOkPre);
+                ImageAlgrithms.getRectCenter(rectMotion, pointMotionMid);
                 ImageAlgrithms.getRectCenter(rectRotateMark, rotateCenterP);
                 ImageAlgrithms.getRectCenter(rectDeleteMark, deleteCenterP);
-                ImageAlgrithms.getRectCenter(rectMotion, pointMotionMid);
-                rectRotate.set(rectRotateMark.left,
-                        rectRotateMark.top,
-                        rectRotateMark.left + bmpRotate.getWidth(),
-                        rectRotateMark.top + bmpRotate.getHeight());
-                rectDelete.set(rectDeleteMark.left,
-                        rectDeleteMark.top - bmpDelete.getHeight(),
-                        rectDeleteMark.left + bmpDelete.getWidth(),
-                        rectDeleteMark.top);
+                ImageAlgrithms.getRectCenter(rectOkMark, okCenterP);
+                rectRotate.set(rotateCenterP.x - bmpRotate.getWidth() * 0.5f,
+                        rotateCenterP.y - bmpRotate.getHeight() * 0.5f,
+                        rotateCenterP.x + bmpRotate.getWidth() * 0.5f,
+                        rotateCenterP.y + bmpRotate.getHeight() * 0.5f);
+                rectDelete.set(deleteCenterP.x - bmpDelete.getWidth() * 0.5f,
+                        deleteCenterP.y - bmpDelete.getHeight() * 0.5f,
+                        deleteCenterP.x + bmpDelete.getWidth()  * 0.5f,
+                        deleteCenterP.y + bmpDelete.getHeight() * 0.5f);
+                rectOk.set(okCenterP.x - bmpOk.getWidth() * 0.5f,
+                        okCenterP.y - bmpOk.getHeight() * 0.5f,
+                        okCenterP.x + bmpOk.getWidth()  * 0.5f,
+                        okCenterP.y + bmpOk.getHeight() * 0.5f);
                 postInvalidate();
                 break;
         }
@@ -417,24 +426,34 @@ public class ImageViewImpl_PearlBuild extends ImageView {
             //记录表情当前的矩形
             rectMotion = new RectF(rectMotionPre);
             //标记旋转图标位置的矩形
-            rectRotateMark = new RectF(rectMotion.right,
-                    rectMotion.bottom,
-                    rectMotion.right + bmpRotate.getWidth(),
-                    rectMotion.bottom + bmpRotate.getHeight());
-            //标记删除图标位置的矩形
-            rectDeleteMark = new RectF(rectMotion.right,
-                    rectMotion.top - bmpDelete.getHeight(),
-                    rectMotion.right + bmpDelete.getWidth(),
-                    rectMotion.top);
+            rectRotateMark = new RectF(rectMotion.right - bmpRotate.getWidth() * 0.3f,
+                    rectMotion.bottom - bmpRotate.getHeight() * 0.3f,
+                    rectMotion.right + bmpRotate.getWidth() * 0.7f,
+                    rectMotion.bottom + bmpRotate.getHeight() * 0.7f);
             //记录旋转图标矩形最初的矩形
             rectRotatePre = new RectF(rectRotateMark);
             //记录当前旋转图标位置的矩形
             rectRotate = new RectF(rectRotateMark);
 
+            //标记删除图标位置的矩形
+            rectDeleteMark = new RectF(rectMotion.left - bmpDelete.getWidth() * 0.7f,
+                    rectMotion.bottom - bmpDelete.getHeight() * 0.3f,
+                    rectMotion.left + bmpDelete.getWidth() * 0.3f,
+                    rectMotion.bottom + bmpDelete.getHeight() * 0.7f);
             //记录删除图标矩形最初的矩形
             rectDeletePre = new RectF(rectDeleteMark);
             //记录当前删除图标矩形位置的矩形
             rectDelete = new RectF(rectDeletePre);
+
+            //标记确认图标位置的矩形
+            rectOkMark = new RectF(rectMotion.right - bmpDelete.getWidth() * 0.3f,
+                    rectMotion.top - bmpDelete.getHeight() * 0.7f,
+                    rectMotion.right + bmpDelete.getWidth() * 0.7f,
+                    rectMotion.top + bmpDelete.getHeight() * 0.3f);
+            //记录确认图标矩形最初的矩形
+            rectOkPre = new RectF(rectOkMark);
+            //记录当前确认图标矩形位置的矩形
+            rectOk = new RectF(rectOkPre);
 
             //记录表情矩形的中点
             pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
