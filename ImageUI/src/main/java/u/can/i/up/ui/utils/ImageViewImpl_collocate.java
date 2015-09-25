@@ -60,6 +60,7 @@ public class ImageViewImpl_collocate extends ImageView {
     private Bitmap bmpMotion = null;
     private Bitmap bmpRotate = null;
     private Bitmap bmpDelete = null;
+    private Bitmap bmpOk = null;
 
     Context context = null;
 
@@ -77,7 +78,9 @@ public class ImageViewImpl_collocate extends ImageView {
     RectF rectDeleteMark = new RectF();
     RectF rectDeletePre = new RectF();
     RectF rectDelete = new RectF();
-
+    RectF rectOkMark = new RectF();
+    RectF rectOkPre = new RectF();
+    RectF rectOk = new RectF();
 
     PaintFlagsDrawFilter paintFilter = null;
     ViewStatus status = ViewStatus.STATUS_MOVE;
@@ -87,7 +90,7 @@ public class ImageViewImpl_collocate extends ImageView {
     PointF curPoint = new PointF();
     PointF rotateCenterP = new PointF();
     PointF deleteCenterP = new PointF();
-
+    PointF okCenterP = new PointF();
 
 
     float canvas_width_pre;
@@ -147,6 +150,8 @@ public class ImageViewImpl_collocate extends ImageView {
 
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
         bmpDelete = BitmapFactory.decodeResource(getResources(), R.drawable.delete_icon);
+        bmpOk = BitmapFactory.decodeResource(getResources(), R.drawable.icon_ok);
+
         //画布参数
         paintFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
         this.context=context;
@@ -160,7 +165,7 @@ public class ImageViewImpl_collocate extends ImageView {
 //        Paint tmpPaint = new Paint();
 //        tmpPaint.setAlpha(70);
         //paint guideline
-      //  drawRuleOfThirdsGuidelines(canvas);
+        //  drawRuleOfThirdsGuidelines(canvas);
 
         canvas.setDrawFilter(paintFilter);
 /*
@@ -168,7 +173,7 @@ public class ImageViewImpl_collocate extends ImageView {
             initTranslate(canvas, bmpBack);
             matrixBack.postScale(1/scale_factor,1/scale_factor);
         }*/
-       // canvas.translate(bitmap_translate_x,bitmap_translate_y);
+        // canvas.translate(bitmap_translate_x,bitmap_translate_y);
         //canvas.drawBitmap(bmpBack,matrixBack,mainPaint);
         //canvas.drawBitmap(bmpBack, matrixBack, mainPaint);
         if(mPearlList != null && !mPearlList.isEmpty()){
@@ -180,6 +185,7 @@ public class ImageViewImpl_collocate extends ImageView {
             canvas.drawBitmap(bmpMotion, matrixPaint, null);
             canvas.drawBitmap(bmpRotate, null, rectRotate, null);
             canvas.drawBitmap(bmpDelete, null, rectDelete, null);
+            canvas.drawBitmap(bmpOk, null, rectOk, null);
 //		    canvas.drawRect(rectPaint, mainPaint);
 //          canvas.drawRect(rectRotate, mainPaint);
         }
@@ -191,7 +197,7 @@ public class ImageViewImpl_collocate extends ImageView {
 
     public int getMaxHeight(){
 
-      return UtilsDevice.dip2px(360);
+        return UtilsDevice.dip2px(360);
 
 
     }
@@ -208,7 +214,7 @@ public class ImageViewImpl_collocate extends ImageView {
 
 
 
-            //背景位图矩阵缩放
+        //背景位图矩阵缩放
         scale_factor = bitmap_width_pre / canvas_width_pre > bitmap_height_pre / canvas_height_pre ? bitmap_width_pre / canvas_width_pre : bitmap_height_pre / canvas_height_pre;
 
 
@@ -234,21 +240,23 @@ public class ImageViewImpl_collocate extends ImageView {
         float y = event.getY();
 
         switch (event.getAction()) {
-                //手指按下的时候
-                case MotionEvent.ACTION_DOWN:
-                    prePoint.x = x;
-                    prePoint.y = y;
+            //手指按下的时候
+            case MotionEvent.ACTION_DOWN:
+                prePoint.x = x;
+                prePoint.y = y;
                 //按到了旋转图标上
 
 
-                    RectF rectR=new RectF(rectRotate);
-                    //rectR.offset(bitmap_translate_x,bitmap_translate_y);
-                    RectF rectD=new RectF(rectDelete);
-                   // rectD.offset(bitmap_translate_x,bitmap_translate_y);
+                RectF rectR=new RectF(rectRotate);
+                //rectR.offset(bitmap_translate_x,bitmap_translate_y);
+                RectF rectD=new RectF(rectDelete);
+                // rectD.offset(bitmap_translate_x,bitmap_translate_y);
                 if(ImageAlgrithms.isInRect(x, y, rectR)){
                     status = ViewStatus.STATUS_ROTATE;
                 }else if(ImageAlgrithms.isInRect(x, y ,rectD)){
                     status = ViewStatus.STATUS_DELETE;
+                }else if(ImageAlgrithms.isInRect(x, y ,rectOk)){
+                    status = ViewStatus.STATUS_OK;
                 }else if(ImageAlgrithms.isInRect(x, y, rectMotion)){
                     status = ViewStatus.STATUS_MOVE;
                 }else{
@@ -263,7 +271,7 @@ public class ImageViewImpl_collocate extends ImageView {
 
                         pearl.getMatrix().mapRect(rectF);
 
-                       // rectF.offset(bitmap_translate_x,bitmap_translate_y);
+                        // rectF.offset(bitmap_translate_x,bitmap_translate_y);
 
                         if(rectF.contains(x,y)){
                             index=mPearlList.size()-1-i;
@@ -293,16 +301,22 @@ public class ImageViewImpl_collocate extends ImageView {
 //                    saveBitmap();
                 } else if(status == ViewStatus.STATUS_DELETE){
                     deleteCurrentMotion();
+                } else if(status == ViewStatus.STATUS_OK){
+                    //TODO
+                    Pearl tmpPearl = new Pearl(bmpMotion.copy(bmpMotion.getConfig(), true), matrixPaint);
+                    mPearlList.add(tmpPearl);
+                    bmpMotion = null;
                 }
+                invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
                 curPoint.x = x;
                 curPoint.y = y;
                 if(status == ViewStatus.STATUS_ROTATE){
-                    rectRotateMark.set(x,
-                            y,
-                            x + bmpRotate.getWidth(),
-                            y + bmpRotate.getHeight());
+                    rectRotateMark.set(x - bmpRotate.getWidth() / 2,
+                            y - bmpRotate.getHeight() / 2,
+                            x + bmpRotate.getWidth() / 2,
+                            y + bmpRotate.getHeight() / 2);
                     //获取旋转的角度
                     float de = ImageAlgrithms.getPointsDegree(prePoint, pointMotionMid, curPoint);
                     //获取缩放的比例
@@ -328,17 +342,23 @@ public class ImageViewImpl_collocate extends ImageView {
                 }
                 matrixPaint.mapRect(rectRotateMark, rectRotatePre);
                 matrixPaint.mapRect(rectDeleteMark, rectDeletePre);
+                matrixPaint.mapRect(rectOkMark, rectOkPre);
                 ImageAlgrithms.getRectCenter(rectRotateMark, rotateCenterP);
                 ImageAlgrithms.getRectCenter(rectDeleteMark, deleteCenterP);
                 ImageAlgrithms.getRectCenter(rectMotion, pointMotionMid);
-                rectRotate.set(rectRotateMark.left,
-                        rectRotateMark.top,
-                        rectRotateMark.left + bmpRotate.getWidth(),
-                        rectRotateMark.top + bmpRotate.getHeight());
-                rectDelete.set(rectDeleteMark.left,
-                        rectDeleteMark.top - bmpDelete.getHeight(),
-                        rectDeleteMark.left + bmpDelete.getWidth(),
-                        rectDeleteMark.top);
+                ImageAlgrithms.getRectCenter(rectOkMark, okCenterP);
+                rectRotate.set(rotateCenterP.x - bmpRotate.getWidth() * 0.5f,
+                        rotateCenterP.y - bmpRotate.getHeight() * 0.5f,
+                        rotateCenterP.x + bmpRotate.getWidth() * 0.5f,
+                        rotateCenterP.y + bmpRotate.getHeight() * 0.5f);
+                rectDelete.set(deleteCenterP.x - bmpDelete.getWidth() * 0.5f,
+                        deleteCenterP.y - bmpDelete.getHeight() * 0.5f,
+                        deleteCenterP.x + bmpDelete.getWidth()  * 0.5f,
+                        deleteCenterP.y + bmpDelete.getHeight() * 0.5f);
+                rectOk.set(okCenterP.x - bmpOk.getWidth() * 0.5f,
+                        okCenterP.y - bmpOk.getHeight() * 0.5f,
+                        okCenterP.x + bmpOk.getWidth()  * 0.5f,
+                        okCenterP.y + bmpOk.getHeight() * 0.5f);
                 postInvalidate();
                 break;
             default:
@@ -393,24 +413,34 @@ public class ImageViewImpl_collocate extends ImageView {
             //记录表情当前的矩形
             rectMotion = new RectF(rectMotionPre);
             //标记旋转图标位置的矩形
-            rectRotateMark = new RectF(rectMotion.right,
-                    rectMotion.bottom,
-                    rectMotion.right + bmpRotate.getWidth(),
-                    rectMotion.bottom + bmpRotate.getHeight());
-            //标记删除图标位置的矩形
-            rectDeleteMark = new RectF(rectMotion.right,
-                    rectMotion.top - bmpDelete.getHeight(),
-                    rectMotion.right + bmpDelete.getWidth(),
-                    rectMotion.top);
+            rectRotateMark = new RectF(rectMotion.right - bmpRotate.getWidth() * 0.3f,
+                    rectMotion.bottom - bmpRotate.getHeight() * 0.3f,
+                    rectMotion.right + bmpRotate.getWidth() * 0.7f,
+                    rectMotion.bottom + bmpRotate.getHeight() * 0.7f);
             //记录旋转图标矩形最初的矩形
             rectRotatePre = new RectF(rectRotateMark);
             //记录当前旋转图标位置的矩形
             rectRotate = new RectF(rectRotateMark);
 
+            //标记删除图标位置的矩形
+            rectDeleteMark = new RectF(rectMotion.left - bmpDelete.getWidth() * 0.7f,
+                    rectMotion.bottom - bmpDelete.getHeight() * 0.3f,
+                    rectMotion.left + bmpDelete.getWidth() * 0.3f,
+                    rectMotion.bottom + bmpDelete.getHeight() * 0.7f);
             //记录删除图标矩形最初的矩形
             rectDeletePre = new RectF(rectDeleteMark);
             //记录当前删除图标矩形位置的矩形
             rectDelete = new RectF(rectDeletePre);
+
+            //标记确认图标位置的矩形
+            rectOkMark = new RectF(rectMotion.right - bmpDelete.getWidth() * 0.3f,
+                    rectMotion.top - bmpDelete.getHeight() * 0.7f,
+                    rectMotion.right + bmpDelete.getWidth() * 0.7f,
+                    rectMotion.top + bmpDelete.getHeight() * 0.3f);
+            //记录确认图标矩形最初的矩形
+            rectOkPre = new RectF(rectOkMark);
+            //记录当前确认图标矩形位置的矩形
+            rectOk = new RectF(rectOkPre);
 
             //记录表情矩形的中点
             pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
@@ -432,19 +462,31 @@ public class ImageViewImpl_collocate extends ImageView {
             tmpPearl = mPearlList.get(mPearlList.size() - 1);
             mPearlList.remove(mPearlList.size() - 1);
 
-        bmpMotion = tmpPearl.getBitmap();
-        matrixPaint = tmpPearl.getMatrix();
-        matrixPaint.mapRect(rectMotion, new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight()));
-        matrixPaint.mapRect(rectRotate, new RectF(bmpMotion.getWidth(), bmpMotion.getHeight(), bmpMotion.getWidth() + bmpRotate.getWidth(), bmpMotion.getHeight() + bmpRotate.getHeight()));
-        matrixPaint.mapRect(rectDelete, new RectF(bmpMotion.getWidth(), 0 - bmpDelete.getHeight(), bmpMotion.getWidth() + bmpDelete.getWidth(), 0));
-        rectRotate.set(rectRotate.left,
-                rectRotate.top,
-                rectRotate.left + bmpRotate.getWidth(),
-                rectRotate.top + bmpRotate.getHeight());
-        rectDelete.set(rectDelete.left,
-                rectDelete.top - bmpDelete.getHeight(),
-                rectDelete.left + bmpDelete.getWidth(),
-                rectDelete.top);
+            bmpMotion = tmpPearl.getBitmap();
+            matrixPaint = tmpPearl.getMatrix();
+            matrixPaint.mapRect(rectMotion, new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight()));
+            matrixPaint.mapRect(rectRotate, new RectF(bmpMotion.getWidth(), bmpMotion.getHeight(), bmpMotion.getWidth() + bmpRotate.getWidth(), bmpMotion.getHeight() + bmpRotate.getHeight()));
+            matrixPaint.mapRect(rectDelete, new RectF(bmpMotion.getWidth(), 0 - bmpDelete.getHeight(), bmpMotion.getWidth() + bmpDelete.getWidth(), 0));
+//        rectRotate.set(rectRotate.left,
+//                rectRotate.top,
+//                rectRotate.left + bmpRotate.getWidth(),
+//                rectRotate.top + bmpRotate.getHeight());
+//        rectDelete.set(rectDelete.left,
+//                rectDelete.top - bmpDelete.getHeight(),
+//                rectDelete.left + bmpDelete.getWidth(),
+//                rectDelete.top);
+            rectRotate.set(rotateCenterP.x - bmpRotate.getWidth() * 0.5f,
+                    rotateCenterP.y - bmpRotate.getHeight() * 0.5f,
+                    rotateCenterP.x + bmpRotate.getWidth() * 0.5f,
+                    rotateCenterP.y + bmpRotate.getHeight() * 0.5f);
+            rectDelete.set(deleteCenterP.x - bmpDelete.getWidth() * 0.5f,
+                    deleteCenterP.y - bmpDelete.getHeight() * 0.5f,
+                    deleteCenterP.x + bmpDelete.getWidth()  * 0.5f,
+                    deleteCenterP.y + bmpDelete.getHeight() * 0.5f);
+            rectOk.set(okCenterP.x - bmpOk.getWidth() * 0.5f,
+                    okCenterP.y - bmpOk.getHeight() * 0.5f,
+                    okCenterP.x + bmpOk.getWidth()  * 0.5f,
+                    okCenterP.y + bmpOk.getHeight() * 0.5f);
         }else if(bmpMotion != null){
             bmpMotion = null;
         }
@@ -479,7 +521,7 @@ public class ImageViewImpl_collocate extends ImageView {
         }else{
             bmpMotion=null;
         }
-        invalidate();
+//        invalidate();
     }
 
     private void drawRuleOfThirdsGuidelines(Canvas canvas) {

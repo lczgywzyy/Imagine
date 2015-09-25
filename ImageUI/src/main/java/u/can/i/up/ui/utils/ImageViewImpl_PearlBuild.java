@@ -5,9 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.media.Image;
@@ -186,6 +188,27 @@ public class ImageViewImpl_PearlBuild extends ImageView {
             canvas.drawBitmap(bmpRotate, null, rectRotate, null);
             canvas.drawBitmap(bmpDelete, null, rectDelete, null);
             canvas.drawBitmap(bmpOk, null, rectOk, null);
+
+            int index = ImageAlgrithms.isOverlayed(mPearlList, rectMotion, mBgCenterPoint);
+            if (index >= 0) {
+                float deltaAngle = 0.0f;
+                for (int i = 0; i < index; i++) {
+                    deltaAngle += (float) Math.toDegrees(Math.asin(mPearlList.get(i).getRadius() / mCircleRadius)) * 2;
+                }
+                deltaAngle = deltaAngle - (float) Math.toDegrees(Math.asin(mPearlList.get(0).getRadius() / mCircleRadius));
+                Matrix tmpMatrix = new Matrix();
+                float[] pts = new float[2];
+                pts[0] = mPearlList.get(0).getCenter().x;
+                pts[1] = mPearlList.get(0).getCenter().y;
+                tmpMatrix.postRotate(deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
+                tmpMatrix.mapPoints(pts);
+                Paint tmpPaint = new Paint();
+                tmpPaint.setStyle(Paint.Style.STROKE);
+                tmpPaint.setColor(Color.RED);
+                tmpPaint.setStrokeWidth(2);
+                canvas.drawLine(pts[0] - 300f, pts[1], pts[0] + 300f, pts[1], tmpPaint);
+                canvas.drawLine(pts[0], pts[1] - 300f, pts[0], pts[1] + 300f, tmpPaint);
+            }
         }
     }
 
@@ -210,110 +233,115 @@ public class ImageViewImpl_PearlBuild extends ImageView {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if(bmpMotion == null){
-                    break;
-                }
-                int index = ImageAlgrithms.isOverlayed(mPearlList, rectMotion, mBgCenterPoint);
-                if(index >= 0){
-                    float halfCircleLenth = 0f;
-                    float halfAngle = 0f;
-                    for(int i = 0; i < mPearlList.size(); i ++) {
-                        halfCircleLenth += mPearlList.get(i).getRadius();
-                        halfAngle += Math.asin(mPearlList.get(i).getRadius() / mCircleRadius);
+                Log.i(TAG, "--------->" + status);
+                if(status == ViewStatus.STATUS_DELETE){
+                    deleteCurrentMotion();
+                } else if(status == ViewStatus.STATUS_OK) {
+                    if (bmpMotion == null) {
+                        break;
                     }
-                    Log.d(TAG, "" + halfCircleLenth);
-                    Log.d(TAG, "" + mCurrentRadius);
-
-                    float tmpRe = halfAngle / (halfAngle + (float)Math.asin(mCurrentRadius / mCircleRadius));
-
-                    List<Pearl> tmpPearlList = new ArrayList<Pearl>();
-                    Matrix tmpMatrix = null;
-
-                    if(index == 0){
-                        index = mPearlList.size();
-                    }
-
-                    //预处理
-                    RectF tmpFirstRect = new RectF(0, 0, mPearlList.get(0).getBitmap().getWidth(), mPearlList.get(0).getBitmap().getHeight());
-                    RectF tmpFirstRectPre = new RectF(tmpFirstRect);
-                    //第一个珠子进行处理
-                    Pearl pearlZero = mPearlList.get(0);
-                    tmpMatrix = pearlZero.getMatrix();
-                    tmpMatrix.postScale(tmpRe, tmpRe, pearlZero.getCenter().x, pearlZero.getCenter().y);
-                    pearlZero.setMatrix(tmpMatrix);
-                    tmpMatrix.mapRect(tmpFirstRect, tmpFirstRectPre);
-                    PointF tmpFirstCenterPF = new PointF((tmpFirstRect.left + tmpFirstRect.right)/2, (tmpFirstRect.top + tmpFirstRect.bottom)/2);
-                    pearlZero.setCenter(tmpFirstCenterPF);
-                    tmpPearlList.add(pearlZero);
-
-                    //根据第一个珠子的处理结果，进行后续珠子的处理
-                    for(int i = 1; i < index; i++){
-                        Pearl cPearl = mPearlList.get(i);
-                        tmpMatrix = cPearl.getMatrix();
-                        tmpMatrix.postScale(tmpRe, tmpRe, cPearl.getCenter().x, cPearl.getCenter().y);
-                        float deltaAngle = Math.abs(ImageAlgrithms.getPointsDegree(pearlZero.getCenter(), mBgCenterPoint, cPearl.getCenter())) * (1 - tmpRe);
-                        tmpMatrix.postRotate(0 - deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
-                        RectF targetRect = new RectF(0, 0, mPearlList.get(i).getBitmap().getWidth(), mPearlList.get(i).getBitmap().getHeight());
-                        RectF targetRectPre = new RectF(targetRect);
-                        tmpMatrix.mapRect(targetRect, targetRectPre);
-                        PointF tmpCenterPF = new PointF((targetRect.left + targetRect.right)/2, (targetRect.top + targetRect.bottom)/2);
-                        tmpPearlList.add(new Pearl(cPearl.getBitmap(), tmpCenterPF, tmpMatrix, cPearl.getRadius()));
-                    }
-                    //添加当前珠子
-                    {
-                        float deltaAngle = 0.0f;
-                        for(int i = 0; i < index; i++){
-                            deltaAngle += (float)Math.toDegrees(Math.asin(mPearlList.get(i).getRadius() / mCircleRadius)) * 2;
+                    int index = ImageAlgrithms.isOverlayed(mPearlList, rectMotion, mBgCenterPoint);
+                    if (index >= 0) {
+                        float halfCircleLenth = 0f;
+                        float halfAngle = 0f;
+                        for (int i = 0; i < mPearlList.size(); i++) {
+                            halfCircleLenth += mPearlList.get(i).getRadius();
+                            halfAngle += Math.asin(mPearlList.get(i).getRadius() / mCircleRadius);
                         }
-                        //第一颗珠子
-                        Pearl prePearl = mPearlList.get(0);
-                        tmpMatrix = new Matrix(prePearl.getMatrix());
+                        Log.d(TAG, "" + halfCircleLenth);
+                        Log.d(TAG, "" + mCurrentRadius);
+
+                        float tmpRe = halfAngle / (halfAngle + (float) Math.asin(mCurrentRadius / mCircleRadius));
+
+                        List<Pearl> tmpPearlList = new ArrayList<Pearl>();
+                        Matrix tmpMatrix = null;
+
+                        if (index == 0) {
+                            index = mPearlList.size();
+                        }
+
+                        //预处理
+                        RectF tmpFirstRect = new RectF(0, 0, mPearlList.get(0).getBitmap().getWidth(), mPearlList.get(0).getBitmap().getHeight());
+                        RectF tmpFirstRectPre = new RectF(tmpFirstRect);
+                        //第一个珠子进行处理
+                        Pearl pearlZero = mPearlList.get(0);
+                        tmpMatrix = pearlZero.getMatrix();
+                        tmpMatrix.postScale(tmpRe, tmpRe, pearlZero.getCenter().x, pearlZero.getCenter().y);
+                        pearlZero.setMatrix(tmpMatrix);
                         tmpMatrix.mapRect(tmpFirstRect, tmpFirstRectPre);
+                        PointF tmpFirstCenterPF = new PointF((tmpFirstRect.left + tmpFirstRect.right) / 2, (tmpFirstRect.top + tmpFirstRect.bottom) / 2);
+                        pearlZero.setCenter(tmpFirstCenterPF);
+                        tmpPearlList.add(pearlZero);
 
-                        //将要插进去的珠子挪到第一个珠子的中心
-                        RectF tmpCurrentRect = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
-                        RectF tmpCurrentRectPre = new RectF(tmpCurrentRect);
-                        tmpMatrix.mapRect(tmpCurrentRect, tmpCurrentRectPre);
-                        float deltaX = ((tmpFirstRect.right - tmpFirstRect.left) - (tmpCurrentRect.right - tmpCurrentRect.left)) / 2;
-                        float deltaY = ((tmpFirstRect.bottom - tmpFirstRect.top) - (tmpCurrentRect.bottom - tmpCurrentRect.top)) / 2;
-                        tmpMatrix.postTranslate(deltaX, deltaY);
-                        tmpMatrix.mapRect(tmpCurrentRect, tmpCurrentRectPre);
+                        //根据第一个珠子的处理结果，进行后续珠子的处理
+                        for (int i = 1; i < index; i++) {
+                            Pearl cPearl = mPearlList.get(i);
+                            tmpMatrix = cPearl.getMatrix();
+                            tmpMatrix.postScale(tmpRe, tmpRe, cPearl.getCenter().x, cPearl.getCenter().y);
+                            float deltaAngle = Math.abs(ImageAlgrithms.getPointsDegree(pearlZero.getCenter(), mBgCenterPoint, cPearl.getCenter())) * (1 - tmpRe);
+                            tmpMatrix.postRotate(0 - deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
+                            RectF targetRect = new RectF(0, 0, mPearlList.get(i).getBitmap().getWidth(), mPearlList.get(i).getBitmap().getHeight());
+                            RectF targetRectPre = new RectF(targetRect);
+                            tmpMatrix.mapRect(targetRect, targetRectPre);
+                            PointF tmpCenterPF = new PointF((targetRect.left + targetRect.right) / 2, (targetRect.top + targetRect.bottom) / 2);
+                            tmpPearlList.add(new Pearl(cPearl.getBitmap(), tmpCenterPF, tmpMatrix, cPearl.getRadius()));
+                        }
+                        //添加当前珠子
+                        {
+                            float deltaAngle = 0.0f;
+                            for (int i = 0; i < index; i++) {
+                                deltaAngle += (float) Math.toDegrees(Math.asin(mPearlList.get(i).getRadius() / mCircleRadius)) * 2;
+                            }
+                            //第一颗珠子
+                            Pearl prePearl = mPearlList.get(0);
+                            tmpMatrix = new Matrix(prePearl.getMatrix());
+                            tmpMatrix.mapRect(tmpFirstRect, tmpFirstRectPre);
 
-                        PointF tmpCenterPF = new PointF((tmpCurrentRect.left + tmpCurrentRect.right)/2, (tmpCurrentRect.top + tmpCurrentRect.bottom)/2);
-                        tmpMatrix.postScale(mCurrentRadius / prePearl.getRadius() * prePearl.getBitmap().getWidth() / bmpMotion.getWidth(),
-                                mCurrentRadius / prePearl.getRadius() * prePearl.getBitmap().getWidth() / bmpMotion.getWidth(),
-                                tmpCenterPF.x, tmpCenterPF.y);
-                        deltaAngle = deltaAngle * tmpRe - (float)Math.toDegrees(Math.asin(prePearl.getRadius() / mCircleRadius)) * tmpRe + (float)Math.toDegrees(Math.asin(mCurrentRadius / mCircleRadius)) * tmpRe;
-                        Log.d(TAG, "deltaAngle2:" + deltaAngle);
-                        tmpMatrix.postRotate(deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
-                        tmpMatrix.mapRect(tmpCurrentRect, tmpCurrentRectPre);
-                        tmpCenterPF = new PointF((tmpCurrentRect.left + tmpCurrentRect.right)/2, (tmpCurrentRect.top + tmpCurrentRect.bottom)/2);
-                        tmpPearlList.add(new Pearl(bmpMotion, tmpCenterPF, tmpMatrix, mCurrentRadius));
-                    }
+                            //将要插进去的珠子挪到第一个珠子的中心
+                            RectF tmpCurrentRect = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
+                            RectF tmpCurrentRectPre = new RectF(tmpCurrentRect);
+                            tmpMatrix.mapRect(tmpCurrentRect, tmpCurrentRectPre);
+                            float deltaX = ((tmpFirstRect.right - tmpFirstRect.left) - (tmpCurrentRect.right - tmpCurrentRect.left)) / 2;
+                            float deltaY = ((tmpFirstRect.bottom - tmpFirstRect.top) - (tmpCurrentRect.bottom - tmpCurrentRect.top)) / 2;
+                            tmpMatrix.postTranslate(deltaX, deltaY);
+                            tmpMatrix.mapRect(tmpCurrentRect, tmpCurrentRectPre);
 
-                    //添加之后的珠子
-                    for(int i = index; i < mPearlList.size(); i++){
-                        Pearl cPearl = mPearlList.get(i);
-                        tmpMatrix = cPearl.getMatrix();
-                        tmpMatrix.postScale(tmpRe, tmpRe, cPearl.getCenter().x, cPearl.getCenter().y);
-                        float deltaAngle = Math.abs(360 - ImageAlgrithms.getPointsDegree(pearlZero.getCenter(), mBgCenterPoint, cPearl.getCenter())) * (1 - tmpRe);
-                        tmpMatrix.postRotate(deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
-                        RectF targetRect = new RectF(0, 0, mPearlList.get(i).getBitmap().getWidth(), mPearlList.get(i).getBitmap().getHeight());
-                        RectF targetRectPre = new RectF(targetRect);
-                        tmpMatrix.mapRect(targetRect, targetRectPre);
-                        PointF tmpCenterPF = new PointF((targetRect.left + targetRect.right)/2, (targetRect.top + targetRect.bottom)/2);
-                        tmpPearlList.add(new Pearl(cPearl.getBitmap(), tmpCenterPF, tmpMatrix, cPearl.getRadius()));
+                            PointF tmpCenterPF = new PointF((tmpCurrentRect.left + tmpCurrentRect.right) / 2, (tmpCurrentRect.top + tmpCurrentRect.bottom) / 2);
+                            tmpMatrix.postScale(mCurrentRadius / prePearl.getRadius() * prePearl.getBitmap().getWidth() / bmpMotion.getWidth(),
+                                    mCurrentRadius / prePearl.getRadius() * prePearl.getBitmap().getWidth() / bmpMotion.getWidth(),
+                                    tmpCenterPF.x, tmpCenterPF.y);
+                            deltaAngle = deltaAngle * tmpRe - (float) Math.toDegrees(Math.asin(prePearl.getRadius() / mCircleRadius)) * tmpRe + (float) Math.toDegrees(Math.asin(mCurrentRadius / mCircleRadius)) * tmpRe;
+                            Log.d(TAG, "deltaAngle2:" + deltaAngle);
+                            tmpMatrix.postRotate(deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
+                            tmpMatrix.mapRect(tmpCurrentRect, tmpCurrentRectPre);
+                            tmpCenterPF = new PointF((tmpCurrentRect.left + tmpCurrentRect.right) / 2, (tmpCurrentRect.top + tmpCurrentRect.bottom) / 2);
+                            tmpPearlList.add(new Pearl(bmpMotion, tmpCenterPF, tmpMatrix, mCurrentRadius));
+                        }
+
+                        //添加之后的珠子
+                        for (int i = index; i < mPearlList.size(); i++) {
+                            Pearl cPearl = mPearlList.get(i);
+                            tmpMatrix = cPearl.getMatrix();
+                            tmpMatrix.postScale(tmpRe, tmpRe, cPearl.getCenter().x, cPearl.getCenter().y);
+                            float deltaAngle = Math.abs(360 - ImageAlgrithms.getPointsDegree(pearlZero.getCenter(), mBgCenterPoint, cPearl.getCenter())) * (1 - tmpRe);
+                            tmpMatrix.postRotate(deltaAngle, mBgCenterPoint.x, mBgCenterPoint.y);
+                            RectF targetRect = new RectF(0, 0, mPearlList.get(i).getBitmap().getWidth(), mPearlList.get(i).getBitmap().getHeight());
+                            RectF targetRectPre = new RectF(targetRect);
+                            tmpMatrix.mapRect(targetRect, targetRectPre);
+                            PointF tmpCenterPF = new PointF((targetRect.left + targetRect.right) / 2, (targetRect.top + targetRect.bottom) / 2);
+                            tmpPearlList.add(new Pearl(cPearl.getBitmap(), tmpCenterPF, tmpMatrix, cPearl.getRadius()));
+                        }
+                        for (int i = 0; i < tmpPearlList.size(); i++) {
+                            float tmpR = (float) (mCircleRadius * Math.sin(Math.asin(tmpPearlList.get(i).getRadius() / mCircleRadius) * tmpRe));
+                            tmpPearlList.get(i).setRadius(tmpR);
+                        }
+                        mPearlList = tmpPearlList;
+                        //清空画布
+                        ImageUtils.clearCanvas(mCanvas);
+                        bmpMotion = null;
+                        //更新界面
+                        invalidate();
                     }
-                    for(int i = 0; i < tmpPearlList.size(); i++){
-                        float tmpR = (float) (mCircleRadius * Math.sin(Math.asin(tmpPearlList.get(i).getRadius() / mCircleRadius) * tmpRe));
-                        tmpPearlList.get(i).setRadius(tmpR);
-                    }
-                    mPearlList = tmpPearlList;
-                    //清空画布
-                    ImageUtils.clearCanvas(mCanvas);
-                    bmpMotion = null;
-                    //更新界面
-                    invalidate();
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -494,7 +522,13 @@ public class ImageViewImpl_PearlBuild extends ImageView {
         }
         return bmpSave;
     }
-
+    /**
+     * 删除素材函数
+     * */
+    private void deleteCurrentMotion(){
+        bmpMotion=null;
+        invalidate();
+    }
 
 
 }
