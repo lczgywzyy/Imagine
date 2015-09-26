@@ -183,9 +183,11 @@ public class ImageViewImpl_collocate extends ImageView {
         }
         if (bmpMotion != null){
             canvas.drawBitmap(bmpMotion, matrixPaint, null);
-            canvas.drawBitmap(bmpRotate, null, rectRotate, null);
-            canvas.drawBitmap(bmpDelete, null, rectDelete, null);
-            canvas.drawBitmap(bmpOk, null, rectOk, null);
+            if(status!=ViewStatus.STATUS_OK) {
+                canvas.drawBitmap(bmpRotate, null, rectRotate, null);
+                canvas.drawBitmap(bmpDelete, null, rectDelete, null);
+                canvas.drawBitmap(bmpOk, null, rectOk, null);
+            }
 //		    canvas.drawRect(rectPaint, mainPaint);
 //          canvas.drawRect(rectRotate, mainPaint);
         }
@@ -303,9 +305,9 @@ public class ImageViewImpl_collocate extends ImageView {
                     deleteCurrentMotion();
                 } else if(status == ViewStatus.STATUS_OK){
                     //TODO
-                    Pearl tmpPearl = new Pearl(bmpMotion.copy(bmpMotion.getConfig(), true), matrixPaint);
+        /*            Pearl tmpPearl = new Pearl(bmpMotion.copy(bmpMotion.getConfig(), true), matrixPaint);
                     mPearlList.add(tmpPearl);
-                    bmpMotion = null;
+                    bmpMotion = null;*/
                 }
                 invalidate();
                 break;
