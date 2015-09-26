@@ -36,6 +36,7 @@ import java.util.List;
 import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.utils.PhotoPickerIntent;
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.activities.CutoutActivity;
 import u.can.i.up.ui.activities.CutoutSetActivity;
 import u.can.i.up.ui.activities.ImageSetActivity;
 import u.can.i.up.ui.activities.LibiraryActivity;
@@ -64,6 +65,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     public final static int REQUEST_FAST_CODE = 1;
     public final static int REQUEST_PEARL_CODE = 2;
+    public final static int REQUEST_MATERIAL_CODE = 3;
     ArrayList<String> selectedPhotos = new ArrayList<>();
 
 
@@ -164,6 +166,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             startActivity(newdata);
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PEARL_CODE) {
+                if (data != null) {
+                    photos = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
+                }
+                selectedPhotos.clear();
+                if (photos != null) {
+                    selectedPhotos.addAll(photos);
+                }
+
+                String path = selectedPhotos.get(0);
+                Intent newdata = new Intent(getActivity(), PearlBuildActivity.class);
+                newdata.putExtra("photoUri", path);
+                startActivity(newdata);
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_MATERIAL_CODE) {
             if (data != null) {
                 photos = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
             }
@@ -171,10 +187,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             if (photos != null) {
                 selectedPhotos.addAll(photos);
             }
-
             String path = selectedPhotos.get(0);
-            Intent newdata = new Intent(getActivity(), PearlBuildActivity.class);
-            newdata.putExtra("photoUri", path);
+            Intent newdata = new Intent(getActivity(), CutoutActivity.class);
+            newdata.putExtra("photo_path", path);
             startActivity(newdata);
         }
 
@@ -197,7 +212,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), LibiraryActivity.class));
                 break;
             case R.id.material_build:
-                startActivity(new Intent(getActivity(), CutoutSetActivity.class));
+//                startActivity(new Intent(getActivity(), CutoutSetActivity.class));
+                PhotoPickerIntent intentc = new PhotoPickerIntent(getActivity());
+                intentc.setPhotoCount(1);
+                intentc.setShowCamera(true);
+                intentc.putExtra("typeP", PhotoPickerIntent.TYPE_PICKER_ALL);
+                startActivityForResult(intentc, REQUEST_MATERIAL_CODE);
                 break;
             case R.id.pearl_build:
                 PhotoPickerIntent intentb = new PhotoPickerIntent(getActivity());

@@ -48,7 +48,7 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
     private RadioButton circle_restore;
     private ImageViewImpl_cutout imageViewImpl_cutout;
 
-    private PearlBeans pearlBeans;
+//    private PearlBeans pearlBeans;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
         imageViewImpl_cutout = (ImageViewImpl_cutout) findViewById(R.id.ImageViewImpl_cutout);
 
         String photo_path = getIntent().getStringExtra("photo_path");
-        pearlBeans=getIntent().getParcelableExtra("pearl_beans");
+//        pearlBeans=getIntent().getParcelableExtra("pearl_beans");
         Log.d("imageView", "Imageview width: " + imageViewImpl_cutout.getWidth() + imageViewImpl_cutout.getHeight());
         //需要修改压缩方法，图片压缩失真了
         imageViewImpl_cutout.setmBitmap(BitmapUtils.decodeSampledBitmapFromFile(photo_path, 1000, 1000));
@@ -116,12 +116,12 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
                 try {
                     Bitmap mypic = imageViewImpl_cutout.exportImageByFinger();
                     BitmapCache.setBitmapcache(mypic);
-                    try {
-                        savePearlBeans(mypic);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    startActivity(new Intent(CutoutActivity.this, ShareActivity.class));
+//                    try {
+//                        savePearlBeans(mypic);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+                    startActivity(new Intent(CutoutActivity.this, CutoutSaveActivity.class));
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -200,20 +200,20 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
             Toast.makeText(this, "no selected", Toast.LENGTH_SHORT).show();
         }
     }
-    private void savePearlBeans(Bitmap bitmap) throws IOException {
-
-        Bitmap bitmapStore=Bitmap.createScaledBitmap(bitmap, 120,120, true);
-        byte[] bytes= IBitmapCache.Bitmap2Bytes(bitmapStore);
-        String md5= MD5Utils.getMD5String(bytes);
-        bitmapStore.recycle();
-        FileOutputStream os = this.openFileOutput(md5, Context.MODE_PRIVATE);
-        os.write(bytes);
-        os.close();
-        pearlBeans.setMD5(md5);
-        pearlBeans.setPath("/static/img/png/" + md5);
-        PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
-        psqLiteOpenHelper.addPearl(pearlBeans);
-        ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
-        Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
-    }
+//    private void savePearlBeans(Bitmap bitmap) throws IOException {
+//
+//        Bitmap bitmapStore=Bitmap.createScaledBitmap(bitmap, 120,120, true);
+//        byte[] bytes= IBitmapCache.Bitmap2Bytes(bitmapStore);
+//        String md5= MD5Utils.getMD5String(bytes);
+//        bitmapStore.recycle();
+//        FileOutputStream os = this.openFileOutput(md5, Context.MODE_PRIVATE);
+//        os.write(bytes);
+//        os.close();
+//        pearlBeans.setMD5(md5);
+//        pearlBeans.setPath("/static/img/png/" + md5);
+//        PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
+//        psqLiteOpenHelper.addPearl(pearlBeans);
+//        ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
+//        Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
+//    }
 }

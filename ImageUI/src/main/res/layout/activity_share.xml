@@ -48,14 +48,7 @@
                 android:src="@drawable/icon_back"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true" />
-            <!--<ImageView-->
-                <!-- -->
-                <!--android:padding="@dimen/btn_padding"-->
-                <!--android:layout_width="@dimen/btn_outter"-->
-                <!--android:layout_height="@dimen/btn_outter"-->
-                <!--android:src="@drawable/icon_done"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:layout_centerVertical="true" />-->
+
             <Button
                 android:id="@+id/save_to_album_btn"
                 android:layout_width="70dp"

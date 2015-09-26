@@ -144,6 +144,17 @@
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_user_edit">UserEditActivity</string>
 
-
+    <string-array name="cutoutsave_type">
+        <item>佛头</item>
+        <item>佛塔</item>
+        <item>背云</item>
+        <item>卡子</item>
+        <item>弟子珠</item>
+        <item>计数器</item>
+        <item>项珠</item>
+        <item>绳结</item>
+        <item>散珠</item>
+        <item>隔片</item>
+    </string-array>
 
 </resources>

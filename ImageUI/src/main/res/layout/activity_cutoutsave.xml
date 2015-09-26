@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/Theme.AppCompat.NoActionBar"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/match_2_framelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="770"
+        android:orientation="horizontal"
+        android:background="@color/transparent"
+        android:layout_alignParentTop="true"
+        >
+    <ImageView
+        android:id="@+id/cutoutsave_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"/>
+
+    </FrameLayout>
+
+    <!--下方工具栏-->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="510"
+        android:background="@color/brightgreen"
+        android:orientation="vertical"
+        android:gravity="center">
+        <!--上面选框-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:paddingBottom="10dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.2"
+                android:orientation="vertical">
+                <ImageButton
+                    android:id="@+id/cutoutsave_back"
+                    android:layout_width="@dimen/btn_outter"
+                    android:layout_height="@dimen/btn_outter"
+                    android:gravity="top|left"
+                    android:src="@drawable/icon_back"
+                    android:background="@drawable/selector_common_pressed_50_back"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分类："
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize_medium"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"/>
+                <Spinner
+                    android:id="@+id/cutoutsave_type"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:entries="@array/cutoutsave_type">
+                </Spinner>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:paddingTop="30dp">
+                <!--名称-->
+                d<LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center|left"
+                android:paddingLeft="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="名称:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize_medium"/>
+                <EditText
+                    android:id="@+id/cutoutsave_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:textColor="@color/gray_70"
+                    android:textSize="@dimen/textsize_medium"
+                    android:background="@color/white"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"/>
+
+            </LinearLayout>
+                <!--材质-->
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center|left"
+                    android:paddingLeft="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="材质:"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textsize_medium"/>
+                    <EditText
+                        android:id="@+id/cutoutsave_material"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:textColor="@color/gray_70"
+                        android:textSize="@dimen/textsize_medium"
+                        android:background="@color/white"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"/>
+
+                </LinearLayout>
+                <!-- 尺寸-->
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center|left"
+                    android:paddingLeft="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="尺寸:"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textsize_medium"/>
+                    <EditText
+                        android:id="@+id/cutoutsave_size"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:textColor="@color/gray_70"
+                        android:textSize="@dimen/textsize_medium"
+                        android:background="@color/white"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="mm"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textsize_medium"/>
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+        <!--保存按钮-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingLeft="20dp">
+                <Button
+                    android:id="@+id/cutoutsave_save"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="保存"
+                    android:textSize="@dimen/textsize_medium"
+                    android:background="@drawable/btn_white_frame"/>
+
+                <Button
+                    android:id="@+id/cutoutsave_backmain"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:text="返回首页"
+                    android:textSize="@dimen/textsize_medium"
+                    android:background="@drawable/btn_white_frame"/>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
