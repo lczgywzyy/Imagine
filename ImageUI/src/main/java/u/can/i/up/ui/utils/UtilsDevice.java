@@ -1,6 +1,8 @@
 package u.can.i.up.ui.utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 
@@ -33,7 +35,18 @@ public class UtilsDevice
         return Environment.isExternalStorageEmulated();
     }
 
-
+    public static boolean isWifiConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mWiFiNetworkInfo = mConnectivityManager
+                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (mWiFiNetworkInfo != null) {
+                return mWiFiNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
 
 
 

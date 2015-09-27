@@ -177,11 +177,25 @@ public class CutoutSaveActivity extends AppCompatActivity implements View.OnClic
         os.write(bytes);
         os.close();
         pearlBeans.setMD5(md5);
-        pearlBeans.setIsSynchronized(true);
+        pearlBeans.setIsSynchronized(false);
         pearlBeans.setPath("/static/img/png/" + md5);
         PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
         psqLiteOpenHelper.addPearl(pearlBeans);
         ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
         Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
+        sendUploadBroadcast();
+    }
+
+    private void sendUploadBroadcast(){
+        Intent intent=new Intent();
+
+        intent.setAction(IApplicationConfig.ACTION_PEARL);
+
+        intent.setType(IApplicationConfig.DATA_TYPE_SMATERIAL);
+
+        sendBroadcast(intent);
+
+
+
     }
 }

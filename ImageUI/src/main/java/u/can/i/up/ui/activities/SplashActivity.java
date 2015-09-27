@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import u.can.i.up.ui.PearlService;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
@@ -86,6 +87,11 @@ public class SplashActivity extends Activity {
 
     }
 
+    private void startService(){
+        Intent intent=new Intent(SplashActivity.this, PearlService.class);
+        SplashActivity.this.startService(intent);
+    }
+
     private void setParams(){
         IApplicationConfig.Scale=this.getResources().getDisplayMetrics().density;
 
@@ -112,6 +118,7 @@ public class SplashActivity extends Activity {
                                 getMaterial();
                             }else{
                                 Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                                startService();
                                 startActivity(i);
                                 finish();
                             }
@@ -119,6 +126,7 @@ public class SplashActivity extends Activity {
                         }catch (Exception e){
                             ArrayList<PearlBeans> pearlBeansList=(ArrayList) (((IPearlBeans)bundle.getSerializable(IApplicationConfig.HTTP_BEAN)).getData());
                             refreshLocalSMaterial(pearlBeansList);
+                            startService();
                             Intent i = new Intent(SplashActivity.this, MainActivity.class);
                             startActivity(i);
                             finish();

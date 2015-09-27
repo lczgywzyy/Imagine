@@ -26,6 +26,7 @@ import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.net.HttpManager;
 import u.can.i.up.ui.net.HttpNormalManager;
 import u.can.i.up.ui.utils.IBitmapCache;
+import u.can.i.up.ui.utils.UtilsDevice;
 
 public class PearlService extends Service {
 
@@ -33,20 +34,12 @@ public class PearlService extends Service {
 
     private User user;
 
-    private boolean isWifi=true;
-
-
     public static final int TIME=180000;
 
-
-
-    public PearlService() {
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        user=((IApplication)getApplication()).getUerinfo();
         //设置一个定时器，每隔3min开启上传线程；
         getWeakReferenceHandlerTimer.get().post(runnable);
         //注册一个广播，每次生成新的素材(相册)之后发送广播，执行上传素材(相册)线程;
@@ -71,7 +64,7 @@ public class PearlService extends Service {
             }else if(IApplicationConfig.DATA_TYPE_ALBUM.equals(intent.getType())) {
 
             }else if(ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())){
-                isWifi=true;
+
             }
         }
     };
@@ -123,15 +116,19 @@ public class PearlService extends Service {
     }
     private void uploadSMaterial(){
 
-        if(isWifi){
-            startPearlBeansUpload();
-        }else {
-            if(IApplication.isUpdateAny){
-                startPearlBeansUpload();
+        if(((IApplication)getApplication()).getIsLogin()) {
+            if (user == null) {
+                user=((IApplication)getApplication()).getUerinfo();
+            }
+                if (UtilsDevice.isWifiConnected(PearlService.this)) {
+                    startPearlBeansUpload();
+                } else {
+                    if (IApplication.isUpdateAny) {
+                        startPearlBeansUpload();
+                    }
+                }
             }
         }
-
-    }
 
     private void startPearlBeansUpload(){
         HttpNormalManager httpNormalManager = HttpNormalManager.getHttpNormalManagerInstance();
@@ -172,7 +169,7 @@ public class PearlService extends Service {
             return null;
         }
     }
-    WeakReference<Handler> weakReferenceHandler=new WeakReference<Handler>(new Handler(){
+   private WeakReference<Handler> weakReferenceHandler=new WeakReference<Handler>(new Handler(){
 
         @Override
         public void handleMessage(Message msg) {
@@ -183,6 +180,8 @@ public class PearlService extends Service {
                     //开启下一个上传流程
                     IHttpNormalBean IHttpNormalBean = (IHttpNormalBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
                     if (IHttpNormalBean != null && Integer.parseInt(IHttpNormalBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
+                        //上传成功更新数据库
+
                             if (getPeatBeansNotUpload() != null) {
                                 uploadSMaterial();
                             }
@@ -227,6 +226,7 @@ public class PearlService extends Service {
                             hashMap.put("price", pearlBeans.getPrice());
                             hashMap.put("description", pearlBeans.getDescription());
                             hashMap.put("url", pearlBeans.getPath());
+                            httpNormalManager.boundParameter(hashMap);
                             httpNormalManager.boundUrl(IApplicationConfig.HTTP_URL_CREATION_UPLOAD);
                             httpNormalManager.execute();
                         }
@@ -254,5 +254,9 @@ public class PearlService extends Service {
     public void onDestroy() {
         unregisterReceiver(broadcastReceiver);
         super.onDestroy();
+    }
+
+    private void updateState(){
+
     }
 }
