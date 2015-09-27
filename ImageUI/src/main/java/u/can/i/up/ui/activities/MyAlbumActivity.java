@@ -27,6 +27,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import in.srain.cube.util.LocalDisplay;
 import pulltoRefresh.OnLoadListener;
 import pulltoRefresh.OnRefreshListener;
 import pulltoRefresh.RefreshGridView;
@@ -37,7 +38,6 @@ import u.can.i.up.ui.utils.BitmapCache;
 
 
 public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
-
 	private MyAlbumGridViewAdapter myAlBumGridAdapter;
 //	private RefreshGridView refreshGridView;
 	public static ArrayList<String> imageList = new ArrayList<String>();;

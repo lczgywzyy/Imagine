@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/imageset_framelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="360"
+        android:background="@color/gray_80"
+        android:layout_alignParentTop="true"
+        >
+       <ImageView
+           android:id="@+id/imageruler_set"
+           android:layout_width="fill_parent"
+           android:layout_height="fill_parent" />
+        </LinearLayout>
+
+        <!--中间工具栏-->
+        <RelativeLayout
+            android:layout_gravity="bottom"
+            android:id="@+id/match_1_middlebar"
+            android:background="@drawable/bg_gradual_change"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/actionbar">
+            <ImageButton
+                android:id="@+id/imageset_close_btn"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:padding="@dimen/btn_padding"
+                android:layout_width="@dimen/btn_outter"
+                android:layout_height="@dimen/btn_outter"
+                android:src="@drawable/icon_back"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true" />
+            <ImageButton
+                android:id="@+id/imageset_continue"
+                android:background="@drawable/selector_common_pressed_50_back"
+                android:padding="@dimen/btn_padding"
+                android:layout_width="@dimen/btn_outter"
+                android:layout_height="@dimen/btn_outter"
+                android:src="@drawable/icon_forward"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+    <!--下方工具栏-->
+    <FrameLayout
+        android:id="@+id/imageset_libirarylayout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="160"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ruler_sumary"
+                android:textColor="@color/gray_80"
+                android:textSize="@dimen/textsize_smalltitle"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp">
+                <EditText
+                    android:id="@+id/imageruler_size"
+                    android:layout_width="80dp"
+                    android:layout_height="35dp"
+                    android:textColor="@color/gray_80"
+                    android:background="@color/gray_10"
+                    android:inputType="number"
+                    android:gravity="center"
+                    android:textSize="@dimen/textsize_smalltitle"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="mm"
+                    android:textColor="@color/gray_80"
+                    android:textSize="@dimen/textsize_smalltitle"
+                    android:layout_gravity="center|bottom"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="160"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<Space-->
+            <!--android:layout_width="46dp"-->
+            <!--android:layout_height="fill_parent" />-->
+        <!--&lt;!&ndash; 旋转&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="@dimen/btn_outter"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:gravity="center">-->
+            <!--<ImageButton-->
+                <!--android:id="@+id/Button_rotate"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="@dimen/btn_outter"-->
+                <!--android:src="@drawable/icon_rotate"-->
+                <!--android:background="@drawable/selector_common_pressed_white" />-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="旋转"-->
+                <!--android:textColor="@color/gray_80"-->
+                <!--android:textSize="@dimen/textsize_small"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<Space-->
+            <!--android:layout_width="22dp"-->
+            <!--android:layout_height="fill_parent" />-->
+        <!--&lt;!&ndash; 滑动条&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="237dp"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:orientation="vertical">-->
+            <!--<Space-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="35"/>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="32"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center|left"-->
+                <!-->-->
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/btn_small"-->
+                    <!--android:layout_height="@dimen/btn_small"-->
+                    <!--android:src="@drawable/icon_bright"/>-->
+                <!--<Space-->
+                    <!--android:layout_width="@dimen/match_1_scroll_margin_horizental"-->
+                    <!--android:layout_height="fill_parent" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="43dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="亮度"-->
+                    <!--android:textColor="@color/gray_80"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:gravity="center"/>-->
+
+                <!--<SeekBar-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:focusable="true"-->
+                    <!--android:maxHeight="3.0dp"-->
+                    <!--android:minHeight="3.0dp"-->
+                    <!--android:max="200"-->
+                    <!--android:progress="100"-->
+                    <!--android:progressDrawable="@drawable/seekbar_black_white_gradualchange"-->
+                    <!--android:thumb="@drawable/seekbar_thumb"-->
+                    <!--android:thumbOffset="0dp"-->
+                    <!--/>-->
+
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="32"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center|left">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/btn_small"-->
+                    <!--android:layout_height="@dimen/btn_small"-->
+                    <!--android:src="@drawable/icon_contrast"/>-->
+                <!--<Space-->
+                    <!--android:layout_width="@dimen/match_1_scroll_margin_horizental"-->
+                    <!--android:layout_height="fill_parent" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="43dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="对比度"-->
+                    <!--android:textColor="@color/gray_80"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:gravity="center"/>-->
+
+                <!--<SeekBar-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:focusable="true"-->
+                    <!--android:maxHeight="3.0dp"-->
+                    <!--android:minHeight="3.0dp"-->
+                    <!--android:max="200"-->
+                    <!--android:progress="100"-->
+                    <!--android:progressDrawable="@drawable/seekbar_black_white_gradualchange"-->
+                    <!--android:thumb="@drawable/seekbar_thumb"-->
+                    <!--android:thumbOffset="0dp"-->
+                    <!--/>-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="32"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center|left">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/btn_small"-->
+                    <!--android:layout_height="@dimen/btn_small"-->
+                    <!--android:src="@drawable/icon_saturation"/>-->
+                <!--<Space-->
+                    <!--android:layout_width="@dimen/match_1_scroll_margin_horizental"-->
+                    <!--android:layout_height="fill_parent" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="43dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="饱和度"-->
+                    <!--android:textColor="@color/gray_80"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:gravity="center"/>-->
+                <!--<SeekBar-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:focusable="true"-->
+                    <!--android:maxHeight="3.0dp"-->
+                    <!--android:minHeight="3.0dp"-->
+                    <!--android:max="200"-->
+                    <!--android:progress="100"-->
+                    <!--android:progressDrawable="@drawable/seekbar_black_white_gradualchange"-->
+                    <!--android:thumb="@drawable/seekbar_thumb"-->
+                    <!--android:thumbOffset="0dp"-->
+                    <!--/>-->
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="32"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center|left">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/btn_small"-->
+                    <!--android:layout_height="@dimen/btn_small"-->
+                    <!--android:src="@drawable/icon_ruler"/>-->
+                <!--<Space-->
+                    <!--android:layout_width="@dimen/match_1_scroll_margin_horizental"-->
+                    <!--android:layout_height="fill_parent" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="43dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="比例尺"-->
+                    <!--android:textColor="@color/gray_80"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:gravity="center"/>-->
+                <!--<SeekBar-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:focusable="true"-->
+                    <!--android:maxHeight="3.0dp"-->
+                    <!--android:minHeight="3.0dp"-->
+                    <!--android:max="200"-->
+                    <!--android:progress="100"-->
+                    <!--android:progressDrawable="@drawable/seekbar_black_white_gradualchange"-->
+                    <!--android:thumb="@drawable/seekbar_thumb"-->
+                    <!--android:thumbOffset="0dp"-->
+                    <!--/>-->
+
+            <!--</LinearLayout>-->
+            <!--<Space-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="8"/>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="16"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center|left"-->
+                <!--android:paddingLeft="31dp"-->
+                <!--android:textSize="@dimen/textsize_small">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="请输入间隔大小"-->
+                    <!--android:gravity="bottom"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:textColor="@color/gray_80"/>-->
+                <!--<EditText-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:textColor="@color/gray_80"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:inputType="number"-->
+                    <!--android:gravity="center|bottom"-->
+                    <!--android:maxLength="3"-->
+                    <!--android:background="@color/transparentbluegray"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="mm"-->
+                    <!--android:gravity="bottom"-->
+                    <!--android:textSize="@dimen/textsize_small"-->
+                    <!--android:textColor="@color/gray_80"/>-->
+            <!--</LinearLayout>-->
+            <!--<Space-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="35"/>-->
+
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
+</LinearLayout>

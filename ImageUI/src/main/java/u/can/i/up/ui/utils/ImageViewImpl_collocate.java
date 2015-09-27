@@ -225,8 +225,8 @@ public class ImageViewImpl_collocate extends ImageView {
         matrixBack.postScale(1 / scale_factor, 1 / scale_factor);
 
         Bitmap bitmapNew = Bitmap.createBitmap(bmpBack, 0, 0, bmpBack.getWidth(), bmpBack.getHeight(), matrixBack, true);
-
-        bmpBack.recycle();
+        //复用imageRuler界面，recycle之后退回界面，显示不了
+//        bmpBack.recycle();
 
         bmpBack=bitmapNew;
 

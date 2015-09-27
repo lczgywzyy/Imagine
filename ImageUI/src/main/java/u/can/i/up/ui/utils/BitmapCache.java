@@ -15,12 +15,6 @@ public class BitmapCache {
     private static float backBmpTranslateX;
     private static float backBmpTranslateY;
 
-//    private static ArrayList<Bitmap> albumImageList = new ArrayList<Bitmap>();
-
-//    public static ArrayList<Bitmap> getAlbumImageList() {
-//        return albumImageList;
-//    }
-
     private static ImageViewImpl_collocate mImageViewImpl_collocate;
 
     private static ImageViewImpl_PearlBuild mImageViewImpl_PearlBuild;

@@ -4,13 +4,13 @@
 
     <!-- Toolbar titles -->
     <string name="toolbar_title_home">多宝串</string>
-    <string name="toolbar_title_libirary">素材库</string>
+    <string name="toolbar_title_libirary">素材中心</string>
     <string name="toolbar_title_myalbum">我的相册</string>
     <string name="other_activity">设置</string>
 
     <!-- Navigation Drawer -->
     <string name="nav_drawer_item_home">首页</string>
-    <string name="nav_drawer_item_libirary">素材库</string>
+    <string name="nav_drawer_item_libirary">素材中心</string>
     <string name="nav_drawer_item_myalbum">我的相册</string>
     <string name="nav_drawer_setup">设置</string>
     <string name="nav_drawer_about">关于</string>
@@ -40,9 +40,9 @@
     <string name="add_suzhu">添加素珠</string>
 
     <!-- home fragment -->
-    <string name="fast_start">串珠搭配</string>
+    <string name="fast_start">快速换珠</string>
     <string name="library">素材中心</string>
-    <string name="pearl_build">新组串珠</string>
+    <string name="pearl_build">自由组珠</string>
     <string name="material_build">素材制作</string>
     <string name="myalbum">我的相册</string>
     <string name="personal_activity">个人信息</string>

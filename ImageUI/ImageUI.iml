@@ -101,8 +101,8 @@
     <orderEntry type="library" exported="" name="universal-image-loader-1.9.4" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.2.6" level="project" />
     <orderEntry type="library" exported="" name="Native_Libs2" level="project" />
-    <orderEntry type="library" exported="" name="clog-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="clog-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="cube-sdk-1.0.44.38" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.1" level="project" />
     <orderEntry type="module" module-name="PhotoPicker" exported="" />

@@ -54,19 +54,19 @@ public class ImageSetActivity extends FragmentActivity implements View.OnClickLi
      *
      */
     private Class mFragmentArray[] = { RotateImageSetFragment.class,
-            AdjustImageSetFragment.class, RulerImageSetFragment.class };
+            AdjustImageSetFragment.class };
     /**
      * 存放图片数组
      *
      */
     private int mImageArray[] = { R.drawable.icon_rotate,
-            R.drawable.icon_adjust, R.drawable.icon_ruler};
+            R.drawable.icon_adjust};
 
     /**
      * 选修卡文字
      *
      */
-    private String mTextArray[] = { "旋转", "调整", "比例尺" };
+    private String mTextArray[] = { "旋转", "调整" };
     // Instance variables
     private Bitmap croppedImage;
     private CropImageView cropImageView;
@@ -146,6 +146,8 @@ public class ImageSetActivity extends FragmentActivity implements View.OnClickLi
                 croppedImage = cropImageView.getCroppedImage();
                 BitmapCache.bitmapCycle();
                 BitmapCache.setBitmapcache(croppedImage);
+                //由于第一个缓存在imageViewImpl_collocate结束后，会被回收，所以这里使用第二个缓存；后期注意修改此处使用
+//                BitmapCache.setBitmapcacheruler(croppedImage);
                 //设置缩放比例、背景图片移动距离
                 float tmpScaleX = ((float) cropImageView.getWidth()) / croppedImage.getWidth();
                 float tmpScaleY = ((float) cropImageView.getHeight()) / croppedImage.getHeight();
@@ -158,7 +160,7 @@ public class ImageSetActivity extends FragmentActivity implements View.OnClickLi
                     BitmapCache.setBackBmpTranslateX(((float) cropImageView.getWidth() - (float) croppedImage.getWidth() * tmpScaleY) / 2);
                     BitmapCache.setBackBmpTranslateY(0);
                 }
-                Intent i = new Intent(ImageSetActivity.this, ImageCollocateActivity.class);
+                Intent i = new Intent(ImageSetActivity.this, ImageRulerSetActivity.class);
                 startActivity(i);
                 break;
             }
