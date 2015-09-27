@@ -80,7 +80,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
             pearlBeans.setWeight(cursor.getString(cursor.getColumnIndex("weight")));
             pearlBeans.setName(cursor.getString(cursor.getColumnIndex("name")));
             pearlBeans.settMaterialName(cursor.getString(cursor.getColumnIndex("TMaterialName")));
-            pearlBeans.setIsSynchronized(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex("isSynchronized"))));
+            pearlBeans.setIsSynchronized(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex("isSynchronizd"))));
             arrayPearlBeans.add(pearlBeans);
             cursor.moveToNext();
 
@@ -106,7 +106,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         values.put("size", pearlBeans.getSize());
         values.put("weight", pearlBeans.getWeight());
         values.put("name", pearlBeans.getWeight());
-        values.put("isSynchronized",String.valueOf(pearlBeans.isSynchronized()));
+        values.put("isSynchronizd",String.valueOf(pearlBeans.isSynchronized()));
         long status=db.insert("SMaterial",null,values);
 
         if(status==-1){
