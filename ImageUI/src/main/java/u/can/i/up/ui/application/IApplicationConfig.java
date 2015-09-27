@@ -33,6 +33,13 @@ public class IApplicationConfig {
     public static final String HTTP_URL_PARAMETERS="http://123.57.33.13/AppInforEdit";
     public static final String HTTP_URL_SMATRIAL_UPDATE="http://123.57.33.13/AppImageFetch";
 
+    public static final String HTTP_URL_CREATION_UPLOAD="http://123.57.33.13/AppCreationUpload";
+
+    public static final String HTTP_URL_ALBUM_UPLOAD="http://123.57.33.13/AppAchievementUpload";
+
+    public static final String HTTP_URL_ALBUM_UPDATE="http://123.57.33.13/AppAchievementFetch";
+
+
     public static final int HTTP_CODE_SUCCESS=0;
 
     public static final int HTTP_NET_TIMEOUT=0x10;
@@ -54,6 +61,17 @@ public class IApplicationConfig {
     public static int DeviceWidth=0;
 
     public static int DeviceHeight=0;
+
+    public static boolean isTMaterialUpdate=false;
+
+    public static boolean isAlbumUpdate=false;
+
+    public static final String ACTION_PEARL="u.can.i.up.ui.action.upload";
+
+    public static final String DATA_TYPE_SMATERIAL="smaterial";
+
+    public static final String DATA_TYPE_ALBUM="album";
+
 
 
 

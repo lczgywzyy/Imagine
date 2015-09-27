@@ -53,6 +53,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         setParams();
         ((IApplication) getApplication()).psqLiteOpenHelper = new PSQLiteOpenHelper(this);
+        IApplication.isUpdateAny=settings.getBoolean("isUpdateAny",false);
 
         if(settings.getInt("START", 0)==0) {
             try {
@@ -208,6 +209,7 @@ public class SplashActivity extends Activity {
         while (iterator.hasNext()){
             PearlBeans pearlBeans=iterator.next();
             if(!((IApplication) getApplication()).arrayListPearlBeans.contains(pearlBeans)) {
+                pearlBeans.setIsSynchronized(true);
                 ((IApplication) getApplication()).psqLiteOpenHelper.addPearl(pearlBeans);
                 ((IApplication) getApplication()).arrayListPearlBeans.add(pearlBeans);
             }

@@ -47,6 +47,8 @@ public class IApplication extends Application {
 
     public static int Picker_type=3;;
 
+    public static boolean isUpdateAny=false;
+
 
     public boolean isLogin(){
             return  false;

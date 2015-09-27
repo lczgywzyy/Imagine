@@ -169,7 +169,7 @@ public class CutoutSaveActivity extends AppCompatActivity implements View.OnClic
 
     private void savePearlBeans(Bitmap bitmap) throws IOException {
 
-        Bitmap bitmapStore=Bitmap.createScaledBitmap(bitmap, 120,120, true);
+        Bitmap bitmapStore=Bitmap.createScaledBitmap(bitmap, 120, 120, true);
         byte[] bytes= IBitmapCache.Bitmap2Bytes(bitmapStore);
         String md5= MD5Utils.getMD5String(bytes);
         bitmapStore.recycle();
@@ -177,6 +177,7 @@ public class CutoutSaveActivity extends AppCompatActivity implements View.OnClic
         os.write(bytes);
         os.close();
         pearlBeans.setMD5(md5);
+        pearlBeans.setIsSynchronized(true);
         pearlBeans.setPath("/static/img/png/" + md5);
         PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
         psqLiteOpenHelper.addPearl(pearlBeans);

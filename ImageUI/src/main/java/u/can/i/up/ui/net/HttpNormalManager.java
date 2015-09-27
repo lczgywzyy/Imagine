@@ -56,7 +56,7 @@ public class HttpNormalManager extends IHttpManager<IHttpNormalBean> {
 
     }
 
-    public static HttpNormalManager getHttpChecksumManagerInstance(){
+    public synchronized static HttpNormalManager getHttpNormalManagerInstance(){
         if(httpNormalManager ==null){
             httpNormalManager =new HttpNormalManager();
         }

@@ -53,6 +53,16 @@ public class PearlBeans implements Parcelable {
 
     private String description;
 
+    private boolean isSynchronized;
+
+    public boolean isSynchronized() {
+        return isSynchronized;
+    }
+
+    public void setIsSynchronized(boolean isSynchornized) {
+        this.isSynchronized = isSynchornized;
+    }
+
     public int getSMaterialId() {
         return SMaterialId;
     }

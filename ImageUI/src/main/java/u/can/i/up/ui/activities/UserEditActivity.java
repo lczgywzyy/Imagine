@@ -169,7 +169,7 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
                             //开启更改头像线程
                             HashMap<String, String> hashMap = updateUserMsgBase();
                             hashMap.put("csc", IHttpNormalBean.getData());
-                            HttpNormalManager httpNormalManager = HttpNormalManager.getHttpChecksumManagerInstance();
+                            HttpNormalManager httpNormalManager = HttpNormalManager.getHttpNormalManagerInstance();
                             if(upType == UType.PORTRAIT) {
                                 hashMap.put("suffix", "png");
                                 HashMap<String, SoftReference<Bitmap>> hashMapImg = new HashMap<>();
@@ -314,7 +314,7 @@ public class UserEditActivity extends ActionBarActivity implements View.OnClickL
 
     private  void update(){
             if(isChanged(upType)) {
-                HttpNormalManager httpNormalManager = HttpNormalManager.getHttpChecksumManagerInstance();
+                HttpNormalManager httpNormalManager = HttpNormalManager.getHttpNormalManagerInstance();
                 httpNormalManager.boundParameter(updateUserMsgBase());
                 httpNormalManager.boundHandler(weakReferenceType.get());
                 httpNormalManager.boundUrl(IApplicationConfig.HTTP_URL_CHECKSUM);
