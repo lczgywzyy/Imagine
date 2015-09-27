@@ -101,7 +101,7 @@ public class PearlBuildCollocateActivity extends FragmentActivity implements Vie
 //                ShareActivity.exportImageByFinger(mypic);
 
                 BitmapCache.setBitmapcache(mypic);
-                startActivity(new Intent(PearlBuildCollocateActivity.this, ShareActivity.class));
+                startActivity(new Intent(PearlBuildCollocateActivity.this, ImageCollocateActivity.class));
                 break;
             case R.id.pearlbuild_collocate_close_btn:
 
