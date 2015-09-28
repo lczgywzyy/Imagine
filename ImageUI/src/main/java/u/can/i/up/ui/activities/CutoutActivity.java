@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,12 +44,14 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
     private static final int REQUEST_SIMPLE_DIALOG = 42;
     private ImageButton setover;
     private ImageButton cutout_close;
+    private ImageButton cutout_back;
     private RadioButton circle_paint;
     private RadioButton circle_eraze;
     private RadioButton circle_restore;
     private ImageViewImpl_cutout imageViewImpl_cutout;
 
-//    private PearlBeans pearlBeans;
+    private PearlBeans pearlBeans;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +64,23 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
     private void initView(){
         setover = (ImageButton)findViewById(R.id.cutout_1_setover);
         cutout_close = (ImageButton)findViewById(R.id.cutout_1_close_btn);
+        cutout_back = (ImageButton)findViewById(R.id.cutout_1_back_btn);
         circle_paint = (RadioButton)findViewById(R.id.circle_paint);
         circle_eraze = (RadioButton)findViewById(R.id.circle_eraze);
         circle_restore = (RadioButton)findViewById(R.id.restore);
         imageViewImpl_cutout = (ImageViewImpl_cutout) findViewById(R.id.ImageViewImpl_cutout);
 
         String photo_path = getIntent().getStringExtra("photo_path");
-//        pearlBeans=getIntent().getParcelableExtra("pearl_beans");
-        Log.d("imageView", "Imageview width: " + imageViewImpl_cutout.getWidth() + imageViewImpl_cutout.getHeight());
-        //需要修改压缩方法，图片压缩失真了
-        imageViewImpl_cutout.setmBitmap(BitmapUtils.decodeSampledBitmapFromFile(photo_path, 1000, 1000));
+        pearlBeans=getIntent().getParcelableExtra("pearl_beans");
+
+        // Get screen width and height
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+//        double densityAdj = metrics.density > 1 ? 1 / metrics.density : 1;
+
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        imageViewImpl_cutout.setmBitmap(BitmapUtils.decodeSampledBitmapFromFile(photo_path, width * 2 / 3, height * 2 / 3));
 
         //设置绘图相关参数
         imageViewImpl_cutout.isDrawing = false;
@@ -87,7 +97,7 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
         circle_restore.setOnClickListener(this);
         setover.setOnClickListener(this);
         cutout_close.setOnClickListener(this);
-
+        cutout_back.setOnClickListener(this);
     }
 
     @Override
@@ -97,18 +107,23 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
             {
                 imageViewImpl_cutout.isDrawing = true;
                 imageViewImpl_cutout.paintType = 0;
+                imageViewImpl_cutout.setPaintBitmap();
                 break;
             }
             case R.id.circle_eraze:
             {
+                imageViewImpl_cutout.isDrawing = true;
                 imageViewImpl_cutout.paintType = 1;
                 imageViewImpl_cutout.paintShape = 1;
+                imageViewImpl_cutout.setEraserBitmap();
                 break;
             }
             case R.id.restore:
             {
+                imageViewImpl_cutout.isDrawing = true;
                 imageViewImpl_cutout.paintType = 2;
                 imageViewImpl_cutout.paintShape = 1;
+                imageViewImpl_cutout.setCoverBitmap();
                 break;
             }
             case R.id.cutout_1_setover:
@@ -116,12 +131,12 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
                 try {
                     Bitmap mypic = imageViewImpl_cutout.exportImageByFinger();
                     BitmapCache.setBitmapcache(mypic);
-//                    try {
-//                        savePearlBeans(mypic);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-                    startActivity(new Intent(CutoutActivity.this, CutoutSaveActivity.class));
+                    try {
+                        savePearlBeans(mypic);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    startActivity(new Intent(CutoutActivity.this, ShareActivity.class));
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -137,6 +152,11 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
                         .setNegativeButtonText("取消")
                         .setRequestCode(REQUEST_SIMPLE_DIALOG)
                         .show();
+                break;
+            }
+            case R.id.cutout_1_back_btn:
+            {
+                imageViewImpl_cutout.clear();
                 break;
             }
             default:
@@ -200,20 +220,20 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
             Toast.makeText(this, "no selected", Toast.LENGTH_SHORT).show();
         }
     }
-//    private void savePearlBeans(Bitmap bitmap) throws IOException {
-//
-//        Bitmap bitmapStore=Bitmap.createScaledBitmap(bitmap, 120,120, true);
-//        byte[] bytes= IBitmapCache.Bitmap2Bytes(bitmapStore);
-//        String md5= MD5Utils.getMD5String(bytes);
-//        bitmapStore.recycle();
-//        FileOutputStream os = this.openFileOutput(md5, Context.MODE_PRIVATE);
-//        os.write(bytes);
-//        os.close();
-//        pearlBeans.setMD5(md5);
-//        pearlBeans.setPath("/static/img/png/" + md5);
-//        PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
-//        psqLiteOpenHelper.addPearl(pearlBeans);
-//        ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
-//        Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
-//    }
+    private void savePearlBeans(Bitmap bitmap) throws IOException {
+
+        Bitmap bitmapStore=Bitmap.createScaledBitmap(bitmap, 120,120, true);
+        byte[] bytes= IBitmapCache.Bitmap2Bytes(bitmapStore);
+        String md5= MD5Utils.getMD5String(bytes);
+        bitmapStore.recycle();
+        FileOutputStream os = this.openFileOutput(md5, Context.MODE_PRIVATE);
+        os.write(bytes);
+        os.close();
+        pearlBeans.setMD5(md5);
+        pearlBeans.setPath("/static/img/png/" + md5);
+        PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
+        psqLiteOpenHelper.addPearl(pearlBeans);
+        ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
+        Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
+    }
 }

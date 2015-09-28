@@ -9,6 +9,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.util.AttributeSet;
@@ -18,24 +20,26 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.Date;
 
+import in.srain.cube.util.LocalDisplay;
 import u.can.i.up.utils.image.BitmapUtils;
 
 /**
  * Created by lczgywzyy on 2015/5/11.
- *
- * Use opencv to draw a region
- *
- * 1. Convert bitmap to Mat
- * 2. Draw small circle according to finger's moving
- * 3. Crop the region
+ * <p/>
+ * A canvas has two layer, the original bitmap
+ * is the background layer, all options is  on the foreground
+ * layer
  */
 public class ImageViewImpl_cutout extends View {
 
     private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_cutout.class;
-    private static final String FromPath = ".1FromPath";
-    private static final String ToPath = ".2ToPath";
+
+    private static final int LAYER_FLAGS = Canvas.MATRIX_SAVE_FLAG | Canvas.CLIP_SAVE_FLAG
+            | Canvas.HAS_ALPHA_LAYER_SAVE_FLAG | Canvas.FULL_COLOR_LAYER_SAVE_FLAG
+            | Canvas.CLIP_TO_LAYER_SAVE_FLAG;
 
     private static final int NONE = 0;
     private static final int DRAG = 1;
@@ -53,12 +57,10 @@ public class ImageViewImpl_cutout extends View {
     private static final int ERASER = 1;
     // 对区域进行擦除
     private static final int RESTORE = 2;
+
     public int paintType = PAINTING;
 
     public boolean isDrawing = false;
-
-    int SideLenth = 5;
-//    int[] SectionPixels;
 
     float x_down = 0;
     float y_down = 0;
@@ -80,16 +82,34 @@ public class ImageViewImpl_cutout extends View {
     // 用户区域选择的路径
     private Path path;
     float preX, preY;
+
     /*  选取区域时调用的画笔
     * */
     private Paint mPaint = new Paint();
+    /**
+     * bmpPaint: 无特效的画笔，用来显示背景图
+     */
     private Paint bmpPaint = new Paint();
 
     // 橡皮擦模式时用的画笔
-    private Paint eraserPaint = new Paint();
+    private Paint eraserPaintDown;
+    private Paint eraserPaintMove = new Paint();
 
-    private Bitmap mBitmap, tmp;
+    // 局部还原时所用的画笔
+    private Paint restorePaintDown;
+    private Paint restorePaintMove = new Paint();
 
+    /**
+     * mBitmap: 背景图
+     * tmp； 导出到下个activity的bitmap
+     * mLayer: 透明的前景图
+     * draw 的时候总是先draw背景图后draw前景图
+     */
+    private Bitmap mBitmap, tmp, initialBitmap, mlayer;
+
+    /**
+     * invertMatrix: 图片变换矩阵的逆矩阵
+     */
     private Matrix matrix = new Matrix();
     private Matrix matrix1 = new Matrix();
     private Matrix savedMatrix = new Matrix();
@@ -104,16 +124,20 @@ public class ImageViewImpl_cutout extends View {
     /*  用来标记点击出现的小圆
     * */
     private Boolean tmpCircleFlag = false;
-    private float tmpCircleRadius = 10L;
-    private float tmpCircleRadiusRatio = 1L;
+    private float tmpCircleRadius = 30L;
 
-    // 设置不同模式下的画笔
-    private int alpha = 0;
+    // 画笔颜色和透明度的十六进制
+    private static final String HEXCOLORYELLOW = "#7fffff00";
+    private static final String HEXCOLORTRANSPARENT = "#00000000";
 
-    public void setmBitmap(Bitmap bitmap){
+    private ArrayList<Path> paths = new ArrayList<>();
+
+    public void setmBitmap(Bitmap bitmap) {
 
         mBitmap = bitmap;
-        cacheCanvas = new Canvas();
+        initialBitmap = Bitmap.createBitmap(bitmap);
+        if (cacheCanvas == null)
+            cacheCanvas = new Canvas();
         path = new Path();
         cacheCanvas.setBitmap(mBitmap);
 
@@ -122,7 +146,7 @@ public class ImageViewImpl_cutout extends View {
          */
         // 设置画笔颜色
         mPaint = new Paint(Paint.DITHER_FLAG);
-        mPaint.setColor(Color.DKGRAY);
+        mPaint.setColor(Color.YELLOW);
         // 设置画笔风格
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(3);
@@ -133,16 +157,29 @@ public class ImageViewImpl_cutout extends View {
         /**
          * 设置eraser模式时画笔的属性
          */
-        // 设置画笔颜色
-        eraserPaint = new Paint(Paint.DITHER_FLAG);
-        eraserPaint.setColor(Color.YELLOW);
-        // 设置画笔风格
-        eraserPaint.setStyle(Paint.Style.STROKE);
-        eraserPaint.setStrokeWidth(15);
-        // 反锯齿
-        eraserPaint.setAntiAlias(true);
-        eraserPaint.setDither(true);
+        // 设置 ERASER模式下，触摸时的画笔属性
+        eraserPaintDown = new Paint(Paint.DITHER_FLAG);
+        eraserPaintDown.setColor(Color.parseColor(HEXCOLORYELLOW));
 
+        // 设置ERASER模式下，Move时的画笔属性
+        eraserPaintMove.setStyle(Paint.Style.STROKE);
+        eraserPaintMove.setStrokeWidth(tmpCircleRadius * 2);
+        // 反锯齿
+        eraserPaintMove.setAntiAlias(true);
+        eraserPaintMove.setDither(true);
+        eraserPaintMove.setColor(Color.parseColor(HEXCOLORYELLOW));
+
+        // 设置restore模式下paint的属性
+        restorePaintDown = new Paint(Paint.DITHER_FLAG);
+        restorePaintDown.setColor(Color.parseColor(HEXCOLORTRANSPARENT));
+
+       /* // 设置RESTORE模式下，Move时的画笔属性
+        restorePaintMove.setStyle(Paint.Style.STROKE);
+        restorePaintMove.setStrokeWidth(tmpCircleRadius * 2);
+        // 反锯齿
+        restorePaintMove.setAntiAlias(true);
+        restorePaintMove.setDither(true);
+        restorePaintMove.setColor(Color.parseColor(HEXCOLORTRANSPARENT));*/
         //记录表情最初的矩形
         rectMotionPre = new RectF(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
         //记录表情当前的矩形
@@ -150,7 +187,7 @@ public class ImageViewImpl_cutout extends View {
 
     }
 
-    public ImageViewImpl_cutout(Context context,Bitmap bitmap) {
+    public ImageViewImpl_cutout(Context context, Bitmap bitmap) {
         super(context);
         mContext = context;
 
@@ -163,25 +200,100 @@ public class ImageViewImpl_cutout extends View {
 
     }
 
+    /**
+     * 创建eraser模式下的初始图片
+     */
+    public void setEraserBitmap() {
+        mBitmap = Bitmap.createBitmap(initialBitmap);
+        cacheCanvas.setBitmap(mBitmap);
+        if (paths.size() > 0) {
+            cacheCanvas.save();
+            cacheCanvas.clipPath(paths.get(paths.size() - 1), Region.Op.XOR);
+            cacheCanvas.drawColor(Color.parseColor(HEXCOLORYELLOW));
+            cacheCanvas.restore();
+        } else {
+            cacheCanvas.drawColor(Color.parseColor(HEXCOLORYELLOW));
+        }
+        invalidate();
+    }
+
+    /**
+     * 创建cover图层，用于擦除
+     */
+    public void setCoverBitmap() {
+        // setting paint
+        restorePaintMove = new Paint();
+        restorePaintMove.setAlpha(0);
+        restorePaintMove.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+        restorePaintMove.setAntiAlias(true);
+
+        restorePaintMove.setDither(true);
+        restorePaintMove.setStyle(Paint.Style.STROKE);
+        restorePaintMove.setStrokeJoin(Paint.Join.ROUND);
+        restorePaintMove.setStrokeCap(Paint.Cap.ROUND);
+        restorePaintMove.setStrokeWidth(tmpCircleRadius * 2);
+
+        // converting bitmap into mutable bitmap
+        mlayer = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas();
+        mCanvas.setBitmap(mlayer);
+        // drawXY will result on that Bitmap
+        // be sure parameter is bm, not mBitmap
+        mCanvas.drawBitmap(BitmapUtils.createBitmapFromARGB(0x8800ff00, mBitmap.getWidth(),
+                mBitmap.getHeight(), generateBitmap()), 0, 0, null);
+
+        // 还原bitmap
+        mBitmap = Bitmap.createBitmap(initialBitmap);
+        invalidate();
+    }
+
+    public void setPaintBitmap() {
+        mBitmap = Bitmap.createBitmap(initialBitmap);
+        cacheCanvas.setBitmap(mBitmap);
+        if (paths.size() > 0) {
+            cacheCanvas.save();
+            cacheCanvas.clipPath(paths.get(paths.size() - 1), Region.Op.XOR);
+            cacheCanvas.drawColor(Color.YELLOW);
+            cacheCanvas.restore();
+        } else {
+            cacheCanvas.drawColor(Color.TRANSPARENT);
+        }
+        invalidate();
+    }
     @Override
     protected void onDraw(Canvas canvas) {
-        this.mCanvas = canvas;
-
         DisplayMetrics dm = new DisplayMetrics();
-        ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
         widthScreen = dm.widthPixels;
         heightScreen = dm.heightPixels;
+        // 先画背景图
+//        Log.d(TAG, Color.parseColor(HEXCOLORYELLOW) + "-----------hex");
 
         canvas.drawBitmap(mBitmap, matrix, bmpPaint);
-        if (paintType == PAINTING) {
-            canvas.drawPath(path, mPaint);
-        } else if (paintType == ERASER) {
-            canvas.drawPath(path, eraserPaint);
+
+        // 如果是绘画模式，则需要再画前景图, 并且所有操作在前景图上进行
+        if (isDrawing && paintType != RESTORE) {
+            if (paintType == PAINTING) {
+                canvas.drawPath(path, mPaint);
+            } else if (paintType == ERASER) {
+                canvas.drawPath(path, eraserPaintMove);
+            }
+        } else if (isDrawing && paintType == RESTORE) {
+            canvas.drawBitmap(mlayer, matrix, null);
+            mCanvas.drawPath(path, restorePaintMove);
+            super.onDraw(canvas);
+        }
+
+        if (tmpCircleFlag && paintType == ERASER) {
+            canvas.drawCircle(x_down, y_down, tmpCircleRadius, eraserPaintDown);
+        }
+        if (tmpCircleFlag && paintType == RESTORE) {
+            canvas.drawCircle(x_down, y_down, tmpCircleRadius, restorePaintDown);
         }
 
 
-
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         tmpCircleFlag = false;
@@ -198,9 +310,7 @@ public class ImageViewImpl_cutout extends View {
                     path.moveTo(x_down, y_down);
                     preX = x_down;
                     preY = y_down;
-                    if (paintType == RESTORE) {
 
-                    }
                 }
 
                 savedMatrix.set(matrix);
@@ -216,16 +326,17 @@ public class ImageViewImpl_cutout extends View {
                 mid_org.x = mid.x;
                 mid_org.y = mid.y;
                 midPoint(mid, event);
-                mid_org.x = (mid_org.x == 0) ? mid.x: mid_org.x;
-                mid_org.y = (mid_org.y == 0) ? mid.y: mid_org.y;
+                mid_org.x = (mid_org.x == 0) ? mid.x : mid_org.x;
+                mid_org.y = (mid_org.y == 0) ? mid.y : mid_org.y;
                 break;
             /*  第一个手指抬起手势，没有做任何实质操作
             * */
             case MotionEvent.ACTION_UP:
                 Log.i(TAG, "ACTION_UP " + mode);
-                if (isDrawing && paintType != RESTORE) {
+                if (isDrawing) {
                     if (matrix.invert(invertMatrix)) {
                         path.transform(invertMatrix);
+                        paths.add(path);
                     }
                     if (mode == DRAWPATH && paintType == PAINTING) {
                         cacheCanvas.drawPath(path, mPaint);
@@ -234,26 +345,26 @@ public class ImageViewImpl_cutout extends View {
                         cacheCanvas.drawColor(Color.YELLOW);
                         cacheCanvas.restore();
                     } else if (mode == DRAWPATH && paintType == ERASER) {
-                        cacheCanvas.drawPath(path, eraserPaint);
+                        cacheCanvas.drawPath(path, eraserPaintMove);
+                    } else if (mode == DRAWPATH && paintType == RESTORE) {
+                        mCanvas.drawPath(path, restorePaintMove);
                     }
-                    path.reset();
+
+                    path = new Path();
                     invalidate();
-                } else if (isDrawing && paintType == RESTORE) {
-
                 }
-
-                /*if(mode == DRAG && x_down == event.getX() && y_down == event.getY()){
-                    Log.i(TAG, "Quick Click...");
+                // 触摸点击时画圆
+                if (mode == DRAG && x_down == event.getX() && y_down == event.getY() &&  (paintType == ERASER || paintType ==RESTORE)) {
                     tmpCircleFlag = true;
                     invalidate();
-                }*/
+                }
 
                 break;
             /*  第二个手指抬起手势，第二个手指的位置能够判定是是否进行了缩放。
             * */
             case MotionEvent.ACTION_POINTER_UP:
                 Log.i(TAG, "ACTION_POINTER_UP");
-                if (mode == ZOOM){
+                if (mode == ZOOM) {
                     lastDeltaScale = totalScale;
                     deltaScale = newDist / oldDist;
                     totalScale = totalScale * deltaScale;
@@ -264,7 +375,7 @@ public class ImageViewImpl_cutout extends View {
             case MotionEvent.ACTION_MOVE:
                 /* 缩放模式
                 * */
-                if (mode == ZOOM){
+                if (mode == ZOOM) {
                     matrix1.set(savedMatrix);
 //                    float rotation = rotation(event) - oldRotation;
                     /*  计算距离和缩放比
@@ -287,7 +398,7 @@ public class ImageViewImpl_cutout extends View {
                 }
                 /*  拖拽模式
                 * */
-                else if(mode == DRAG && !isDrawing){
+                else if (mode == DRAG && !isDrawing) {
                     matrix1.set(savedMatrix);
                     matrix1.postTranslate(event.getX() - x_down, event.getY() - y_down);// 平移
                     matrixCheck = matrixCheck();
@@ -299,7 +410,7 @@ public class ImageViewImpl_cutout extends View {
                 }
                 /*  描点模式
                 * */
-                else if(isDrawing) {
+                else if (isDrawing) {
                     mode = DRAWPATH;
                     float newX = event.getX();
                     float newY = event.getY();
@@ -313,6 +424,7 @@ public class ImageViewImpl_cutout extends View {
         }
         return true;
     }
+
     private boolean matrixCheck() {
         float[] f = new float[9];
         matrix1.getValues(f);
@@ -347,25 +459,26 @@ public class ImageViewImpl_cutout extends View {
 
     // 触碰两点间距离
     private float spacing(MotionEvent event) {
-        if(event.getPointerCount() >= 2) {
+        if (event.getPointerCount() >= 2) {
             float x = event.getX(0) - event.getX(1);
             float y = event.getY(0) - event.getY(1);
             return FloatMath.sqrt(x * x + y * y);
-        }else return 0;
+        } else return 0;
     }
+
     // 取旋转角度
     private float rotation(MotionEvent event) {
-        if(event.getPointerCount() >= 2){
+        if (event.getPointerCount() >= 2) {
             double delta_x = (event.getX(0) - event.getX(1));
             double delta_y = (event.getY(0) - event.getY(1));
             double radians = Math.atan2(delta_y, delta_x);
             return (float) Math.toDegrees(radians);
-        }
-        else return 0;
+        } else return 0;
     }
+
     // 取手势中心点
     private void midPoint(PointF point, MotionEvent event) {
-        if(event.getPointerCount() >= 2) {
+        if (event.getPointerCount() >= 2) {
             float x = event.getX(0) + event.getX(1);
             float y = event.getY(0) + event.getY(1);
             point.set(x / 2, y / 2);
@@ -385,32 +498,49 @@ public class ImageViewImpl_cutout extends View {
         return bitmap;
     }
 
+    /**
+     *
+     * @return
+     * @throws InterruptedException
+     *
+     * 导出图片
+     */
     public Bitmap exportImageByFinger() throws InterruptedException {
-        Log.d(TAG, "Test Join " + new Date().getTime());
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                tmp = BitmapUtils.cropImage(mBitmap, mBitmap.getWidth(), mBitmap.getHeight());
-//                invalidate();
-                /*String fileName = "/mnt/sdcard/tmp/debug01.png";
-                File bitmapFile = new File(fileName);
-                FileOutputStream bitmapWtriter = null;
-                try {
-                    bitmapWtriter = new FileOutputStream(bitmapFile);
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                if (paintType == PAINTING)
+                    tmp = BitmapUtils.cropImage(mBitmap, mBitmap.getWidth(), mBitmap.getHeight());
+                else if (paintType == ERASER || paintType == RESTORE) {
+                    Bitmap bmp = generateBitmap();
+                    tmp = BitmapUtils.cropImage(bmp, bmp.getWidth(), bmp.getHeight());
                 }
-                tmp.compress(Bitmap.CompressFormat.PNG, 90, bitmapWtriter);*/
             }
         });
         thread.start();
         thread.join();
-        Log.d(TAG, "Test Join() " + new  Date().getTime());
         return tmp;
     }
 
-    public void showImage(){
+    /**
+     *
+     * @return 一张不透明的图片
+     */
+    private Bitmap generateBitmap() {
+        Bitmap tmpBitmap = Bitmap.createBitmap(initialBitmap);
+        Canvas tmpCanvas = new Canvas();
+        tmpCanvas.setBitmap(tmpBitmap);
+        if (paths.size() > 0) {
+            tmpCanvas.save();
+            tmpCanvas.clipPath(paths.get(paths.size() - 1), Region.Op.XOR);
+            tmpCanvas.drawColor(Color.YELLOW);
+            tmpCanvas.restore();
+        } else {
+            tmpCanvas.drawColor(Color.YELLOW);
+        }
+        return tmpBitmap;
+    }
+    public void showImage() {
         /*File file = new File(Environment.getExternalStorageDirectory(), ToPath + "/OUTPUT_11.png");
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(file), "image*//*");
@@ -421,9 +551,14 @@ public class ImageViewImpl_cutout extends View {
 //        mCanvas.drawBitmap(exportImageByFinger(), 0f, 0f, null);
     }
 
+    /**
+     * 取消所有的绘图操作
+     */
     public void clear() {
-//        path.reset();
-//        invalidate();
+        paths.clear();
+        mBitmap = Bitmap.createBitmap(initialBitmap);
+        cacheCanvas.setBitmap(mBitmap);
+        invalidate();
     }
 
 

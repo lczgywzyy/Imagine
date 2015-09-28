@@ -97,9 +97,6 @@ public class BitmapUtils {
          * 该方法用于保存抠出的图片
          */
     public static Bitmap cropImage(Bitmap img, int width, int height) {
-        Log.d(TAG, "width and height: " + width + "  " + height);
-        Log.d(TAG, "Image width and height: " + img.getWidth() + "  " + img.getHeight());
-//        Bitmap bm = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
         // Create new blank ARGB bitmap.
         Bitmap finalBm = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
@@ -122,6 +119,9 @@ public class BitmapUtils {
                 }
 
                 int px = img.getPixel(x, y);
+              /*  Log.d(TAG, px + "px---------------");
+                Log.d(TAG, "Red: " + Color.red(px) + " Green; " + Color.green(px)
+                        + " Blue: " + Color.blue(px) + " Alpha: " + Color.alpha(px));*/
                 if (Color.red(px) == 255 && Color.green(px) == 255 && Color.blue(px) == 0) {
                     template = true;
                     finalBm.setPixel(x2, y2, Color.TRANSPARENT);
@@ -234,5 +234,32 @@ public class BitmapUtils {
 
 //        bm.recycle();
         return finalBm;
+    }
+
+    /**
+     *
+     * @param colorARGB
+     * @param width
+     * @param height
+     * @param mode
+     * @return
+     * 创建特定颜色的bitmap
+     */
+    public static Bitmap createBitmapFromARGB(int colorARGB, int width, int height, Bitmap mode) {
+        int[] argb = new int[width * height];
+        int[] originalPixels = new int[width * height];
+        mode.getPixels(originalPixels, 0, width, 0, 0, width, height);
+
+        for (int i = 0; i< originalPixels.length; i++) {
+            /*Log.d(TAG, "Red: " + Color.red(originalPixels[i]) + " Green; " + Color.green(originalPixels[i])
+            + " Blue: " + Color.blue(originalPixels[i]) + " Alpha: " + Color.alpha(originalPixels[i]));*/
+            if (Color.red(originalPixels[i]) == 255 && Color.green(originalPixels[i]) == 255
+                    && Color.blue(originalPixels[i]) == 0) {
+                argb[i] = colorARGB;
+            }
+            else
+                argb[i] = Color.TRANSPARENT;
+        }
+        return Bitmap.createBitmap(argb, width, height, Bitmap.Config.ARGB_8888);
     }
 }
