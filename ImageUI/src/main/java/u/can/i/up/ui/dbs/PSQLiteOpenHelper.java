@@ -107,7 +107,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         values.put("weight", pearlBeans.getWeight());
         values.put("name", pearlBeans.getWeight());
         values.put("isSynchronizd",String.valueOf(pearlBeans.isSynchronized()));
-        long status=db.insert("SMaterial",null,values);
+        long status=db.insert("SMaterial", null, values);
 
         if(status==-1){
             return false;
@@ -128,7 +128,31 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public boolean updatePearl(PearlBeans pearlBeans){
-        return  true;
+        SQLiteDatabase db=this.getWritableDatabase();
+
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put("aperture", pearlBeans.getAperture());
+        contentValues.put("description", pearlBeans.getDescription());
+        contentValues.put("material", pearlBeans.getMaterial());
+        contentValues.put("MD5", pearlBeans.getMD5());
+        contentValues.put("MerchantCode", pearlBeans.getMerchantCode());
+        contentValues.put("path", pearlBeans.getPath());
+        contentValues.put("category", pearlBeans.getCategory());
+        contentValues.put("type", pearlBeans.getType());
+        contentValues.put("price", pearlBeans.getPrice());;
+        contentValues.put("size", pearlBeans.getSize());
+        contentValues.put("weight", pearlBeans.getWeight());
+        contentValues.put("name", pearlBeans.getWeight());
+        contentValues.put("isSynchronizd",String.valueOf(pearlBeans.isSynchronized()));
+
+        long status=db.update("SMaterial",contentValues,"SMaterialId=?",new String[]{String.valueOf(pearlBeans.getSMaterialId())});
+
+        if(status==-1){
+            return  false;
+        }else{
+            return true;
+        }
     }
 
     public  ArrayList<TMaterial> getTMaterials(){

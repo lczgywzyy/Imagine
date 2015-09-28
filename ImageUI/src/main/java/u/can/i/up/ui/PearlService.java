@@ -23,6 +23,7 @@ import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.beans.IHttpNormalBean;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.User;
+import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.net.HttpManager;
 import u.can.i.up.ui.net.HttpNormalManager;
 import u.can.i.up.ui.utils.IBitmapCache;
@@ -35,6 +36,8 @@ public class PearlService extends Service {
     private User user;
 
     public static final int TIME=180000;
+
+    private PearlBeans pearlBeansUploading;
 
 
     @Override
@@ -164,10 +167,14 @@ public class PearlService extends Service {
 
         }
         if(arrayListPearlBeans.size()>0) {
-            return arrayListPearlBeans.get(0);
+
+            pearlBeansUploading=arrayListPearlBeans.get(0);
+
         }else{
-            return null;
+            pearlBeansUploading=null;
+            return pearlBeansUploading;
         }
+        return pearlBeansUploading;
     }
    private WeakReference<Handler> weakReferenceHandler=new WeakReference<Handler>(new Handler(){
 
@@ -181,7 +188,7 @@ public class PearlService extends Service {
                     IHttpNormalBean IHttpNormalBean = (IHttpNormalBean) bundle.getSerializable(IApplicationConfig.HTTP_BEAN);
                     if (IHttpNormalBean != null && Integer.parseInt(IHttpNormalBean.getRetCode()) == IApplicationConfig.HTTP_CODE_SUCCESS) {
                         //上传成功更新数据库
-
+                            updateState();
                             if (getPeatBeansNotUpload() != null) {
                                 uploadSMaterial();
                             }
@@ -250,13 +257,20 @@ public class PearlService extends Service {
         return hashMap;
     }
 
+
     @Override
     public void onDestroy() {
         unregisterReceiver(broadcastReceiver);
         super.onDestroy();
     }
 
-    private void updateState(){
+    private  void updateState(){
+        pearlBeansUploading.setIsSynchronized(true);
+        PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
+
+        psqLiteOpenHelper.updatePearl(pearlBeansUploading);
+
+        pearlBeansUploading=null;
 
     }
 }

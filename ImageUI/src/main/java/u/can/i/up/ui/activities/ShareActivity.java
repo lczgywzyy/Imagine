@@ -165,19 +165,24 @@ public class ShareActivity extends Activity implements View.OnClickListener{
         Bitmap BitmapOrg = bitmap;
         int width = BitmapOrg.getWidth();
         int height = BitmapOrg.getHeight();
-        int newWidth = THUMB_SIZE;
-        int newHeight = THUMB_SIZE*height/width;
+        float scale_factor=1f;
 
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
 
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        // if you want to rotate the Bitmap
-        // matrix.postRotate(45);
-        Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,
-                height, matrix, true);
-        return resizedBitmap;
+        if (THUMB_SIZE> width &&  THUMB_SIZE > height) {
+            // scale_factor = bitmap_width_pre / canvas_width_pre > bitmap_height_pre / canvas_height_pre ? bitmap_width_pre / canvas_width_pre : bitmap_height_pre / canvas_height_pre;
+
+        } else {
+            //背景位图矩阵缩放
+            scale_factor = width /THUMB_SIZE >height / THUMB_SIZE ? width /THUMB_SIZE : height / THUMB_SIZE;
+
+        }
+
+        float bitmapScaleWidth=((float)width)/scale_factor;
+
+        float bitmapScaleHeight=((float)height)/scale_factor;
+
+        Bitmap bitmapCompress= Bitmap.createScaledBitmap(bitmap,  (int)bitmapScaleWidth,(int)bitmapScaleHeight, true);
+        return bitmapCompress;
     }
 
     /** 保存方法 */
