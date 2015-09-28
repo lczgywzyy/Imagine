@@ -7,23 +7,20 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import u.can.i.up.ui.PearlService;
+import u.can.i.up.ui.services.PearlService;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
@@ -33,9 +30,7 @@ import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.User;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.net.HttpLoginManager;
-import u.can.i.up.ui.net.HttpManager;
 import u.can.i.up.ui.net.HttpSMaterialUpdateManager;
-import u.can.i.up.utils.image.Pearl;
 
 /**
  * @author dongfeng

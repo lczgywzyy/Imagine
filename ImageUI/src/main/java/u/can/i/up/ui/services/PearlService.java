@@ -1,4 +1,4 @@
-package u.can.i.up.ui;
+package u.can.i.up.ui.services;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;

@@ -147,7 +147,7 @@
             android:theme="@android:style/Theme.Translucent" />
 
         <service
-            android:name=".PearlService"
+            android:name=".services.PearlService"
             android:enabled="true"
             android:exported="true" >
         </service>
