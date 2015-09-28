@@ -3,30 +3,13 @@ package u.can.i.up.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.avast.android.dialogs.fragment.SimpleDialogFragment;
-import com.avast.android.dialogs.iface.ISimpleDialogCancelListener;
-import com.avast.android.dialogs.iface.ISimpleDialogListener;
-
-import cropper.CropImageView;
 import u.can.i.up.ui.R;
-import u.can.i.up.ui.fragments.AdjustImageSetFragment;
-import u.can.i.up.ui.fragments.RotateImageSetFragment;
-import u.can.i.up.ui.fragments.RulerImageSetFragment;
 import u.can.i.up.ui.utils.BitmapCache;
+import u.can.i.up.ui.utils.ImageViewImpl_ruler;
 
 /**
  * @author dongfeng
@@ -34,10 +17,10 @@ import u.can.i.up.ui.utils.BitmapCache;
  * @sumary 比例尺设置页面：用户对图片进行裁剪，旋转，调整后，在此界面设置比例尺
  */
 public class ImageRulerSetActivity extends Activity implements View.OnClickListener
-        {
+{
 
     // Instance variables
-    private ImageView cropImageView;
+    private ImageViewImpl_ruler rulerImageView;
     private ImageButton closebtn;
     private ImageButton continuebtn;
 
@@ -53,11 +36,11 @@ public class ImageRulerSetActivity extends Activity implements View.OnClickListe
      */
     private void initView() {
         //         Initialize components of the app
-        cropImageView = (ImageView) findViewById(R.id.imageruler_set);
+        rulerImageView = (ImageViewImpl_ruler) findViewById(R.id.imageruler_set);
         closebtn = (ImageButton)findViewById(R.id.imageset_close_btn);
         continuebtn = (ImageButton)findViewById(R.id.imageset_continue);
 
-        cropImageView.setImageBitmap(BitmapCache.getBitmapcache());
+        rulerImageView.setImageBitmap(BitmapCache.getBitmapcache());
         continuebtn.setOnClickListener(this);
         closebtn.setOnClickListener(this);
 

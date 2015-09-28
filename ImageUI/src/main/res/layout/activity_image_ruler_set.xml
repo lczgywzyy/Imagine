@@ -13,7 +13,7 @@
         android:background="@color/gray_80"
         android:layout_alignParentTop="true"
         >
-       <ImageView
+       <u.can.i.up.ui.utils.ImageViewImpl_ruler
            android:id="@+id/imageruler_set"
            android:layout_width="fill_parent"
            android:layout_height="fill_parent" />
