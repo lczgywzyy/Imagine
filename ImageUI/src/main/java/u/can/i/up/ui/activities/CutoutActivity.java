@@ -71,8 +71,10 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
         imageViewImpl_cutout = (ImageViewImpl_cutout) findViewById(R.id.ImageViewImpl_cutout);
 
         String photo_path = getIntent().getStringExtra("photo_path");
-        pearlBeans=getIntent().getParcelableExtra("pearl_beans");
-
+        Log.d(TAG, "111111111----");
+        pearlBeans= getIntent().getParcelableExtra("pearl_beans");
+        if (pearlBeans == null)
+            Log.d(TAG, "dfdfdfdfdfdfdfd");
         // Get screen width and height
         DisplayMetrics metrics = getResources().getDisplayMetrics();
 //        double densityAdj = metrics.density > 1 ? 1 / metrics.density : 1;
@@ -131,11 +133,11 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
                 try {
                     Bitmap mypic = imageViewImpl_cutout.exportImageByFinger();
                     BitmapCache.setBitmapcache(mypic);
-                    try {
+                    /*try {
                         savePearlBeans(mypic);
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                     startActivity(new Intent(CutoutActivity.this, ShareActivity.class));
 
                 } catch (InterruptedException e) {
@@ -220,7 +222,7 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
             Toast.makeText(this, "no selected", Toast.LENGTH_SHORT).show();
         }
     }
-    private void savePearlBeans(Bitmap bitmap) throws IOException {
+   /* private void savePearlBeans(Bitmap bitmap) throws IOException {
 
         Bitmap bitmapStore=Bitmap.createScaledBitmap(bitmap, 120,120, true);
         byte[] bytes= IBitmapCache.Bitmap2Bytes(bitmapStore);
@@ -235,5 +237,5 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
         psqLiteOpenHelper.addPearl(pearlBeans);
         ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
         Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
-    }
+    }*/
 }

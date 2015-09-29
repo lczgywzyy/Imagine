@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/ImageUI/src/main/java/u/can/i/up/ui/activities/HackyViewPager.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/ImageUI/src/main/java/u/can/i/up/ui/customViews/HackyViewPager.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/ImageUI/src/main/java/u/can/i/up/ui/customViews/HackyViewPager.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/ImageUI/src/main/java/u/can/i/up/ui/customViews/ImagePagerAdapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ImageUI/src/main/java/u/can/i/up/ui/image/DemoDuiTangImageReSizer.java" charset="GBK" />
@@ -11,7 +9,6 @@
     <file url="file://$PROJECT_DIR$/ImageUI/src/main/java/u/can/i/up/ui/utils/DemoRequestData.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/ImageUI/src/main/java/u/can/i/up/ui/utils/FileUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ImageUI/src/main/res/drawable-hdpi/pic_thumb.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/ImageUI/src/main/res/drawable/wallpaper.jpg" charset="GBK" />
     <file url="file://$PROJECT_DIR$/ImageUI/src/main/res/layout/activity_myalbum_display.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/ImageUI/src/main/res/layout/with_grid_view_item_image_list_grid.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/ptr-lib" charset="GBK" />
