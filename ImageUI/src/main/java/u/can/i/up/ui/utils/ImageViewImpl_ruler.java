@@ -15,15 +15,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import cropper.cropwindow.edge.Edge;
-import cropper.util.PaintUtil;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.utils.image.ImageAlgrithms;
-import u.can.i.up.utils.image.Pearl;
 import u.can.i.up.utils.image.ViewStatus;
 
 /**
@@ -38,16 +32,8 @@ public class ImageViewImpl_ruler extends ImageView {
     private static final ScaleType[] VALID_SCALE_TYPES = new ScaleType[]{ScaleType.FIT_CENTER, ScaleType.CENTER_INSIDE, ScaleType.FIT_CENTER};
     public static final int DEFAULT_SCALE_TYPE_INDEX = 0;
     private ScaleType mScaleType = VALID_SCALE_TYPES[DEFAULT_SCALE_TYPE_INDEX];
-    /**
-     * The Paint used to draw the guidelines .
-     */
-    private Paint mGuidelinePaint;
-    /**
-     * The Paint used to draw the white rectangle around the crop area.
-     */
-    private Paint mBorderPaint;
-    private Paint mainPaint = null;
 
+    private Paint mainPaint = null;
 
     /**
      * Bitmap Back  底图
@@ -57,10 +43,10 @@ public class ImageViewImpl_ruler extends ImageView {
      */
 
     private Bitmap bmpBack = null;
-    private Bitmap bmpMotion = null;
+    private Bitmap bmpRulerL = null;
+    private Bitmap bmpRulerR = null;
     private Bitmap bmpRotate = null;
-    private Bitmap bmpDelete = null;
-    private Bitmap bmpOk = null;
+    private Bitmap bmpSlide = null;
 
     Context context = null;
 
@@ -70,17 +56,16 @@ public class ImageViewImpl_ruler extends ImageView {
     Matrix matrixBack=null;
 
     //图片变换点阵集合
-    RectF rectMotionPre = new RectF();
-    RectF rectMotion = new RectF();
+    RectF rectRulerLPre = new RectF();
+    RectF rectRulerL = new RectF();
+    RectF rectRulerRPre = new RectF();
+    RectF rectRulerR = new RectF();
     RectF rectRotateMark = new RectF();
     RectF rectRotatePre = new RectF();
     RectF rectRotate = new RectF();
-    RectF rectDeleteMark = new RectF();
-    RectF rectDeletePre = new RectF();
-    RectF rectDelete = new RectF();
-    RectF rectOkMark = new RectF();
-    RectF rectOkPre = new RectF();
-    RectF rectOk = new RectF();
+    RectF rectSlideMark = new RectF();
+    RectF rectSlidePre = new RectF();
+    RectF rectSlide = new RectF();
 
     PaintFlagsDrawFilter paintFilter = null;
     ViewStatus status = ViewStatus.STATUS_MOVE;
@@ -89,23 +74,13 @@ public class ImageViewImpl_ruler extends ImageView {
     PointF prePoint = new PointF();
     PointF curPoint = new PointF();
     PointF rotateCenterP = new PointF();
-    PointF deleteCenterP = new PointF();
-    PointF okCenterP = new PointF();
-
 
     float canvas_width_pre;
-
     float canvas_height_pre;
-
     float bitmap_width_pre ;
-
     float bitmap_height_pre;
 
-
     float scale_factor=1f;
-
-    //记录所有珠子布局的List
-    List<Pearl> mPearlList = new ArrayList<Pearl>();
 
     public ImageViewImpl_ruler(Context context) {
         super(context);
@@ -114,27 +89,12 @@ public class ImageViewImpl_ruler extends ImageView {
 
     public ImageViewImpl_ruler(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-//        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ImageViewImpl_collocate, 0, 0);
-//        try {
-//            mScaleType = VALID_SCALE_TYPES[ta.getInt(R.styleable.CropImageView_scaleType, DEFAULT_SCALE_TYPE_INDEX)];
-//        } finally {
-//            ta.recycle();
-//        }
-
         init(context);
     }
 
     /** TODO 当且仅当构造函数中可以调用init()
      * */
     private void init(Context context) {
-
-        //PearList重置
-        mPearlList.clear();
-
-        mGuidelinePaint = PaintUtil.newGuidelinePaint();
-        mBorderPaint = PaintUtil.newBorderPaint(context);
-//     mGuidelines = CropImageView.DEFAULT_GUIDELINES;
         //创建变幻图形用的Matrix
         matrixPaint = new Matrix();
         //创建画笔
@@ -146,12 +106,51 @@ public class ImageViewImpl_ruler extends ImageView {
         mainPaint.setStyle(Paint.Style.STROKE);
         //加载相应的图片资源
         bmpBack = BitmapCache.getBitmapcache();
-        RectF tmpRectBack = new RectF(0, 0, bmpBack.getWidth(), bmpBack.getHeight());
 
+        bmpRulerL = BitmapFactory.decodeResource(getResources(), R.drawable.ruler_with_line_left);
+        bmpRulerR = BitmapFactory.decodeResource(getResources(), R.drawable.ruler_with_line_right);
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
-        bmpDelete = BitmapFactory.decodeResource(getResources(), R.drawable.delete_icon);
-        bmpOk = BitmapFactory.decodeResource(getResources(), R.drawable.icon_ok);
+        bmpSlide = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_slide);
+        {
+            //记录最初左侧尺子的矩形
+            rectRulerLPre = new RectF(0, 0, bmpRulerL.getWidth(), bmpRulerL.getHeight());
+            //记录当前左侧尺子的矩形
+            rectRulerL = new RectF(rectRulerLPre);
+            //记录最初左侧尺子的矩形
+            rectRulerRPre = new RectF(0, 0, bmpRulerR.getWidth(), bmpRulerR.getHeight());
+            //记录当前左侧尺子的矩形
+            rectRulerR = new RectF(rectRulerRPre);
 
+            //标记旋转图标位置的矩形
+            rectRotateMark = new RectF(rectRulerR.right - bmpRotate.getWidth() * 0.3f,
+                    rectRulerR.bottom - bmpRotate.getHeight() * 0.3f,
+                    rectRulerR.right + bmpRotate.getWidth() * 0.7f,
+                    rectRulerR.bottom + bmpRotate.getHeight() * 0.7f);
+            //记录旋转图标矩形最初的矩形
+            rectRotatePre = new RectF(rectRotateMark);
+            //记录当前旋转图标位置的矩形
+            rectRotate = new RectF(rectRotateMark);
+
+            //标记滑动图标位置的矩形
+            rectSlideMark = new RectF((rectRulerR.right + rectRulerR.left) * 0.5f,
+                    rectRulerR.bottom - bmpSlide.getWidth() * 1.3f,
+                    (rectRulerR.right + rectRulerR.left) * 0.5f + bmpSlide.getWidth(),
+                    rectRulerR.bottom - bmpSlide.getWidth() * 0.3f);
+            //记录滑动图标矩形最初的矩形
+            rectSlidePre = new RectF(rectSlideMark);
+            //记录当前滑动图标位置的矩形
+            rectSlide = new RectF(rectSlideMark);
+
+            //记录表情矩形的中点
+//            pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
+            //记录上次动作的坐标
+            prePoint = new PointF();
+            //记录当前动作的坐标
+            curPoint = new PointF();
+            //记录旋转图标中点
+            rotateCenterP = new PointF((rectRotate.left + rectRotate.right) / 2, (rectRotate.top + rectRotate.bottom) / 2);
+            matrixPaint.reset();
+        }
         //画布参数
         paintFilter = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
         this.context=context;
@@ -162,76 +161,32 @@ public class ImageViewImpl_ruler extends ImageView {
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
         super.onDraw(canvas);
-//        Paint tmpPaint = new Paint();
-//        tmpPaint.setAlpha(70);
-        //paint guideline
-        //  drawRuleOfThirdsGuidelines(canvas);
-
         canvas.setDrawFilter(paintFilter);
-/*
-        if(!isInitTranslate) {
-            initTranslate(canvas, bmpBack);
-            matrixBack.postScale(1/scale_factor,1/scale_factor);
-        }*/
-        // canvas.translate(bitmap_translate_x,bitmap_translate_y);
-        //canvas.drawBitmap(bmpBack,matrixBack,mainPaint);
-        //canvas.drawBitmap(bmpBack, matrixBack, mainPaint);
-        if(mPearlList != null && !mPearlList.isEmpty()){
-            for (Pearl pearl: mPearlList){
-                canvas.drawBitmap(pearl.getBitmap(), pearl.getMatrix(), null);
-            }
-        }
-        if (bmpMotion != null){
-            canvas.drawBitmap(bmpMotion, matrixPaint, null);
-            if(status!=ViewStatus.STATUS_OK) {
-                canvas.drawBitmap(bmpRotate, null, rectRotate, null);
-                canvas.drawBitmap(bmpDelete, null, rectDelete, null);
-                canvas.drawBitmap(bmpOk, null, rectOk, null);
-            }
-//		    canvas.drawRect(rectPaint, mainPaint);
-//          canvas.drawRect(rectRotate, mainPaint);
-        }
-//		canvas.drawCircle(picMidPoint.x, picMidPoint.y, 5, mainPaint);
+        canvas.drawBitmap(bmpRulerL, matrixPaint, null);
+        canvas.drawBitmap(bmpRulerR, matrixPaint, null);
+        canvas.drawBitmap(bmpRotate, null, rectRotate, null);
+        canvas.drawBitmap(bmpSlide, null, rectSlide, null);
     }
     public int getMaxWidth(){
         return IApplicationConfig.DeviceWidth;
     }
 
     public int getMaxHeight(){
-
         return UtilsDevice.dip2px(360);
-
-
     }
 
     private void initTranslate(){
-
         canvas_width_pre = getMaxWidth();
-
         canvas_height_pre = getMaxHeight();
-
         bitmap_width_pre = bmpBack.getWidth();
-
         bitmap_height_pre = bmpBack.getHeight();
-
-
-
         //背景位图矩阵缩放
         scale_factor = bitmap_width_pre / canvas_width_pre > bitmap_height_pre / canvas_height_pre ? bitmap_width_pre / canvas_width_pre : bitmap_height_pre / canvas_height_pre;
-
-
         matrixBack =new Matrix();
-
         matrixBack.postScale(1 / scale_factor, 1 / scale_factor);
-
         Bitmap bitmapNew = Bitmap.createBitmap(bmpBack, 0, 0, bmpBack.getWidth(), bmpBack.getHeight(), matrixBack, true);
-        //复用imageRuler界面，recycle之后退回界面，显示不了
-//        bmpBack.recycle();
-
         bmpBack=bitmapNew;
-
         this.setImageBitmap(bmpBack);
-
     }
 
 
@@ -246,68 +201,22 @@ public class ImageViewImpl_ruler extends ImageView {
             case MotionEvent.ACTION_DOWN:
                 prePoint.x = x;
                 prePoint.y = y;
-                //按到了旋转图标上
-
-
                 RectF rectR=new RectF(rectRotate);
                 //rectR.offset(bitmap_translate_x,bitmap_translate_y);
-                RectF rectD=new RectF(rectDelete);
-                // rectD.offset(bitmap_translate_x,bitmap_translate_y);
                 if(ImageAlgrithms.isInRect(x, y, rectR)){
                     status = ViewStatus.STATUS_ROTATE;
-                }else if(ImageAlgrithms.isInRect(x, y ,rectD)){
-                    status = ViewStatus.STATUS_DELETE;
-                }else if(ImageAlgrithms.isInRect(x, y ,rectOk)){
-                    status = ViewStatus.STATUS_OK;
-                }else if(ImageAlgrithms.isInRect(x, y, rectMotion)){
+                }else if(ImageAlgrithms.isInRect(x, y, rectRulerL) || ImageAlgrithms.isInRect(x, y, rectRulerR)){
                     status = ViewStatus.STATUS_MOVE;
                 }else{
-                    //按到了别的珠子上
-                    int index=-1;
-                    for(int i=0;i<mPearlList.size();i++){
-                        Pearl pearl=mPearlList.get(mPearlList.size()-1-i);
-
-                        Bitmap bitmap=pearl.getBitmap();
-
-                        RectF rectF=new RectF(0,0,bitmap.getWidth(), bitmap.getHeight());
-
-                        pearl.getMatrix().mapRect(rectF);
-
-                        // rectF.offset(bitmap_translate_x,bitmap_translate_y);
-
-                        if(rectF.contains(x,y)){
-                            index=mPearlList.size()-1-i;
-                            break;
-                        }
-                    }
-
-                    if(index==-1){
-                        status = ViewStatus.STATUS_MOVE;
-                    }else{
-                        status=ViewStatus.STATUS_MOVE;
-                        Pearl pearl=mPearlList.get(index);
-
-                        mPearlList.remove(index);
-                        Pearl pearlBmp=new Pearl(bmpMotion,matrixPaint);
-                        mPearlList.add(pearlBmp);
-
-                        bmpMotion=pearl.getBitmap();
-                        matrixPaint=new Matrix(pearl.getMatrix());
-                    }
-
-
+                    status = ViewStatus.STATUS_MOVE;
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 if(status == ViewStatus.STATUS_ROTATE){
 //                    saveBitmap();
                 } else if(status == ViewStatus.STATUS_DELETE){
-                    deleteCurrentMotion();
+//                    deleteCurrentMotion();
                 } else if(status == ViewStatus.STATUS_OK){
-                    //TODO
-        /*            Pearl tmpPearl = new Pearl(bmpMotion.copy(bmpMotion.getConfig(), true), matrixPaint);
-                    mPearlList.add(tmpPearl);
-                    bmpMotion = null;*/
                 }
                 invalidate();
                 break;
@@ -339,28 +248,29 @@ public class ImageViewImpl_ruler extends ImageView {
                 prePoint.x = x;
                 prePoint.y = y;
                 //将矩阵map到表情矩形上
-                if (!isOutOfBounds()) {
-                    matrixPaint.mapRect(rectMotion, rectMotionPre);
-                }
+//                if (!isOutOfBounds()) {
+                matrixPaint.mapRect(rectRulerL, rectRulerLPre);
+                matrixPaint.mapRect(rectRulerR, rectRulerRPre);
+                matrixPaint.mapRect(rectSlide, rectSlidePre);
+//                }
                 matrixPaint.mapRect(rectRotateMark, rectRotatePre);
-                matrixPaint.mapRect(rectDeleteMark, rectDeletePre);
-                matrixPaint.mapRect(rectOkMark, rectOkPre);
                 ImageAlgrithms.getRectCenter(rectRotateMark, rotateCenterP);
-                ImageAlgrithms.getRectCenter(rectDeleteMark, deleteCenterP);
-                ImageAlgrithms.getRectCenter(rectMotion, pointMotionMid);
-                ImageAlgrithms.getRectCenter(rectOkMark, okCenterP);
+//                ImageAlgrithms.getRectCenter(rectMotion, pointMotionMid);
+                float[] pts = new float[2];
+                Matrix tmpMatrix = new Matrix();
+                PointF tmpCenterPoint = new PointF();
+                tmpCenterPoint.x = (rectRulerL.left + rectRulerR.right) / 2;
+                tmpCenterPoint.y = (rectRulerL.top + rectRulerR.bottom) / 2;
+                pts[0] = rotateCenterP.x;
+                pts[1] = rotateCenterP.y;
+                tmpMatrix.postRotate(180, tmpCenterPoint.x, tmpCenterPoint.y);
+                tmpMatrix.mapPoints(pts);
+                pointMotionMid.x = pts[0];
+                pointMotionMid.y = pts[1];
                 rectRotate.set(rotateCenterP.x - bmpRotate.getWidth() * 0.5f,
                         rotateCenterP.y - bmpRotate.getHeight() * 0.5f,
                         rotateCenterP.x + bmpRotate.getWidth() * 0.5f,
                         rotateCenterP.y + bmpRotate.getHeight() * 0.5f);
-                rectDelete.set(deleteCenterP.x - bmpDelete.getWidth() * 0.5f,
-                        deleteCenterP.y - bmpDelete.getHeight() * 0.5f,
-                        deleteCenterP.x + bmpDelete.getWidth()  * 0.5f,
-                        deleteCenterP.y + bmpDelete.getHeight() * 0.5f);
-                rectOk.set(okCenterP.x - bmpOk.getWidth() * 0.5f,
-                        okCenterP.y - bmpOk.getHeight() * 0.5f,
-                        okCenterP.x + bmpOk.getWidth()  * 0.5f,
-                        okCenterP.y + bmpOk.getHeight() * 0.5f);
                 postInvalidate();
                 break;
             default:
@@ -369,239 +279,68 @@ public class ImageViewImpl_ruler extends ImageView {
         return true;
     }
 
-    private Boolean isOutOfBounds(){
+//    private Boolean isOutOfBounds(){
+//        float left= (rectRulerL.left < rectRulerR.left) ? rectRulerL.left: rectRulerR.left;
+//        float right= (rectRulerL.right > rectRulerR.right) ? rectRulerL.right: rectRulerR.right;
+//
+//        float top= (rectRulerL.top < rectRulerR.top) ? rectRulerR.top: rectRulerL.top;
+//        float bottom= (rectRulerL.bottom < rectRulerR.bottom) ? rectRulerR.bottom: rectRulerL.bottom;
+//
+//        Log.e("top",String.valueOf(top));
+//
+//        if(0>left){
+//            rectMotion.left=0;
+//            return true;
+//        }
+//        if(getWidth()<right){
+//            rectMotion.right=getWidth();
+//            return true;
+//        }
+//        if(0>top){
+//            rectMotion.top=0;
+//            return true;
+//        }
+//        if(getHeight()<bottom){
+//            rectMotion.bottom=getHeight();
+//            return true;
+//        }
+//        return false;
+//    }
 
-        float left= rectMotion.left;
-        float right= rectMotion.right;
-
-        float top=rectMotion.top;
-
-        float bottom=rectMotion.bottom;
-
-        Log.e("top",String.valueOf(top));
-
-        if(0>left){
-            rectMotion.left=0;
-            return true;
-        }
-        if(getWidth()<right){
-            rectMotion.right=getWidth();
-            return true;
-        }
-        if(0>top){
-            rectMotion.top=0;
-            return true;
-        }
-        if(getHeight()<bottom){
-            rectMotion.bottom=getHeight();
-            return true;
-        }
-
-
-        return false;
-
-    }
-
-    public void setBmpMotion(Bitmap mbitmap){
-        if(bmpMotion != null){
-            Pearl tmpPearl = new Pearl(bmpMotion, matrixPaint);
-            mPearlList.add(tmpPearl);
-        }
-        bmpMotion = mbitmap;
-        if(bmpMotion != null){
-
-            //记录表情最初的矩形
-            rectMotionPre = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
-            //记录表情当前的矩形
-            rectMotion = new RectF(rectMotionPre);
-            //标记旋转图标位置的矩形
-            rectRotateMark = new RectF(rectMotion.right - bmpRotate.getWidth() * 0.3f,
-                    rectMotion.bottom - bmpRotate.getHeight() * 0.3f,
-                    rectMotion.right + bmpRotate.getWidth() * 0.7f,
-                    rectMotion.bottom + bmpRotate.getHeight() * 0.7f);
-            //记录旋转图标矩形最初的矩形
-            rectRotatePre = new RectF(rectRotateMark);
-            //记录当前旋转图标位置的矩形
-            rectRotate = new RectF(rectRotateMark);
-
-            //标记删除图标位置的矩形
-            rectDeleteMark = new RectF(rectMotion.left - bmpDelete.getWidth() * 0.7f,
-                    rectMotion.bottom - bmpDelete.getHeight() * 0.3f,
-                    rectMotion.left + bmpDelete.getWidth() * 0.3f,
-                    rectMotion.bottom + bmpDelete.getHeight() * 0.7f);
-            //记录删除图标矩形最初的矩形
-            rectDeletePre = new RectF(rectDeleteMark);
-            //记录当前删除图标矩形位置的矩形
-            rectDelete = new RectF(rectDeletePre);
-
-            //标记确认图标位置的矩形
-            rectOkMark = new RectF(rectMotion.right - bmpDelete.getWidth() * 0.3f,
-                    rectMotion.top - bmpDelete.getHeight() * 0.7f,
-                    rectMotion.right + bmpDelete.getWidth() * 0.7f,
-                    rectMotion.top + bmpDelete.getHeight() * 0.3f);
-            //记录确认图标矩形最初的矩形
-            rectOkPre = new RectF(rectOkMark);
-            //记录当前确认图标矩形位置的矩形
-            rectOk = new RectF(rectOkPre);
-
-            //记录表情矩形的中点
-            pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
-            //记录上次动作的坐标
-            prePoint = new PointF();
-            //记录当前动作的坐标
-            curPoint = new PointF();
-            //记录旋转图标中点
-            rotateCenterP = new PointF(rectMotion.right, rectMotion.bottom);
-
-            matrixPaint.reset();
-        }
-        invalidate();
-    }
-
-    public void turnLastAction(){
-        Pearl tmpPearl = null;
-        if(mPearlList != null && !mPearlList.isEmpty()){
-            tmpPearl = mPearlList.get(mPearlList.size() - 1);
-            mPearlList.remove(mPearlList.size() - 1);
-
-            bmpMotion = tmpPearl.getBitmap();
-            matrixPaint = tmpPearl.getMatrix();
-            matrixPaint.mapRect(rectMotion, new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight()));
-            matrixPaint.mapRect(rectRotate, new RectF(bmpMotion.getWidth(), bmpMotion.getHeight(), bmpMotion.getWidth() + bmpRotate.getWidth(), bmpMotion.getHeight() + bmpRotate.getHeight()));
-            matrixPaint.mapRect(rectDelete, new RectF(bmpMotion.getWidth(), 0 - bmpDelete.getHeight(), bmpMotion.getWidth() + bmpDelete.getWidth(), 0));
-//        rectRotate.set(rectRotate.left,
-//                rectRotate.top,
-//                rectRotate.left + bmpRotate.getWidth(),
-//                rectRotate.top + bmpRotate.getHeight());
-//        rectDelete.set(rectDelete.left,
-//                rectDelete.top - bmpDelete.getHeight(),
-//                rectDelete.left + bmpDelete.getWidth(),
-//                rectDelete.top);
-            rectRotate.set(rotateCenterP.x - bmpRotate.getWidth() * 0.5f,
-                    rotateCenterP.y - bmpRotate.getHeight() * 0.5f,
-                    rotateCenterP.x + bmpRotate.getWidth() * 0.5f,
-                    rotateCenterP.y + bmpRotate.getHeight() * 0.5f);
-            rectDelete.set(deleteCenterP.x - bmpDelete.getWidth() * 0.5f,
-                    deleteCenterP.y - bmpDelete.getHeight() * 0.5f,
-                    deleteCenterP.x + bmpDelete.getWidth()  * 0.5f,
-                    deleteCenterP.y + bmpDelete.getHeight() * 0.5f);
-            rectOk.set(okCenterP.x - bmpOk.getWidth() * 0.5f,
-                    okCenterP.y - bmpOk.getHeight() * 0.5f,
-                    okCenterP.x + bmpOk.getWidth()  * 0.5f,
-                    okCenterP.y + bmpOk.getHeight() * 0.5f);
-        }else if(bmpMotion != null){
-            bmpMotion = null;
-        }
-//        rectRotate = new RectF(rectMotion.right,
-//                rectMotion.bottom,
-//                rectMotion.right + bmpRotate.getWidth(),
-//                rectMotion.bottom + bmpRotate.getHeight());
-//        rectDelete = new RectF(rectMotion.right,
-//                rectMotion.top - bmpDelete.getHeight(),
-//                rectMotion.right + bmpDelete.getWidth(),
-//                rectMotion.top);
-        invalidate();
-    }
-
-    /**
-     * 删除素材函数
-     * */
-    private void deleteCurrentMotion(){
-        if(mPearlList.size()>0) {
-            bmpMotion = mPearlList.get(mPearlList.size() - 1).getBitmap();
-
-            matrixPaint = mPearlList.get(mPearlList.size() - 1).getMatrix();
-
-            mPearlList.remove(mPearlList.size() - 1);
-
-            rectRotate.set(0, 0, 0, 0);
-
-            rectDelete.set(0, 0, 0, 0);
-
-            //
-
-        }else{
-            bmpMotion=null;
-        }
+//    public void setBmpMotion(Bitmap mbitmap){
+////        if(bmpMotion != null){
+////            Pearl tmpPearl = new Pearl(bmpMotion, matrixPaint);
+////            mPearlList.add(tmpPearl);
+////        }
+//        bmpMotion = mbitmap;
+//        if(bmpMotion != null){
+//
+//            //记录表情最初的矩形
+//            rectMotionPre = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
+//            //记录表情当前的矩形
+//            rectMotion = new RectF(rectMotionPre);
+//            //标记旋转图标位置的矩形
+//            rectRotateMark = new RectF(rectMotion.right - bmpRotate.getWidth() * 0.3f,
+//                    rectMotion.bottom - bmpRotate.getHeight() * 0.3f,
+//                    rectMotion.right + bmpRotate.getWidth() * 0.7f,
+//                    rectMotion.bottom + bmpRotate.getHeight() * 0.7f);
+//            //记录旋转图标矩形最初的矩形
+//            rectRotatePre = new RectF(rectRotateMark);
+//            //记录当前旋转图标位置的矩形
+//            rectRotate = new RectF(rectRotateMark);
+//
+//            //记录表情矩形的中点
+//            pointMotionMid = new PointF(bmpMotion.getWidth() / 2, bmpMotion.getHeight() / 2);
+//            //记录上次动作的坐标
+//            prePoint = new PointF();
+//            //记录当前动作的坐标
+//            curPoint = new PointF();
+//            //记录旋转图标中点
+//            rotateCenterP = new PointF(rectMotion.right, rectMotion.bottom);
+//
+//            matrixPaint.reset();
+//        }
 //        invalidate();
-    }
-
-    private void drawRuleOfThirdsGuidelines(Canvas canvas) {
-        float w = mBorderPaint.getStrokeWidth();
-        float l = Edge.LEFT.getCoordinate() + w;
-        float t = Edge.TOP.getCoordinate() + w;
-        float r = Edge.RIGHT.getCoordinate() - w;
-        float b = Edge.BOTTOM.getCoordinate() - w;
-
-//        if (mCropShape == CropImageView.CropShape.OVAL) {
-//            l += 15 * mGuidelinePaint.getStrokeWidth();
-//            t += 15 * mGuidelinePaint.getStrokeWidth();
-//            r -= 15 * mGuidelinePaint.getStrokeWidth();
-//            b -= 15 * mGuidelinePaint.getStrokeWidth();
-//        }
-
-        // Draw vertical guidelines.
-        final float oneThirdCropWidth = Edge.getWidth() / 3;
-
-        final float x1 = l + oneThirdCropWidth;
-        canvas.drawLine(x1, t, x1, b, mGuidelinePaint);
-        final float x2 = r - oneThirdCropWidth;
-        canvas.drawLine(x2, t, x2, b, mGuidelinePaint);
-
-        // Draw horizontal guidelines.
-        final float oneThirdCropHeight = Edge.getHeight() / 3;
-
-        final float y1 = t + oneThirdCropHeight;
-        canvas.drawLine(l, y1, r, y1, mGuidelinePaint);
-        final float y2 = b - oneThirdCropHeight;
-        canvas.drawLine(l, y2, r, y2, mGuidelinePaint);
-    }
-
-    /**
-     * 将当前表情合并到背景并保存
-     */
-    public Bitmap saveBitmapAll() {
-//        File f = new File(savePathAll);
-        //使用背景图的宽高创建一张bitmap
-        Bitmap bmpSave = Bitmap.createBitmap(bmpBack.getWidth(), bmpBack.getHeight(), Bitmap.Config.ARGB_8888);
-        //创建canvas
-        Canvas canvas = new Canvas(bmpSave);
-        //将背景图和表情画在bitmap上
-        canvas.drawBitmap(bmpBack, new Matrix(), null);
-        //将素材画在bitmap上
-        if(mPearlList != null && !mPearlList.isEmpty()){
-            for (Pearl pearl: mPearlList){
-                Matrix tmpMatrix = new Matrix(pearl.getMatrix());
-
-                canvas.drawBitmap(pearl.getBitmap(), tmpMatrix, null);
-            }
-        }
-        if(bmpMotion != null){
-            canvas.drawBitmap(bmpMotion, matrixPaint, null);
-        }
-
-//        canvas.drawBitmap(bmpMotion, matrixPaint, mainPaint);
-        //保存bitmap
-//		canvas.save(Canvas.ALL_SAVE_FLAG);
-//		canvas.restore();
-//        try{
-//            FileOutputStream out = new FileOutputStream(f);
-//            bmpSave.compress(Bitmap.CompressFormat.PNG, 100, out);
-//            out.flush();
-//            out.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        bmpBack.recycle();
-        return bmpSave;
-//        bmpBack = bmpSave;
-//        //重置Matrix
-//        matrixPaint.reset();
-//        //重置旋转图标
-//        rectRotate.set(rectRotatePre);
-    }
-
+//    }
 
 }
