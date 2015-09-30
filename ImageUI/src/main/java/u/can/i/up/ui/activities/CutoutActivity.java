@@ -3,6 +3,7 @@ package u.can.i.up.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
@@ -24,6 +26,7 @@ import java.io.IOException;
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.dbs.PSQLiteOpenHelper;
 import u.can.i.up.ui.utils.BitmapCache;
@@ -39,7 +42,7 @@ import u.can.i.up.utils.image.MD5Utils;
  */
 
 public class CutoutActivity extends FragmentActivity implements View.OnClickListener,
-        ISimpleDialogListener, ISimpleDialogCancelListener {
+        ISimpleDialogListener, ISimpleDialogCancelListener,SeekBar.OnSeekBarChangeListener {
     private static final String TAG = "u.can.i.up.imagine." + CutoutActivity.class;
     private static final int REQUEST_SIMPLE_DIALOG = 42;
     private ImageButton setover;
@@ -49,6 +52,10 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
     private RadioButton circle_eraze;
     private RadioButton circle_restore;
     private ImageViewImpl_cutout imageViewImpl_cutout;
+
+    private SeekBar seekBarBrightness,seekBarContrast,seekBarSaturation;
+
+    private int progressSeekBarBrightnessPre,progressSeekBarContrastPre,progressSeekBarSaturationPre;
 
     private PearlBeans pearlBeans;
 
@@ -70,8 +77,14 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
         circle_restore = (RadioButton)findViewById(R.id.restore);
         imageViewImpl_cutout = (ImageViewImpl_cutout) findViewById(R.id.ImageViewImpl_cutout);
 
+        seekBarBrightness=(SeekBar)findViewById(R.id.seekbar_brightness);
+
+        seekBarContrast=(SeekBar)findViewById(R.id.seekbar_contrast);
+
+        seekBarSaturation=(SeekBar)findViewById(R.id.seekbar_saturation);
+
+
         String photo_path = getIntent().getStringExtra("photo_path");
-        Log.d(TAG, "111111111----");
         pearlBeans= getIntent().getParcelableExtra("pearl_beans");
         if (pearlBeans == null)
             Log.d(TAG, "dfdfdfdfdfdfdfd");
@@ -82,7 +95,7 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
 
-        imageViewImpl_cutout.setmBitmap(BitmapUtils.decodeSampledBitmapFromFile(photo_path, width * 2 / 3, height * 2 / 3));
+        imageViewImpl_cutout.setmBitmap(IBitmapCache.BitmapScale(BitmapFactory.decodeFile(photo_path), IApplicationConfig.DeviceWidth,IApplicationConfig.DeviceHeight));
 
         //设置绘图相关参数
         imageViewImpl_cutout.isDrawing = false;
@@ -100,6 +113,35 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
         setover.setOnClickListener(this);
         cutout_close.setOnClickListener(this);
         cutout_back.setOnClickListener(this);
+
+        seekBarContrast.setOnSeekBarChangeListener(this);
+        seekBarSaturation.setOnSeekBarChangeListener(this);
+        seekBarBrightness.setOnSeekBarChangeListener(this);
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        switch(seekBar.getId()){
+            case R.id.seekbar_saturation:
+                imageViewImpl_cutout.saturationChange(progress);
+                break;
+            case R.id.seekbar_brightness:
+                imageViewImpl_cutout.brightnessChange(progress);
+                break;
+            case R.id.seekbar_contrast:
+                imageViewImpl_cutout.contrastChange(progress);
+                break;
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 
     @Override
@@ -238,4 +280,14 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
         ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
         Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
     }*/
+
+
+    public interface GraphicsSeek{
+        void contrastChange(int percent);
+        void brightnessChange(int percent);
+        void saturationChange(int percent);
+    }
+
+
+
 }

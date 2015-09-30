@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -23,7 +25,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Date;
 
-import in.srain.cube.util.LocalDisplay;
+//import in.srain.cube.util.LocalDisplay;
+import u.can.i.up.ui.activities.CutoutActivity;
 import u.can.i.up.utils.image.BitmapUtils;
 
 /**
@@ -33,7 +36,79 @@ import u.can.i.up.utils.image.BitmapUtils;
  * is the background layer, all options is  on the foreground
  * layer
  */
-public class ImageViewImpl_cutout extends View {
+public class ImageViewImpl_cutout extends View implements CutoutActivity.GraphicsSeek{
+    private float contrast=1.285f;
+
+    private float brightness;
+
+    private float saturation=1.0f;
+
+    @Override
+    public void contrastChange(int percent) {
+
+        if(mBitmapRaw!=null){
+
+            contrast = (float) ((percent+64)/ 128.0);
+            changeBCSBitmap();
+
+        }
+    }
+
+    @Override
+    public void brightnessChange(int percent) {
+        if(mBitmapRaw!=null){
+            brightness = percent - 127;
+            changeBCSBitmap();
+        }
+    }
+
+    @Override
+    public void saturationChange(int percent) {
+        if(mBitmapRaw!=null){
+            // 设置饱和度
+            saturation=(float) (percent / 100.0);
+           changeBCSBitmap();
+        }
+    }
+    private void changeBCSBitmap(){
+
+        Bitmap bmp = Bitmap.createBitmap(mBitmapRaw.getWidth(), mBitmap.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        ColorMatrix cMatrix = new ColorMatrix();
+        cMatrix.set(new float[]{contrast, 0, 0, 0, brightness,
+                0, contrast, 0, 0, brightness,
+                0, 0, contrast, 0, brightness,
+                0, 0, 0, 1, 0});
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
+
+        Canvas canvas = new Canvas(bmp);
+
+        canvas.drawBitmap(mBitmapRaw, 0, 0, paint);
+
+        mBitmap.recycle();
+        mBitmap=bmp;
+        changeCBitmap();
+        initialBitmap = Bitmap.createBitmap(mBitmap);
+        invalidate();
+    }
+
+    private void changeCBitmap(){
+        Bitmap bmp = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        ColorMatrix cMatrix = new ColorMatrix();
+        // 设置饱和度
+        cMatrix.setSaturation(saturation);
+
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
+
+        Canvas canvas = new Canvas(bmp);
+        canvas.drawBitmap(mBitmap, 0, 0, paint);
+
+        mBitmap.recycle();
+        mBitmap=bmp;
+    }
 
     private static final String TAG = "u.can.i.up.imagine." + ImageViewImpl_cutout.class;
 
@@ -105,7 +180,7 @@ public class ImageViewImpl_cutout extends View {
      * mLayer: 透明的前景图
      * draw 的时候总是先draw背景图后draw前景图
      */
-    private Bitmap mBitmap, tmp, initialBitmap, mlayer;
+    private Bitmap mBitmap, tmp, initialBitmap, mlayer,mBitmapRaw;
 
     /**
      * invertMatrix: 图片变换矩阵的逆矩阵
@@ -134,7 +209,8 @@ public class ImageViewImpl_cutout extends View {
 
     public void setmBitmap(Bitmap bitmap) {
 
-        mBitmap = bitmap;
+        mBitmapRaw=bitmap;
+        mBitmap =  Bitmap.createBitmap(bitmap);
         initialBitmap = Bitmap.createBitmap(bitmap);
         if (cacheCanvas == null)
             cacheCanvas = new Canvas();
