@@ -90,6 +90,7 @@ public class ImageViewImpl_cutout extends View implements CutoutActivity.Graphic
         mBitmap.recycle();
         mBitmap=bmp;
         changeCBitmap();
+        cacheCanvas.setBitmap(mBitmap);
         initialBitmap = Bitmap.createBitmap(mBitmap);
         invalidate();
     }
