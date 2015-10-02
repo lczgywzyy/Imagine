@@ -183,7 +183,7 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
                     } catch (IOException e) {
                         e.printStackTrace();
                     }*/
-                    startActivity(new Intent(CutoutActivity.this, ShareActivity.class));
+                    startActivity(new Intent(CutoutActivity.this, CutoutSaveActivity.class));
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
