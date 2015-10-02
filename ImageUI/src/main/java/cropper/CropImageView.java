@@ -320,7 +320,28 @@ public class CropImageView extends FrameLayout {
             mLoadedImageUri = uri;
             mLoadedSampleSize = decodeResult.sampleSize;
             mDegreesRotated = rotateResult.degrees;
+
         }
+
+    }
+
+
+    public static Bitmap getBitmap(Uri uri,Context context){
+        if (uri != null) {
+
+            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+            double densityAdj = metrics.density > 1 ? 1 / metrics.density : 1;
+
+            int width = (int) (metrics.widthPixels * densityAdj);
+            int height = (int) (metrics.heightPixels * densityAdj);
+            ImageViewUtil.DecodeBitmapResult decodeResult =
+                    ImageViewUtil.decodeSampledBitmap(context, uri, width, height);
+
+            ImageViewUtil.RotateBitmapResult rotateResult =
+                    ImageViewUtil.rotateBitmapByExif(context, decodeResult.bitmap, uri);
+            return rotateResult.bitmap;
+        }
+        return null;
     }
 
     /**

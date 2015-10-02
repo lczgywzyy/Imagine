@@ -27,6 +27,7 @@ import java.util.Date;
 
 //import in.srain.cube.util.LocalDisplay;
 import u.can.i.up.ui.activities.CutoutActivity;
+import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.utils.image.BitmapUtils;
 
 /**
@@ -209,9 +210,12 @@ public class ImageViewImpl_cutout extends View implements CutoutActivity.Graphic
 
     public void setmBitmap(Bitmap bitmap) {
 
-        mBitmapRaw=bitmap;
-        mBitmap =  Bitmap.createBitmap(bitmap);
-        initialBitmap = Bitmap.createBitmap(bitmap);
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Bitmap bitmapScale=IBitmapCache.BitmapScale(bitmap,IApplicationConfig.DeviceWidth,IApplicationConfig.DeviceHeight);
+        bitmap.recycle();
+        mBitmapRaw=bitmapScale;
+        mBitmap =  Bitmap.createBitmap(bitmapScale);
+        initialBitmap = Bitmap.createBitmap(bitmapScale);
         if (cacheCanvas == null)
             cacheCanvas = new Canvas();
         path = new Path();

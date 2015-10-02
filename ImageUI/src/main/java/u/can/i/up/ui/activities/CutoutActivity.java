@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
@@ -21,9 +22,11 @@ import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 import com.avast.android.dialogs.iface.ISimpleDialogCancelListener;
 import com.avast.android.dialogs.iface.ISimpleDialogListener;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import cropper.CropImageView;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
@@ -33,6 +36,7 @@ import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.utils.image.BitmapUtils;
 import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_cutout;
+import u.can.i.up.utils.image.ImageUtils;
 import u.can.i.up.utils.image.MD5Utils;
 
 /**
@@ -55,7 +59,6 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
 
     private SeekBar seekBarBrightness,seekBarContrast,seekBarSaturation;
 
-    private int progressSeekBarBrightnessPre,progressSeekBarContrastPre,progressSeekBarSaturationPre;
 
     private PearlBeans pearlBeans;
 
@@ -85,9 +88,7 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
 
 
         String photo_path = getIntent().getStringExtra("photo_path");
-        pearlBeans= getIntent().getParcelableExtra("pearl_beans");
-        if (pearlBeans == null)
-            Log.d(TAG, "dfdfdfdfdfdfdfd");
+
         // Get screen width and height
         DisplayMetrics metrics = getResources().getDisplayMetrics();
 //        double densityAdj = metrics.density > 1 ? 1 / metrics.density : 1;
@@ -95,7 +96,9 @@ public class CutoutActivity extends FragmentActivity implements View.OnClickList
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
 
-        imageViewImpl_cutout.setmBitmap(IBitmapCache.BitmapScale(BitmapFactory.decodeFile(photo_path), IApplicationConfig.DeviceWidth,IApplicationConfig.DeviceHeight));
+
+        Uri imageUri = Uri.fromFile(new File(photo_path));
+        imageViewImpl_cutout.setmBitmap(CropImageView.getBitmap(imageUri,getApplicationContext()));
 
         //设置绘图相关参数
         imageViewImpl_cutout.isDrawing = false;
