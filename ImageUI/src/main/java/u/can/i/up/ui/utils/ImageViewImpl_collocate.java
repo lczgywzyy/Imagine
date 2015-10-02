@@ -518,6 +518,8 @@ public class ImageViewImpl_collocate extends ImageView {
 
             rectDelete.set(0, 0, 0, 0);
 
+            rectOk.set(0,0,0,0);
+
             //
 
         }else{

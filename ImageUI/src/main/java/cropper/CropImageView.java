@@ -19,6 +19,8 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -42,12 +44,13 @@ import cropper.cropwindow.CropOverlayView;
 import cropper.cropwindow.edge.Edge;
 import cropper.util.ImageViewUtil;
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.activities.CutoutActivity;
 import u.can.i.up.ui.application.IApplicationConfig;
 
 /**
  * Custom view that provides cropping capabilities to an image.
  */
-public class CropImageView extends FrameLayout {
+public class CropImageView extends FrameLayout implements CutoutActivity.GraphicsSeek {
 
     //region: Fields and Consts
 
@@ -79,6 +82,8 @@ public class CropImageView extends FrameLayout {
     private CropOverlayView mCropOverlayView;
 
     private Bitmap mBitmap;
+
+    private Bitmap mBitmapRaw;
 
     private int mDegreesRotated = 0;
 
@@ -117,6 +122,13 @@ public class CropImageView extends FrameLayout {
      */
     private int mLoadedSampleSize = 1;
     //endregion
+
+    private float contrast=1.285f;
+
+    private float brightness;
+
+    private float saturation=1.0f;
+
 
     public CropImageView(Context context) {
         super(context);
@@ -231,6 +243,7 @@ public class CropImageView extends FrameLayout {
         if (mBitmap != null && (mImageResource > 0 || mLoadedImageUri != null)) {
             mBitmap.recycle();
         }
+        mBitmapRaw=Bitmap.createBitmap(bitmap);
         mBitmap = bitmap;
         mImageView.setImageBitmap(mBitmap);
     }
@@ -247,6 +260,9 @@ public class CropImageView extends FrameLayout {
         // if we allocated the bitmap, release it as fast as possible
         if (mBitmap != null && (mImageResource > 0 || mLoadedImageUri != null)) {
             mBitmap.recycle();
+        }
+        if(mBitmapRaw==null){
+            mBitmapRaw=Bitmap.createBitmap(bitmap);
         }
 
         // clean the loaded image flags for new image
@@ -748,5 +764,72 @@ public class CropImageView extends FrameLayout {
         RECTANGLE,
         OVAL
     }
+
+    @Override
+    public void contrastChange(int percent) {
+
+        if(mBitmap!=null){
+
+            contrast = (float) ((percent+64)/ 128.0);
+            changeBCSBitmap();
+
+        }
+    }
+
+    @Override
+    public void brightnessChange(int percent) {
+        if(mBitmap!=null){
+            brightness = percent - 127;
+            changeBCSBitmap();
+        }
+    }
+
+    @Override
+    public void saturationChange(int percent) {
+        if(mBitmap!=null){
+            // 设置饱和度
+            saturation=(float) (percent / 100.0);
+            changeBCSBitmap();
+
+        }
+    }
+    private void changeBCSBitmap(){
+
+         mBitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        ColorMatrix cMatrix = new ColorMatrix();
+        cMatrix.set(new float[]{contrast, 0, 0, 0, brightness,
+                0, contrast, 0, 0, brightness,
+                0, 0, contrast, 0, brightness,
+                0, 0, 0, 1, 0});
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
+
+        Canvas canvas = new Canvas(mBitmap);
+
+        canvas.drawBitmap(mBitmapRaw, 0, 0, paint);
+
+        changeCBitmap();
+    }
+
+    private void changeCBitmap(){
+        Bitmap bmp = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        ColorMatrix cMatrix = new ColorMatrix();
+        // 设置饱和度
+        cMatrix.setSaturation(saturation);
+
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
+
+        Canvas canvas = new Canvas(bmp);
+        canvas.drawBitmap(mBitmap, 0, 0, paint);
+
+        mBitmap.recycle();
+        mBitmap=bmp;
+        mImageView.setImageBitmap(mBitmap);
+    }
+
+
     //endregion
 }

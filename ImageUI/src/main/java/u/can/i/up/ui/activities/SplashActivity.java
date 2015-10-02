@@ -171,6 +171,7 @@ public class SplashActivity extends Activity {
                 public void run() {
                     // This method will be executed once the timer is over
                     // Start your app main activity
+                    startService();
                     Intent i = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(i);
 
