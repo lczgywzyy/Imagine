@@ -15,6 +15,8 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.util.Log;
 
+import org.opencv.core.Rect;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,7 +147,11 @@ public class ImageViewImpl_collocate extends ImageView {
         //设置画笔绘制空心图形
         mainPaint.setStyle(Paint.Style.STROKE);
         //加载相应的图片资源
-        bmpBack = BitmapCache.getBitmapcache();
+        if(BitmapCache.getBitmapcache()==null){
+            bmpBack=Bitmap.createBitmap(1000,1000,Bitmap.Config.ARGB_8888);
+        }else {
+            bmpBack = BitmapCache.getBitmapcache();
+        }
         RectF tmpRectBack = new RectF(0, 0, bmpBack.getWidth(), bmpBack.getHeight());
 
         bmpRotate = BitmapFactory.decodeResource(getResources(), R.drawable.rotate_icon);
@@ -157,6 +163,12 @@ public class ImageViewImpl_collocate extends ImageView {
         this.context=context;
         initTranslate();
     }
+
+    public void setBackBitmap(Bitmap bitmap){
+        this.bmpBack=bitmap;
+
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -571,16 +583,23 @@ public class ImageViewImpl_collocate extends ImageView {
         //将背景图和表情画在bitmap上
         canvas.drawBitmap(bmpBack, new Matrix(), null);
         //将素材画在bitmap上
-        if(mPearlList != null && !mPearlList.isEmpty()){
-            for (Pearl pearl: mPearlList){
+        if (mPearlList != null && !mPearlList.isEmpty()) {
+            for (Pearl pearl : mPearlList) {
                 Matrix tmpMatrix = new Matrix(pearl.getMatrix());
 
                 canvas.drawBitmap(pearl.getBitmap(), tmpMatrix, null);
             }
         }
-        if(bmpMotion != null){
+        if (bmpMotion != null) {
             canvas.drawBitmap(bmpMotion, matrixPaint, null);
         }
+
+
+
+
+
+
+
 
 //        canvas.drawBitmap(bmpMotion, matrixPaint, mainPaint);
         //保存bitmap
@@ -603,6 +622,58 @@ public class ImageViewImpl_collocate extends ImageView {
 //        matrixPaint.reset();
 //        //重置旋转图标
 //        rectRotate.set(rectRotatePre);
+    }
+
+    public Bitmap saveBitmapMaterial(){
+
+        Bitmap bitmapRaw=saveBitmapAll();
+
+        RectF rectF=new RectF();
+
+        if (mPearlList != null && !mPearlList.isEmpty()) {
+            if(mPearlList.size()>0) {
+                mPearlList.get(0).getMatrix().mapRect(rectF);
+                Bitmap bitmapF =   mPearlList.get(0).getBitmap();
+
+                rectF = new RectF(0,0,bitmapF.getWidth(),bitmapF.getHeight());
+
+                mPearlList.get(0).getMatrix().mapRect(rectF);
+                for (Pearl pearl : mPearlList) {
+
+                    Bitmap bitmap = pearl.getBitmap();
+
+                    RectF rectFx = new RectF(0,0,bitmap.getWidth(),bitmap.getHeight());
+
+                    pearl.getMatrix().mapRect(rectFx);
+
+                    rectF.left=rectF.left<rectFx.left?rectF.left:rectFx.left;
+
+                    rectF.bottom=rectF.bottom>rectFx.bottom?rectF.bottom:rectFx.bottom;
+
+                    rectF.right=rectF.right>rectFx.right?rectF.right:rectFx.right;
+
+                    rectF.top=rectF.top<rectFx.top?rectF.top:rectFx.top;
+
+                }
+            }
+
+
+
+        }
+        if(bmpMotion!=null&&matrixPaint!=null){
+            RectF rectFx = new RectF(0, 0, bmpMotion.getWidth(), bmpMotion.getHeight());
+
+            matrixPaint.mapRect(rectFx);
+
+            rectF.left=rectF.left<rectFx.left?rectF.left:rectFx.left;
+
+            rectF.bottom=rectF.bottom>rectFx.bottom?rectF.bottom:rectFx.bottom;
+
+            rectF.right=rectF.right>rectFx.right?rectF.right:rectFx.right;
+
+            rectF.top=rectF.top<rectFx.top?rectF.top:rectFx.top;
+        }
+        return Bitmap.createBitmap(bitmapRaw,(int)rectF.left,(int)rectF.top,(int)rectF.right-(int)rectF.left,(int) rectF.bottom-(int)rectF.top);
     }
 
 

@@ -1,8 +1,11 @@
 package u.can.i.up.ui.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -27,6 +30,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import java.io.File;
@@ -38,6 +42,7 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.activities.CutoutActivity;
 import u.can.i.up.ui.activities.CutoutSetActivity;
+import u.can.i.up.ui.activities.ImageCollocateActivity;
 import u.can.i.up.ui.activities.ImageSetActivity;
 import u.can.i.up.ui.activities.LibiraryActivity;
 import u.can.i.up.ui.activities.MyAlbumActivity;
@@ -67,6 +72,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public final static int REQUEST_PEARL_CODE = 2;
     public final static int REQUEST_MATERIAL_CODE = 3;
     ArrayList<String> selectedPhotos = new ArrayList<>();
+
+    private final String[] strMaterialActivitySelect={"抠图制作素材","快速搭配素材","自由组合素材"};
 
 
     public static HomeFragment newInstance(Bundle bundle)
@@ -213,11 +220,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.material_build:
 //                startActivity(new Intent(getActivity(), CutoutSetActivity.class));
-                PhotoPickerIntent intentc = new PhotoPickerIntent(getActivity());
+
+                selectMaterialType();
+               /* PhotoPickerIntent intentc = new PhotoPickerIntent(getActivity());
                 intentc.setPhotoCount(1);
                 intentc.setShowCamera(true);
                 intentc.putExtra("typeP", PhotoPickerIntent.TYPE_PICKER_ALL);
-                startActivityForResult(intentc, REQUEST_MATERIAL_CODE);
+                startActivityForResult(intentc, REQUEST_MATERIAL_CODE);*/
                 break;
             case R.id.pearl_build:
                 PhotoPickerIntent intentb = new PhotoPickerIntent(getActivity());
@@ -235,6 +244,65 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 break;
         }
     }
+
+    private void selectMaterialType(){
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+
+        builder.setTitle("选择素材制作方式").setSingleChoiceItems(strMaterialActivitySelect, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        buildMaterialMatting();
+                        dialog.dismiss();
+                        break;
+                    case 1:
+                        buildMaterialCollocate();
+                        dialog.dismiss();
+                        break;
+                    case 2:
+                        buildMaterialCombination();
+                        dialog.dismiss();
+                        break;
+                    default:
+                        dialog.dismiss();
+                        break;
+                }
+
+            }
+        });
+        builder.show();
+
+    }
+
+    private void buildMaterialMatting(){
+        PhotoPickerIntent intent = new PhotoPickerIntent(getActivity());
+        intent.setPhotoCount(1);
+        intent.setShowCamera(true);
+        intent.putExtra("typeP", PhotoPickerIntent.TYPE_PICKER_ALL);
+        startActivityForResult(intent, REQUEST_MATERIAL_CODE);
+    }
+
+    private void buildMaterialCollocate(){
+        Intent intent=new Intent(getActivity(),ImageCollocateActivity.class);
+
+        intent.setAction("materialBuild");
+
+        startActivity(intent);
+
+    }
+
+    private void buildMaterialCombination(){
+
+        Intent intent=new Intent(getActivity(), PearlBuildActivity.class);
+
+        intent.setAction("materialBuild");
+
+        startActivity(intent);
+    }
+
+
 
 
     private void initApplicationPrompt( final View view){

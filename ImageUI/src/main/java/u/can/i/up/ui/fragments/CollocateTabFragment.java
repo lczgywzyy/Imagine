@@ -21,11 +21,13 @@ import java.util.Iterator;
 import java.util.List;
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.beans.PearlBeanGroup;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.customViews.ViewPagerAdapter;
 import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_collocate;
+import u.can.i.up.utils.image.Pearl;
 
 
 public class CollocateTabFragment extends Fragment implements AdapterView.OnItemClickListener{
@@ -76,15 +78,35 @@ public class CollocateTabFragment extends Fragment implements AdapterView.OnItem
 
         String tag=getTag();
 
-		while(iterator.hasNext()){
+        if("-1".equals(tag)){
 
-            PearlBeans pearlBeans =iterator.next();
+            ArrayList<PearlBeanGroup> pearlBeanGroups=((IApplication)getActivity().getApplication()).arrayListPearlBeanGroups;
 
+            Iterator<PearlBeanGroup> beanGroupIterator=pearlBeanGroups.iterator();
 
-            if(tag!=null&&tag.equals(String.valueOf(pearlBeans.getCategory()))) {
+            while(beanGroupIterator.hasNext()){
+                PearlBeanGroup pearlBeanGroup=beanGroupIterator.next();
+
+                PearlBeans pearlBeans=new PearlBeans();
+
+                pearlBeans.setMD5(pearlBeanGroup.getMD5());
+
                 arrayListTPearlBeanses.add(pearlBeans);
+
             }
-		}
+
+        }else {
+
+            while (iterator.hasNext()) {
+
+                PearlBeans pearlBeans = iterator.next();
+
+
+                if (tag != null && tag.equals(String.valueOf(pearlBeans.getCategory()))) {
+                    arrayListTPearlBeanses.add(pearlBeans);
+                }
+            }
+        }
 
 		initPageCounts();
 

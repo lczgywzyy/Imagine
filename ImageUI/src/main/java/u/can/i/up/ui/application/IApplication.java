@@ -17,6 +17,7 @@ import in.srain.cube.Cube;
 import in.srain.cube.image.ImageLoaderFactory;
 import in.srain.cube.request.RequestCacheManager;
 import u.can.i.up.ui.BuildConfig;
+import u.can.i.up.ui.beans.PearlBeanGroup;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
 import u.can.i.up.ui.beans.User;
@@ -36,6 +37,8 @@ public class IApplication extends Application {
     public ArrayList<PearlBeans> arrayListPearlBeans =new ArrayList<>();
 
     public ArrayList<TMaterial> arrayListTMaterial=new ArrayList<>();
+
+    public ArrayList<PearlBeanGroup> arrayListPearlBeanGroups=new ArrayList<>();
 
     public String SMSAPPKEY;
 

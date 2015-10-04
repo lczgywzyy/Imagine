@@ -84,8 +84,12 @@ public class PearlBuildActivity extends Activity  implements View.OnClickListene
         this.setRegion(ballnum);
 
 
-        photoPath = getIntent().getStringExtra("photoUri");
-        pearlBuild.setBmpBack(BitmapFactory.decodeFile(photoPath));
+        if("materialBuild".equals(getIntent().getAction())){
+            pearlBuild.setBmpBack(Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888));
+        }else {
+            photoPath = getIntent().getStringExtra("photoUri");
+            pearlBuild.setBmpBack(BitmapFactory.decodeFile(photoPath));
+        }
 
         preview.setOnClickListener(this);
         add_pearl.setOnClickListener(this);

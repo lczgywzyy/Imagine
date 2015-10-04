@@ -1,6 +1,7 @@
 package u.can.i.up.ui.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,18 +13,24 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 
 import u.can.i.up.ui.R;
 import u.can.i.up.ui.application.IApplication;
+import u.can.i.up.ui.beans.PearlBeanGroup;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
 import u.can.i.up.ui.fragments.*;
 import u.can.i.up.ui.utils.BitmapCache;
 import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.ui.utils.ImageViewImpl_collocate;
+import u.can.i.up.utils.image.MD5Utils;
 
 /**
  * @author dongfeng
@@ -74,8 +81,10 @@ public class ImageCollocateActivity extends FragmentActivity implements View.OnC
         pearlBeansArrayList =((IApplication)getApplication()).arrayListPearlBeans;
         tMaterialArrayList=((IApplication)getApplication()).arrayListTMaterial;
         imageViewImpl_collocate = (ImageViewImpl_collocate) findViewById(R.id.ImageViewImpl_allocate);
+        if("materialBuild".equals(getIntent().getAction())){
+            imageViewImpl_collocate.setBackBitmap(Bitmap.createBitmap(1000,1000, Bitmap.Config.ALPHA_8));
+        }
         BitmapCache.setImageViewImpl_collocate(imageViewImpl_collocate);
-
         continuebtn = (ImageButton)findViewById(R.id.image_collocate_continue);
         closebtn = (ImageButton)findViewById(R.id.image_collocate_close_btn);
         continuebtn.setOnClickListener(this);
@@ -103,8 +112,27 @@ public class ImageCollocateActivity extends FragmentActivity implements View.OnC
             mTabHost.getTabWidget().getChildAt(i)
                     .setBackgroundResource(R.drawable.selector_tab_background);
         }
+        //增加自组串珠素材
+        TabHost.TabSpec tabSpec = mTabHost.newTabSpec(String.valueOf("-1"))
+                .setIndicator(getTabItemViewMat());
+        // 将Tab按钮添加进Tab选项卡中
+        Bundle bundle=new Bundle();
+        mTabHost.addTab(tabSpec, CollocateTabFragment.class, bundle);
+        // 设置Tab按钮的背景
+        mTabHost.getTabWidget().getChildAt(tMaterialArrayList.size())
+                .setBackgroundResource(R.drawable.selector_tab_background);
+
     }
 
+    private View getTabItemViewMat(){
+        View view = mLayoutInflater.inflate(R.layout.item_navigator_material_selected, null);
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
+        imageView.setImageResource(R.drawable.icon_beiyun);
+        //
+        TextView textView = (TextView) view.findViewById(R.id.textview);
+        textView.setText("组合素材");
+        return view;
+    }
     /**
      *
      * 给每个Tab按钮设置图标和文字
@@ -127,9 +155,44 @@ public class ImageCollocateActivity extends FragmentActivity implements View.OnC
         switch (v.getId()) {
             case R.id.image_collocate_continue:
             {
-                Bitmap mypic = imageViewImpl_collocate.saveBitmapAll();
-                BitmapCache.setBitmapcache(mypic);
-                startActivity(new Intent(ImageCollocateActivity.this, ShareActivity.class));
+                if("materialBuild".equals(getIntent().getAction())){
+
+                    Bitmap mypic = imageViewImpl_collocate.saveBitmapMaterial();
+
+                    ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+
+                    mypic.compress(Bitmap.CompressFormat.PNG,90,byteArrayOutputStream);
+
+                    PearlBeanGroup pearlBeanGroup=new PearlBeanGroup();
+
+                    byte[] bytes= byteArrayOutputStream.toByteArray();
+                    String md5= MD5Utils.getMD5String(bytes);
+                    mypic.recycle();
+                    try {
+                        FileOutputStream os = this.openFileOutput(md5, Context.MODE_PRIVATE);
+                        os.write(bytes);
+                        os.close();
+                        byteArrayOutputStream.close();
+
+                        pearlBeanGroup.setMD5(md5);
+
+                        pearlBeanGroup.setType(1);
+
+                        ((IApplication)getApplication()).psqLiteOpenHelper.addPearlGroup(pearlBeanGroup);
+                        ((IApplication)getApplication()).arrayListPearlBeanGroups.add(pearlBeanGroup);
+                        Toast.makeText(getApplicationContext(),"素材保存成功",Toast.LENGTH_LONG).show();
+
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(),"素材保存失败",Toast.LENGTH_LONG).show();
+                    }
+
+
+
+                }else {
+                    Bitmap mypic = imageViewImpl_collocate.saveBitmapAll();
+                    BitmapCache.setBitmapcache(mypic);
+                    startActivity(new Intent(ImageCollocateActivity.this, ShareActivity.class));
+                }
                 break;
             }
             case R.id.image_collocate_close_btn:

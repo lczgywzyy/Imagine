@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
+import u.can.i.up.ui.beans.PearlBeanGroup;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
 
@@ -19,11 +20,15 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String strTMaterial="create table if not exists TMaterial(TMaterialId INTEGER primary key autoincrement,TMaterialName Text not null,TMaterialMd Text not null,Description Text);";
 
-    private static final  String strSMaterial="create table if not exists SMaterial(SMaterialId integer primary key autoincrement,MD5 Text not null,category integer,path Text not null,name not null,type integer default 1 not null,material Text not null,size Text not null,weight TEXT not null,aperture TEXT not null,price TEXT not null,description Text not null,MerchantCode integer default 0,foreign key(category) references TMaterial(TMaterialId));";
+    private static final  String strSMaterial="create table if not exists SMaterial(SMaterialId integer primary key autoincrement,MD5 Text not null,category integer,path Text not null,name not null,type integer default 1 not null,material Text not null,size Text not null,weight TEXT not null,aperture TEXT not null,price TEXT not null,description Text not null,MerchantCode integer default 0,isSynchronizd Text not null,foreign key(category) references TMaterial(TMaterialId));";
 
     private static final String strSPearl="create table if not exists SPearl(SpearlId integer primary key autoincrement,MD5 Text not null,PearsList Text not null,PicDirectory Text not null,Description Text not null,Name Text not null ,Sync boolean default false,Price real not null);";
 
     private static final String strVSMaterial="create view if not exists V_SMaterial as select SMaterial.*,TMaterial.TMaterialName from SMaterial,TMaterial where SMaterial.TMaterialId=TMaterial.TMaterialId;";
+
+    private static final String strAlbum="create table if not exists Album(AlbumId integer primary key autoincrement,MD5 Text not null,type integer not null,isSynchronizd Text not null)";
+
+    private static final String strSMaterialGroup="create table SMaterialGroup(SMaterialGroupId integer primary key autoincrement,MD5 TEXT not null,type integer not null)";
 
     public static final String DB_NAME="pearls.db";
 
@@ -39,6 +44,8 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(strSMaterial);
         db.execSQL(strSPearl);
         db.execSQL(strVSMaterial);
+        db.execSQL(strAlbum);
+        db.execSQL(strSMaterialGroup);
     }
 
     @Override
@@ -185,7 +192,7 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         values.put("Description",tMaterial.getDescription());
         values.put("TMaterialMd",tMaterial.getTMaterialMd());
         values.put("TMaterialName",tMaterial.getTMaterialName());
-        long status=db.insert("SMaterial",null,values);
+        long status=db.insert("SMaterial", null, values);
         if(status==-1){
             return false;
         }
@@ -205,6 +212,51 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
     public boolean updateTMaterial(TMaterial tMaterial){
         return true;
     }
+
+
+    public boolean addPearlGroup(PearlBeanGroup pearlBeanGroup){
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("MD5",pearlBeanGroup.getMD5());
+        contentValues.put("type",pearlBeanGroup.getType());
+        long status=sqLiteDatabase.insert("SMaterialGroup",null,contentValues);
+
+        if(status==-1){
+            return false;
+        }
+
+        return true;
+    };
+
+    public boolean deletePearlGroup(PearlBeanGroup pearlBeanGroup){
+
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        long status=sqLiteDatabase.delete("SMaterialGroup", "SMaterialId=?", new String[]{String.valueOf(pearlBeanGroup.getSMaterialGroupId())});
+        if(status==-1){
+            return false;
+        }
+         return true;
+    }
+
+    public ArrayList<PearlBeanGroup> getPearlBeanGroups(){
+        ArrayList<PearlBeanGroup> pearlBeanGroups=new ArrayList<>();
+
+        SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
+
+        Cursor cursor=sqLiteDatabase.rawQuery("select * from SMaterialGroup",null);
+
+        while (cursor.moveToNext()){
+            PearlBeanGroup pearlBeanGroup=new PearlBeanGroup();
+            pearlBeanGroup.setSMaterialGroupId(cursor.getInt(cursor.getColumnIndex("SMaterialGroupId")));
+            pearlBeanGroup.setMD5(cursor.getString(cursor.getColumnIndex("MD5")));
+            pearlBeanGroup.setType(cursor.getInt(cursor.getColumnIndex("type")));
+            pearlBeanGroups.add(pearlBeanGroup);
+
+        }
+
+        return pearlBeanGroups;
+    }
+
 
 
     @Override

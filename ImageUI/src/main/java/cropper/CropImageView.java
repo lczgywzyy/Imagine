@@ -83,7 +83,8 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
 
     private Bitmap mBitmap;
 
-    private Bitmap mBitmapRaw;
+    private Bitmap mBitmapChanging;
+
 
     private int mDegreesRotated = 0;
 
@@ -243,7 +244,6 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
         if (mBitmap != null && (mImageResource > 0 || mLoadedImageUri != null)) {
             mBitmap.recycle();
         }
-        mBitmapRaw=Bitmap.createBitmap(bitmap);
         mBitmap = bitmap;
         mImageView.setImageBitmap(mBitmap);
     }
@@ -253,7 +253,7 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
      * @param bitmap the Bitmap to set
      */
     public void setImageBitmap(Bitmap bitmap) {
-        if(mBitmap == bitmap) {
+      /* if(mBitmap == bitmap) {
             return;
         }
 
@@ -261,18 +261,24 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
         if (mBitmap != null && (mImageResource > 0 || mLoadedImageUri != null)) {
             mBitmap.recycle();
         }
-        if(mBitmapRaw==null){
-            mBitmapRaw=Bitmap.createBitmap(bitmap);
-        }
 
         // clean the loaded image flags for new image
         mImageResource = 0;
         mLoadedImageUri = null;
         mLoadedSampleSize = 1;
-        mDegreesRotated = 0;
+        mDegreesRotated = 0;*/
 
-        mBitmap = bitmap;
-        mImageView.setImageBitmap(mBitmap);
+       if(mBitmap==null) {
+            if (mBitmap != null && (mImageResource > 0 || mLoadedImageUri != null)) {
+                mBitmap.recycle();
+            }
+            mImageResource = 0;
+            mLoadedImageUri = null;
+            mLoadedSampleSize = 1;
+            mDegreesRotated = 0;
+            mBitmap = bitmap;
+        }
+        mImageView.setImageBitmap(bitmap);
         if (mCropOverlayView != null) {
             mCropOverlayView.resetCropOverlayView();
         }
@@ -437,6 +443,17 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
      */
     public void rotateImage(int degrees) {
         if (mBitmap != null) {
+            //mBitmapChanging = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+
+           // setImageBitmap(mBitmapChanging);
+
+            mDegreesRotated += degrees;
+            mDegreesRotated = mDegreesRotated % 360;
+            changeBCSBitmap(degrees);
+        }
+
+
+      /* if (mBitmap != null) {
             Matrix matrix = new Matrix();
             matrix.postRotate(degrees);
             Bitmap bitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
@@ -444,7 +461,8 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
 
             mDegreesRotated += degrees;
             mDegreesRotated = mDegreesRotated % 360;
-        }
+        }*/
+
     }
 
     /**
@@ -771,7 +789,7 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
         if(mBitmap!=null){
 
             contrast = (float) ((percent+64)/ 128.0);
-            changeBCSBitmap();
+            changeBCSBitmap(0);
 
         }
     }
@@ -780,7 +798,7 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
     public void brightnessChange(int percent) {
         if(mBitmap!=null){
             brightness = percent - 127;
-            changeBCSBitmap();
+            changeBCSBitmap(0);
         }
     }
 
@@ -789,13 +807,13 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
         if(mBitmap!=null){
             // 设置饱和度
             saturation=(float) (percent / 100.0);
-            changeBCSBitmap();
+            changeBCSBitmap(0);
 
         }
     }
-    private void changeBCSBitmap(){
+    private void changeBCSBitmap(int degrees){
 
-         mBitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(),
+        Bitmap bitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(),
                 Bitmap.Config.ARGB_8888);
         ColorMatrix cMatrix = new ColorMatrix();
         cMatrix.set(new float[]{contrast, 0, 0, 0, brightness,
@@ -805,15 +823,19 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
         Paint paint = new Paint();
         paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
 
-        Canvas canvas = new Canvas(mBitmap);
+        Canvas canvas = new Canvas(bitmap);
 
-        canvas.drawBitmap(mBitmapRaw, 0, 0, paint);
+        canvas.drawBitmap(mBitmap, 0, 0, paint);
+        if(mBitmapChanging!=null) {
+            mBitmapChanging.recycle();
+        }
+        mBitmapChanging=bitmap;
 
-        changeCBitmap();
+        changeCBitmap(degrees);
     }
 
-    private void changeCBitmap(){
-        Bitmap bmp = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(),
+    private void changeCBitmap(int degrees){
+        Bitmap bmp = Bitmap.createBitmap(mBitmapChanging.getWidth(), mBitmapChanging.getHeight(),
                 Bitmap.Config.ARGB_8888);
         ColorMatrix cMatrix = new ColorMatrix();
         // 设置饱和度
@@ -823,11 +845,25 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
         paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
 
         Canvas canvas = new Canvas(bmp);
-        canvas.drawBitmap(mBitmap, 0, 0, paint);
+        canvas.drawBitmap(mBitmapChanging, 0, 0, paint);
 
-        mBitmap.recycle();
-        mBitmap=bmp;
-        mImageView.setImageBitmap(mBitmap);
+        if(mBitmapChanging!=null) {
+            mBitmapChanging.recycle();
+        }
+        mBitmapChanging=bmp;
+        rotateBitmap(degrees);
+    }
+
+    private void rotateBitmap(int degrees){
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+        mBitmapChanging = Bitmap.createBitmap(mBitmapChanging, 0, 0, mBitmapChanging.getWidth(), mBitmapChanging.getHeight(), matrix, true);
+
+        setImageBitmap(mBitmapChanging);
+
+        mDegreesRotated += degrees;
+        mDegreesRotated = mDegreesRotated % 360;
+
     }
 
 

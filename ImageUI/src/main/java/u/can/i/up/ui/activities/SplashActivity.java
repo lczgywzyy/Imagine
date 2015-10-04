@@ -68,6 +68,7 @@ public class SplashActivity extends Activity {
 //                editor.commit();
                 ((IApplication) getApplication()).arrayListPearlBeans = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
                 ((IApplication) getApplication()).arrayListTMaterial = ((IApplication) getApplication()).psqLiteOpenHelper.getTMaterials();
+                ((IApplication) getApplication()).arrayListPearlBeanGroups= ((IApplication) getApplication()).psqLiteOpenHelper.getPearlBeanGroups();
 
             } catch (IOException e) {
 
@@ -76,6 +77,7 @@ public class SplashActivity extends Activity {
             ((IApplication) getApplication()).psqLiteOpenHelper = new PSQLiteOpenHelper(this);
             ((IApplication) getApplication()).arrayListPearlBeans = ((IApplication) getApplication()).psqLiteOpenHelper.getPearls();
             ((IApplication) getApplication()).arrayListTMaterial = ((IApplication) getApplication()).psqLiteOpenHelper.getTMaterials();
+            ((IApplication) getApplication()).arrayListPearlBeanGroups= ((IApplication) getApplication()).psqLiteOpenHelper.getPearlBeanGroups();
         }
         autoLogin();
 
