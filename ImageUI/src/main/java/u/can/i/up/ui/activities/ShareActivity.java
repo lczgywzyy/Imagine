@@ -216,15 +216,25 @@ public class ShareActivity extends Activity implements View.OnClickListener{
             ((IApplication) getApplication()).psqLiteOpenHelper.saveAlbum(md5);
             IBitmapCache.getBitMapCache(this).loadBitmapRom(md5, BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
             ((IApplication) getApplication()).arrayListAlbums.add(md5);
+
+            ((IApplication) getApplication()).arrayListAlbumBeans=((IApplication)getApplication()).psqLiteOpenHelper.getAlbumBeans();
+
             tem.recycle();
+            sendUploadBroadcast();
 
         }catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        //保存至数据库
+    private void sendUploadBroadcast(){
+        Intent intent=new Intent();
 
+        intent.setAction(IApplicationConfig.ACTION_PEARL);
 
+        intent.setType(IApplicationConfig.DATA_TYPE_ALBUM);
+
+        sendBroadcast(intent);
 
 
 

@@ -183,10 +183,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             if(!((IApplication) getApplication()).arrayListPearlBeans.contains(pearlBeans)) {
                 pearlBeans.setIsSynchronized(true);
                 ((IApplication) getApplication()).psqLiteOpenHelper.addPearl(pearlBeans);
-                ((IApplication) getApplication()).arrayListPearlBeans.add(pearlBeans);
+               ;
             }
 
         }
+        ((IApplication) getApplication()).arrayListPearlBeanGroups= ((IApplication) getApplication()).psqLiteOpenHelper.getPearlBeanGroups();
 
 
     }

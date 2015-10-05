@@ -5,9 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.method.ArrowKeyMovementMethod;
 
 import java.util.ArrayList;
 
+import u.can.i.up.ui.beans.AlbumBean;
 import u.can.i.up.ui.beans.PearlBeanGroup;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
@@ -278,6 +280,75 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         return true;
 
     }
+
+    public boolean saveAlbum(AlbumBean albumBean){
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put("MD5",albumBean.getMD5());
+        contentValues.put("type",albumBean.getType());
+        contentValues.put("isSynchronizd","true");
+        contentValues.put("path",albumBean.getPath());
+
+        SQLiteDatabase sqLiteDatabase=getWritableDatabase();
+
+        long status=sqLiteDatabase.insert("Album", null, contentValues);
+
+        if(status==-1){
+            return false;
+        }
+
+
+        return true;
+
+    }
+
+    public ArrayList<AlbumBean> getAlbumBeans(){
+        ArrayList<AlbumBean> arrayList=new ArrayList<>();
+
+        SQLiteDatabase sqLiteDatabase=getWritableDatabase();
+
+        Cursor cursor=sqLiteDatabase.rawQuery("select * from Album", null);
+
+        while(cursor.moveToNext()){
+
+            AlbumBean albumBean=new AlbumBean();
+
+            albumBean.setMD5(cursor.getString(cursor.getColumnIndex("MD5")));
+
+            albumBean.setType(cursor.getInt(cursor.getColumnIndex("type")));
+
+            albumBean.setPath(cursor.getString(cursor.getColumnIndex("path")));
+
+            albumBean.setAlbumId(cursor.getInt(cursor.getColumnIndex("AlbumId")));
+
+            albumBean.setIsSynchronizd(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex("isSynchronizd"))));
+            arrayList.add(albumBean);
+        }
+        return arrayList;
+    }
+
+    public boolean updateAlbum(AlbumBean albumBean){
+
+        SQLiteDatabase sqLiteDatabase=getWritableDatabase();
+
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put("MD5",albumBean.getMD5());
+
+        contentValues.put("path",albumBean.getPath());
+
+        contentValues.put("isSynchronizd",String.valueOf(albumBean.isSynchronizd()));
+
+        long status=sqLiteDatabase.update("Album",contentValues,"AlbumId=?",new String[]{String.valueOf(albumBean.getAlbumId())} );
+
+        if(status==-1){
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+
 
     public ArrayList<String> getAlbums(){
         ArrayList<String> arrayList=new ArrayList<>();

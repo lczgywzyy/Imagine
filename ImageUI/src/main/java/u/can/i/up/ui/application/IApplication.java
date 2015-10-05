@@ -17,6 +17,7 @@ import in.srain.cube.Cube;
 import in.srain.cube.image.ImageLoaderFactory;
 import in.srain.cube.request.RequestCacheManager;
 import u.can.i.up.ui.BuildConfig;
+import u.can.i.up.ui.beans.AlbumBean;
 import u.can.i.up.ui.beans.PearlBeanGroup;
 import u.can.i.up.ui.beans.PearlBeans;
 import u.can.i.up.ui.beans.TMaterial;
@@ -39,6 +40,9 @@ public class IApplication extends Application {
     public ArrayList<TMaterial> arrayListTMaterial=new ArrayList<>();
 
     public ArrayList<PearlBeanGroup> arrayListPearlBeanGroups=new ArrayList<>();
+
+    public ArrayList<AlbumBean> arrayListAlbumBeans=new ArrayList<>();
+
 
     public ArrayList<String> arrayListAlbums=new ArrayList<>();
 

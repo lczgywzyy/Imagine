@@ -79,6 +79,7 @@ public class SplashActivity extends Activity {
             ((IApplication) getApplication()).arrayListTMaterial = ((IApplication) getApplication()).psqLiteOpenHelper.getTMaterials();
             ((IApplication) getApplication()).arrayListPearlBeanGroups= ((IApplication) getApplication()).psqLiteOpenHelper.getPearlBeanGroups();
             ((IApplication)getApplication()).arrayListAlbums=((IApplication)getApplication()).psqLiteOpenHelper.getAlbums();
+            ((IApplication)getApplication()).arrayListAlbumBeans=((IApplication)getApplication()).psqLiteOpenHelper.getAlbumBeans();
         }
         autoLogin();
 

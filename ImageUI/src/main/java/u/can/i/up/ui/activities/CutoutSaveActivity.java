@@ -181,7 +181,7 @@ public class CutoutSaveActivity extends AppCompatActivity implements View.OnClic
         pearlBeans.setPath("/static/img/png/" + md5);
         PSQLiteOpenHelper psqLiteOpenHelper=new PSQLiteOpenHelper(this);
         psqLiteOpenHelper.addPearl(pearlBeans);
-        ((IApplication)getApplication()).arrayListPearlBeans.add(pearlBeans);
+        ((IApplication) getApplication()).arrayListPearlBeanGroups= ((IApplication) getApplication()).psqLiteOpenHelper.getPearlBeanGroups();
         Toast.makeText(this,"素材获取成功",Toast.LENGTH_LONG).show();
         sendUploadBroadcast();
     }
