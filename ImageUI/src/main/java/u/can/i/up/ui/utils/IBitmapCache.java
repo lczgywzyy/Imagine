@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -137,6 +138,30 @@ public class IBitmapCache {
 
     }
         return  null;
+    }
+
+    public static Bitmap loadAlbumsSD(String md5){
+        if (android.os.Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED)){
+            return BitmapFactory.decodeFile(IApplicationConfig.DIRECTORY_IMAGE_COLLOCATE+ File.separator+md5+".jpg");
+        }
+        else{
+            return null;
+        }
+    }
+
+    public boolean loadBitmapRom(String md5,Bitmap bitmap){
+        try{
+            SoftReference<Bitmap> softReference=new SoftReference<>(bitmap,queue);
+
+            //  String md5key=MD5Utils.getMD5String(Bitmap2Bytes(softReference.get()));
+
+            cache.put(md5, softReference);
+
+            return  true;
+        }catch(Exception e){
+            return false;
+        }
     }
 
 

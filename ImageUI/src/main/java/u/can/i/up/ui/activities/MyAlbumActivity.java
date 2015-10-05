@@ -32,6 +32,7 @@ import pulltoRefresh.OnLoadListener;
 import pulltoRefresh.OnRefreshListener;
 import pulltoRefresh.RefreshGridView;
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.customViews.MyAlbumGridViewAdapter;
 import u.can.i.up.ui.utils.BitmapCache;
@@ -40,7 +41,7 @@ import u.can.i.up.ui.utils.BitmapCache;
 public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 	private MyAlbumGridViewAdapter myAlBumGridAdapter;
 //	private RefreshGridView refreshGridView;
-	public static ArrayList<String> imageList = new ArrayList<String>();;
+	private ArrayList<String> imageList = new ArrayList<String>();
 	private Toolbar mToolbar;
 
 	private SwipeRefreshLayout mSwipeLayout;
@@ -69,6 +70,8 @@ public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLa
 //		imageList.add(imageUri);
 //		imageUri = IApplicationConfig.DIRECTORY_BG + File.separator +"bg3.jpg";
 //		imageList.add(imageUri);
+
+		imageList=((IApplication)getApplication()).arrayListAlbums;
 		myAlBumGridAdapter = new MyAlbumGridViewAdapter(this, imageList);
 		mGridView.setAdapter(myAlBumGridAdapter);
 		mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -139,6 +142,13 @@ public class MyAlbumActivity extends AppCompatActivity implements SwipeRefreshLa
 				mSwipeLayout.setRefreshing(false);
 			}
 		}, 1500);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		imageList=((IApplication)getApplication()).arrayListAlbums;
+		myAlBumGridAdapter.notifyDataSetChanged();
 	}
 
 	@Override

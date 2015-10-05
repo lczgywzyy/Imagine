@@ -22,8 +22,8 @@
 
         <GridView
             android:id="@+id/myalbum_gridview"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:fadingEdge="none"
             android:focusable="true"

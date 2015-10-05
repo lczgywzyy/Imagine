@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import in.srain.cube.util.LocalDisplay;
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.utils.IBitmapCache;
 
 
 public class MyAlbumGridViewAdapter extends BaseAdapter {
@@ -69,7 +70,8 @@ public class MyAlbumGridViewAdapter extends BaseAdapter {
             }
             // set icon
 
-            itemViewTag.iv_face.setImageBitmap(BitmapFactory.decodeFile(imageList.get(position)));
+            Bitmap bitmap= IBitmapCache.loadAlbumsSD(imageList.get(position));
+            itemViewTag.iv_face.setImageBitmap(bitmap);
 //			itemViewTag.iv_face.setLayoutParams(params);
             return convertView;
         }

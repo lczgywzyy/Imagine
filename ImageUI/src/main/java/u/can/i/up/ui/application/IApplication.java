@@ -40,6 +40,8 @@ public class IApplication extends Application {
 
     public ArrayList<PearlBeanGroup> arrayListPearlBeanGroups=new ArrayList<>();
 
+    public ArrayList<String> arrayListAlbums=new ArrayList<>();
+
     public String SMSAPPKEY;
 
     public String SMSAPPSECRET;

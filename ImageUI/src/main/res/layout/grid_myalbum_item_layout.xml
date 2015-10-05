@@ -1,6 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
     android:layout_marginTop="5dp"
     android:background="@drawable/grid_color_selector"
     android:orientation="vertical"
@@ -8,8 +10,8 @@
 
     <ImageView
         android:id="@+id/myalbum_grid_image"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scaleType="centerCrop"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:scaleType="centerInside"
         />
 </LinearLayout>

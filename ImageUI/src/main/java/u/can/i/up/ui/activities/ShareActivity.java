@@ -2,7 +2,9 @@ package u.can.i.up.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.View;
@@ -18,15 +20,19 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplication;
 import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.utils.BitmapCache;
+import u.can.i.up.ui.utils.IBitmapCache;
 import u.can.i.up.utils.image.ImageUtils;
+import u.can.i.up.utils.image.MD5Utils;
 import u.can.i.up.utils.image.ShareUtils;
 
 /**
@@ -109,14 +115,10 @@ public class ShareActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.save_to_album_btn:
             {
-                String image_path;
-                long time=System.currentTimeMillis();
-                image_path = IApplicationConfig.DIRECTORY_IMAGE_COLLOCATE + File.separator + time + ".jpg";
                 savetoalbum.setClickable(false);
                 //保存到sd卡
-                saveBitmap(image_path, tempbitmap);
+                saveBitmap(tempbitmap);
                 //保存到我的相册
-                MyAlbumActivity.imageList.add(image_path);
                 savetotext.setText("已保存至我的相册");
                 Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT);
                 break;
@@ -186,21 +188,50 @@ public class ShareActivity extends Activity implements View.OnClickListener{
     }
 
     /** 保存方法 */
-    public void saveBitmap(String path, Bitmap tem){
-        String file_path = IApplicationConfig.DIRECTORY_IMAGE_COLLOCATE;
-        File dir = new File(file_path);
-        if(!dir.exists())
-            dir.mkdirs();
-        File file = new File(path);
+    public void saveBitmap( Bitmap tem){
         try {
+
+            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+
+            tem.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+
+            byte[] bytes=byteArrayOutputStream.toByteArray();
+
+           String md5= MD5Utils.getMD5String(bytes);
+
+            File dir=new File( IApplicationConfig.DIRECTORY_IMAGE_COLLOCATE);
+            if(!dir.exists()){
+                dir.mkdirs();
+            }
+            File file = new File( IApplicationConfig.DIRECTORY_IMAGE_COLLOCATE+File.separator+md5+".jpg");
+
+            if(!file.exists()){
+                file.createNewFile();
+            }
+
             FileOutputStream fOut = new FileOutputStream(file);
-            tem.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-            fOut.flush();
+            fOut.write(bytes);;
             fOut.close();
+            byteArrayOutputStream.close();
+            ((IApplication) getApplication()).psqLiteOpenHelper.saveAlbum(md5);
+            IBitmapCache.getBitMapCache(this).loadBitmapRom(md5, BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+            ((IApplication) getApplication()).arrayListAlbums.add(md5);
+            tem.recycle();
+
         }catch (IOException e) {
             e.printStackTrace();
         }
 
+        //保存至数据库
+
+
+
+
+
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

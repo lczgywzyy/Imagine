@@ -19,11 +19,12 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import u.can.i.up.ui.R;
+import u.can.i.up.ui.application.IApplicationConfig;
 import u.can.i.up.ui.utils.FileUtil;
 import uk.co.senab.photoview.PhotoView;
 
@@ -66,7 +67,7 @@ public class ImagePagerAdapter extends PagerAdapter {
         photoView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
         String imgPath = (String)getItem(position);
-        mImageLoader.displayImage(FileUtil.getFormatFilePath(imgPath), (ImageView)photoView,
+        mImageLoader.displayImage(FileUtil.getFormatFilePath(IApplicationConfig.DIRECTORY_IMAGE_COLLOCATE+ File.separator+imgPath+".jpg"), (ImageView)photoView,
                 mOptions, null);
         // Now just add PhotoView to ViewPager and return it
         container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

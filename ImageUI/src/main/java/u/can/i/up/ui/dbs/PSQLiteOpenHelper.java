@@ -20,13 +20,13 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String strTMaterial="create table if not exists TMaterial(TMaterialId INTEGER primary key autoincrement,TMaterialName Text not null,TMaterialMd Text not null,Description Text);";
 
-    private static final  String strSMaterial="create table if not exists SMaterial(SMaterialId integer primary key autoincrement,MD5 Text not null,category integer,path Text not null,name not null,type integer default 1 not null,material Text not null,size Text not null,weight TEXT not null,aperture TEXT not null,price TEXT not null,description Text not null,MerchantCode integer default 0,isSynchronizd Text not null,foreign key(category) references TMaterial(TMaterialId));";
+    private static final  String strSMaterial="create table if not exists SMaterial(SMaterialId integer primary key autoincrement,MD5 Text not null,category integer,path Text not null,name not null,type integer default 1 not null,material Text not null,size Text not null,weight TEXT not null,aperture TEXT not null,price TEXT not null,description Text not null,MerchantCode integer default 0,isSynchronizd Text default false not null,foreign key(category) references TMaterial(TMaterialId));";
 
     private static final String strSPearl="create table if not exists SPearl(SpearlId integer primary key autoincrement,MD5 Text not null,PearsList Text not null,PicDirectory Text not null,Description Text not null,Name Text not null ,Sync boolean default false,Price real not null);";
 
     private static final String strVSMaterial="create view if not exists V_SMaterial as select SMaterial.*,TMaterial.TMaterialName from SMaterial,TMaterial where SMaterial.TMaterialId=TMaterial.TMaterialId;";
 
-    private static final String strAlbum="create table if not exists Album(AlbumId integer primary key autoincrement,MD5 Text not null,type integer not null,isSynchronizd Text not null)";
+    private static final String strAlbum="create table if not exists Album(AlbumId integer primary key autoincrement,MD5 Text not null,type integer not null,isSynchronizd Text default false not null,path TEXT not null)";
 
     private static final String strSMaterialGroup="create table SMaterialGroup(SMaterialGroupId integer primary key autoincrement,MD5 TEXT not null,type integer not null)";
 
@@ -257,6 +257,40 @@ public class PSQLiteOpenHelper extends SQLiteOpenHelper {
         return pearlBeanGroups;
     }
 
+    public boolean saveAlbum(String md5){
+
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put("MD5",md5);
+        contentValues.put("type",0);
+        contentValues.put("isSynchronizd","false");
+        contentValues.put("path",md5);
+
+        SQLiteDatabase sqLiteDatabase=getWritableDatabase();
+
+        long status=sqLiteDatabase.insert("Album", null, contentValues);
+
+        if(status==-1){
+            return false;
+        }
+
+
+        return true;
+
+    }
+
+    public ArrayList<String> getAlbums(){
+        ArrayList<String> arrayList=new ArrayList<>();
+
+        SQLiteDatabase sqLiteDatabase=getWritableDatabase();
+
+        Cursor cursor=sqLiteDatabase.rawQuery("select MD5 from Album",null);
+
+        while(cursor.moveToNext()){
+            arrayList.add(cursor.getString(0));
+        }
+        return arrayList;
+    }
 
 
     @Override
