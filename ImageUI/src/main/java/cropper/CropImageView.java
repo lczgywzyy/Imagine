@@ -81,9 +81,11 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
 
     private CropOverlayView mCropOverlayView;
 
-    private Bitmap mBitmap;
+   private Bitmap mBitmap;
 
-    private Bitmap mBitmapChanging;
+    ///private Bitmap mBitmapChanging;
+
+    private Bitmap mBitmapRaw;
 
 
     private int mDegreesRotated = 0;
@@ -124,7 +126,7 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
     private int mLoadedSampleSize = 1;
     //endregion
 
-    private float contrast=1.285f;
+    private float contrast=1.0f;
 
     private float brightness;
 
@@ -253,32 +255,22 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
      * @param bitmap the Bitmap to set
      */
     public void setImageBitmap(Bitmap bitmap) {
-      /* if(mBitmap == bitmap) {
+     /*  if(mBitmap == bitmap) {
             return;
-        }
+        }*/
 
         // if we allocated the bitmap, release it as fast as possible
-        if (mBitmap != null && (mImageResource > 0 || mLoadedImageUri != null)) {
+       /* if (mBitmap != null && (mImageResource > 0 || mLoadedImageUri != null)) {
             mBitmap.recycle();
-        }
+        }*/
 
         // clean the loaded image flags for new image
         mImageResource = 0;
         mLoadedImageUri = null;
         mLoadedSampleSize = 1;
-        mDegreesRotated = 0;*/
-
-       if(mBitmap==null) {
-            if (mBitmap != null && (mImageResource > 0 || mLoadedImageUri != null)) {
-                mBitmap.recycle();
-            }
-            mImageResource = 0;
-            mLoadedImageUri = null;
-            mLoadedSampleSize = 1;
-            mDegreesRotated = 0;
-            mBitmap = bitmap;
-        }
-        mImageView.setImageBitmap(bitmap);
+       // mDegreesRotated = 0;
+        mBitmap = bitmap;
+        mImageView.setImageBitmap(mBitmap);
         if (mCropOverlayView != null) {
             mCropOverlayView.resetCropOverlayView();
         }
@@ -336,6 +328,8 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
 
             ImageViewUtil.RotateBitmapResult rotateResult =
                     ImageViewUtil.rotateBitmapByExif(getContext(), decodeResult.bitmap, uri);
+
+            mBitmapRaw=Bitmap.createBitmap(rotateResult.bitmap);
 
             setImageBitmap(rotateResult.bitmap);
 
@@ -442,7 +436,7 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
      * @param degrees Integer specifying the number of degrees to rotate.
      */
     public void rotateImage(int degrees) {
-        if (mBitmap != null) {
+      /*  if (mBitmap != null) {
             //mBitmapChanging = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
 
            // setImageBitmap(mBitmapChanging);
@@ -453,7 +447,7 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
         }
 
 
-      /* if (mBitmap != null) {
+      *//* if (mBitmap != null) {
             Matrix matrix = new Matrix();
             matrix.postRotate(degrees);
             Bitmap bitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
@@ -462,6 +456,19 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
             mDegreesRotated += degrees;
             mDegreesRotated = mDegreesRotated % 360;
         }*/
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+        Bitmap bitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
+        mBitmap.recycle();
+
+        mBitmap=bitmap;
+
+
+        setImageBitmap(mBitmap);
+
+        mDegreesRotated += degrees;
+        mDegreesRotated = mDegreesRotated % 360;
 
     }
 
@@ -482,7 +489,10 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
                 matrix.preScale(-1.0f, 1.0f);
             }
             Bitmap bitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
-            setImageBitmap(bitmap);
+
+            mBitmap.recycle();
+            mBitmap=bitmap;
+            setImageBitmap(mBitmap);
         }
     }
 
@@ -789,7 +799,7 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
         if(mBitmap!=null){
 
             contrast = (float) ((percent+64)/ 128.0);
-            changeBCSBitmap(0);
+            changeBCSBitmap();
 
         }
     }
@@ -798,7 +808,7 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
     public void brightnessChange(int percent) {
         if(mBitmap!=null){
             brightness = percent - 127;
-            changeBCSBitmap(0);
+            changeBCSBitmap();
         }
     }
 
@@ -807,13 +817,13 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
         if(mBitmap!=null){
             // 设置饱和度
             saturation=(float) (percent / 100.0);
-            changeBCSBitmap(0);
+            changeBCSBitmap();
 
         }
     }
-    private void changeBCSBitmap(int degrees){
+    private void changeBCSBitmap(){
 
-        Bitmap bitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(),
+        Bitmap bitmap = Bitmap.createBitmap(mBitmapRaw.getWidth(), mBitmapRaw.getHeight(),
                 Bitmap.Config.ARGB_8888);
         ColorMatrix cMatrix = new ColorMatrix();
         cMatrix.set(new float[]{contrast, 0, 0, 0, brightness,
@@ -825,17 +835,17 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
 
         Canvas canvas = new Canvas(bitmap);
 
-        canvas.drawBitmap(mBitmap, 0, 0, paint);
-        if(mBitmapChanging!=null) {
-            mBitmapChanging.recycle();
+        canvas.drawBitmap(mBitmapRaw, 0, 0, paint);
+        if(mBitmap!=null) {
+            mBitmap.recycle();
         }
-        mBitmapChanging=bitmap;
+        mBitmap=bitmap;
 
-        changeCBitmap(degrees);
+        changeCBitmap();
     }
 
-    private void changeCBitmap(int degrees){
-        Bitmap bmp = Bitmap.createBitmap(mBitmapChanging.getWidth(), mBitmapChanging.getHeight(),
+    private void changeCBitmap(){
+        Bitmap bmp = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(),
                 Bitmap.Config.ARGB_8888);
         ColorMatrix cMatrix = new ColorMatrix();
         // 设置饱和度
@@ -845,24 +855,25 @@ public class CropImageView extends FrameLayout implements CutoutActivity.Graphic
         paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
 
         Canvas canvas = new Canvas(bmp);
-        canvas.drawBitmap(mBitmapChanging, 0, 0, paint);
+        canvas.drawBitmap(mBitmap, 0, 0, paint);
 
-        if(mBitmapChanging!=null) {
-            mBitmapChanging.recycle();
+        if(mBitmap!=null) {
+            mBitmap.recycle();
         }
-        mBitmapChanging=bmp;
-        rotateBitmap(degrees);
+        mBitmap=bmp;
+        rotateBitmap();
     }
 
-    private void rotateBitmap(int degrees){
+    public void rotateBitmap(){
         Matrix matrix = new Matrix();
-        matrix.postRotate(degrees);
-        mBitmapChanging = Bitmap.createBitmap(mBitmapChanging, 0, 0, mBitmapChanging.getWidth(), mBitmapChanging.getHeight(), matrix, true);
+        matrix.postRotate(mDegreesRotated);
+        Bitmap bitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, true);
 
-        setImageBitmap(mBitmapChanging);
+        mBitmap.recycle();
+        mBitmap=bitmap;
 
-        mDegreesRotated += degrees;
-        mDegreesRotated = mDegreesRotated % 360;
+        setImageBitmap(mBitmap);
+
 
     }
 
